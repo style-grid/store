@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Style Grid</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
@@ -24,8 +23,6 @@
         --card-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
         --header-bg: #1e1e1e; 
         --header-text: #FFFFFF;
-        --category-title-bg: #e0e0e0; 
-        --category-title-text: var(--text-primary);
     }
     
     body.dark-mode {
@@ -38,12 +35,10 @@
         --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         --header-bg: #000000; 
         --header-text: #FFFFFF;
-        --category-title-bg: #3a3a3a;
-        --category-title-text: var(--text-primary);
     }
 
     /* =======================================
-     ২. বেস এবং লেআউট স্টাইল (ডেস্কটপ ফিক্স)
+     ২. বেস এবং লেআউট স্টাইল (ডেস্কটপ ফুলস্ক্রিন ফিক্স)
     ======================================= */
     body {
         font-family: 'Roboto', sans-serif;
@@ -57,13 +52,8 @@
         overflow-x: hidden; 
         transition: background-color 0.3s, color 0.3s;
     }
-    /* ডেস্কটপে ফুল স্ক্রিন কভারেজের জন্য শুধুমাত্র কন্টেন্ট সেকশনের ম্যাক্স-উইডথ সেট করা */
-    #main-content {
-        flex-grow: 1; 
-        max-width: 1400px; /* কন্টেন্ট এরিয়া কনস্ট্রেইন */
-        margin: 0 auto;
-        width: 100%;
-    }
+    
+    /* হেডার সেকশন: ফুল উইডথ ফিক্স */
     .sticky-header-top { 
         position: sticky;
         top: 0;
@@ -71,8 +61,6 @@
         background-color: var(--header-bg); 
         width: 100%; /* সম্পূর্ণ স্ক্রিন জুড়ে হেডার */
     }
-    
-    /* Header (ডেস্কটপ ফিক্স) */
     .header {
         background-color: var(--header-bg); 
         color: var(--header-text);
@@ -81,9 +69,21 @@
         display: flex;
         justify-content: space-between; 
         align-items: center;
-        max-width: 1400px; /* ভেতরের কন্টেন্ট কনস্ট্রেইন */
+        max-width: 1400px; /* ভিতরের কন্টেন্ট কনস্ট্রেইন */
         margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
     }
+    
+    /* মূল কন্টেন্ট সেকশন: মাঝখানে কেন্দ্রীভূত */
+    #main-content {
+        flex-grow: 1; 
+        max-width: 1400px; 
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
     /* অন্যান্য হেডার এবং টগল স্টাইল অপরিবর্তিত */
     .header-left { display: flex; align-items: center; gap: 8px; }
     .website-icon i { font-size: 24px; color: var(--accent-color); }
@@ -95,61 +95,24 @@
     .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; }
     .social-icon:hover { color: var(--accent-color); }
 
-    /* =======================================
-     ৩. স্লাইডার সেকশন (সাইজ ফিক্স)
-    ======================================= */
-    .slider-section { 
-        padding: 10px 0 20px 0;
-        background-color: var(--bg-primary); 
-        overflow: hidden;
-    }
-    .slider-container {
-        /* ডেস্কটপ সাইজ */
-        height: 400px; 
-        max-width: 1200px;
-        margin: 0 auto;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: var(--card-shadow);
-        position: relative;
-    }
-    .slider-item img { 
-        width: 100%; 
-        height: 100%; 
-        object-fit: cover; 
-    }
-    .slider-caption { 
-        position: absolute; 
-        bottom: 20px; 
-        left: 20px;
-        color: white; 
-        background: rgba(0, 0, 0, 0.7); 
-        padding: 10px 20px; 
-        border-radius: 5px; 
-        font-size: 24px; /* ডেস্কটপ সাইজ */
-        font-weight: 700; 
-    }
+    /* স্লাইডার সেকশন (সংক্ষিপ্ত) */
+    .slider-section { padding: 10px 0 20px 0; background-color: var(--bg-primary); overflow: hidden; }
+    .slider-container { height: 400px; max-width: 1200px; margin: 0 auto; border-radius: 10px; overflow: hidden; box-shadow: var(--card-shadow); position: relative; }
+    .slider-item img { width: 100%; height: 100%; object-fit: cover; }
+    .slider-caption { position: absolute; bottom: 20px; left: 20px; color: white; background: rgba(0, 0, 0, 0.7); padding: 10px 20px; border-radius: 5px; font-size: 24px; font-weight: 700; }
     
-    /* =======================================
-     ৪. ক্যাটাগরি এবং অন্যান্য স্টাইল অপরিবর্তিত
-    ======================================= */
+    /* ক্যাটাগরি স্লাইডার (সংক্ষিপ্ত) */
     .category-bar-wrapper { padding: 0 0 20px 0; background-color: var(--bg-primary); }
     .category-bar { padding: 10px 0; }
     .cat-item { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s; height: 100%; text-decoration: none; }
-    .cat-item:hover { transform: translateY(-2px); }
-    .cat-image-container { width: 80px; height: 80px; border-radius: 50%; background-color: var(--category-title-bg); border: 2px solid var(--accent-color); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
-    .cat-image-container img { width: 100%; height: 100%; object-fit: cover; }
+    .cat-image-container { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent-color); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; }
     .category-name { margin-top: 5px; font-size: 13px; font-weight: 500; white-space: normal; max-width: 80px; height: 32px; overflow: hidden; line-height: 1.2; color: var(--text-primary); }
     .cat-title-card { background-color: var(--accent-color); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; padding: 0 10px; margin-right: 15px; color: white !important; flex-shrink: 0; width: 120px; }
-    .cat-title-card h3 { font-size: 16px; font-weight: 900; margin: 0; text-align: center; font-family: 'Fugaz One', cursive; letter-spacing: 0.5px; }
-    .cat-title-card .icon { font-size: 30px; margin-bottom: 5px; }
     
-    .swiper-slide-category {
-        width: calc((100% - 135px) / 5) !important; 
-    }
+    .swiper-slide-category { width: calc((100% - 135px) / 5) !important; }
 
     /* =======================================
-     ৫. প্রোডাক্ট গ্রিড স্টাইল (ডলার আইকন ফিক্স)
+     ৩. প্রোডাক্ট গ্রিড স্টাইল (ডেস্কটপ কার্ড ফিক্স)
     ======================================= */
     .product-grid-title {
         text-align: center;
@@ -179,50 +142,74 @@
         cursor: pointer;
     }
 
+    .card-image-container {
+        height: 300px; 
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .card-content {
+        padding: 15px;
+        /* ফিক্স: কন্টেন্ট এরিয়া ফ্লেক্সিবল রাখা */
+        flex-grow: 1; 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
     .card-title {
         font-size: 16px;
         font-weight: 600; 
         color: var(--text-primary); 
-        margin: 0 0 5px 0;
+        margin: 0 0 10px 0;
         min-height: 40px; 
+        max-height: 40px; /* টাইটেলকে ২ লাইনে সীমাবদ্ধ করা হলো */
         overflow: hidden;
+        line-height: 1.3;
     }
     
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto; /* ফুটারে কন্টেন্টকে নিচে ঠেলে দেয় */
+    }
+    .card-rating {
+        color: #388e3c; 
+        font-size: 14px; /* ডেস্কটপে ডিফল্ট সাইজ */
+        font-weight: 700;
+        white-space: nowrap;
+    }
     .card-price {
         font-size: 18px;
         font-weight: 700;
         color: var(--text-primary);
-        /* ডলার আইকন ফিক্স: একসাথে রাখা এবং র‍্যাপ হওয়া আটকানো */
         white-space: nowrap; 
     }
-    
+
     /* =======================================
-     ৬. মোবাইল অপটিমাইজেশন (মোবাইল স্লাইডার ফিক্স)
+     ৪. মোবাইল অপটিমাইজেশন (কার্ড লেখা ও অ্যালাইনমেন্ট ফিক্স)
     ======================================= */
     @media (max-width: 767px) {
         
         /* স্লাইডার হাইট এবং ক্যাপশন ফিক্স */
         .slider-container {
-            /* 16:9 রেশিও (400px এর পরিবর্তে 56.25vw বা 200px) */
             height: 200px; 
             border-radius: 0;
             max-width: 100%;
         }
         .slider-caption {
-            font-size: 16px; /* ফন্ট সাইজ ছোট করা হয়েছে */
+            font-size: 16px; 
             bottom: 10px;
             left: 10px;
             padding: 8px 15px;
         }
 
-        /* ক্যাটাগরি স্লাইডার অ্যাডজাস্টমেন্ট */
-        .swiper-slide-category {
-            width: calc((100% - 115px) / 5) !important;
-        }
+        /* ক্যাটাগরি স্লাইডার অ্যাডজাস্টমেন্ট (অপরিবর্তিত) */
+        .swiper-slide-category { width: calc((100% - 115px) / 5) !important; }
         .cat-image-container { width: 55px; height: 55px; }
         .category-name { font-size: 10px; max-width: 55px; height: 28px; }
-        .cat-title-card { width: 100px; padding: 5px; margin-right: 15px; }
-        .cat-title-card h3 { font-size: 14px; }
+        .cat-title-card { width: 100px; }
         
         /* প্রোডাক্ট গ্রিড ২ কলাম ঠিক রাখা হয়েছে */
         .container {
@@ -232,6 +219,30 @@
         }
         .card-image-container {
             height: 200px;
+        }
+        
+        /* মোবাইল কার্ড কন্টেন্ট ফিক্স */
+        .card-content {
+             padding: 10px; /* প্যাডিং কমানো */
+        }
+        .card-title {
+            font-size: 14px; /* সাইজ আরও কমানো হয়েছে */
+            margin-bottom: 5px;
+            min-height: 36px;
+            max-height: 36px;
+        }
+        
+        /* রেটিং ও প্রাইস এক লাইনে ও সাইজ অ্যাডজাস্টমেন্ট */
+        .card-footer {
+            margin-top: 5px;
+        }
+        .card-rating {
+            font-size: 12px; /* রেটিং সাইজ ছোট করা হয়েছে */
+            font-weight: 500;
+        }
+        .card-price {
+            font-size: 16px; 
+            font-weight: 900; /* ডলার অ্যামাউন্ট অতিরিক্ত বোল্ড */
         }
     }
     </style>
@@ -348,11 +359,9 @@
             let maleHtml = barMale.innerHTML;
             let femaleHtml = barFemale.innerHTML;
             
-            // পুরুষদের ক্যাটাগরি রেন্ডার
             Object.keys(CATEGORIES.Men).forEach(key => {
                 const name = CATEGORIES.Men[key];
                 const iconClass = 'fas fa-male'; 
-                
                 maleHtml += `
                     <a href="#" class="swiper-slide cat-item swiper-slide-category" data-category-key="${key}" onclick="loadCategoryView('${key}', this)">
                         <div class="cat-image-container">
@@ -364,7 +373,6 @@
             });
             barMale.innerHTML = maleHtml;
 
-            // মহিলাদের ক্যাটাগরি রেন্ডার
             Object.keys(CATEGORIES.Women).forEach(key => {
                 const name = CATEGORIES.Women[key];
                 const iconClass = 'fas fa-female';
@@ -383,10 +391,14 @@
 
         // --- ৪. ডামি স্লাইডার এবং হোম কার্ড রেন্ডারিং ---
         function renderHomeContent() {
-            // ডামি কার্ড রেন্ডার
             const cards = document.getElementById('trending-cards-container');
             let cardHtml = '';
             for(let i=1; i<=8; i++) {
+                // ডামি রেটিং এবং রিভিউ
+                const rating = 4.0 + (i * 0.1).toFixed(1); 
+                const reviews = i * 100;
+                const price = (19.99 * i).toFixed(2);
+                
                 cardHtml += `
                     <div class="card" onclick="alert('Product Detail for Product ${i}')">
                         <div class="card-image-container">
@@ -396,10 +408,10 @@
                             <h3 class="card-title">Premium Long-Sleeve Shirt with Stylish Design</h3>
                             <div class="card-footer">
                                 <div class="card-rating">
-                                    <span><i class="fas fa-star"></i> 4.${(i % 5) + 5}</span> | ${i * 100} Reviews
+                                    <span><i class="fas fa-star"></i> ${rating}</span> | ${reviews} Reviews
                                 </div>
                                 <div class="card-price">
-                                    $${(19.99 * i).toFixed(2)}
+                                    $${price}
                                 </div>
                             </div>
                         </div>
@@ -416,14 +428,12 @@
 
         // --- ৬. Swiper ইনিশিয়ালাইজেশন ---
         function initSwipers() {
-            // মেইন ইমেজ স্লাইডার
             new Swiper('.slider-container', {
                 loop: true,
                 autoplay: { delay: 4000, disableOnInteraction: false },
                 speed: 800,
             });
 
-            // ক্যাটাগরি স্লাইডার (পুরুষ)
             new Swiper('.men-slider', {
                 slidesPerView: 'auto',
                 spaceBetween: 5,
@@ -432,7 +442,6 @@
                 slidesOffsetAfter: 10,
             });
 
-            // ক্যাটাগরি স্লাইডার (মহিলা)
             new Swiper('.women-slider', {
                 slidesPerView: 'auto', 
                 spaceBetween: 5,
