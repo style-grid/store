@@ -63,7 +63,7 @@
         display: flex; justify-content: space-between; align-items: center;
         max-width: 1400px; margin: 0 auto;
     }
-    /* পরিবর্তন: text-decoration এবং color যোগ করা হয়েছে */
+    /* পরিবর্তন: শুধুমাত্র এই ক্লাসটিতে text-decoration এবং color যোগ করা হয়েছে */
     .header-left { 
         display: flex; 
         align-items: center; 
@@ -173,7 +173,7 @@
 <body>
     <div class="sticky-header-top">
         <header class="header">
-            <!-- পরিবর্তন: এখানে HTML কাঠামোটি সংশোধন করা হয়েছে -->
+            <!-- পরিবর্তন: শুধুমাত্র এই অংশে HTML কাঠামোটি সংশোধন করা হয়েছে -->
             <a href="index.html" class="header-left">
                 <div class="website-icon"><i class="fas fa-shopping-bag"></i></div>
                 <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
@@ -189,28 +189,190 @@
     </div>
     
     <main id="main-content">
-        <!-- ... (আপনার বাকি HTML অপরিবর্তিত) ... -->
+        <!-- আপনার দেওয়া বাকি HTML অপরিবর্তিত -->
+        <section class="slider-section">
+            <div class="swiper-container slider-container" id="hero-slider">
+                <div class="swiper-wrapper" id="hero-slider-wrapper"></div>
+            </div>
+        </section>
+
+        <section class="category-bar-wrapper">
+            <div class="swiper-container category-bar men-slider">
+                <div class="swiper-wrapper" id="category-bar-male">
+                    <div class="swiper-slide cat-title-card" style="margin-right: 15px;"><i class="fas fa-male icon"></i><h3>MEN'S<br>FASHION</h3></div>
+                </div>
+            </div>
+            <div class="swiper-container category-bar women-slider">
+                <div class="swiper-wrapper" id="category-bar-female">
+                    <div class="swiper-slide cat-title-card" style="background-color: #E91E63; margin-right: 15px;"><i class="fas fa-female icon"></i><h3>WOMEN'S<br>FASHION</h3></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="home-view">
+            <h2 class="product-grid-title">Most Loved Products</h2>
+            <div class="container" id="trending-cards-container">
+                <!-- নতুন ডিজাইনের কার্ড এখানে লোড হবে -->
+            </div>
+        </section>
     </main>
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         // আপনার দেওয়া সম্পূর্ণ JS কোড অপরিবর্তিত
-        const SOCIAL_LINKS = { /* ... */ };
-        const CATEGORIES = { /* ... */ };
+        const SOCIAL_LINKS = {
+            facebook: "https://facebook.com/your-page-url",
+            instagram: "https://instagram.com/your-username",
+            pinterest: "https://pinterest.com/your-username",
+            whatsapp: "https://wa.me/8801234567890" 
+        };
+        const CATEGORIES = {
+            'Men': { 
+                'm-shirts': "T-Shirts & Polos", 
+                'm-pants': "Jeans & Pants", 
+                'm-outer': "Outerwear",
+                'm-shoes': "Shoes", 
+                'm-acc': "Accessories"
+            },
+            'Women': {
+                'f-dresses': "Dresses",
+                'f-tops': "Tops & Blouses", 
+                'f-bottoms': "Jeans & Leggings",
+                'f-active': "Activewear", 
+                'f-jewelry': "Jewelry & Bags"
+            }
+        };
         let currentMode = localStorage.getItem('mode') || 'light';
-
-        async function fetchAllProducts() { /* ... */ }
-        function renderHeroSlider(allProducts) { /* ... */ }
-        function renderCategoryBars(allProducts) { /* ... */ }
-        function formatReviewCount(reviews) { /* ... */ }
-        function renderMostLovedProducts(allProducts) { /* ... */ }
-        function setMode(mode) { /* ... */ }
-        function setupSocialLinks() { /* ... */ }
-        
+        async function fetchAllProducts() {
+            const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
+            try {
+                const promises = allCategoryIds.map(catId => 
+                    fetch(`data/${catId}.json`).then(response => {
+                        if (!response.ok) throw new Error(`Network response was not ok for ${catId}.json`);
+                        return response.json();
+                    })
+                );
+                const results = await Promise.all(promises);
+                return results.flat(); 
+            } catch (error) {
+                console.error("Error fetching product data:", error);
+                return []; 
+            }
+        }
+        function renderHeroSlider(allProducts) {
+            const latestProducts = [];
+            const allCategoryGroups = {...CATEGORIES.Men, ...CATEGORIES.Women};
+            for (const catId in allCategoryGroups) {
+                const productsInCategory = allProducts.filter(p => p.category === catId);
+                if (productsInCategory.length > 0) {
+                    const latest = productsInCategory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                    latestProducts.push(latest);
+                }
+            }
+            const sliderWrapper = document.getElementById('hero-slider-wrapper');
+            if (!sliderWrapper) return;
+            sliderWrapper.innerHTML = latestProducts.map(product => `
+                <a href="product.html#${product.category}/${product.id}" class="swiper-slide slider-item" style="text-decoration: none;">
+                    <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
+                    <div class="slider-item-content">
+                        <h3 class="slider-item-title">${product.title}</h3>
+                        <p class="slider-item-details">
+                            <span><i class="fas fa-star" style="color: #FFC107;"></i> ${product.rating}</span> | Price: $${product.price}
+                        </p>
+                    </div>
+                </a>
+            `).join('');
+            new Swiper('#hero-slider', { loop: true, autoplay: { delay: 4000, disableOnInteraction: false }, speed: 800 });
+        }
+        function renderCategoryBars(allProducts) {
+            const maleBar = document.querySelector('#category-bar-male');
+            const femaleBar = document.querySelector('#category-bar-female');
+            let maleHtml = '';
+            for(const catId in CATEGORIES.Men) {
+                const productsInCategory = allProducts.filter(p => p.category === catId);
+                if(productsInCategory.length > 0) {
+                    const latestProduct = productsInCategory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                    maleHtml += `
+                        <a href="category.html#${catId}" class="swiper-slide cat-item swiper-slide-category">
+                            <div class="cat-image-container">
+                                <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Men[catId]}" loading="lazy">
+                            </div>
+                            <span class="category-name">${CATEGORIES.Men[catId]}</span>
+                        </a>`;
+                }
+            }
+            maleBar.innerHTML += maleHtml;
+            let femaleHtml = '';
+            for(const catId in CATEGORIES.Women) {
+                const productsInCategory = allProducts.filter(p => p.category === catId);
+                if(productsInCategory.length > 0) {
+                    const latestProduct = productsInCategory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                    femaleHtml += `
+                        <a href="category.html#${catId}" class="swiper-slide cat-item swiper-slide-category">
+                            <div class="cat-image-container">
+                                <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Women[catId]}" loading="lazy">
+                            </div>
+                            <span class="category-name">${CATEGORIES.Women[catId]}</span>
+                        </a>`;
+                }
+            }
+            femaleBar.innerHTML += femaleHtml;
+            new Swiper('.men-slider', { slidesPerView: 'auto', spaceBetween: 10, freeMode: true });
+            new Swiper('.women-slider', { slidesPerView: 'auto', spaceBetween: 10, freeMode: true });
+        }
+        function formatReviewCount(reviews) {
+            if (!reviews) return '0';
+            const num = parseInt(String(reviews).replace(/,/g, ''));
+            if (num >= 100000) return `${(num / 100000).toFixed(1)} Lakh`;
+            if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
+            return num;
+        }
+        function renderMostLovedProducts(allProducts) {
+            const container = document.getElementById('trending-cards-container');
+            if (!container) return;
+            const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+            const selectedProducts = shuffled.slice(0, 8); 
+            container.innerHTML = selectedProducts.map(product => `
+                <a href="product.html#${product.category}/${product.id}" class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="${product.images[0]}" alt="${product.title}" class="product-image" loading="lazy">
+                        <div class="product-rating">
+                            <span>${product.rating}</span>
+                            <i class="fas fa-star star-icon"></i>
+                            ${product.reviews ? `<span>(${formatReviewCount(product.reviews)})</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <div class="product-price">
+                            <span class="price-current">$${product.price}</span>
+                            <span class="price-original">$${(parseFloat(product.price) * 1.5).toFixed(2)}</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+        function setMode(mode) {
+            const btn = document.getElementById('mode-toggle-btn');
+            const icon = btn.querySelector('i');
+            document.body.classList.toggle('dark-mode', mode === 'dark');
+            if (icon) icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('mode', mode);
+            currentMode = mode;
+        }
+        function setupSocialLinks() {
+            document.querySelectorAll('.social-icon[data-social]').forEach(iconLink => {
+                const platform = iconLink.dataset.social;
+                if (SOCIAL_LINKS[platform]) {
+                    iconLink.href = SOCIAL_LINKS[platform];
+                    iconLink.target = "_blank";
+                    iconLink.rel = "noopener noreferrer";
+                }
+            });
+        }
         document.addEventListener('DOMContentLoaded', async () => {
             setMode(currentMode);
             setupSocialLinks();
-            
             const modeToggleButton = document.getElementById('mode-toggle-btn');
             if (modeToggleButton) {
                 modeToggleButton.addEventListener('click', () => {
@@ -218,9 +380,7 @@
                     setMode(newMode);
                 });
             }
-            
             const allProducts = await fetchAllProducts();
-            
             if (allProducts && allProducts.length > 0) {
                 renderHeroSlider(allProducts);
                 renderCategoryBars(allProducts);
@@ -229,19 +389,6 @@
                 console.log("No products found or there was an error loading data.");
             }
         });
-
-        // Helper functions to copy-paste
-        const CATEGORIES_TO_COPY = {'Men':{'m-shirts':"T-Shirts & Polos",'m-pants':"Jeans & Pants",'m-outer':"Outerwear",'m-shoes':"Shoes",'m-acc':"Accessories"},'Women':{'f-dresses':"Dresses",'f-tops':"Tops & Blouses",'f-bottoms':"Jeans & Leggings",'f-active':"Activewear",'f-jewelry':"Jewelry & Bags"}};
-        const SOCIAL_LINKS_TO_COPY = {facebook:"https://facebook.com/your-page-url",instagram:"https://instagram.com/your-username",pinterest:"https://pinterest.com/your-username",whatsapp:"https://wa.me/8801234567890"};
-        Object.assign(CATEGORIES, CATEGORIES_TO_COPY);
-        Object.assign(SOCIAL_LINKS, SOCIAL_LINKS_TO_COPY);
-        function formatReviewCount(e){if(!e)return"0";const o=parseInt(String(e).replace(/,/g,""));return o>=1e5?`${(o/1e5).toFixed(1)} Lakh`:o>=1e3?`${(o/1e3).toFixed(1)}k`:o}
-        function setMode(mode){const e=document.getElementById("mode-toggle-btn"),o=e.querySelector("i");document.body.classList.toggle("dark-mode","dark"===mode),o&&(o.className="dark"===mode?"fas fa-sun":"fas fa-moon"),localStorage.setItem("mode",mode),currentMode=mode}
-        function setupSocialLinks(){document.querySelectorAll(".social-icon[data-social]").forEach(e=>{const o=e.dataset.social;SOCIAL_LINKS[o]&&(e.href=SOCIAL_LINKS[o],e.target="_blank",e.rel="noopener noreferrer")})}
-        async function fetchAllProducts(){const e=[...Object.keys(CATEGORIES.Men),...Object.keys(CATEGORIES.Women)];try{const o=e.map(e=>fetch(`data/${e}.json`).then(e=>{if(!e.ok)throw new Error(`Network response was not ok for ${e}.json`);return e.json()})),t=await Promise.all(o);return t.flat()}catch(e){return console.error("Error fetching product data:",e),[]}}
-        function renderHeroSlider(e){const o=[];Object.assign({},CATEGORIES.Men,CATEGORIES.Women);for(const t in Object.assign({},CATEGORIES.Men,CATEGORIES.Women)){const s=e.filter(e=>e.category===t);s.length>0&&o.push(s.sort((e,o)=>new Date(o.timestamp)-new Date(e.timestamp))[0])}const t=document.getElementById("hero-slider-wrapper");t&&(t.innerHTML=o.map(e=>`\n                <a href="product.html#${e.category}/${e.id}" class="swiper-slide slider-item" style="text-decoration: none;">\n                    <img src="${e.images[0]}" alt="${e.title}" loading="lazy">\n                    <div class="slider-item-content">\n                        <h3 class="slider-item-title">${e.title}</h3>\n                        <p class="slider-item-details">\n                            <span><i class="fas fa-star" style="color: #FFC107;"></i> ${e.rating}</span> | Price: $${e.price}\n                        </p>\n                    </div>\n                </a>`).join(""),new Swiper("#hero-slider",{loop:!0,autoplay:{delay:4e3,disableOnInteraction:!1},speed:800}))}
-        function renderCategoryBars(e){const o=document.querySelector("#category-bar-male"),t=document.querySelector("#category-bar-female");let s="";for(const a in CATEGORIES.Men){const o=e.filter(e=>e.category===a);o.length>0&&(s+=`\n                        <a href="category.html#${a}" class="swiper-slide cat-item swiper-slide-category">\n                            <div class="cat-image-container">\n                                <img src="${o.sort((e,o)=>new Date(o.timestamp)-new Date(e.timestamp))[0].images[0]}" alt="${CATEGORIES.Men[a]}" loading="lazy">\n                            </div>\n                            <span class="category-name">${CATEGORIES.Men[a]}</span>\n                        </a>`)}o.innerHTML+=s;let a="";for(const o in CATEGORIES.Women){const s=e.filter(e=>e.category===o);s.length>0&&(a+=`\n                        <a href="category.html#${o}" class="swiper-slide cat-item swiper-slide-category">\n                            <div class="cat-image-container">\n                                <img src="${s.sort((e,o)=>new Date(o.timestamp)-new Date(e.timestamp))[0].images[0]}" alt="${CATEGORIES.Women[o]}" loading="lazy">\n                            </div>\n                            <span class="category-name">${CATEGORIES.Women[o]}</span>\n                        </a>`)}t.innerHTML+=a,new Swiper(".men-slider",{slidesPerView:"auto",spaceBetween:10,freeMode:!0}),new Swiper(".women-slider",{slidesPerView:"auto",spaceBetween:10,freeMode:!0})}
-        function renderMostLovedProducts(e){const o=document.getElementById("trending-cards-container");if(o){const t=[...e].sort(()=>.5-Math.random()).slice(0,8);o.innerHTML=t.map(e=>`\n                <a href="product.html#${e.category}/${e.id}" class="product-card">\n                    <div class="product-image-wrapper">\n                        <img src="${e.images[0]}" alt="${e.title}" class="product-image" loading="lazy">\n                        <div class="product-rating">\n                            <span>${e.rating}</span>\n                            <i class="fas fa-star star-icon"></i>\n                            ${e.reviews?`<span>(${formatReviewCount(e.reviews)})</span>`:""}\n                        </div>\n                    </div>\n                    <div class="product-info">\n                        <h3 class="product-title">${e.title}</h3>\n                        <div class="product-price">\n                            <span class="price-current">$${e.price}</span>\n                            <span class="price-original">$${(1.5*parseFloat(e.price)).toFixed(2)}</span>\n                        </div>\n                    </div>\n                </a>`).join("")}}}
     </script>
 </body>
 </html>
