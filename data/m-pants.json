@@ -1,0 +1,28 @@
+[
+  {
+    "id": "mp001",
+    "category": "m-pants",
+    "title": "Men's Slim-Fit Jeans",
+    "description": "Modern slim-fit jeans with a comfortable stretch fabric. Perfect for any casual occasion.",
+    "price": "1499.00",
+    "rating": "4.8",
+    "images": [
+      "https://i.ibb.co/P9X4t9b/jeans1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-03T12:00:00Z"
+  },
+  {
+    "id": "mp002",
+    "category": "m-pants",
+    "title": "Relaxed Fit Cargo Pants",
+    "description": "Functional and stylish cargo pants with multiple pockets. Made from durable cotton twill.",
+    "price": "1250.00",
+    "rating": "4.6",
+    "images": [
+      "https://i.ibb.co/y4c0f8v/cargo1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-04T09:00:00Z"
+  }
+    ]
