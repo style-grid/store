@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <style>
-    /* পূর্ববর্তী সকল CSS কোড এখানে অপরিবর্তিত থাকবে */
-    /* ... (আপনার আগের সব CSS এখানে পেস্ট করুন) ... */
     :root {
         --bg-primary: #FFFFFF; 
         --bg-secondary: #F7F7F7; 
@@ -55,7 +53,9 @@
     }
     .header {
         background-color: var(--header-bg); color: var(--header-text);
-        padding: 10px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        /* পরিবর্তন: হেডার প্যাডিং কমানো হয়েছে এবং ভারসাম্যপূর্ণ করা হয়েছে */
+        padding: 8px 20px; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         display: flex; justify-content: space-between; align-items: center;
         max-width: 1400px; margin: 0 auto;
     }
@@ -71,7 +71,7 @@
         cursor: pointer; transition: color 0.3s;
     }
     .mode-toggle-btn:hover, .social-icon:hover { color: var(--accent-color); }
-    .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; }
+    .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; text-decoration: none; }
     .slider-section { padding: 10px 0 20px 0; background-color: var(--bg-primary); }
     .slider-container {
         aspect-ratio: 16 / 7; max-width: 1200px; margin: 0 auto;
@@ -152,8 +152,10 @@
     <div class="sticky-header-top">
         <header class="header">
             <div class="header-left">
-                <div class="website-icon"><i class="fas fa-shopping-bag"></i></div>
-                <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <div class="website-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
+                </a>
             </div>
             <div class="header-right">
                 <button class="mode-toggle-btn" id="mode-toggle-btn"><i class="fas fa-moon"></i></button>
@@ -168,9 +170,7 @@
     <main id="main-content">
         <section class="slider-section">
             <div class="swiper-container slider-container" id="hero-slider">
-                <div class="swiper-wrapper" id="hero-slider-wrapper">
-                    <!-- স্লাইডার আইটেমগুলো এখানে জাভাস্ক্রিপ্ট দিয়ে লোড হবে -->
-                </div>
+                <div class="swiper-wrapper" id="hero-slider-wrapper"></div>
             </div>
         </section>
 
@@ -178,69 +178,51 @@
             <div class="swiper-container category-bar men-slider">
                 <div class="swiper-wrapper" id="category-bar-male">
                     <div class="swiper-slide cat-title-card" style="margin-right: 15px;"><i class="fas fa-male icon"></i><h3>MEN'S<br>FASHION</h3></div>
-                    <!-- পুরুষদের ক্যাটাগরি আইটেম এখানে লোড হবে -->
                 </div>
             </div>
             <div class="swiper-container category-bar women-slider">
                 <div class="swiper-wrapper" id="category-bar-female">
                     <div class="swiper-slide cat-title-card" style="background-color: #E91E63; margin-right: 15px;"><i class="fas fa-female icon"></i><h3>WOMEN'S<br>FASHION</h3></div>
-                    <!-- মহিলাদের ক্যাটাগরি আইটেম এখানে লোড হবে -->
                 </div>
             </div>
         </section>
         
         <section id="home-view">
             <h2 class="product-grid-title">Most Loved Products</h2>
-            <div class="container" id="trending-cards-container">
-                <!-- প্রোডাক্ট কার্ডগুলো এখানে জাভাস্ক্রিপ্ট দিয়ে লোড হবে -->
-            </div>
+            <div class="container" id="trending-cards-container"></div>
         </section>
     </main>
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        // --- ১. কনফিগারেশন এবং প্রাথমিক স্টেট ---
         const SOCIAL_LINKS = {
             facebook: "https://facebook.com/your-page-url",
             instagram: "https://instagram.com/your-username",
             pinterest: "https://pinterest.com/your-username",
             whatsapp: "https://wa.me/8801234567890" 
         };
-
-        // নতুন: ছোট ফাইলের নাম (আইডি) এবং পূর্ণাঙ্গ নামসহ ক্যাটাগরি তালিকা
         const CATEGORIES = {
             'Men': { 
-                'm-shirts': "T-Shirts & Polos", 
-                'm-pants': "Jeans & Pants", 
-                'm-outer': "Outerwear",
-                'm-shoes': "Shoes", 
-                'm-acc': "Accessories"
+                'm-shirts': "T-Shirts & Polos", 'm-pants': "Jeans & Pants", 'm-outer': "Outerwear",
+                'm-shoes': "Shoes", 'm-acc': "Accessories"
             },
             'Women': {
-                'f-dresses': "Dresses",
-                'f-tops': "Tops & Blouses", 
-                'f-bottoms': "Jeans & Leggings",
-                'f-active': "Activewear", 
-                'f-jewelry': "Jewelry & Bags"
+                'f-dresses': "Dresses", 'f-tops': "Tops & Blouses", 'f-bottoms': "Jeans & Leggings",
+                'f-active': "Activewear", 'f-jewelry': "Jewelry & Bags"
             }
         };
         let currentMode = localStorage.getItem('mode') || 'light';
 
-        // --- ২. API ফাংশন (JSON লোড করার জন্য) ---
         async function fetchAllProducts() {
-            // সকল ক্যাটাগরি আইডি একটি তালিকায় আনা
             const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
             try {
-                // প্রতিটি ক্যাটাগরির জন্য ডেটা লোড করার অনুরোধ পাঠানো
                 const promises = allCategoryIds.map(catId => 
                     fetch(`data/${catId}.json`).then(response => {
                         if (!response.ok) throw new Error(`Network response was not ok for ${catId}.json`);
                         return response.json();
                     })
                 );
-                // সকল অনুরোধ সম্পন্ন হওয়ার জন্য অপেক্ষা করা
                 const results = await Promise.all(promises);
-                // সকল প্রোডাক্টকে একটিমাত্র অ্যারেতে একত্রিত করা
                 return results.flat(); 
             } catch (error) {
                 console.error("Error fetching product data:", error);
@@ -248,20 +230,16 @@
             }
         }
 
-        // --- ৩. UI রেন্ডারিং ফাংশন ---
         function renderHeroSlider(allProducts) {
             const latestProducts = [];
             const allCategoryGroups = {...CATEGORIES.Men, ...CATEGORIES.Women};
-            
             for (const catId in allCategoryGroups) {
                 const productsInCategory = allProducts.filter(p => p.category === catId);
                 if (productsInCategory.length > 0) {
-                    // নতুন: ডেট-টাইম স্ট্রিং ব্যবহার করে সর্বশেষ প্রোডাক্ট খুঁজে বের করা
                     const latest = productsInCategory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
                     latestProducts.push(latest);
                 }
             }
-            
             const sliderWrapper = document.getElementById('hero-slider-wrapper');
             if (!sliderWrapper) return;
             sliderWrapper.innerHTML = latestProducts.map(product => `
@@ -275,14 +253,12 @@
                     </div>
                 </div>
             `).join('');
-
             new Swiper('#hero-slider', { loop: true, autoplay: { delay: 4000, disableOnInteraction: false }, speed: 800 });
         }
 
         function renderCategoryBars(allProducts) {
             const maleBar = document.querySelector('#category-bar-male');
             const femaleBar = document.querySelector('#category-bar-female');
-            
             let maleHtml = '';
             for(const catId in CATEGORIES.Men) {
                 const productsInCategory = allProducts.filter(p => p.category === catId);
@@ -298,7 +274,6 @@
                 }
             }
             maleBar.innerHTML += maleHtml;
-            
             let femaleHtml = '';
             for(const catId in CATEGORIES.Women) {
                 const productsInCategory = allProducts.filter(p => p.category === catId);
@@ -314,7 +289,6 @@
                 }
             }
             femaleBar.innerHTML += femaleHtml;
-
             new Swiper('.men-slider', { slidesPerView: 'auto', spaceBetween: 10, freeMode: true });
             new Swiper('.women-slider', { slidesPerView: 'auto', spaceBetween: 10, freeMode: true });
         }
@@ -324,7 +298,6 @@
             if (!container) return;
             const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
             const selectedProducts = shuffled.slice(0, 8); 
-
             container.innerHTML = selectedProducts.map(product => `
                 <a href="product.html#${product.category}/${product.id}" class="card">
                     <div class="card-image-container">
@@ -343,15 +316,15 @@
             `).join('');
         }
 
-        // --- ৪. অন্যান্য ফাংশন (অপরিবর্তিত) ---
         function setMode(mode) {
             const btn = document.getElementById('mode-toggle-btn');
             const icon = btn.querySelector('i');
             document.body.classList.toggle('dark-mode', mode === 'dark');
-            icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            if (icon) icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('mode', mode);
             currentMode = mode;
         }
+
         function setupSocialLinks() {
             document.querySelectorAll('.social-icon[data-social]').forEach(iconLink => {
                 const platform = iconLink.dataset.social;
@@ -363,10 +336,17 @@
             });
         }
         
-        // --- ৫. প্রারম্ভিক ইনিশিয়ালাইজেশন ---
         document.addEventListener('DOMContentLoaded', async () => {
             setMode(currentMode);
             setupSocialLinks();
+            
+            // পরিবর্তন: ডার্ক মোড বাটনের জন্য ইভেন্ট লিসেনার যোগ করা হয়েছে
+            const modeToggleButton = document.getElementById('mode-toggle-btn');
+            if (modeToggleButton) {
+                modeToggleButton.addEventListener('click', () => {
+                    setMode(currentMode === 'light' ? 'dark' : 'light');
+                });
+            }
             
             const allProducts = await fetchAllProducts();
             
