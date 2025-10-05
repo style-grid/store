@@ -15,12 +15,11 @@
      ১. মূল চলক এবং Dark/Light Mode সেটআপ
     ======================================= */
     :root {
-        /* Light Mode Defaults (Online Shopping Vibe) */
         --bg-primary: #FFFFFF; 
         --bg-secondary: #F7F7F7; 
         --text-primary: #121212; 
         --text-secondary: #666666; 
-        --accent-color: #FF6F61; /* Fashion Red */
+        --accent-color: #FF6F61; 
         --card-bg: #FFFFFF; 
         --card-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
         --header-bg: #1e1e1e; 
@@ -44,7 +43,7 @@
     }
 
     /* =======================================
-     ২. বেস এবং হেডার স্টাইল
+     ২. বেস এবং লেআউট স্টাইল (ডেস্কটপ ফিক্স)
     ======================================= */
     body {
         font-family: 'Roboto', sans-serif;
@@ -58,9 +57,10 @@
         overflow-x: hidden; 
         transition: background-color 0.3s, color 0.3s;
     }
+    /* ডেস্কটপে ফুল স্ক্রিন কভারেজের জন্য শুধুমাত্র কন্টেন্ট সেকশনের ম্যাক্স-উইডথ সেট করা */
     #main-content {
         flex-grow: 1; 
-        max-width: 1400px;
+        max-width: 1400px; /* কন্টেন্ট এরিয়া কনস্ট্রেইন */
         margin: 0 auto;
         width: 100%;
     }
@@ -69,9 +69,10 @@
         top: 0;
         z-index: 1000;
         background-color: var(--header-bg); 
+        width: 100%; /* সম্পূর্ণ স্ক্রিন জুড়ে হেডার */
     }
     
-    /* Header (সংক্ষিপ্ত) */
+    /* Header (ডেস্কটপ ফিক্স) */
     .header {
         background-color: var(--header-bg); 
         color: var(--header-text);
@@ -80,9 +81,10 @@
         display: flex;
         justify-content: space-between; 
         align-items: center;
-        max-width: 1400px;
+        max-width: 1400px; /* ভেতরের কন্টেন্ট কনস্ট্রেইন */
         margin: 0 auto;
     }
+    /* অন্যান্য হেডার এবং টগল স্টাইল অপরিবর্তিত */
     .header-left { display: flex; align-items: center; gap: 8px; }
     .website-icon i { font-size: 24px; color: var(--accent-color); }
     .website-name { font-size: 24px; font-weight: 900; font-family: 'Fugaz One', cursive; white-space: nowrap; }
@@ -92,14 +94,45 @@
     .mode-toggle-btn { padding: 5px 10px; background-color: var(--accent-color); color: var(--header-text); border: none; border-radius: 4px; cursor: pointer; font-size: 18px; }
     .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; }
     .social-icon:hover { color: var(--accent-color); }
+
+    /* =======================================
+     ৩. স্লাইডার সেকশন (সাইজ ফিক্স)
+    ======================================= */
+    .slider-section { 
+        padding: 10px 0 20px 0;
+        background-color: var(--bg-primary); 
+        overflow: hidden;
+    }
+    .slider-container {
+        /* ডেস্কটপ সাইজ */
+        height: 400px; 
+        max-width: 1200px;
+        margin: 0 auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        position: relative;
+    }
+    .slider-item img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+    }
+    .slider-caption { 
+        position: absolute; 
+        bottom: 20px; 
+        left: 20px;
+        color: white; 
+        background: rgba(0, 0, 0, 0.7); 
+        padding: 10px 20px; 
+        border-radius: 5px; 
+        font-size: 24px; /* ডেস্কটপ সাইজ */
+        font-weight: 700; 
+    }
     
-    /* Slider Section (সংক্ষিপ্ত) */
-    .slider-section { padding: 10px 0 20px 0; background-color: var(--bg-primary); overflow: hidden; }
-    .slider-container { height: 400px; max-width: 1200px; margin: 0 auto; border-radius: 10px; overflow: hidden; box-shadow: var(--card-shadow); position: relative; }
-    .slider-item img { width: 100%; height: 100%; object-fit: cover; }
-    .slider-caption { position: absolute; bottom: 20px; left: 20px; color: white; background: rgba(0, 0, 0, 0.7); padding: 10px 20px; border-radius: 5px; font-size: 24px; font-weight: 700; }
-    
-    /* ক্যাটাগরি স্লাইডার স্টাইল (সংক্ষিপ্ত) */
+    /* =======================================
+     ৪. ক্যাটাগরি এবং অন্যান্য স্টাইল অপরিবর্তিত
+    ======================================= */
     .category-bar-wrapper { padding: 0 0 20px 0; background-color: var(--bg-primary); }
     .category-bar { padding: 10px 0; }
     .cat-item { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s; height: 100%; text-decoration: none; }
@@ -111,24 +144,12 @@
     .cat-title-card h3 { font-size: 16px; font-weight: 900; margin: 0; text-align: center; font-family: 'Fugaz One', cursive; letter-spacing: 0.5px; }
     .cat-title-card .icon { font-size: 30px; margin-bottom: 5px; }
     
-    /* 5টি আইটেম + 1টি টাইটেল কার্ডকে ফুল ডিসপ্লেতে ফিট করার জন্য */
     .swiper-slide-category {
-        /* Desktop: (100% - TitleCardWidth 120px - Margin 15px) / 5 = (100% - 135px) / 5 */
         width: calc((100% - 135px) / 5) !important; 
     }
-    @media (max-width: 767px) {
-        /* Mobile: (100% - TitleCardWidth 100px - Margin 15px) / 5 = (100% - 115px) / 5 */
-        .swiper-slide-category {
-            width: calc((100% - 115px) / 5) !important;
-        }
-        .cat-image-container { width: 55px; height: 55px; }
-        .category-name { font-size: 10px; max-width: 55px; height: 28px; }
-        .cat-title-card { width: 100px; padding: 5px; margin-right: 15px; }
-        .cat-title-card h3 { font-size: 14px; }
-    }
-    
+
     /* =======================================
-     ৩. প্রোডাক্ট গ্রিড স্টাইল (আপডেট)
+     ৫. প্রোডাক্ট গ্রিড স্টাইল (ডলার আইকন ফিক্স)
     ======================================= */
     .product-grid-title {
         text-align: center;
@@ -157,56 +178,53 @@
         transition: transform 0.2s ease, box-shadow 0.3s ease;
         cursor: pointer;
     }
-    .card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* হোভারে শ্যাডো বাড়ানো হলো */
-    }
 
-    .card-image-container {
-        height: 300px; 
-        width: 100%;
-        overflow: hidden;
-    }
-    .card-image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .card-content {
-        padding: 15px;
-    }
-    
-    /* ফন্ট বোল্ডনেস অ্যাডজাস্টমেন্ট */
     .card-title {
         font-size: 16px;
-        font-weight: 600; /* সেমি-বোল্ড, অতিরিক্ত বোল্ড নয় */
+        font-weight: 600; 
         color: var(--text-primary); 
         margin: 0 0 5px 0;
         min-height: 40px; 
         overflow: hidden;
     }
     
-    .card-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14px;
-    }
-    .card-rating {
-        color: #388e3c; /* Green color for rating */
-        font-weight: 700;
-    }
-    .card-rating span {
-        margin-right: 5px;
-    }
     .card-price {
         font-size: 18px;
-        font-weight: 700; /* অতিরিক্ত বোল্ড কমিয়ে দেওয়া হলো */
+        font-weight: 700;
         color: var(--text-primary);
+        /* ডলার আইকন ফিক্স: একসাথে রাখা এবং র‍্যাপ হওয়া আটকানো */
+        white-space: nowrap; 
     }
-
-    /* মোবাইল গ্রিড: ২ কলাম */
+    
+    /* =======================================
+     ৬. মোবাইল অপটিমাইজেশন (মোবাইল স্লাইডার ফিক্স)
+    ======================================= */
     @media (max-width: 767px) {
+        
+        /* স্লাইডার হাইট এবং ক্যাপশন ফিক্স */
+        .slider-container {
+            /* 16:9 রেশিও (400px এর পরিবর্তে 56.25vw বা 200px) */
+            height: 200px; 
+            border-radius: 0;
+            max-width: 100%;
+        }
+        .slider-caption {
+            font-size: 16px; /* ফন্ট সাইজ ছোট করা হয়েছে */
+            bottom: 10px;
+            left: 10px;
+            padding: 8px 15px;
+        }
+
+        /* ক্যাটাগরি স্লাইডার অ্যাডজাস্টমেন্ট */
+        .swiper-slide-category {
+            width: calc((100% - 115px) / 5) !important;
+        }
+        .cat-image-container { width: 55px; height: 55px; }
+        .category-name { font-size: 10px; max-width: 55px; height: 28px; }
+        .cat-title-card { width: 100px; padding: 5px; margin-right: 15px; }
+        .cat-title-card h3 { font-size: 14px; }
+        
+        /* প্রোডাক্ট গ্রিড ২ কলাম ঠিক রাখা হয়েছে */
         .container {
             grid-template-columns: 1fr 1fr;
             gap: 10px;
@@ -265,7 +283,7 @@
             
             <div class="swiper-container category-bar women-slider">
                 <div class="swiper-wrapper" id="category-bar-female">
-                     <div class="swiper-slide cat-title-card" style="background-color: #E91E63; margin-right: 15px;">
+                    <div class="swiper-slide cat-title-card" style="background-color: #E91E63; margin-right: 15px;">
                         <i class="fas fa-female icon"></i>
                         <h3>WOMEN'S<br>FASHION</h3>
                     </div>
@@ -381,7 +399,7 @@
                                     <span><i class="fas fa-star"></i> 4.${(i % 5) + 5}</span> | ${i * 100} Reviews
                                 </div>
                                 <div class="card-price">
-                                    $ ${(19.99 * i).toFixed(2)}
+                                    $${(19.99 * i).toFixed(2)}
                                 </div>
                             </div>
                         </div>
