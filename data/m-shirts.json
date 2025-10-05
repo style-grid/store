@@ -1,0 +1,29 @@
+[
+  {
+    "id": "ms001",
+    "category": "m-shirts",
+    "title": "Classic Cotton Crew-Neck T-Shirt",
+    "description": "A timeless classic, this 100% cotton crew-neck t-shirt is a must-have for any wardrobe.",
+    "price": "550.00",
+    "rating": "4.7",
+    "images": [
+      "https://i.ibb.co/6y4g00D/tshirt1-1.jpg",
+      "https://i.ibb.co/VMy1S3b/tshirt1-2.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-01T10:00:00Z"
+  },
+  {
+    "id": "ms002",
+    "category": "m-shirts",
+    "title": "Graphic Print Oversized T-Shirt",
+    "description": "Make a statement with this oversized t-shirt featuring a bold graphic print.",
+    "price": "799.00",
+    "rating": "4.9",
+    "images": [
+      "https://i.ibb.co/VMy1S3b/tshirt1-2.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-02T11:30:00Z"
+  }
+]
