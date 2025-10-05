@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <style>
+    /* আপনার দেওয়া সম্পূর্ণ CSS অপরিবর্তিত */
     :root {
         --bg-primary: #FFFFFF; 
         --bg-secondary: #F7F7F7; 
@@ -50,7 +51,14 @@
         display: flex; justify-content: space-between; align-items: center;
         max-width: 1400px; margin: 0 auto;
     }
-    .header-left { display: flex; align-items: center; gap: 8px; }
+    /* পরিবর্তন: text-decoration এবং color যোগ করা হয়েছে */
+    .header-left { 
+        display: flex; 
+        align-items: center; 
+        gap: 8px;
+        text-decoration: none;
+        color: inherit;
+    }
     .website-icon i { font-size: 24px; color: var(--accent-color); }
     .website-name { font-size: 24px; font-weight: 900; font-family: 'Fugaz One', cursive; white-space: nowrap; }
     .name-part-1 { color: var(--accent-color); }
@@ -73,7 +81,6 @@
     .category-header-image img { width: 100%; height: 100%; object-fit: cover; }
     .category-header-title { font-size: 28px; font-weight: 700; color: var(--text-primary); }
     
-    /* নতুন Flipkart-স্টাইল কার্ডের জন্য CSS */
     .container {
         display: grid; grid-template-columns: repeat(4, 1fr); 
         gap: 15px; padding: 15px;
@@ -131,7 +138,8 @@
 <body>
     <div class="sticky-header-top">
         <header class="header">
-            <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <!-- পরিবর্তন: শুধুমাত্র এই অংশে HTML কাঠামোটি সংশোধন করা হয়েছে -->
+            <a href="index.html" class="header-left">
                 <div class="website-icon"><i class="fas fa-shopping-bag"></i></div>
                 <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
             </a>
@@ -151,17 +159,54 @@
     </main>
     
     <script>
-        const SOCIAL_LINKS = { /* ... */ };
-        const CATEGORIES = { /* ... */ };
+        // আপনার দেওয়া সম্পূর্ণ JS কোড অপরিবর্তিত
+        const SOCIAL_LINKS = {
+            facebook: "https://facebook.com/your-page-url",
+            instagram: "https://instagram.com/your-username",
+            pinterest: "https://pinterest.com/your-username",
+            whatsapp: "https://wa.me/8801234567890"
+        };
+        const CATEGORIES = {
+            'Men': { 
+                'm-shirts': "T-Shirts & Polos", 'm-pants': "Jeans & Pants", 'm-outer': "Outerwear",
+                'm-shoes': "Shoes", 'm-acc': "Accessories"
+            },
+            'Women': {
+                'f-dresses': "Dresses", 'f-tops': "Tops & Blouses", 'f-bottoms': "Jeans & Leggings",
+                'f-active': "Activewear", 'f-jewelry': "Jewelry & Bags"
+            }
+        };
         let currentMode = localStorage.getItem('mode') || 'light';
         let allCategoryProducts = [];
         let loadedItemsCount = 0;
         const BATCH_SIZE = 8;
-
-        async function fetchCategoryProducts(categoryId) { /* ... */ }
-        function renderCategoryHeader(products, categoryId) { /* ... */ }
-        
-        // রিভিউ সংখ্যা ফরম্যাট করার ফাংশন
+        async function fetchCategoryProducts(categoryId) {
+            try {
+                const response = await fetch(`data/${categoryId}.json`);
+                if (!response.ok) throw new Error(`Could not fetch data/${categoryId}.json`);
+                const products = await response.json();
+                return products.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            } catch (error) {
+                console.error("Error fetching category products:", error);
+                document.getElementById('main-content').innerHTML = `<h2 style="text-align: center; padding: 40px;">Could not load products. Please try again later.</h2>`;
+                return null;
+            }
+        }
+        function renderCategoryHeader(products, categoryId) {
+            const container = document.getElementById('category-header-container');
+            const allCategoryNames = {...CATEGORIES.Men, ...CATEGORIES.Women};
+            const categoryName = allCategoryNames[categoryId];
+            if (!container || !products || products.length === 0) return;
+            const latestProductImage = products[0].images[0];
+            container.innerHTML = `
+                <div class="category-header">
+                    <div class="category-header-image">
+                        <img src="${latestProductImage}" alt="${categoryName}">
+                    </div>
+                    <h1 class="category-header-title">${categoryName}</h1>
+                </div>`;
+            document.title = `${categoryName} - Style Grid`;
+        }
         function formatReviewCount(reviews) {
             if (!reviews) return '0';
             const num = parseInt(String(reviews).replace(/,/g, ''));
@@ -169,13 +214,10 @@
             if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
             return num;
         }
-
-        // পরিবর্তন: renderProductBatch ফাংশনের HTML কাঠামো আপডেট করা হয়েছে
         function renderProductBatch() {
             const grid = document.getElementById('product-grid');
             const loader = document.getElementById('loader');
             const batch = allCategoryProducts.slice(loadedItemsCount, loadedItemsCount + BATCH_SIZE);
-            
             if (batch.length === 0) {
                 loader.style.display = 'none';
                 return;
@@ -201,30 +243,52 @@
             `).join('');
             grid.insertAdjacentHTML('beforeend', productsHtml);
             loadedItemsCount += batch.length;
-
             if (loadedItemsCount >= allCategoryProducts.length) {
                 loader.style.display = 'none';
             } else {
                 loader.style.display = 'block';
             }
         }
-
-        function setMode(mode) { /* ... */ }
-        function setupSocialLinks() { /* ... */ }
-        function setupInfiniteScroll() { /* ... */ }
-        async function initializePage() { /* ... */ }
-
-        // --- Helper functions to copy-paste ---
-        const CATEGORIES_TO_COPY = {'Men':{'m-shirts':"T-Shirts & Polos",'m-pants':"Jeans & Pants",'m-outer':"Outerwear",'m-shoes':"Shoes",'m-acc':"Accessories"},'Women':{'f-dresses':"Dresses",'f-tops':"Tops & Blouses",'f-bottoms':"Jeans & Leggings",'f-active':"Activewear",'f-jewelry':"Jewelry & Bags"}};
-        const SOCIAL_LINKS_TO_COPY = {facebook:"https://facebook.com/your-page-url",instagram:"https://instagram.com/your-username",pinterest:"https://pinterest.com/your-username",whatsapp:"https://wa.me/8801234567890"};
-        Object.assign(CATEGORIES, CATEGORIES_TO_COPY);
-        Object.assign(SOCIAL_LINKS, SOCIAL_LINKS_TO_COPY);
-        async function fetchCategoryProducts(e){try{const o=await fetch(`data/${e}.json`);if(!o.ok)throw new Error(`Could not fetch data/${e}.json`);return(await o.json()).sort((e,o)=>new Date(o.timestamp)-new Date(e.timestamp))}catch(e){return console.error("Error fetching category products:",e),document.getElementById("main-content").innerHTML='<h2 style="text-align: center; padding: 40px;">Could not load products. Please try again later.</h2>',null}}
-        function renderCategoryHeader(e,o){const t=document.getElementById("category-header-container"),a=Object.assign({},CATEGORIES.Men,CATEGORIES.Women),n=a[o];if(t&&e&&e.length>0){const a=e[0].images[0];t.innerHTML=`\n                <div class="category-header">\n                    <div class="category-header-image">\n                        <img src="${a}" alt="${n}">\n                    </div>\n                    <h1 class="category-header-title">${n}</h1>\n                </div>`,document.title=`${n} - Style Grid`}}
-        function setMode(e){document.body.classList.toggle("dark-mode","dark"===e),localStorage.setItem("mode",e),currentMode=e}
-        function setupSocialLinks(){document.querySelectorAll(".social-icon[data-social]").forEach(e=>{const o=e.dataset.social;SOCIAL_LINKS[o]&&(e.href=SOCIAL_LINKS[o],e.target="_blank",e.rel="noopener noreferrer")})}
-        function setupInfiniteScroll(){const e=document.getElementById("loader");if(!e)return;new IntersectionObserver(e=>{e[0].isIntersecting&&loadedItemsCount<allCategoryProducts.length&&renderProductBatch()},{rootMargin:"0px 0px 300px 0px"}).observe(e)}
-        async function initializePage(){setMode(currentMode),setupSocialLinks();const e=window.location.hash.substring(1);if(!e)return void(document.getElementById("main-content").innerHTML='<h2 style="text-align: center; padding: 40px;">No category specified. Please return to the <a href="index.html">homepage</a>.</h2>');(allCategoryProducts=await fetchCategoryProducts(e))&&allCategoryProducts.length>0&&(renderCategoryHeader(allCategoryProducts,e),renderProductBatch(),setupInfiniteScroll())}
+        function setMode(mode) {
+            document.body.classList.toggle('dark-mode', mode === 'dark');
+            localStorage.setItem('mode', mode);
+            currentMode = mode;
+        }
+        function setupSocialLinks() {
+            document.querySelectorAll('.social-icon[data-social]').forEach(iconLink => {
+                const platform = iconLink.dataset.social;
+                if (SOCIAL_LINKS[platform]) {
+                    iconLink.href = SOCIAL_LINKS[platform];
+                    iconLink.target = "_blank";
+                    iconLink.rel = "noopener noreferrer";
+                }
+            });
+        }
+        function setupInfiniteScroll() {
+            const loader = document.getElementById('loader');
+            if (!loader) return;
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && loadedItemsCount < allCategoryProducts.length) {
+                    renderProductBatch();
+                }
+            }, { rootMargin: "0px 0px 300px 0px" });
+            observer.observe(loader);
+        }
+        async function initializePage() {
+            setMode(currentMode);
+            setupSocialLinks();
+            const categoryId = window.location.hash.substring(1);
+            if (!categoryId) {
+                document.getElementById('main-content').innerHTML = `<h2 style="text-align: center; padding: 40px;">No category specified. Please return to the <a href="index.html">homepage</a>.</h2>`;
+                return;
+            }
+            allCategoryProducts = await fetchCategoryProducts(categoryId);
+            if (allCategoryProducts && allCategoryProducts.length > 0) {
+                renderCategoryHeader(allCategoryProducts, categoryId);
+                renderProductBatch(); 
+                setupInfiniteScroll(); 
+            }
+        }
         document.addEventListener('DOMContentLoaded', initializePage);
     </script>
 </body>
