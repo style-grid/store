@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Market Hub</title>
+    <title>Style Grid</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <style>
     /*======================================
@@ -19,26 +20,31 @@
         --bg-secondary: #1e1e1e; 
         --text-primary: #f0f0f0; 
         --text-secondary: #aaaaaa; 
-        --accent-color: #ff5722; /* Orange Accent (Vibrant, Market-focused) */
+        --accent-color: #ff3e6c; /* Vibrant Pink/Red for Style */
         --header-bg: #1f1f1f;
         --shadow-color: rgba(0, 0, 0, 0.4);
         --icon-color: #f0f0f0;
+
+        /* স্লাইডার হাইট (ডেস্কটপ) */
+        --slider-height-desktop: 400px;
+        /* স্লাইডার হাইট (মোবাইল) */
+        --slider-height-mobile: 200px; 
     }
 
     body.light-mode {
-        /* Light Mode */
+        /* Light Mode: অনলাইন শপিং এর জন্য উজ্জ্বল রং */
         --bg-primary: #FFFFFF;
-        --bg-secondary: #f4f4f4;
-        --text-primary: #333333;
-        --text-secondary: #666666;
-        --accent-color: #00bcd4; /* Cyan Accent (Modern, Clean) */
+        --bg-secondary: #f0f4f8; /* হালকা নীলচে/ধূসর */
+        --text-primary: #1a1a1a;
+        --text-secondary: #555555;
+        --accent-color: #007bff; /* উজ্জ্বল নীল */
         --header-bg: #FFFFFF;
         --shadow-color: rgba(0, 0, 0, 0.1);
-        --icon-color: #333333;
+        --icon-color: #1a1a1a;
     }
 
     /*======================================
-     ২. বেস এবং লেআউট স্টাইল
+     ২. বেস এবং হেডার স্টাইল (আগের মতো)
     ======================================*/
     body {
         font-family: 'Poppins', sans-serif;
@@ -50,7 +56,6 @@
         transition: background-color 0.4s ease, color 0.4s ease;
     }
     
-    /* হেডার সেকশন */
     .header {
         position: sticky;
         top: 0;
@@ -64,32 +69,27 @@
         transition: background-color 0.4s ease;
     }
 
-    /* বাম পাশের লোগো ও নাম */
     .header-left {
         display: flex;
         align-items: center;
-        gap: 10px; /* আইকন এবং নামের মধ্যে সামান্য ফাঁকা */
+        gap: 8px; /* সামান্য ফাঁকা */
     }
     .brand-icon {
         color: var(--accent-color);
         font-size: 24px;
-        transition: color 0.3s;
     }
     .brand-name {
-        font-size: 24px;
+        font-size: 26px; /* নাম বড় করা হলো */
         font-weight: 900;
         color: var(--text-primary);
         line-height: 1;
-    }
-    .name-hub {
-        color: var(--accent-color);
+        letter-spacing: -0.5px;
     }
     
-    /* ডান পাশের আইকন */
     .header-right {
         display: flex;
         align-items: center;
-        gap: 15px; /* আইকনগুলির মধ্যে স্পেস */
+        gap: 15px;
     }
     .icon-btn {
         background: none;
@@ -105,51 +105,147 @@
         transform: scale(1.1);
     }
     
-    /* সোশ্যাল আইকন স্টাইল */
     .social-icon-container {
         display: flex;
         gap: 12px;
-        margin-left: 15px; /* মোড টগল থেকে সোশ্যাল আইকনগুলির স্পেস */
+        margin-left: 15px;
     }
     .social-icon-container .icon-btn {
         font-size: 18px;
     }
-
-    /* মোড টগল বাটন স্টাইল */
-    #mode-toggle-btn {
-        font-size: 20px;
-    }
-
-    /* প্রধান কন্টেন্ট এরিয়া */
+    
     .content-section {
         padding: 20px;
-        max-width: 1200px;
+        max-width: 1300px;
         margin: 0 auto;
     }
-    
-    /* মিডিয়া কোয়েরি (মোবাইল অপটিমাইজেশন) */
-    @media (max-width: 600px) {
-        .header {
-            padding: 10px 15px;
+
+    /*======================================
+     ৩. ইমেজ স্লাইডার স্টাইল (Header এর নিচে)
+    ======================================*/
+    .main-slider-container {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 0; 
+        overflow: hidden;
+        /* ডেস্কটপ হাইট কন্ট্রোল */
+        height: var(--slider-height-desktop); 
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .slider-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* ইমেজটিকে 16:9 রেশিওতে ক্রপ করে দেখাবে */
+    }
+    .swiper-pagination-bullet-active {
+        background: var(--accent-color) !important;
+    }
+    .swiper-button-next, .swiper-button-prev {
+        color: var(--text-primary) !important;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 15px 10px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .swiper-button-next:hover, .swiper-button-prev:hover {
+        background-color: var(--accent-color);
+        color: white !important;
+    }
+
+    /*======================================
+     ৪. ফ্যাশন সাব-ক্যাটাগরি স্লাইডেবল গ্রিড
+    ======================================*/
+    .category-title {
+        font-weight: 700;
+        font-size: 28px;
+        margin: 40px 0 25px;
+        color: var(--text-primary);
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 5px;
+        display: inline-block;
+    }
+
+    /* সাব-ক্যাটাগরি স্লাইডারের কাস্টম কন্টেইনার */
+    .sub-category-slider {
+        padding: 10px 0 30px; /* স্লাইডের নিচে স্পেস */
+    }
+
+    .cat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        padding: 10px;
+        transition: transform 0.3s;
+    }
+    .cat-item:hover {
+        transform: translateY(-3px);
+    }
+
+    .cat-image-container {
+        width: 120px; /* ইমেজের ফিক্সড সাইজ */
+        height: 120px;
+        overflow: hidden;
+        border-radius: 50%; /* গোল ইমেজ */
+        border: 4px solid var(--accent-color);
+        box-shadow: 0 4px 10px var(--shadow-color);
+        margin-bottom: 10px;
+    }
+    .cat-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .cat-item:hover .cat-image {
+        transform: scale(1.05);
+    }
+
+    .cat-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    /*======================================
+     ৫. রেসপনসিভ ডিজাইন (মোবাইল)
+    ======================================*/
+    @media (max-width: 768px) {
+        /* মোবাইল ভিউ এর জন্য স্লাইডার হাইট কন্ট্রোল */
+        .main-slider-container {
+            height: var(--slider-height-mobile); 
         }
         .brand-name {
-            font-size: 18px;
+            font-size: 20px;
         }
         .brand-icon {
             font-size: 20px;
         }
-        .header-right {
-            gap: 10px;
+        .category-title {
+            font-size: 22px;
+            margin-top: 20px;
         }
-        .icon-btn, #mode-toggle-btn {
-            font-size: 16px;
+        .cat-image-container {
+            width: 80px; /* ছোট স্ক্রিনে ইমেজের সাইজ কমানো */
+            height: 80px;
         }
-        .social-icon-container {
-            gap: 8px;
-            margin-left: 10px;
+        .cat-name {
+            font-size: 12px;
         }
-        .social-icon-container .icon-btn {
+        /* স্লাইডারে নেভিগেশন তীরগুলো ছোট করা */
+        .swiper-button-next, .swiper-button-prev {
             font-size: 14px;
+            padding: 10px 5px;
         }
     }
     </style>
@@ -158,66 +254,247 @@
 
     <header class="header">
         <div class="header-left">
-            <i class="fas fa-shopping-basket brand-icon"></i> 
-            
-            <span class="brand-name">Global Market<span class="name-hub">Hub</span></span>
+            <i class="fas fa-shopping-bag brand-icon"></i> 
+            <span class="brand-name">Style Grid</span>
         </div>
         
         <div class="header-right">
             <button id="mode-toggle-btn" class="icon-btn" aria-label="Toggle Dark/Light Mode">
                 <i class="fas fa-sun"></i>
             </button>
-
             <div class="social-icon-container">
-                <a href="https://wa.me/" target="_blank" class="icon-btn" aria-label="WhatsApp Link"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" target="_blank" class="icon-btn" aria-label="WhatsApp Link"><i class="fab fa-whatsapp"></i></a>
                 <a href="#" target="_blank" class="icon-btn" aria-label="Facebook Link"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" class="icon-btn" aria-label="Instagram Link"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </header>
 
-    <main class="content-section">
-        <h1>Welcome to Global Market Hub!</h1>
-        <p>This is the main content area where all the featured items and services will be displayed.</p>
-        <p>Your new header is ready with a basket icon, the brand name, a mode toggle, and the most relevant social links for your target audience (WhatsApp, Facebook, Instagram).</p>
-        
-        <div style="background-color: var(--bg-secondary); padding: 20px; border-radius: 8px; margin-top: 20px; color: var(--text-primary);">
-            <h3>Featured Product</h3>
-            <p style="color: var(--text-secondary);">This card changes color with the Dark/Light mode toggle.</p>
+    <div class="main-slider-container swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="https://via.placeholder.com/1600x900/ff3e6c/ffffff?text=Great+Summer+Sale" alt="Slider Image 1" class="slider-img">
+            </div>
+            <div class="swiper-slide">
+                <img src="https://via.placeholder.com/1600x900/007bff/ffffff?text=New+Arrivals+Collection" alt="Slider Image 2" class="slider-img">
+            </div>
+            <div class="swiper-slide">
+                <img src="https://via.placeholder.com/1600x900/28a745/ffffff?text=Fashion+Trends+2025" alt="Slider Image 3" class="slider-img">
+            </div>
         </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+    
+    <main class="content-section">
+        
+        <h2 class="category-title">Men's Fashion</h2>
+        <div class="sub-category-slider swiper-container men-slider">
+            <div class="swiper-wrapper">
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/ff5722/fff?text=T-Shirt" alt="T-Shirts & Polos" class="cat-image">
+                    </div>
+                    <p class="cat-name">T-Shirts & Polos</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/4caf50/fff?text=Pants" alt="Jeans & Pants" class="cat-image">
+                    </div>
+                    <p class="cat-name">Jeans & Pants</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/9c27b0/fff?text=Jacket" alt="Outerwear" class="cat-image">
+                    </div>
+                    <p class="cat-name">Outerwear</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/3f51b5/fff?text=Shoes" alt="Sneakers & Shoes" class="cat-image">
+                    </div>
+                    <p class="cat-name">Sneakers & Shoes</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/f44336/fff?text=Watch" alt="Watches & Accessories" class="cat-image">
+                    </div>
+                    <p class="cat-name">Watches & Accessories</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/00bcd4/fff?text=Formal" alt="Formal Wear" class="cat-image">
+                    </div>
+                    <p class="cat-name">Formal Wear</p>
+                </a>
+
+            </div>
+            <div class="swiper-button-next men-next"></div>
+            <div class="swiper-button-prev men-prev"></div>
+        </div>
+
+        <h2 class="category-title">Women's Fashion</h2>
+        <div class="sub-category-slider swiper-container women-slider">
+            <div class="swiper-wrapper">
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/e91e63/fff?text=Dress" alt="Dresses" class="cat-image">
+                    </div>
+                    <p class="cat-name">Dresses</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/ffc107/fff?text=Blouse" alt="Tops & Blouses" class="cat-image">
+                    </div>
+                    <p class="cat-name">Tops & Blouses</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/673ab7/fff?text=Legging" alt="Jeans & Leggings" class="cat-image">
+                    </div>
+                    <p class="cat-name">Jeans & Leggings</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/8bc34a/fff?text=Yoga" alt="Activewear" class="cat-image">
+                    </div>
+                    <p class="cat-name">Activewear</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/009688/fff?text=Bag" alt="Jewelry & Bags" class="cat-image">
+                    </div>
+                    <p class="cat-name">Jewelry & Bags</p>
+                </a>
+                
+                <a href="#" class="swiper-slide cat-item">
+                    <div class="cat-image-container">
+                        <img src="https://via.placeholder.com/120x120/f44336/fff?text=Skirts" alt="Skirts & Shorts" class="cat-image">
+                    </div>
+                    <p class="cat-name">Skirts & Shorts</p>
+                </a>
+                
+            </div>
+            <div class="swiper-button-next women-next"></div>
+            <div class="swiper-button-prev women-prev"></div>
+        </div>
+
     </main>
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const modeToggleBtn = document.getElementById('mode-toggle-btn');
             const body = document.body;
             
-            // লোকাল স্টোরেজ থেকে মোড লোড করা
-            let currentMode = localStorage.getItem('mode') || 'dark'; // ডিফল্ট ডার্ক মোড
+            // লোকাল স্টোরেজ থেকে মোড লোড করা (আগের মতো)
+            let currentMode = localStorage.getItem('mode') || 'dark'; 
             
-            // ডার্ক/লাইট মোড ফাংশন
             function setMode(mode) {
                 if (mode === 'light') {
                     body.classList.add('light-mode');
-                    modeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; // চাঁদের আইকন
-                    modeToggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
+                    modeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; 
                     localStorage.setItem('mode', 'light');
                 } else {
                     body.classList.remove('light-mode');
-                    modeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>'; // সূর্যের আইকন
-                    modeToggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+                    modeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>'; 
                     localStorage.setItem('mode', 'dark');
                 }
                 currentMode = mode;
             }
 
-            // প্রথমবার পৃষ্ঠা লোড হলে মোড সেট করা
             setMode(currentMode);
             
-            // বাটন ক্লিক ইভেন্ট
             modeToggleBtn.addEventListener('click', () => {
                 const newMode = currentMode === 'light' ? 'dark' : 'light';
                 setMode(newMode);
+            });
+
+
+            /*======================================
+             ৪. Swiper স্লাইডার ইনিশিয়ালাইজেশন
+            ======================================*/
+            
+            // ১. মেইন ইমেজ স্লাইডার (Header এর নিচে)
+            new Swiper('.main-slider-container', {
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                speed: 800,
+            });
+
+            // ২. পুরুষদের ক্যাটাগরি স্লাইডার
+            new Swiper('.men-slider', {
+                slidesPerView: 'auto', // কন্টেন্টের ওপর নির্ভর করে স্লাইড সংখ্যা
+                spaceBetween: 15,
+                freeMode: true, // মাউস ড্র্যাগ করে স্লাইড করার সুবিধা
+                navigation: {
+                    nextEl: '.men-next',
+                    prevEl: '.men-prev',
+                },
+                // রেসপনসিভ ব্রেকপয়েন্ট: স্ক্রিন সাইজ অনুযায়ী স্লাইড সংখ্যা
+                breakpoints: {
+                    320: {
+                        slidesPerView: 3.2,
+                        spaceBetween: 10,
+                    },
+                    640: {
+                        slidesPerView: 4.5,
+                        spaceBetween: 15,
+                    },
+                    1024: {
+                        slidesPerView: 6,
+                        spaceBetween: 20,
+                    },
+                }
+            });
+
+            // ৩. মহিলাদের ক্যাটাগরি স্লাইডার
+            new Swiper('.women-slider', {
+                slidesPerView: 'auto', 
+                spaceBetween: 15,
+                freeMode: true, 
+                navigation: {
+                    nextEl: '.women-next',
+                    prevEl: '.women-prev',
+                },
+                 // রেসপনসিভ ব্রেকপয়েন্ট
+                breakpoints: {
+                    320: {
+                        slidesPerView: 3.2,
+                        spaceBetween: 10,
+                    },
+                    640: {
+                        slidesPerView: 4.5,
+                        spaceBetween: 15,
+                    },
+                    1024: {
+                        slidesPerView: 6,
+                        spaceBetween: 20,
+                    },
+                }
             });
         });
     </script>
