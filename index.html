@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Style Grid - Final Polish</title>
+    <title>Style Grid - Final with Links</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
@@ -134,22 +134,18 @@
     .card-price { font-size: 18px; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
 
     /* =======================================
-     ৬. ডেস্কটপ ক্যাটাগরি ভিউ ফিক্স (আপডেট করা)
+     ৬. ডেস্কটপ ক্যাটাগরি ভিউ ফিক্স
     ======================================= */
     @media (min-width: 768px) {
         .category-bar .swiper-wrapper { display: flex; transform: none !important; }
         .category-bar .swiper-slide { width: auto !important; flex-grow: 1; }
-        /* নতুন: ডেস্কটপ ভিউতে ক্যাটাগরি কার্ডের সাইজ বৃদ্ধি */
         .category-bar .cat-title-card {
-            flex-grow: 0;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            height: 100%;
+            flex-grow: 0; padding-top: 15px; padding-bottom: 15px; height: 100%;
         }
     }
 
     /* =======================================
-     ৭. মোবাইল অপটিমাইজেশন (আপডেট করা)
+     ৭. মোবাইল অপটিমাইজেশন
     ======================================= */
     @media (max-width: 767px) {
         .header { padding: 8px 15px; }
@@ -157,21 +153,8 @@
         .website-name { font-size: 20px; }
         .header-right { gap: 12px; }
         .header-right .social-icon, .mode-toggle-btn { font-size: 18px; }
-
-        /* নতুন: মোবাইল ব্যানার ফুল-স্ক্রিন করা */
-        .slider-container {
-            aspect-ratio: 16 / 9;
-            border-radius: 0;
-            width: 100%;
-        }
-        /* নতুন: মোবাইল ক্যাপশন সাইজ কমানো */
-        .slider-caption {
-            font-size: 14px;
-            bottom: 15px;
-            left: 15px;
-            padding: 6px 12px;
-        }
-
+        .slider-container { aspect-ratio: 16 / 9; border-radius: 0; width: 100%; }
+        .slider-caption { font-size: 14px; bottom: 15px; left: 15px; padding: 6px 12px; }
         .category-bar { padding: 10px; }
         .cat-image-container { width: 55px; height: 55px; }
         .category-name { font-size: 10px; max-width: 55px; height: 28px; }
@@ -192,10 +175,11 @@
             </div>
             <div class="header-right">
                 <button class="mode-toggle-btn" id="mode-toggle-btn"><i class="fas fa-moon"></i></button>
-                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                <!-- নতুন: লিংকিং এর জন্য data-social attribute যোগ করা হয়েছে -->
+                <a href="#" class="social-icon" data-social="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" data-social="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" data-social="pinterest"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" class="social-icon" data-social="whatsapp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </header>
     </div>
@@ -233,12 +217,24 @@
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
+        // --- ১. কনফিগারেশন এবং প্রাথমিক স্টেট ---
+
+        // নতুন: এখানে আপনার সোশ্যাল মিডিয়ার লিংকগুলো দিন
+        const SOCIAL_LINKS = {
+            facebook: "https://facebook.com/your-page-url",
+            instagram: "https://instagram.com/your-username",
+            pinterest: "https://pinterest.com/your-username",
+            // হোয়াটসঅ্যাপ নম্বরের আগে অবশ্যই দেশের কোড দিন, কিন্তু '+' চিহ্ন ছাড়া
+            whatsapp: "https://wa.me/8801234567890" 
+        };
+
         const CATEGORIES = {
             'Men': { 'male_tshirts': "T-Shirts & Polos", 'male_pants': "Jeans & Pants", 'male_outerwear': "Outerwear", 'male_shoes': "Sneakers & Shoes", 'male_accessories': "Watches & Accessories" },
             'Women': { 'female_dresses': "Dresses", 'female_tops': "Tops & Blouses", 'female_bottoms': "Jeans & Leggings", 'female_activewear': "Activewear", 'female_jewelry': "Jewelry & Bags" }
         };
         let currentMode = localStorage.getItem('mode') || 'light';
 
+        // --- ২. ডার্ক/লাইট মোড এবং সোশ্যাল লিংক সেটআপ ---
         function setMode(mode) {
             const btn = document.getElementById('mode-toggle-btn');
             const icon = btn.querySelector('i');
@@ -248,10 +244,24 @@
             currentMode = mode;
         }
 
+        // নতুন: সোশ্যাল আইকনগুলোতে লিংক সেট করার ফাংশন
+        function setupSocialLinks() {
+            const socialIcons = document.querySelectorAll('.social-icon[data-social]');
+            socialIcons.forEach(iconLink => {
+                const platform = iconLink.dataset.social;
+                if (SOCIAL_LINKS[platform]) {
+                    iconLink.href = SOCIAL_LINKS[platform];
+                    iconLink.target = "_blank"; // নতুন ট্যাবে খোলার জন্য
+                    iconLink.rel = "noopener noreferrer"; // নিরাপত্তার জন্য
+                }
+            });
+        }
+
         document.getElementById('mode-toggle-btn').addEventListener('click', () => {
             setMode(currentMode === 'light' ? 'dark' : 'light');
         });
 
+        // --- ৩. ক্যাটাগরি বার রেন্ডারিং ---
         function renderCategoryBar() {
             const barMale = document.getElementById('category-bar-male');
             const barFemale = document.getElementById('category-bar-female');
@@ -269,6 +279,7 @@
             barFemale.innerHTML = femaleHtml;
         }
 
+        // --- ৪. হোম কার্ড রেন্ডারিং ---
         function renderHomeContent() {
             const cardsContainer = document.getElementById('trending-cards-container');
             let cardHtml = '';
@@ -279,6 +290,7 @@
             cardsContainer.innerHTML = cardHtml;
         }
         
+        // --- ৫. Swiper ইনিশিয়ালাইজেশন ---
         function initSwipers() {
             new Swiper('.slider-container', { loop: true, autoplay: { delay: 4000, disableOnInteraction: false }, speed: 800 });
             const commonCategoryConfig = { slidesPerView: 'auto', spaceBetween: 10, freeMode: true };
@@ -286,8 +298,10 @@
             new Swiper('.women-slider', commonCategoryConfig);
         }
 
+        // --- ৬. প্রারম্ভিক ইনিশিয়ালাইজেশন ---
         document.addEventListener('DOMContentLoaded', () => {
             setMode(currentMode);
+            setupSocialLinks(); // পেজ লোড হওয়ার সাথে সাথে লিংক সেট করা হচ্ছে
             renderCategoryBar();
             renderHomeContent();
             initSwipers();
