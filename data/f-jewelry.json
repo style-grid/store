@@ -1,0 +1,28 @@
+[
+  {
+    "id": "fj001",
+    "category": "f-jewelry",
+    "title": "Minimalist Layered Necklace",
+    "description": "An elegant and trendy layered necklace in a gold finish, perfect for adding a touch of class to any outfit.",
+    "price": "799.00",
+    "rating": "4.8",
+    "images": [
+      "https://i.ibb.co/2Z5d4P0/necklace1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-19T20:00:00Z"
+  },
+  {
+    "id": "fj002",
+    "category": "f-jewelry",
+    "title": "Sterling Silver Stud Earrings",
+    "description": "Classic and timeless, these sterling silver stud earrings are a perfect accessory for daily wear.",
+    "price": "999.00",
+    "rating": "4.9",
+    "images": [
+      "https://i.ibb.co/s3p16vQ/earrings1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-20T12:00:00Z"
+  }
+]
