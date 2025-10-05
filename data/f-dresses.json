@@ -1,0 +1,28 @@
+[
+  {
+    "id": "fd001",
+    "category": "f-dresses",
+    "title": "Floral A-Line Dress",
+    "description": "A beautiful floral print A-line dress, perfect for spring and summer outings.",
+    "price": "1899.00",
+    "rating": "4.8",
+    "images": [
+      "https://i.ibb.co/L6Vd1q6/dress1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-11T10:00:00Z"
+  },
+  {
+    "id": "fd002",
+    "category": "f-dresses",
+    "title": "Elegant Evening Gown",
+    "description": "A stunning floor-length evening gown with sequin details. Ideal for weddings and formal parties.",
+    "price": "4999.00",
+    "rating": "4.9",
+    "images": [
+      "https://i.ibb.co/z5N0L1Q/gown1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-12T19:00:00Z"
+  }
+]
