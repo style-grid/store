@@ -1,0 +1,28 @@
+[
+  {
+    "id": "ma001",
+    "category": "m-acc",
+    "title": "Chronograph Analog Watch",
+    "description": "A sophisticated chronograph watch with a stainless steel strap and a bold dial.",
+    "price": "4500.00",
+    "rating": "4.9",
+    "images": [
+      "https://i.ibb.co/k5G4P9q/watch1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-09T13:00:00Z"
+  },
+  {
+    "id": "ma002",
+    "category": "m-acc",
+    "title": "Leather Wallet & Belt Combo",
+    "description": "A premium gift set featuring a genuine leather wallet and a matching reversible belt.",
+    "price": "1599.00",
+    "rating": "4.7",
+    "images": [
+      "https://i.ibb.co/T4X1Kk3/wallet-belt.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-10T15:00:00Z"
+  }
+]
