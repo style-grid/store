@@ -68,7 +68,7 @@
     
     .product-title { font-size: 28px; font-weight: 700; margin: 0 0 15px 0; }
     .product-meta { display: flex; align-items: center; gap: 20px; font-size: 18px; margin-bottom: 20px; }
-    .product-rating { color: var(--text-secondary); }
+    .product-rating { color: var(--text-primary); }
     .product-price { font-size: 24px; font-weight: 700; color: var(--accent-color); }
     .product-description { font-size: 16px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 30px; }
     .order-button {
@@ -80,12 +80,22 @@
     #loading-placeholder { text-align: center; padding: 50px; font-size: 20px; }
 
     .related-products-section { padding: 30px; background-color: var(--bg-secondary); }
-    .related-title { font-size: 24px; font-weight: 700; text-align: center; margin: 0 0 25px 0; }
+    .related-title { font-size: 24px; font-weight: 700; text-align: center; margin: 0 0 25px 0; color: var(--text-primary); }
     .container {
         display: grid; grid-template-columns: repeat(4, 1fr); 
         gap: 20px; padding: 0; max-width: 1400px; margin: 0 auto;
     }
-    .card { background-color: var(--card-bg); /* ... (বাকি কার্ড স্টাইল অপরিবর্তিত) ... */ }
+    /* কার্ডের স্টাইল (কপি করা) */
+    .card { background-color: var(--card-bg); border-radius: 8px; box-shadow: var(--card-shadow); overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.3s ease; cursor: pointer; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+    .card-image-container { height: 200px; background-color: var(--bg-secondary); }
+    .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
+    .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 0 10px 0; line-height: 1.4; height: 45px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+    .card-rating { font-size: 14px; display: flex; align-items: center; gap: 5px; color: var(--text-secondary); }
+    body.dark-mode .card-rating { color: var(--text-primary); }
+    .card-price { font-size: 18px; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
     
     @media (max-width: 992px) {
         .container { grid-template-columns: repeat(3, 1fr); }
@@ -131,15 +141,17 @@
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        const SOCIAL_LINKS = { /* ... index.html থেকে কপি করুন ... */ };
-        const CATEGORIES = { /* ... index.html থেকে কপি করুন ... */ };
+        const SOCIAL_LINKS = { /* ... */ };
+        const CATEGORIES = { /* ... */ };
         let currentMode = localStorage.getItem('mode') || 'light';
 
+        // নতুন: সকল প্রোডাক্ট লোড করার ফাংশন
         async function fetchAllProducts() {
             const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
             try {
                 const promises = allCategoryIds.map(catId => fetch(`data/${catId}.json`).then(res => res.json()));
-                return (await Promise.all(promises)).flat();
+                const results = await Promise.all(promises);
+                return results.flat();
             } catch (error) {
                 console.error("Error fetching all products:", error);
                 return [];
@@ -150,7 +162,8 @@
             try {
                 const response = await fetch(`data/${categoryId}.json`);
                 if (!response.ok) throw new Error(`Could not fetch data for category ${categoryId}`);
-                return (await response.json()).find(p => p.id === productId);
+                const products = await response.json();
+                return products.find(p => p.id === productId);
             } catch (error) {
                 console.error("Error fetching product details:", error);
                 return null;
@@ -190,12 +203,16 @@
             document.title = `${product.title} - Style Grid`;
         }
         
+        // সংশোধিত: সকল প্রোডাক্ট থেকে র‍্যান্ডমভাবে সাজেস্ট করার ফাংশন
         function renderRelatedProducts(allProducts, currentProductId) {
             const wrapper = document.getElementById('related-products-wrapper');
-            if (!wrapper || allProducts.length === 0) return;
+            if (!wrapper || allProducts.length < 2) return; // কমপক্ষে ২টি প্রোডাক্ট থাকতে হবে
 
+            // বর্তমান প্রোডাক্টটি বাদ দিয়ে বাকিগুলো নেওয়া
             const related = allProducts.filter(p => p.id !== currentProductId);
+            // র‍্যান্ডমভাবে সাজানো
             const shuffled = related.sort(() => 0.5 - Math.random());
+            // প্রথম ১২টি নেওয়া
             const selected = shuffled.slice(0, 12);
 
             const productsHtml = selected.map(product => `
@@ -204,7 +221,10 @@
                     <div class="card-content">
                         <h3 class="card-title">${product.title}</h3>
                         <div class="card-footer">
-                            <div class="card-rating"><i class="fas fa-star" style="color: #FFC107;"></i> <span>${product.rating}</span></div>
+                            <div class="card-rating">
+                                <i class="fas fa-star" style="color: #FFC107;"></i> 
+                                <span>${product.rating}</span>
+                            </div>
                             <div class="card-price">$${product.price}</div>
                         </div>
                     </div>
@@ -223,9 +243,12 @@
             currentMode = mode;
         }
 
-        function setupSocialLinks() { /* ... category.html থেকে কপি করুন ... */ }
+        function setupSocialLinks() { /* ... */ }
         
         async function initializePage() {
+            // সকল কন্টেন্ট লোড হওয়ার আগে স্ক্রল একদম উপরে রাখা
+            window.scrollTo(0, 0);
+
             setMode(currentMode);
             setupSocialLinks();
 
@@ -236,21 +259,27 @@
             }
             const [categoryId, productId] = hash.split('/');
             
-            const product = await fetchProductDetails(categoryId, productId);
+            // একই সাথে মূল প্রোডাক্ট এবং সকল প্রোডাক্ট লোড করা
+            const [product, allProducts] = await Promise.all([
+                fetchProductDetails(categoryId, productId),
+                fetchAllProducts()
+            ]);
+            
             renderProductDetails(product);
 
-            if (product) {
-                const allProducts = await fetchAllProducts();
+            if (product && allProducts.length > 0) {
                 renderRelatedProducts(allProducts, productId);
             }
         }
-
-        // পেজ রি-লোড করার জন্য যখন হ্যাশ পরিবর্তন হয়
+        
+        // ... (বাকি জাভাস্ক্রিপ্ট কোড অপরিবর্তিত) ...
+        const CATEGORIES_TO_COPY = {Men:{'m-shirts':"T-Shirts & Polos",'m-pants':"Jeans & Pants",'m-outer':"Outerwear",'m-shoes':"Shoes",'m-acc':"Accessories"},Women:{'f-dresses':"Dresses",'f-tops':"Tops & Blouses",'f-bottoms':"Jeans & Leggings",'f-active':"Activewear",'f-jewelry':"Jewelry & Bags"}};
+        const SOCIAL_LINKS_TO_COPY = {facebook:"https://facebook.com/your-page-url",instagram:"https://instagram.com/your-username",pinterest:"https://pinterest.com/your-username",whatsapp:"https://wa.me/8801234567890"};
+        Object.assign(CATEGORIES, CATEGORIES_TO_COPY);
+        Object.assign(SOCIAL_LINKS, SOCIAL_LINKS_TO_COPY);
+        function setupSocialLinks(){document.querySelectorAll(".social-icon[data-social]").forEach(e=>{const o=e.dataset.social;SOCIAL_LINKS[o]&&(e.href=SOCIAL_LINKS[o],e.target="_blank",e.rel="noopener noreferrer")})}
         window.addEventListener('hashchange', initializePage);
         document.addEventListener('DOMContentLoaded', initializePage);
-
-        // helper functions to copy
-        function setupSocialLinks(){document.querySelectorAll(".social-icon[data-social]").forEach(e=>{const o=e.dataset.social;SOCIAL_LINKS[o]&&(e.href=SOCIAL_LINKS[o],e.target="_blank",e.rel="noopener noreferrer")})}
     </script>
 </body>
 </html>
