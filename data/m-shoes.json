@@ -1,0 +1,28 @@
+[
+  {
+    "id": "msh01",
+    "category": "m-shoes",
+    "title": "Men's Casual Sneakers",
+    "description": "Comfortable and trendy sneakers for everyday use. Features a cushioned insole for all-day comfort.",
+    "price": "1999.00",
+    "rating": "4.8",
+    "images": [
+      "https://i.ibb.co/YyTz1fP/sneakers1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-07T16:00:00Z"
+  },
+  {
+    "id": "msh02",
+    "category": "m-shoes",
+    "title": "Formal Leather Loafers",
+    "description": "Elegant genuine leather loafers, perfect for formal events or office wear.",
+    "price": "2999.00",
+    "rating": "4.9",
+    "images": [
+      "https://i.ibb.co/YhG0SJG/loafers1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-08T10:00:00Z"
+  }
+]
