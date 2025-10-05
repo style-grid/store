@@ -1,0 +1,28 @@
+[
+  {
+    "id": "mo001",
+    "category": "m-outer",
+    "title": "Classic Denim Jacket",
+    "description": "A stylish and durable denim jacket that never goes out of fashion. Perfect for layering.",
+    "price": "2499.00",
+    "rating": "4.9",
+    "images": [
+      "https://i.ibb.co/hK7T0G3/denim-jacket1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-05T14:00:00Z"
+  },
+  {
+    "id": "mo002",
+    "category": "m-outer",
+    "title": "Water-Resistant Windbreaker",
+    "description": "Lightweight and water-resistant, this windbreaker is ideal for unpredictable weather.",
+    "price": "1899.00",
+    "rating": "4.7",
+    "images": [
+      "https://i.ibb.co/XFf5wWz/windbreaker1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-06T11:00:00Z"
+  }
+]
