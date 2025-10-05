@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Style Grid - Final Desktop</title>
+    <title>Style Grid - Final Header</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
@@ -47,31 +47,20 @@
     ======================================= */
     *, *::before, *::after { box-sizing: border-box; }
     body {
-        font-family: 'Roboto', sans-serif;
-        background-color: var(--bg-secondary); 
-        color: var(--text-primary); 
-        margin: 0;
-        padding: 0;
-        min-height: 100vh; 
-        display: flex; 
-        flex-direction: column;
-        transition: background-color 0.3s, color 0.3s;
+        font-family: 'Roboto', sans-serif; background-color: var(--bg-secondary); 
+        color: var(--text-primary); margin: 0; padding: 0; min-height: 100vh; 
+        display: flex; flex-direction: column; transition: background-color 0.3s, color 0.3s;
     }
     #main-content {
-        flex-grow: 1; 
-        max-width: 1400px;
-        margin: 0 auto;
-        width: 100%;
+        flex-grow: 1; max-width: 1400px; margin: 0 auto; width: 100%;
     }
     .sticky-header-top { 
         position: sticky; top: 0; z-index: 1000;
         background-color: var(--header-bg); width: 100%;
     }
     .header {
-        background-color: var(--header-bg); 
-        color: var(--header-text);
-        padding: 10px 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: var(--header-bg); color: var(--header-text);
+        padding: 10px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         display: flex; justify-content: space-between; align-items: center;
         max-width: 1400px; margin: 0 auto;
     }
@@ -81,16 +70,20 @@
     .name-part-1 { color: var(--accent-color); }
     .name-part-2 { color: var(--header-text); }
     .header-right { display: flex; align-items: center; gap: 15px; }
-    .mode-toggle-btn { padding: 5px 10px; background-color: var(--accent-color); color: var(--header-text); border: none; border-radius: 4px; cursor: pointer; font-size: 18px; }
+    
+    /* নতুন: প্রফেশনাল ডার্ক/লাইট মোড বাটন */
+    .mode-toggle-btn {
+        background: transparent; border: none; padding: 0;
+        font-size: 20px; color: var(--header-text);
+        cursor: pointer; transition: color 0.3s;
+    }
+    .mode-toggle-btn:hover, .social-icon:hover { color: var(--accent-color); }
     .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; }
-    .social-icon:hover { color: var(--accent-color); }
-
+    
     /* =======================================
      ৩. স্লাইডার সেকশন
     ======================================= */
-    .slider-section { 
-        padding: 10px 0 20px 0; background-color: var(--bg-primary); 
-    }
+    .slider-section { padding: 10px 0 20px 0; background-color: var(--bg-primary); }
     .slider-container {
         aspect-ratio: 16 / 7; max-width: 1200px; margin: 0 auto;
         border-radius: 10px; overflow: hidden; box-shadow: var(--card-shadow); position: relative;
@@ -109,7 +102,7 @@
     .category-bar { padding: 10px 15px; }
     .cat-item { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s; height: 100%; text-decoration: none; }
     .cat-item:hover { transform: translateY(-2px); }
-    .cat-image-container { width: 80px; height: 80px; border-radius: 50%; background-color: var(--category-title-bg); border: 2px solid var(--accent-color); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+    .cat-image-container { width: 80px; height: 80px; border-radius: 50%; background-color: var(--category-title-bg); border: 2px solid var(--accent-color); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .cat-image-container img { width: 100%; height: 100%; object-fit: cover; }
     .category-name { margin-top: 5px; font-size: 13px; font-weight: 500; white-space: normal; max-width: 80px; height: 32px; overflow: hidden; line-height: 1.2; color: var(--text-primary); }
     .cat-title-card { background-color: var(--accent-color); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; padding: 0 10px; margin-right: 15px; color: white !important; flex-shrink: 0; width: 120px; }
@@ -130,7 +123,7 @@
         overflow: hidden; display: flex; flex-direction: column; 
         transition: transform 0.2s ease, box-shadow 0.3s ease; cursor: pointer;
     }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
     .card-image-container { height: 200px; background-color: var(--bg-secondary); }
     .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
     .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
@@ -143,26 +136,25 @@
     .card-price { font-size: 18px; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
 
     /* =======================================
-     ৬. ডেস্কটপ ক্যাটাগরি ভিউ ফিক্স (নতুন)
+     ৬. ডেস্কটপ ক্যাটাগরি ভিউ ফিক্স
     ======================================= */
     @media (min-width: 768px) {
-        .category-bar .swiper-wrapper {
-            display: flex;
-            transform: none !important; /* Swiper-এর স্লাইডিং এফেক্ট নিষ্ক্রিয় করা */
-        }
-        .category-bar .swiper-slide {
-            width: auto !important; /* Swiper-এর প্রস্থ ওভাররাইড করা */
-            flex-grow: 1; /* খালি জায়গা পূরণের জন্য আইটেমগুলোকে বড় করা */
-        }
-        .category-bar .cat-title-card {
-            flex-grow: 0; /* টাইটেল কার্ডকে বড় হতে না দেওয়া */
-        }
+        .category-bar .swiper-wrapper { display: flex; transform: none !important; }
+        .category-bar .swiper-slide { width: auto !important; flex-grow: 1; }
+        .category-bar .cat-title-card { flex-grow: 0; }
     }
 
     /* =======================================
-     ৭. মোবাইল অপটিমাইজেশন
+     ৭. মোবাইল অপটিমাইজেশন (নতুন হেডার ফিক্স)
     ======================================= */
     @media (max-width: 767px) {
+        /* নতুন: মোবাইল হেডার সাইজ কমানো */
+        .header { padding: 8px 15px; }
+        .website-icon i { font-size: 20px; }
+        .website-name { font-size: 20px; }
+        .header-right { gap: 12px; }
+        .header-right .social-icon, .mode-toggle-btn { font-size: 18px; }
+
         .slider-container { aspect-ratio: 16 / 9; border-radius: 10px; width: 95%; }
         .slider-caption { font-size: 16px; bottom: 10px; left: 10px; padding: 8px 15px; }
         .category-bar { padding: 10px; }
@@ -183,8 +175,14 @@
                 <div class="website-icon"><i class="fas fa-shopping-bag"></i></div>
                 <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
             </div>
+            <!-- নতুন: আপডেট করা হেডার আইকন -->
             <div class="header-right">
-                <button class="mode-toggle-btn" id="mode-toggle-btn">🌙</button>
+                <button class="mode-toggle-btn" id="mode-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
             </div>
         </header>
@@ -229,10 +227,12 @@
         };
         let currentMode = localStorage.getItem('mode') || 'light';
 
+        // নতুন: আইকন ক্লাস পরিবর্তনের জন্য আপডেট করা ফাংশন
         function setMode(mode) {
             const btn = document.getElementById('mode-toggle-btn');
+            const icon = btn.querySelector('i');
             document.body.classList.toggle('dark-mode', mode === 'dark');
-            btn.innerHTML = mode === 'dark' ? '☀️' : '🌙';
+            icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('mode', mode);
             currentMode = mode;
         }
