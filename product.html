@@ -11,25 +11,14 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <style>
-    /* --- সম্পূর্ণ CSS কোড --- */
     :root {
-        --bg-primary: #FFFFFF; 
-        --bg-secondary: #F7F7F7; 
-        --text-primary: #121212; 
-        --text-secondary: #666666; 
-        --accent-color: #FF6F61; 
-        --card-bg: #FFFFFF; 
-        --card-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-        --header-bg: #1e1e1e; 
-        --header-text: #FFFFFF;
+        --bg-primary: #FFFFFF; --bg-secondary: #F7F7F7; --text-primary: #121212;
+        --text-secondary: #666666; --accent-color: #FF6F61; --card-bg: #FFFFFF;
+        --card-shadow: 0 1px 6px rgba(0,0,0,0.1); --header-bg: #1e1e1e; --header-text: #FFFFFF;
     }
     body.dark-mode {
-        --bg-primary: #121212;
-        --bg-secondary: #1e1e1e;
-        --text-primary: #e0e0e0;
-        --text-secondary: #aaaaaa;
-        --card-bg: #2d2d2d; 
-        --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        --bg-primary: #121212; --bg-secondary: #1e1e1e; --text-primary: #e0e0e0;
+        --text-secondary: #aaaaaa; --card-bg: #2d2d2d; --card-shadow: 0 4px 8px rgba(0,0,0,0.4);
         --header-bg: #000000;
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -47,7 +36,7 @@
     }
     .header {
         background-color: var(--header-bg); color: var(--header-text);
-        padding: 10px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 8px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         display: flex; justify-content: space-between; align-items: center;
         max-width: 1400px; margin: 0 auto;
     }
@@ -57,112 +46,63 @@
     .name-part-1 { color: var(--accent-color); }
     .name-part-2 { color: var(--header-text); }
     .header-right { display: flex; align-items: center; gap: 15px; }
-    .mode-toggle-btn {
-        background: transparent; border: none; padding: 0;
-        font-size: 20px; color: var(--header-text);
-        cursor: pointer; transition: color 0.3s;
-    }
-    .mode-toggle-btn:hover, .social-icon:hover { color: var(--accent-color); }
     .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; text-decoration: none; }
+    .social-icon:hover { color: var(--accent-color); }
 
-    /* নতুন: প্রোডাক্ট ডিটেইলস পেজের জন্য বিশেষ স্টাইল */
     #product-detail-container {
-        display: flex;
-        gap: 30px;
-        padding: 30px;
+        display: flex; gap: 30px; padding: 30px;
         background-color: var(--bg-primary);
     }
-    .product-gallery {
-        flex: 1 1 50%;
-        max-width: 50%;
-    }
-    .product-info {
-        flex: 1 1 50%;
-        max-width: 50%;
-    }
+    .product-gallery { flex: 1 1 50%; max-width: 50%; position: relative; }
+    .product-info { flex: 1 1 50%; max-width: 50%; }
     .product-gallery .swiper-container {
-        width: 100%;
-        border-radius: 10px;
-        overflow: hidden;
+        width: 100%; border-radius: 10px; overflow: hidden;
         border: 1px solid rgba(0,0,0,0.1);
     }
-     body.dark-mode .product-gallery .swiper-container {
-        border: 1px solid #3a3a3a;
-    }
-    .product-gallery .swiper-slide {
-        aspect-ratio: 1/1;
-        background-color: var(--bg-secondary);
-    }
-    .product-gallery img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* contain ব্যবহার করা হয়েছে যাতে পুরো প্রোডাক্ট দেখা যায় */
-    }
-    .product-title {
-        font-size: 28px;
-        font-weight: 700;
-        margin-top: 0;
-        margin-bottom: 15px;
-    }
-    .product-meta {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        font-size: 18px;
-        margin-bottom: 20px;
-    }
-    .product-rating { color: var(--text-secondary); }
-    .product-price {
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--accent-color);
-    }
-    .product-description {
-        font-size: 16px;
-        line-height: 1.7;
-        color: var(--text-secondary);
-        margin-bottom: 30px;
-    }
-    .order-button {
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-        padding: 15px 30px;
-        background-color: var(--accent-color);
-        color: white;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 700;
-        border-radius: 8px;
-        transition: background-color 0.3s;
-    }
-    .order-button:hover {
-        background-color: #e65c50;
-    }
-    #loading-placeholder {
-        text-align: center;
-        padding: 50px;
-        font-size: 20px;
-    }
+    body.dark-mode .product-gallery .swiper-container { border: 1px solid #3a3a3a; }
+    .product-gallery .swiper-slide { aspect-ratio: 1/1; background-color: var(--bg-secondary); cursor: zoom-in; }
+    .product-gallery img { width: 100%; height: 100%; object-fit: contain; }
+    .product-gallery .swiper-pagination-bullet { background: #888; opacity: 0.7; }
+    .product-gallery .swiper-pagination-bullet-active { background: var(--accent-color); opacity: 1; }
+    .product-gallery .swiper-pagination { bottom: 15px !important; }
     
+    .product-title { font-size: 28px; font-weight: 700; margin: 0 0 15px 0; }
+    .product-meta { display: flex; align-items: center; gap: 20px; font-size: 18px; margin-bottom: 20px; }
+    .product-rating { color: var(--text-secondary); }
+    .product-price { font-size: 24px; font-weight: 700; color: var(--accent-color); }
+    .product-description { font-size: 16px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 30px; }
+    .order-button {
+        display: inline-block; width: 100%; text-align: center; padding: 15px 30px;
+        background-color: var(--accent-color); color: white; text-decoration: none;
+        font-size: 18px; font-weight: 700; border-radius: 8px; transition: background-color 0.3s;
+    }
+    .order-button:hover { background-color: #e65c50; }
+    #loading-placeholder { text-align: center; padding: 50px; font-size: 20px; }
+
+    .related-products-section { padding: 30px; background-color: var(--bg-secondary); }
+    .related-title { font-size: 24px; font-weight: 700; text-align: center; margin: 0 0 25px 0; }
+    .container {
+        display: grid; grid-template-columns: repeat(4, 1fr); 
+        gap: 20px; padding: 0; max-width: 1400px; margin: 0 auto;
+    }
+    .card { background-color: var(--card-bg); /* ... (বাকি কার্ড স্টাইল অপরিবর্তিত) ... */ }
+    
+    @media (max-width: 992px) {
+        .container { grid-template-columns: repeat(3, 1fr); }
+    }
     @media (max-width: 767px) {
-        .header { padding: 8px 15px; }
+        .header { padding: 6px 15px; }
         .website-icon i { font-size: 20px; }
         .website-name { font-size: 20px; }
         .header-right { gap: 12px; }
-        .header-right .social-icon, .mode-toggle-btn { font-size: 18px; }
-        
-        #product-detail-container {
-            flex-direction: column;
-            padding: 15px;
-            gap: 20px;
-        }
-        .product-gallery, .product-info {
-            max-width: 100%;
-        }
+        .header-right .social-icon { font-size: 18px; }
+        #product-detail-container { flex-direction: column; padding: 15px; gap: 20px; }
+        .product-gallery, .product-info { max-width: 100%; }
         .product-title { font-size: 22px; }
         .product-meta { font-size: 16px; }
         .product-price { font-size: 20px; }
+        .related-products-section { padding: 20px; }
+        .container { grid-template-columns: 1fr 1fr; gap: 10px; }
     }
     </style>
 </head>
@@ -174,7 +114,6 @@
                 <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
             </a>
             <div class="header-right">
-                <button class="mode-toggle-btn" id="mode-toggle-btn"><i class="fas fa-moon"></i></button>
                 <a href="#" class="social-icon" data-social="facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-icon" data-social="instagram"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="social-icon" data-social="pinterest"><i class="fab fa-pinterest-p"></i></a>
@@ -184,143 +123,134 @@
     </div>
     
     <main id="main-content">
-        <!-- প্রোডাক্টের সকল তথ্য এখানে ডায়নামিকভাবে লোড হবে -->
         <div id="product-detail-container">
-            <div id="loading-placeholder">
-                <i class="fas fa-spinner fa-spin"></i> Loading Product...
-            </div>
+            <div id="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> Loading Product...</div>
         </div>
+        <div id="related-products-wrapper"></div>
     </main>
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        // --- ১. কনফিগারেশন এবং প্রাথমিক স্টেট ---
         const SOCIAL_LINKS = { /* ... index.html থেকে কপি করুন ... */ };
         const CATEGORIES = { /* ... index.html থেকে কপি করুন ... */ };
         let currentMode = localStorage.getItem('mode') || 'light';
 
-        // --- ২. API ফাংশন ---
+        async function fetchAllProducts() {
+            const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
+            try {
+                const promises = allCategoryIds.map(catId => fetch(`data/${catId}.json`).then(res => res.json()));
+                return (await Promise.all(promises)).flat();
+            } catch (error) {
+                console.error("Error fetching all products:", error);
+                return [];
+            }
+        }
+
         async function fetchProductDetails(categoryId, productId) {
             try {
                 const response = await fetch(`data/${categoryId}.json`);
                 if (!response.ok) throw new Error(`Could not fetch data for category ${categoryId}`);
-                const products = await response.json();
-                // নির্দিষ্ট প্রোডাক্টটি খুঁজে বের করা
-                return products.find(p => p.id === productId);
+                return (await response.json()).find(p => p.id === productId);
             } catch (error) {
                 console.error("Error fetching product details:", error);
                 return null;
             }
         }
 
-        // --- ৩. UI রেন্ডারিং ফাংশন ---
         function renderProductDetails(product) {
             const container = document.getElementById('product-detail-container');
             if (!container || !product) {
                 container.innerHTML = `<h2 style="text-align: center; padding: 40px;">Sorry, product not found.</h2>`;
                 return;
             }
+            const imageSlides = product.images.map(imgUrl => `<div class="swiper-slide"><img src="${imgUrl}" alt="${product.title}"></div>`).join('');
 
-            // ইমেজ স্লাইডারের জন্য HTML তৈরি
-            const imageSlides = product.images.map(imgUrl => `
-                <div class="swiper-slide">
-                    <img src="${imgUrl}" alt="${product.title}">
-                </div>
-            `).join('');
-
-            // সম্পূর্ণ প্রোডাক্টের HTML কাঠামো
             container.innerHTML = `
                 <div class="product-gallery">
                     <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            ${imageSlides}
-                        </div>
-                        <!-- If we need pagination -->
+                        <div class="swiper-wrapper">${imageSlides}</div>
                         <div class="swiper-pagination"></div>
-                        <!-- If we need navigation buttons -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
                     </div>
                 </div>
                 <div class="product-info">
                     <h1 class="product-title">${product.title}</h1>
                     <div class="product-meta">
-                        <span class="product-rating">
-                            <i class="fas fa-star" style="color: #FFC107;"></i> ${product.rating}
-                        </span>
+                        <span class="product-rating"><i class="fas fa-star" style="color: #FFC107;"></i> ${product.rating}</span>
                         <span class="product-price">$${product.price}</span>
                     </div>
                     <p class="product-description">${product.description}</p>
-                    <a href="${product.affiliateLink}" class="order-button" target="_blank" rel="noopener noreferrer">
-                        More Details & Order
-                    </a>
-                </div>
-            `;
+                    <a href="${product.affiliateLink}" class="order-button" target="_blank" rel="noopener noreferrer">More Details & Order</a>
+                </div>`;
 
-            // Swiper স্লাইডার ইনিশিয়ালাইজ করা
             new Swiper('.product-gallery .swiper-container', {
-                loop: product.images.length > 1, // যদি ১টির বেশি ছবি থাকে তবেই লুপ হবে
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
+                loop: product.images.length > 1,
+                autoplay: { delay: 2000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true },
             });
-
-            // পেজের টাইটেল পরিবর্তন
             document.title = `${product.title} - Style Grid`;
         }
         
-        // --- ৪. অন্যান্য গ্লোবাল ফাংশন ---
-        function setMode(mode) {
-            // ... (category.html থেকে কপি করুন)
+        function renderRelatedProducts(allProducts, currentProductId) {
+            const wrapper = document.getElementById('related-products-wrapper');
+            if (!wrapper || allProducts.length === 0) return;
+
+            const related = allProducts.filter(p => p.id !== currentProductId);
+            const shuffled = related.sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, 12);
+
+            const productsHtml = selected.map(product => `
+                <a href="product.html#${product.category}/${product.id}" class="card">
+                    <div class="card-image-container"><img src="${product.images[0]}" alt="${product.title}" loading="lazy"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">${product.title}</h3>
+                        <div class="card-footer">
+                            <div class="card-rating"><i class="fas fa-star" style="color: #FFC107;"></i> <span>${product.rating}</span></div>
+                            <div class="card-price">$${product.price}</div>
+                        </div>
+                    </div>
+                </a>`).join('');
+
+            wrapper.innerHTML = `
+                <section class="related-products-section">
+                    <h2 class="related-title">You Might Also Like</h2>
+                    <div class="container">${productsHtml}</div>
+                </section>`;
         }
-        function setupSocialLinks() {
-            // ... (category.html থেকে কপি করুন)
-        }
-        // ... (উপরের দুটি ফাংশনের কোড এখানে পেস্ট করুন)
+
         function setMode(mode) {
-            const btn = document.getElementById('mode-toggle-btn');
-            const icon = btn.querySelector('i');
             document.body.classList.toggle('dark-mode', mode === 'dark');
-            if (icon) icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('mode', mode);
             currentMode = mode;
         }
-        function setupSocialLinks() {
-            document.querySelectorAll('.social-icon[data-social]').forEach(iconLink => {
-                const platform = iconLink.dataset.social;
-                if (SOCIAL_LINKS[platform]) {
-                    iconLink.href = SOCIAL_LINKS[platform];
-                    iconLink.target = "_blank";
-                    iconLink.rel = "noopener noreferrer";
-                }
-            });
-        }
 
-        // --- ৫. প্রারম্ভিক ইনিশিয়ালাইজেশন ---
+        function setupSocialLinks() { /* ... category.html থেকে কপি করুন ... */ }
+        
         async function initializePage() {
             setMode(currentMode);
             setupSocialLinks();
 
-            // URL থেকে ক্যাটাগরি এবং প্রোডাক্ট আইডি বের করা
             const hash = window.location.hash.substring(1);
             if (!hash || hash.split('/').length !== 2) {
-                document.getElementById('product-detail-container').innerHTML = `<h2 style="text-align: center; padding: 40px;">Invalid URL. Please check the link.</h2>`;
+                document.getElementById('product-detail-container').innerHTML = `<h2 style="text-align: center; padding: 40px;">Invalid URL.</h2>`;
                 return;
             }
-            
             const [categoryId, productId] = hash.split('/');
             
             const product = await fetchProductDetails(categoryId, productId);
-            
             renderProductDetails(product);
+
+            if (product) {
+                const allProducts = await fetchAllProducts();
+                renderRelatedProducts(allProducts, productId);
+            }
         }
 
+        // পেজ রি-লোড করার জন্য যখন হ্যাশ পরিবর্তন হয়
+        window.addEventListener('hashchange', initializePage);
         document.addEventListener('DOMContentLoaded', initializePage);
+
+        // helper functions to copy
+        function setupSocialLinks(){document.querySelectorAll(".social-icon[data-social]").forEach(e=>{const o=e.dataset.social;SOCIAL_LINKS[o]&&(e.href=SOCIAL_LINKS[o],e.target="_blank",e.rel="noopener noreferrer")})}
     </script>
 </body>
 </html>
