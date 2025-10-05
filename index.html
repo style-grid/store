@@ -23,6 +23,7 @@
         --card-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
         --header-bg: #1e1e1e; 
         --header-text: #FFFFFF;
+        --category-title-bg: #e0e0e0; 
     }
     
     body.dark-mode {
@@ -35,6 +36,7 @@
         --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         --header-bg: #000000; 
         --header-text: #FFFFFF;
+        --category-title-bg: #3a3a3a;
     }
 
     /* =======================================
@@ -53,7 +55,7 @@
         transition: background-color 0.3s, color 0.3s;
     }
     
-    /* হেডার সেকশন: ফুল উইডথ ফিক্স */
+    /* হেডার সেকশন: ফুল উইডথ নিশ্চিত করা */
     .sticky-header-top { 
         position: sticky;
         top: 0;
@@ -69,22 +71,23 @@
         display: flex;
         justify-content: space-between; 
         align-items: center;
-        max-width: 1400px; /* ভিতরের কন্টেন্ট কনস্ট্রেইন */
-        margin: 0 auto;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    /* মূল কন্টেন্ট সেকশন: মাঝখানে কেন্দ্রীভূত */
-    #main-content {
-        flex-grow: 1; 
+        /* ভিতরের কন্টেন্ট কেন্দ্রীভূত রাখতে একটি max-width সেট করা */
         max-width: 1400px; 
         margin: 0 auto;
         width: 100%;
         box-sizing: border-box;
     }
     
-    /* অন্যান্য হেডার এবং টগল স্টাইল অপরিবর্তিত */
+    /* মূল কন্টেন্ট সেকশন: ডান পাশের ফাঁকা জায়গা পূরণ করা */
+    #main-content {
+        flex-grow: 1; 
+        max-width: 1400px; /* কন্টেন্ট কেন্দ্রীভূত থাকবে */
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* --- অন্যান্য হেডার স্টাইল --- */
     .header-left { display: flex; align-items: center; gap: 8px; }
     .website-icon i { font-size: 24px; color: var(--accent-color); }
     .website-name { font-size: 24px; font-weight: 900; font-family: 'Fugaz One', cursive; white-space: nowrap; }
@@ -92,16 +95,14 @@
     .name-part-2 { color: var(--header-text); }
     .header-right { display: flex; align-items: center; gap: 15px; }
     .mode-toggle-btn { padding: 5px 10px; background-color: var(--accent-color); color: var(--header-text); border: none; border-radius: 4px; cursor: pointer; font-size: 18px; }
-    .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; }
-    .social-icon:hover { color: var(--accent-color); }
-
-    /* স্লাইডার সেকশন (সংক্ষিপ্ত) */
+    
+    /* --- স্লাইডার সেকশন --- */
     .slider-section { padding: 10px 0 20px 0; background-color: var(--bg-primary); overflow: hidden; }
     .slider-container { height: 400px; max-width: 1200px; margin: 0 auto; border-radius: 10px; overflow: hidden; box-shadow: var(--card-shadow); position: relative; }
     .slider-item img { width: 100%; height: 100%; object-fit: cover; }
     .slider-caption { position: absolute; bottom: 20px; left: 20px; color: white; background: rgba(0, 0, 0, 0.7); padding: 10px 20px; border-radius: 5px; font-size: 24px; font-weight: 700; }
     
-    /* ক্যাটাগরি স্লাইডার (সংক্ষিপ্ত) */
+    /* --- ক্যাটাগরি স্লাইডার --- */
     .category-bar-wrapper { padding: 0 0 20px 0; background-color: var(--bg-primary); }
     .category-bar { padding: 10px 0; }
     .cat-item { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s; height: 100%; text-decoration: none; }
@@ -112,7 +113,7 @@
     .swiper-slide-category { width: calc((100% - 135px) / 5) !important; }
 
     /* =======================================
-     ৩. প্রোডাক্ট গ্রিড স্টাইল (ডেস্কটপ কার্ড ফিক্স)
+     ৩. প্রোডাক্ট গ্রিড স্টাইল (ডেস্কটপ গ্রিড ফিক্স: ৩ কলাম)
     ======================================= */
     .product-grid-title {
         text-align: center;
@@ -121,13 +122,13 @@
         font-weight: 700;
     }
     
-    /* ডেস্কটপ গ্রিড: ৪ কলাম */
+    /* ডেস্কটপ গ্রিড: ৪ থেকে ৩ কলামে পরিবর্তন */
     .container {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); 
+        grid-template-columns: repeat(3, 1fr); 
         gap: 20px;
         padding: 20px; 
-        max-width: 1300px; 
+        max-width: 1300px; /* কন্টেইনার উইডথ */
         margin: 0 auto;
     }
     
@@ -150,7 +151,6 @@
     
     .card-content {
         padding: 15px;
-        /* ফিক্স: কন্টেন্ট এরিয়া ফ্লেক্সিবল রাখা */
         flex-grow: 1; 
         display: flex;
         flex-direction: column;
@@ -163,7 +163,7 @@
         color: var(--text-primary); 
         margin: 0 0 10px 0;
         min-height: 40px; 
-        max-height: 40px; /* টাইটেলকে ২ লাইনে সীমাবদ্ধ করা হলো */
+        max-height: 40px; 
         overflow: hidden;
         line-height: 1.3;
     }
@@ -172,11 +172,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: auto; /* ফুটারে কন্টেন্টকে নিচে ঠেলে দেয় */
+        margin-top: auto;
     }
     .card-rating {
         color: #388e3c; 
-        font-size: 14px; /* ডেস্কটপে ডিফল্ট সাইজ */
+        font-size: 14px; 
         font-weight: 700;
         white-space: nowrap;
     }
@@ -188,11 +188,11 @@
     }
 
     /* =======================================
-     ৪. মোবাইল অপটিমাইজেশন (কার্ড লেখা ও অ্যালাইনমেন্ট ফিক্স)
+     ৪. মোবাইল অপটিমাইজেশন (মোবাইল ভিউ অপরিবর্তিত)
     ======================================= */
     @media (max-width: 767px) {
         
-        /* স্লাইডার হাইট এবং ক্যাপশন ফিক্স */
+        /* স্লাইডার */
         .slider-container {
             height: 200px; 
             border-radius: 0;
@@ -205,13 +205,13 @@
             padding: 8px 15px;
         }
 
-        /* ক্যাটাগরি স্লাইডার অ্যাডজাস্টমেন্ট (অপরিবর্তিত) */
+        /* ক্যাটাগরি স্লাইডার */
         .swiper-slide-category { width: calc((100% - 115px) / 5) !important; }
         .cat-image-container { width: 55px; height: 55px; }
         .category-name { font-size: 10px; max-width: 55px; height: 28px; }
         .cat-title-card { width: 100px; }
         
-        /* প্রোডাক্ট গ্রিড ২ কলাম ঠিক রাখা হয়েছে */
+        /* প্রোডাক্ট গ্রিড ২ কলাম (অপরিবর্তিত) */
         .container {
             grid-template-columns: 1fr 1fr;
             gap: 10px;
@@ -221,28 +221,28 @@
             height: 200px;
         }
         
-        /* মোবাইল কার্ড কন্টেন্ট ফিক্স */
+        /* মোবাইল কার্ড কন্টেন্ট */
         .card-content {
-             padding: 10px; /* প্যাডিং কমানো */
+             padding: 10px; 
         }
         .card-title {
-            font-size: 14px; /* সাইজ আরও কমানো হয়েছে */
+            font-size: 14px; 
             margin-bottom: 5px;
             min-height: 36px;
             max-height: 36px;
         }
         
-        /* রেটিং ও প্রাইস এক লাইনে ও সাইজ অ্যাডজাস্টমেন্ট */
+        /* রেটিং ও প্রাইস (অপরিবর্তিত) */
         .card-footer {
             margin-top: 5px;
         }
         .card-rating {
-            font-size: 12px; /* রেটিং সাইজ ছোট করা হয়েছে */
+            font-size: 12px; 
             font-weight: 500;
         }
         .card-price {
             font-size: 16px; 
-            font-weight: 900; /* ডলার অ্যামাউন্ট অতিরিক্ত বোল্ড */
+            font-weight: 900; 
         }
     }
     </style>
@@ -394,7 +394,6 @@
             const cards = document.getElementById('trending-cards-container');
             let cardHtml = '';
             for(let i=1; i<=8; i++) {
-                // ডামি রেটিং এবং রিভিউ
                 const rating = 4.0 + (i * 0.1).toFixed(1); 
                 const reviews = i * 100;
                 const price = (19.99 * i).toFixed(2);
