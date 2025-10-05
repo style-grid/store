@@ -1,0 +1,28 @@
+[
+  {
+    "id": "ft001",
+    "category": "f-tops",
+    "title": "Solid V-Neck Blouse",
+    "description": "A versatile and chic V-neck blouse that can be dressed up or down for any occasion.",
+    "price": "899.00",
+    "rating": "4.6",
+    "images": [
+      "https://i.ibb.co/Y0YjG6H/blouse1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-13T11:00:00Z"
+  },
+  {
+    "id": "ft002",
+    "category": "f-tops",
+    "title": "Casual Striped Crop Top",
+    "description": "A trendy and comfortable striped crop top, perfect for pairing with high-waisted jeans.",
+    "price": "650.00",
+    "rating": "4.7",
+    "images": [
+      "https://i.ibb.co/qD5mD16/croptop1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-14T12:30:00Z"
+  }
+]
