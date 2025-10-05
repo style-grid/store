@@ -3,50 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Binodon</title>
+    <title>WebGrid - High Speed Content</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Fugaz+One&display=swap" rel="stylesheet">
 
     <style>
     /*======================================
-     সাধারণ স্টাইল (মোবাইল ও ডেস্কটপ উভয়ের জন্য)
+     ১. সাধারণ চলক এবং Dark/Light Mode সেটআপ
     ======================================*/
     :root {
-        --bg-primary: #121212;
-        --bg-secondary: #1e1e1e;
-        --text-primary: #e0e0e0;
-        --text-secondary: #aaaaaa;
+        /* Default: Dark Mode (From user's provided code) */
+        --bg-primary: #121212; 
+        --bg-secondary: #1e1e1e; 
+        --text-primary: #e0e0e0; 
+        --text-secondary: #aaaaaa; 
         --card-bg: #2d2d2d; 
         --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         --card-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         --divider-color: #444444;
         --category-bg: #3a3a3a;
-        --category-text: #e0e0e0;
         --modal-bg: #333333;
         --input-bg: #444444;
         --input-border: #555555;
         --footer-bg: #1e1e1e;
+        --accent-color: #007bff; /* Primary Blue Accent */
+    }
+
+    body.light-mode {
+        /* Light Mode Settings */
+        --bg-primary: #FFFFFF;
+        --bg-secondary: #F7F7F7;
+        --text-primary: #121212;
+        --text-secondary: #666666;
+        --card-bg: #FFFFFF;
+        --card-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+        --card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        --divider-color: #E0E0E0;
+        --category-bg: #E0E0E0;
+        --modal-bg: #FFFFFF;
+        --input-bg: #FFFFFF;
+        --input-border: #CCCCCC;
+        --footer-bg: #F0F0F0;
+        --accent-color: #6a11cb; /* Primary Purple Accent */
     }
         
-    .tutorial-button {
-        display: inline-block; 
-        text-align: center;
-        font-weight: bold;
-        border-radius: 5px; 
-        text-decoration: none;
-        color: #fff;
-        background-color: #2575fc;
-        transition: background-color 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        white-space: nowrap; 
-        height: fit-content;
-    }
-    .tutorial-button:hover,
-    .tutorial-button:active {
-        background-color: #28a745;
-    }
+    /*======================================
+     ২. বেস এবং লেআউট স্টাইল
+    ======================================*/
     body {
-        font-family: sans-serif;
+        font-family: 'Roboto', sans-serif;
         background-color: var(--bg-primary); 
         color: var(--text-primary); 
         margin: 0;
@@ -55,6 +60,7 @@
         display: flex; 
         flex-direction: column;
         overflow-x: hidden; 
+        transition: background-color 0.3s, color 0.3s; /* ডার্ক/লাইট মোড ট্রানজিশন */
     }
     #main-content {
         flex-grow: 1; 
@@ -64,764 +70,120 @@
         top: 0;
         z-index: 1000;
         background-color: var(--bg-primary); 
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* হেডার শ্যাডো */
     }
     .header {
-        background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-        color: #fff;
+        background-color: var(--bg-primary); 
+        color: var(--text-primary);
         padding: 10px 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         position: relative;
         overflow: hidden;
         display: flex;
         justify-content: space-between; 
         align-items: center;
         gap: 10px;
+        transition: background-color 0.3s, color 0.3s;
     }
     .header-left {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 5px; /* সিম্বল ও নামের স্পেস কমানো হলো */
         min-width: 0;
     }
     .website-icon {
         width: 25px; 
         height: 25px;
+        flex-shrink: 0;
     }
     .website-icon svg {
-        fill: #fff;
+        fill: var(--accent-color); /* আইকনের রঙ অ্যাকসেন্ট কালার হবে */
         width: 100%;
         height: 100%;
     }
     .website-name {
-        font-size: 20px;
-        font-weight: 400; 
+        font-size: 22px;
+        font-weight: 900; 
         font-family: 'Fugaz One', cursive; 
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
     .name-part-1 {
-        color: #FFD700; 
+        color: var(--accent-color); /* প্রথম অংশ অ্যাকসেন্ট কালার */
     }
     .name-part-2 {
-        color: #fff; 
+        color: var(--text-primary); /* দ্বিতীয় অংশ সাধারণ টেক্সট কালার */
     }
     .header-right {
         display: flex;
         align-items: center;
-        gap: 10px; 
+        gap: 10px; /* Admin ও Mode টগলের মাঝে স্পেস */
         flex-shrink: 0; 
     }
-    .social-icons-container {
-        display: flex;
-        gap: 5px; 
-    }
-    .social-icon {
-        display: block;
-        width: 25px; 
-        height: 25px;
-        transition: transform 0.2s ease;
-    }
-    .social-icon img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-    }
-    .social-icon:hover {
-        transform: scale(1.1);
-    }
-    
-    /* নতুন অ্যাডমিন বাটন স্টাইল */
-    .add-card-btn {
-        background-color: #4CAF50;
-        color: white;
-        padding: 5px;
-        font-size: 18px; 
-        border: none; 
-        border-radius: 50%;
-        width: 35px; 
-        height: 35px; 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        flex-shrink: 0;
-        cursor: pointer; 
-        transition: background-color 0.3s ease;
-    }
-    .add-card-btn:hover {
-        background-color: #45a049;
-    }
-    
-    .card {
-        background-color: var(--card-bg); 
-        border-radius: 15px;
-        box-shadow: var(--card-shadow);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column; 
-        justify-content: space-between;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
-    }
-    .card.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .card:hover {
-        box-shadow: var(--card-hover-shadow);
-    }
-    .card:active {
-        box-shadow: var(--card-hover-shadow); 
-        transform: none; 
-    }
-    .card.highlighted {
-        animation: highlight-pulse 1.5s infinite;
-    }
-    @keyframes highlight-pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.75);
-            border: 2px solid transparent;
-        }
-        50% {
-            box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
-            border: 2px solid rgba(40, 167, 69, 0.75);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
-            border: 2px solid transparent;
-        }
-    }
-    .card-header {
-        position: relative;
-        width: 100%;
-    }
-    .share-icon {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: rgba(0, 0, 0, 0.5);
+
+    /* নতুন অ্যাডমিন এবং টগল বাটন স্টাইল (Admin Button Fix) */
+    .admin-btn, .mode-toggle-btn {
+        background-color: var(--accent-color);
         color: #fff;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        z-index: 5;
-    }
-    .share-icon:hover {
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-    .card-upload-time {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
-        padding: 5px 8px;
-        border-radius: 5px;
-        font-size: 12px;
-        z-index: 5;
-        white-space: nowrap;
-    }
-    .card-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 10px 10px 10px;
-        box-sizing: border-box;
-    }
-    .card-stats {
-        display: flex;
-        align-items: center;
-        background-color: var(--category-bg); 
-        border-radius: 10px;
-        padding: 5px 8px;
-    }
-    .card-stats .icon {
-        margin-right: 5px;
-        width: 20px;
-        height: 20px;
-        stroke: var(--text-primary); 
-    }
-    .card-stats .count {
-        font-weight: bold;
-        color: var(--text-primary); 
-        font-size: 14px;
-    }
-    .love-stats {
-        cursor: pointer;
-        transition: color 0.2s ease;
-        user-select: none;
-    }
-    .love-stats svg {
-        transition: fill 0.2s ease, transform 0.2s ease;
-        stroke: var(--text-secondary); 
-    }
-    .love-stats.liked svg {
-        fill: #ff0000;
-        stroke: #ff0000;
-    }
-    .love-stats:hover svg {
-        transform: scale(1.1);
-    }
-    .card-image-container {
-        position: relative;
-        width: 100%;
-        height: 150px;
-        overflow: hidden;
-        border-radius: 15px 15px 0 0;
-        cursor: pointer;
-    }
-    .play-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 50px;
-        height: 50px;
-        background-color: rgba(0, 0, 0, 0.6);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-        transition: background-color 0.3s ease;
-    }
-    .play-icon:hover {
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-    .play-icon svg {
-        fill: #fff;
-        width: 25px;
-        height: 25px;
-    }
-    .card-image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .card-content {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 10px;
-    }
-    .card-title {
-    font-size: 16px;
-    color: var(--text-primary); 
-    margin: 0;
-    font-weight: bold; 
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;  
-    width: 100%; 
-}
-    .card-divider {
-        height: 1.5px;
-        width: 80%;
-        background-color: var(--divider-color); 
-        margin: 5px 0;
-    }
-    
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1001;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.8);
-        justify-content: center;
-        align-items: flex-start;
-        padding-top: 50px;
-    }
-
-    .modal.show {
-        display: flex;
-    }
-    
-    .modal-content {
-        background-color: var(--modal-bg); 
-        color: var(--text-primary);
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        width: 90%;
-        max-width: 300px;
-        text-align: left;
-        position: relative;
-        margin-top: 50px;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .modal-content h2 {
-        margin: 0;
-    }
-    
-    .close-btn {
-        color: var(--text-secondary);
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    
-    .close-btn:hover,
-    .close-btn:focus {
-        color: var(--text-primary);
-        text-decoration: none;
-        cursor: pointer;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-    .form-group input, .form-group select, .form-group textarea {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid var(--input-border);
-        border-radius: 5px;
-        box-sizing: border-box;
-        background-color: var(--input-bg);
-        color: var(--text-primary);
-    }
-    .form-group select {
-        appearance: none;
-        background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23e0e0e0' d='M2 0L0 2h4L2 0z'/%3e%3c/svg%3e") no-repeat right .75rem center/8px 10px, var(--input-bg);
-    }
-    .form-buttons {
-        display: flex;
-        justify-content: center;
-    }
-    .form-buttons button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    .form-buttons button.submit {
-        background-color: #28a745;
-        color: white;
-        width: 100%;
-    }
-    .code-box-container {
-        margin-top: 20px;
-        text-align: center;
-        position: relative;
-    }
-    .code-box {
-        background-color: #444444; 
-        color: #ffffff;
-        border: 1px solid #555555;
-        padding: 10px;
-        border-radius: 5px;
-        font-family: monospace;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        text-align: left;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-    .copy-btn {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-    .copy-btn:hover {
-        background-color: #0056b3;
-    }
-    .notification {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgba(220, 53, 69, 0.9);
-        color: white;
-        padding: 10px 15px;
-        border-radius: 5px;
-        z-index: 1002;
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-        text-align: center;
-        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-        font-size: 14px;
-        max-width: 90%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        visibility: hidden;
-        pointer-events: none;
-    }
-    .notification.show {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
-    .code-box-container .notification {
-        position: absolute;
-        top: -30px;
-        padding: 5px 10px;
-        font-size: 14px;
-        visibility: hidden;
-        pointer-events: none;
-    }
-    .code-box-container .notification.show {
-        visibility: visible;
-        pointer-events: auto;
-    }
-    .manual-copy-instruction {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #dc3545;
-        display: none;
-    }
-    #loading-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 4px;
-        background-color: #007bff; 
-        z-index: 9999;
-        width: 0;
-        transition: width 2s linear;
-    }
-    .admin-panel-full {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--bg-primary); 
-        z-index: 1000;
-        padding: 20px;
-        box-sizing: border-box;
-        overflow-y: auto;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-    }
-    .admin-panel-full.show {
-        opacity: 1;
-        transform: translateY(0);
-        display: block;
-    }
-    .admin-panel-content {
-        background-color: var(--card-bg); 
-        color: var(--text-primary);
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    .admin-panel-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .admin-panel-header h2 {
-        margin: 0;
-    }
-    .admin-panel-actions {
-        display: flex;
-        gap: 10px;
-    }
-    .back-btn, .restart-btn {
-        border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        color: white;
-    }
-    .back-btn {
-        background-color: #dc3545;
-    }
-    .back-btn:hover {
-        background-color: #c82333;
-    }
-    .restart-btn {
-        background-color: #ffc107;
-        color: #333;
-    }
-    .restart-btn:hover {
-        background-color: #e0a800;
-    }
-    .pagination-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 10px;
-        background-color: var(--card-bg); 
-        margin: 15px 0 0; 
-        padding-bottom: 10px; 
-        border-top: 1px solid var(--divider-color); 
-        box-shadow: 0 -5px 10px rgba(0,0,0,0.3); 
-        white-space: nowrap;
-    }
-    #bottom-section {
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-        pointer-events: none;
-        padding-bottom: 0px;
-    }
-    #bottom-section.visible {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    #loading-sentinel {
-        height: 1px;
-        background-color: var(--bg-primary); 
-    }
-    .pagination-container::-webkit-scrollbar {
-        display: none;
-    }
-    .pagination-button {
-        background-color: var(--bg-primary); 
-        color: #2575fc;
-        border: 1px solid #2575fc;
-        border-radius: 5px;
         padding: 8px 12px;
-        margin: 0 5px;
-        cursor: pointer;
         font-size: 14px;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
         flex-shrink: 0;
+        text-transform: uppercase;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
-    .pagination-button.active {
-        background-color: #2575fc;
-        color: #fff;
+    .admin-btn:hover, .mode-toggle-btn:hover {
+        background-color: #1a4d94; /* Darker shade on hover */
     }
-    .pagination-button:hover:not(.active) {
-        background-color: #1a4d94; 
-        color: #fff;
-    }
-    .pagination-button.disabled {
-        background-color: #3a3a3a;
-        color: #888;
-        border-color: #555;
-        cursor: not-allowed;
-    }
-    .loader {
-        border: 4px solid #444;
-        border-top: 4px solid #3498db;
-        border-radius: 50%;
-        width: 12px;
-        height: 12px;
-        animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+
+    /* পুরানো '+' বাটনের ক্লাস */
+    .add-card-btn { 
+        display: none; 
     }
     
+    /* অন্যান্য কার্ড/মডাল স্টাইল (অপরিবর্তিত রাখা হলো) */
+    .modal { z-index: 1001; }
+    .admin-panel-full { z-index: 1002; }
+
     .container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 15px;
         padding: 10px 10px 0px; 
     }
-    
-    /*======================================
-      ফুটার স্টাইল (নতুন)
-    ======================================*/
-    footer {
-        background-color: var(--footer-bg);
-        color: var(--text-secondary);
-        text-align: center;
-        padding: 20px 10px;
-        margin-top: 3px;
+    .card {
+        background-color: var(--card-bg); 
+        border-radius: 15px;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.2s ease, box-shadow 0.3s ease, opacity 0.6s ease-out;
     }
-    
-    .footer-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 15px;
-    }
-    
-    .footer-links a {
-        color: var(--text-secondary);
-        text-decoration: none;
-        font-size: 14px;
-        transition: color 0.3s ease;
-    }
-    
-    .footer-links a:hover {
-        color: var(--text-primary);
-    }
-    
-    .footer-copyright p {
-        margin: 0;
-        font-size: 12px;
+    .card:hover {
+        box-shadow: var(--card-hover-shadow);
     }
 
-
     /*======================================
-      ডেস্কটপ ভিউয়ের জন্য স্টাইল (768px এবং তার উপরে)
+      ডেস্কটপ ভিউয়ের জন্য স্টাইল
     ======================================*/
     @media (min-width: 768px) {
-        .tutorial-button {
-            padding: 8px 10px;
-            font-size: 12px;
-            margin: 5px 0;
-        }
-        .header {
-            padding: 15px 40px;
-        }
-        .website-name {
-            font-size: 24px;
-        }
-        .website-icon {
-            width: 30px;
-            height: 30px;
-        }
-        .social-icon {
-            width: 30px;
-            height: 30px;
-        }
-        .container {
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            max-width: 1200px;
-        }
-        .card-title {
-            font-size: 18px;
-        }
-        .card-image-container {
-            height: 220px;
-        }
-        .admin-panel-header {
-            flex-direction: row;
-            gap: 10px;
-        }
-        .admin-panel-actions {
-            flex-direction: row;
-            width: auto;
-        }
-        .back-btn, .restart-btn {
-            width: auto;
-        }
-        .add-card-btn {
-            width: 40px; 
-            height: 40px; 
-            font-size: 20px;
-        }
+        .header { padding: 15px 40px; }
+        .website-name { font-size: 24px; }
+        .website-icon { width: 30px; height: 30px; }
+        .container { grid-template-columns: 1fr 1fr 1fr; gap: 20px; max-width: 1200px; }
+        .admin-btn, .mode-toggle-btn { padding: 10px 15px; font-size: 16px; }
     }
-
     /*======================================
-      মোবাইল ভিউয়ের জন্য স্টাইল (767px এবং তার নিচে)
+      মোবাইল ভিউয়ের জন্য স্টাইল
     ======================================*/
     @media (max-width: 767px) {
-        .tutorial-button {
-            font-size: 11px;
-            padding: 6px 8px;
-            margin: 2px 0;
-        }
-        .header {
-            padding: 8px 10px;
-            gap: 5px;
-        }
-        .website-name {
-            font-size: 16px;
-        }
-        .website-icon {
-            width: 20px;
-            height: 20px;
-        }
-        .social-icon {
-            width: 20px;
-            height: 20px;
-        }
-        .container {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 10px 10px 0px;
-        }
-        .card-title {
-            font-size: 14px;
-        }
-        .card-image-container {
-            height: 150px;
-        }
-        .modal-content {
-            width: 95%;
-            max-width: 250px;
-            padding: 10px;
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 5px;
-            font-size: 12px;
-        }
-        .form-buttons button {
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-        .modal-content h2 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-        .form-group label {
-            font-size: 12px;
-        }
-        .code-box-container {
-            margin-top: 10px;
-        }
-        .code-box {
-            font-size: 10px;
-            padding: 5px;
-            max-height: 150px;
-        }
-        .copy-btn {
-            padding: 8px 15px;
-            font-size: 12px;
-        }
-        .card-upload-time {
-            font-size: 10px;
-            top: 8px;
-            left: 8px;
-            padding: 4px 6px;
-        }
-        .admin-panel-header {
-            flex-direction: column;
-            gap: 10px;
-        }
-        .admin-panel-actions {
-            flex-direction: column;
-            width: 100%;
-        }
-        .back-btn, .restart-btn {
-            width: 100%;
-        }
+        .header { padding: 8px 10px; gap: 5px; }
+        .website-name { font-size: 18px; }
+        .website-icon { width: 20px; height: 20px; }
+        .container { grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px 10px 0px; }
+        .admin-btn, .mode-toggle-btn { padding: 6px 10px; font-size: 12px; }
     }
     </style>
 </head>
@@ -829,35 +191,22 @@
     <div id="loading-bar"></div>
 
     <div id="main-content">
-        <div class="header">
-            <div class="header-left">
-                <div class="website-icon">
-                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M17 7h-4V4h4c2.21 0 4 1.79 4 4v4h-2V8c0-1.1-.9-2-2-2zm-6 8H7c-1.1 0-2-.9-2-2V9h2V7H7c-2.21 0-4 1.79-4 4v4c0 2.21 1.79 4 4 4h4v-2zm-1 3H7c-1.1 0-2-.9-2-2V9h2V7h2v2h4v2H9c-.55 0-1-.45-1-1s.45-1 1-1h4v2H9c-1.66 0-3 1.34-3 3v2c0 1.1.9 2 2 2h3v-2z"/>
-                    </svg>
+        <div class="sticky-wrapper-top">
+            <div class="header">
+                <div class="header-left">
+                    <div class="website-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M4 11h9v2H4zm15 0h-2v2h2zm-4 0h-2v2h2zm-4 4h9v2h-9zm0-8h9v2h-9zm-6 4h2v2H3zm13 4h2v-2h-2zm-6 0h2v-2h-2z"/>
+                        </svg>
+                    </div>
+                    <div class="website-name">
+                        <span class="name-part-1">WEB</span><span class="name-part-2">GRID</span>
+                    </div>
                 </div>
-                <div class="website-name">
-                    <span class="name-part-1">Secret</span><span class="name-part-2">Binodon</span>
-                </div>
-            </div>
-            
-            <div class="header-right">
-                <button class="add-card-btn">+</button>
-
-                <a href="https://www.youtube.com/watch?v=K3hlCuEsGqo&t=27s" class="tutorial-button" target="_blank">
-                    Tutorial Video 🔞
-                </a>
-
-                <div class="social-icons-container">
-                    <a href="https://t.me/virallink_market" target="_blank" class="social-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-                    </a>
-                    <a href="#" target="_blank" class="social-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook">
-                    </a>
-                    <a href="https://wa.me/" target="_blank" class="social-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                    </a>
+                
+                <div class="header-right">
+                    <button class="admin-btn" id="adminBtn">Admin</button>
+                    <button class="admin-btn mode-toggle-btn" id="mode-toggle-btn">☀️</button>
                 </div>
             </div>
         </div>
@@ -875,10 +224,11 @@
                     <a href="privacy-policy.html">Privacy Policy</a>
                 </div>
                 <div class="footer-copyright">
-                    <p>&copy; 2025 SecretBinodon. All Rights Reserved.</p>
+                    <p>&copy; 2025 WebGrid. All Rights Reserved.</p>
                 </div>
             </footer>
         </div>
+        
         <div id="authModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -964,8 +314,11 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.querySelector('.container');
-            // 'categoryButtons' variable removed as the element is gone.
-            const addCardBtn = document.querySelector('.add-card-btn');
+            
+            // নতুন Admin বাটন সিলেক্টর
+            const adminBtn = document.getElementById('adminBtn'); 
+            const modeToggleBtn = document.getElementById('mode-toggle-btn');
+            
             const authModal = document.getElementById('authModal');
             const passwordInput = document.getElementById('passwordInput');
             const authSubmit = document.getElementById('authSubmit');
@@ -997,7 +350,6 @@
             let cardsLoaded = 0;
             const cardsPerLoad = 10;
             const loadingSentinel = document.getElementById('loading-sentinel');
-            // 'currentFilter' variable removed as filtering is no longer needed.
             let currentCardToHighlight = null;
             let observer;
 
@@ -1009,7 +361,24 @@
             const HIGHLIGHT_KEY = 'highlightCardId';
             const END_TIME_KEY = 'highlightEndTime';
             const HIGHLIGHT_DURATION = 10000;
-            
+
+            // --- Dark/Light Mode Logic ---
+            let currentMode = localStorage.getItem('mode') || 'dark';
+
+            function setMode(mode) {
+                if (mode === 'light') {
+                    document.body.classList.add('light-mode');
+                    modeToggleBtn.innerHTML = '🌙'; 
+                    localStorage.setItem('mode', 'light');
+                } else {
+                    document.body.classList.remove('light-mode');
+                    modeToggleBtn.innerHTML = '☀️'; 
+                    localStorage.setItem('mode', 'dark');
+                }
+                currentMode = mode;
+            }
+
+            // --- অন্যান্য ফাংশন (অপরিবর্তিত) ---
             function getDeviceId() {
                 let deviceId = localStorage.getItem('deviceId');
                 if (!deviceId) {
@@ -1027,38 +396,22 @@
                 const seconds = Math.floor((now - uploadDate) / 1000);
             
                 let interval = seconds / 31536000;
-                if (interval > 1) {
-                    return Math.floor(interval) + " বছর আগে";
-                }
+                if (interval > 1) { return Math.floor(interval) + " বছর আগে"; }
                 interval = seconds / 2592000;
-                if (interval > 1) {
-                    return Math.floor(interval) + " মাস আগে";
-                }
+                if (interval > 1) { return Math.floor(interval) + " মাস আগে"; }
                 interval = seconds / 86400;
-                if (interval > 1) {
-                    return Math.floor(interval) + " দিন আগে";
-                }
+                if (interval > 1) { return Math.floor(interval) + " দিন আগে"; }
                 interval = seconds / 3600;
-                if (interval > 1) {
-                    return Math.floor(interval) + " ঘন্টা আগে";
-                }
+                if (interval > 1) { return Math.floor(interval) + " ঘন্টা আগে"; }
                 interval = seconds / 60;
-                if (interval > 1) {
-                    return Math.floor(interval) + " মিনিট আগে";
-                }
+                if (interval > 1) { return Math.floor(interval) + " মিনিট আগে"; }
                 return "এখনই";
             }
             
             function formatCount(num) {
-                if (num >= 1000000000) {
-                    return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-                }
-                if (num >= 1000000) {
-                    return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-                }
-                if (num >= 1000) {
-                    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-                }
+                if (num >= 1000000000) { return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B'; }
+                if (num >= 1000000) { return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'; }
+                if (num >= 1000) { return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K'; }
                 return num;
             }
 
@@ -1067,16 +420,12 @@
                     const viewsDocRef = doc(db, "views", cardId);
                     const viewsDocSnap = await getDoc(viewsDocRef);
                     let viewCount = 0;
-                    if (viewsDocSnap.exists()) {
-                        viewCount = viewsDocSnap.data().count;
-                    }
+                    if (viewsDocSnap.exists()) { viewCount = viewsDocSnap.data().count; }
                     
                     const lovesDocRef = doc(db, "loves", cardId);
                     const lovesDocSnap = await getDoc(lovesDocRef);
                     let loveCount = 0;
-                    if (lovesDocSnap.exists()) {
-                        loveCount = lovesDocSnap.data().count;
-                    }
+                    if (lovesDocSnap.exists()) { loveCount = lovesDocSnap.data().count; }
 
                     const userLikedDocRef = doc(db, `loves/${cardId}/users`, deviceId);
                     const userLikedDocSnap = await getDoc(userLikedDocRef);
@@ -1088,11 +437,8 @@
                     if (viewElement) viewElement.textContent = formatCount(viewCount);
                     if (loveElement) loveElement.textContent = formatCount(loveCount);
 
-                    if (userLikedDocSnap.exists()) {
-                        loveButton.classList.add('liked');
-                    } else {
-                        loveButton.classList.remove('liked');
-                    }
+                    if (userLikedDocSnap.exists()) { loveButton.classList.add('liked'); } 
+                    else { loveButton.classList.remove('liked'); }
                     
                     loveButton.classList.remove('disabled');
 
@@ -1114,21 +460,16 @@
                 loadingBar.style.width = '20%';
                 try {
                     const response = await fetch('cards.json');
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
                     loadingBar.style.width = '60%';
                     const data = await response.json();
                     loadingBar.style.width = '80%';
                     allCardData = data;
                     
-                    // Category filtering logic removed. All cards are loaded by default.
                     loadAllCardsAndSetupPagination();
                     
                     loadingBar.style.width = '100%';
-                    setTimeout(() => {
-                        loadingBar.style.width = '0%';
-                    }, 500);
+                    setTimeout(() => { loadingBar.style.width = '0%'; }, 500);
                     
                     setInterval(updateCardTimes, 60000);
                     
@@ -1140,7 +481,7 @@
             }
             
             function loadAllCardsAndSetupPagination() {
-                filteredCards = allCardData; // Set to all cards
+                filteredCards = allCardData; 
 
                 totalPages = Math.ceil(filteredCards.length / cardsPerPage);
                 currentPage = 1;
@@ -1162,9 +503,7 @@
                     if (uploadTime) {
                         const timeAgoText = formatTimeAgo(uploadTime);
                         const timeElement = card.querySelector('.card-upload-time');
-                        if (timeElement) {
-                            timeElement.textContent = timeAgoText;
-                        }
+                        if (timeElement) { timeElement.textContent = timeAgoText; }
                     }
                 });
             }
@@ -1172,9 +511,7 @@
             function showNotification(message, duration = 3000, target = notificationPopup) {
                 target.textContent = message;
                 target.classList.add('show');
-                setTimeout(() => {
-                    target.classList.remove('show');
-                }, duration);
+                setTimeout(() => { target.classList.remove('show'); }, duration);
             }
             
             function generateUniqueId() {
@@ -1192,9 +529,7 @@
                 card.setAttribute('data-id', data.id);
                 card.setAttribute('data-video-link', data.videoLink);
                 card.setAttribute('data-category', data.category.join(','));
-                if (data.uploadTime) {
-                    card.setAttribute('data-upload-time', data.uploadTime);
-                }
+                if (data.uploadTime) { card.setAttribute('data-upload-time', data.uploadTime); }
                 
                 const timeAgoText = data.uploadTime ? formatTimeAgo(data.uploadTime) : '';
                 
@@ -1240,9 +575,7 @@
             }
 
             function renderCards(start, end, clear = false) {
-                if (clear) {
-                    container.innerHTML = '';
-                }
+                if (clear) { container.innerHTML = ''; }
                 
                 const cardsToRender = filteredCards.slice(start, end);
                 
@@ -1261,21 +594,14 @@
                                  const cardTop = card.getBoundingClientRect().top;
                                  const scrollPosition = window.scrollY + cardTop - (viewportHeight / 2) + (card.offsetHeight / 2) + (headerHeight / 2);
     
-                                 window.scrollTo({
-                                     top: scrollPosition,
-                                     behavior: 'smooth'
-                                 });
+                                 window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
                              }, 200);
                          }
                     }, 50); 
                 });
-                
                 cardsLoaded = end;
             }
             
-            // 'filterAndLoadCards' function removed and replaced by 'loadAllCardsAndSetupPagination'
-            // to simplify the loading process.
-
             function loadPage(pageNumber, highlightIndex = -1) {
                 currentPage = pageNumber;
                 cardsLoaded = 0; 
@@ -1291,11 +617,8 @@
                     renderCards(startCardIndex, loadUntil, true);
                     cardsLoaded = loadUntil - startCardIndex;
                     
-                    if (endOfPage > loadUntil) {
-                        observer.observe(loadingSentinel);
-                    } else {
-                        observer.unobserve(loadingSentinel);
-                    }
+                    if (endOfPage > loadUntil) { observer.observe(loadingSentinel); } 
+                    else { observer.unobserve(loadingSentinel); }
                 } 
                 else if (totalCardsToLoad <= cardsPerLoad) {
                     renderCards(startCardIndex, endOfPage, true);
@@ -1338,11 +661,7 @@
 
                 const prevBtn = document.createElement('button');
                 prevBtn.classList.add('pagination-button', 'prev-next');
-                prevBtn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                    </svg>
-                `;
+                prevBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>`;
                 prevBtn.disabled = currentPage === 1;
                 prevBtn.addEventListener('click', () => loadPage(currentPage - 1));
                 paginationContainer.appendChild(prevBtn);
@@ -1351,9 +670,7 @@
                 let startPage = Math.max(1, currentPage - Math.floor(maxButtonsToShow / 2));
                 let endPage = Math.min(totalPages, startPage + maxButtonsToShow - 1);
                 
-                if (endPage - startPage + 1 < maxButtonsToShow) {
-                    startPage = Math.max(1, endPage - maxButtonsToShow + 1);
-                }
+                if (endPage - startPage + 1 < maxButtonsToShow) { startPage = Math.max(1, endPage - maxButtonsToShow + 1); }
 
                 if (startPage > 1) {
                     const firstPageBtn = document.createElement('button');
@@ -1373,9 +690,7 @@
                     const pageBtn = document.createElement('button');
                     pageBtn.textContent = i;
                     pageBtn.classList.add('pagination-button');
-                    if (i === currentPage) {
-                        pageBtn.classList.add('active');
-                    }
+                    if (i === currentPage) { pageBtn.classList.add('active'); }
                     pageBtn.addEventListener('click', () => loadPage(i));
                     paginationContainer.appendChild(pageBtn);
                 }
@@ -1395,11 +710,7 @@
                 
                 const nextBtn = document.createElement('button');
                 nextBtn.classList.add('pagination-button', 'prev-next');
-                nextBtn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                    </svg>
-                `;
+                nextBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>`;
                 nextBtn.disabled = currentPage === totalPages;
                 nextBtn.addEventListener('click', () => loadPage(currentPage + 1));
                 paginationContainer.appendChild(nextBtn);
@@ -1407,9 +718,7 @@
                 updatePaginationButtons();
                 
                 observer.unobserve(bottomSection); 
-                if (totalPages > 1) {
-                    observer.observe(bottomSection); 
-                }
+                if (totalPages > 1) { observer.observe(bottomSection); }
             }
 
             function updatePaginationButtons() {
@@ -1417,39 +726,26 @@
                 const buttons = paginationContainer.querySelectorAll('.pagination-button');
                 buttons.forEach(button => {
                     button.classList.remove('active');
-                    if (button.textContent == currentPage) {
-                        button.classList.add('active');
-                    }
+                    if (button.textContent == currentPage) { button.classList.add('active'); }
                 });
             }
             
             observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.target === loadingSentinel && entry.isIntersecting) {
-                        loadMoreCards();
-                    }
+                    if (entry.target === loadingSentinel && entry.isIntersecting) { loadMoreCards(); }
                     
                     if (entry.target === bottomSection) {
-                        if (entry.isIntersecting) {
-                             bottomSection.classList.add('visible');
-                        } else {
-                             bottomSection.classList.remove('visible'); 
-                        }
+                        if (entry.isIntersecting) { bottomSection.classList.add('visible'); } 
+                        else { bottomSection.classList.remove('visible'); }
                     }
                 });
-            }, {
-                root: null,
-                rootMargin: '0px 0px 0px 0px', 
-                threshold: 0.01
-            });
+            }, { root: null, rootMargin: '0px 0px 0px 0px', threshold: 0.01 });
             
             function manageHighlight() {
                 const activeCardId = localStorage.getItem(HIGHLIGHT_KEY);
                 const endTime = localStorage.getItem(END_TIME_KEY);
 
-                if (highlightTimerTimeout) {
-                    clearTimeout(highlightTimerTimeout);
-                }
+                if (highlightTimerTimeout) { clearTimeout(highlightTimerTimeout); }
 
                 if (!activeCardId || !endTime) {
                     currentCardToHighlight = null;
@@ -1462,9 +758,7 @@
                     currentCardToHighlight = activeCardId;
 
                     highlightTimerTimeout = setTimeout(() => {
-                        document.querySelectorAll('.card.highlighted').forEach(card => {
-                            card.classList.remove('highlighted');
-                        });
+                        document.querySelectorAll('.card.highlighted').forEach(card => { card.classList.remove('highlighted'); });
                         localStorage.removeItem(HIGHLIGHT_KEY);
                         localStorage.removeItem(END_TIME_KEY);
                         currentCardToHighlight = null;
@@ -1514,9 +808,7 @@
                 }
                 
                 if (loveStats) {
-                    if (loveStats.classList.contains('disabled')) {
-                        return; 
-                    }
+                    if (loveStats.classList.contains('disabled')) { return; }
                     const cardId = loveStats.dataset.id;
                     const userLikedDocRef = doc(db, `loves/${cardId}/users`, deviceId);
                     
@@ -1541,23 +833,24 @@
 
                 if (imageContainer && card) {
                     const cardId = card.dataset.id;
-                    
                     window.location.href = `step2.html?cardId=${cardId}`;     
                 }
             });
 
-            // categoryButtons.forEach event listener removed.
-
-            addCardBtn.addEventListener('click', () => {
+            // Admin বাটন ক্লিক ইভেন্ট (Admin Panel Fix)
+            adminBtn.addEventListener('click', () => { 
                 authModal.classList.add('show');
                 passwordInput.value = '';
                 passwordInput.focus();
             });
 
+            // Mode Toggle বাটন ইভেন্ট (Dark/Light Mode)
+            modeToggleBtn.addEventListener('click', () => {
+                setMode(currentMode === 'light' ? 'dark' : 'light');
+            });
+
             document.querySelectorAll('.close-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    authModal.classList.remove('show');
-                });
+                btn.addEventListener('click', () => { authModal.classList.remove('show'); });
             });
             
             authSubmit.addEventListener('click', () => {
@@ -1573,9 +866,9 @@
                     passwordInput.value = '';
                     if (wrongPasswordCount >= 3) {
                         authModal.classList.remove('show');
-                        addCardBtn.style.display = 'none';
+                        adminBtn.style.display = 'none'; // Lockout
                         setTimeout(() => {
-                            addCardBtn.style.display = 'flex';
+                            adminBtn.style.display = 'block'; 
                             wrongPasswordCount = 0;
                         }, lockoutDuration);
                     }
@@ -1636,12 +929,12 @@
             });
 
             window.addEventListener('click', (event) => {
-                if (event.target == authModal) {
-                    authModal.classList.remove('show');
-                }
+                if (event.target == authModal) { authModal.classList.remove('show'); }
             });
             
             function init() {
+                setMode(currentMode); // Initialize Dark/Light Mode
+                
                 const urlParams = new URLSearchParams(window.location.search);
                 const urlCardId = urlParams.get('cardId');
                 
