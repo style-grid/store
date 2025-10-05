@@ -3,35 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StyleGrid | Fashion Lookbook - High Speed Affiliate</title>
+    <title>Style Grid</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
     /* =======================================
-     মূল চলক এবং Dark/Light Mode সেটআপ
+     ১. মূল চলক এবং Dark/Light Mode সেটআপ
     ======================================= */
     :root {
-        /* Light Mode Defaults (Flipkart-like clean design) */
+        /* Light Mode Defaults (Online Shopping Vibe) */
         --bg-primary: #FFFFFF; /* White */
         --bg-secondary: #F7F7F7; /* Light Gray */
         --text-primary: #121212; /* Dark Text */
         --text-secondary: #666666; 
-        --accent-color: #FF6F61; /* Fashion Red - ORDER button */
+        --accent-color: #FF6F61; /* Fashion Red */
         --card-bg: #FFFFFF; 
         --card-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
         --card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         --divider-color: #E0E0E0;
         --category-bg: #F0F0F0;
-        --category-active-bg: #007bff; /* Flipkart Blue */
+        --category-active-bg: #007bff; /* Bright Blue */
         --category-text: #333333;
         --header-bg: #1e1e1e; /* Dark Header for contrast */
         --header-text: #FFFFFF;
-        --footer-bg: #1e1e1e;
-        --footer-text: #aaaaaa;
-        --admin-btn-bg: #FFC107;
-        --admin-btn-text: #121212;
+        --admin-btn-bg: #007bff; /* Mode Toggle Button */
+        --admin-btn-text: #FFFFFF;
     }
     
     body.dark-mode {
@@ -45,18 +44,16 @@
         --card-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         --divider-color: #444444;
         --category-bg: #3a3a3a;
-        --category-active-bg: #2575fc;
+        --category-active-bg: #FF6F61;
         --category-text: #e0e0e0;
         --header-bg: #000000; 
         --header-text: #FFFFFF;
-        --footer-bg: #000000;
-        --footer-text: #aaaaaa;
         --admin-btn-bg: #FF6F61;
         --admin-btn-text: #FFFFFF;
     }
 
     /* =======================================
-     বেস এবং লেআউট স্টাইল
+     ২. বেস এবং লেআউট স্টাইল
     ======================================= */
     body {
         font-family: 'Roboto', sans-serif;
@@ -72,18 +69,19 @@
     }
     #main-content {
         flex-grow: 1; 
-        max-width: 1400px; /* Max width for desktop content */
+        max-width: 1400px;
         margin: 0 auto;
         width: 100%;
     }
-    .sticky-wrapper-top {
+    /* শুধুমাত্র হেডার স্টিকি থাকবে, ক্যাটাগরি বার নয় */
+    .sticky-header-top { 
         position: sticky;
         top: 0;
         z-index: 1000;
         background-color: var(--header-bg); 
     }
     
-    /* --- Header Section (Customized for Shopping Look) --- */
+    /* --- Header Section --- */
     .header {
         background-color: var(--header-bg); 
         color: var(--header-text);
@@ -98,16 +96,11 @@
     .header-left {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 8px; /* শপিং আইকন ও নাম */
     }
-    .website-icon {
-        width: 30px; 
-        height: 30px;
-    }
-    .website-icon svg {
-        fill: var(--accent-color); /* Icon uses accent color */
-        width: 100%;
-        height: 100%;
+    .website-icon i {
+        font-size: 24px;
+        color: var(--accent-color);
     }
     .website-name {
         font-size: 24px;
@@ -126,29 +119,28 @@
         align-items: center;
         gap: 15px; 
     }
-    .admin-btn, .mode-toggle-btn {
-        padding: 8px 12px;
+    .mode-toggle-btn {
+        padding: 5px 10px;
         background-color: var(--admin-btn-bg);
         color: var(--admin-btn-text);
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        font-weight: bold;
-        font-size: 14px;
+        font-size: 18px;
         transition: background-color 0.3s;
     }
-    .admin-btn:hover {
-        opacity: 0.9;
+    .social-icon {
+        color: var(--header-text);
+        font-size: 20px;
+        transition: color 0.3s;
     }
-    .mode-toggle-btn {
-        background-color: var(--category-active-bg);
-        color: white;
-        padding: 5px 10px;
+    .social-icon:hover {
+        color: var(--accent-color);
     }
     
     /* --- Slider Section (Trending/Hero Banner) --- */
     .slider-section {
-        padding: 20px 0;
+        padding: 10px 0 20px 0;
         background-color: var(--bg-primary); 
         overflow: hidden;
     }
@@ -161,6 +153,7 @@
         border-radius: 10px;
         overflow: hidden;
         box-shadow: var(--card-shadow);
+        position: relative; /* Caption-এর জন্য */
     }
     .slider-item { 
         flex: 0 0 100%; 
@@ -183,37 +176,46 @@
         font-weight: 700; 
     }
     
-    /* --- Category Bar (Horizontal Scroll) --- */
+    /* =======================================
+     ৩. ক্যাটাগরি বার স্টাইল (নন-স্টিকি)
+    ======================================= */
+    .category-bar-wrapper {
+        padding: 0 0 15px 0; /* স্লাইডারের নিচে স্পেস */
+    }
+
     .category-bar {
         display: flex;
-        justify-content: center; /* Center categories on desktop */
-        align-items: center;
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 15px 10px;
+        padding: 10px 10px 0 10px; /* উপরে সামান্য স্পেস */
         background-color: var(--bg-primary); 
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--divider-color);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         white-space: nowrap;
         -ms-overflow-style: none; 
         scrollbar-width: none; 
+        max-width: 1400px;
+        margin: 0 auto;
     }
     .category-bar::-webkit-scrollbar {
         display: none;
     }
+    
     .category-link {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        margin: 0 15px;
+        margin: 0 12px;
         cursor: pointer;
         transition: opacity 0.3s;
         flex-shrink: 0;
         color: var(--text-primary);
+        padding-bottom: 10px;
     }
     .category-link:hover {
-        opacity: 0.8;
+        opacity: 0.9;
     }
     .category-link.active .cat-icon-placeholder {
         border-color: var(--accent-color);
@@ -228,7 +230,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: hidden; /* For image loading */
+        overflow: hidden; 
     }
     .cat-icon-placeholder img {
         width: 100%;
@@ -237,14 +239,23 @@
     }
     .category-name {
         margin-top: 5px;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 500;
         white-space: normal;
         max-width: 80px;
-        height: 32px; /* Two lines */
+        height: 32px; /* দুইটি লাইনের জন্য স্থান */
         overflow: hidden;
+        line-height: 1.2;
     }
-    
+
+    .category-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--accent-color);
+        text-align: left;
+        padding: 10px 20px 5px 20px;
+    }
+
     /* --- Card Container (Product Grid) - Initial Home View --- */
     .product-grid-title {
         text-align: center;
@@ -254,7 +265,7 @@
     }
     .container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Flipkart desktop card size */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
         gap: 20px;
         padding: 20px; 
         max-width: 1300px; 
@@ -275,7 +286,6 @@
         transform: translateY(-2px);
         box-shadow: var(--card-hover-shadow);
     }
-    /* Placeholder for the initial home view cards */
     .card-image-container {
         height: 300px; 
         width: 100%;
@@ -295,7 +305,7 @@
         font-weight: 600; 
         color: var(--text-primary); 
         margin: 0 0 5px 0;
-        min-height: 40px; /* Two lines minimum */
+        min-height: 40px; 
         overflow: hidden;
     }
     .card-footer {
@@ -305,11 +315,8 @@
         font-size: 14px;
     }
     .card-rating {
-        color: #388e3c; /* Green color for rating */
+        color: #388e3c;
         font-weight: 700;
-    }
-    .card-rating span {
-        margin-right: 5px;
     }
     .card-price {
         font-size: 18px;
@@ -335,27 +342,8 @@
         color: var(--header-text);
     }
 
-    /* --- Mobile & Tablet Optimization --- */
-    @media (max-width: 1024px) {
-        .container {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .slider-container {
-            height: 300px;
-        }
-    }
+    /* --- মোবাইল অপটিমাইজেশন --- */
     @media (max-width: 767px) {
-        .header {
-            padding: 10px 15px;
-        }
-        .website-name {
-            font-size: 20px;
-        }
-        .admin-btn, .mode-toggle-btn {
-            padding: 5px 8px;
-            font-size: 12px;
-        }
         .slider-container {
             height: 200px;
             border-radius: 0;
@@ -366,20 +354,16 @@
             padding: 10px;
         }
         .cat-icon-placeholder {
-            width: 60px; 
-            height: 60px;
+            width: 65px; 
+            height: 65px;
         }
         .category-name {
-            font-size: 12px;
-            max-width: 60px;
-            height: auto;
+            font-size: 11px;
+            max-width: 65px;
         }
         .product-grid-title {
             font-size: 22px;
             padding: 20px 10px 5px;
-        }
-        .card-image-container {
-            height: 200px; 
         }
     }
     </style>
@@ -387,13 +371,11 @@
 <body>
     <div id="loading-bar"></div>
 
-    <div class="sticky-wrapper-top">
+    <div class="sticky-header-top">
         <div class="header">
             <div class="header-left">
                 <div class="website-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.35-6.52L5.8 7.78C5.55 7.15 4.93 6.75 4.25 6.75H2v2h2.21l2.67 6.43c-.11.5-.28 1.13-.28 1.63 0 1.33.67 2.45 1.68 3.18-.32.06-.65.09-1 .09-1.66 0-3-1.34-3-3s1.34-3 3-3c.5 0 1 .12 1.48.31l1.19-2.86c-.02-.02-.02-.04-.02-.07 0-.5.16-1.13.28-1.63L6.86 8.71l-1.07 2.56h11.23L15 14.54l-1.14-.54c-.26-.14-.56-.2-.86-.2H7.28c-.5 0-.85.34-1 .85L4.5 16.5h14.73l-1.78-4.28H8.65zM15.5 12h2.21l1.45-3.48c.02-.07.03-.15.03-.22 0-.32-.19-.62-.48-.77l-2.73-1.45L14.93 8l-1.07 2.56H12.9v1.94h2.6z"/>
-                    </svg>
+                    <i class="fas fa-shopping-bag"></i>
                 </div>
                 <div class="website-name">
                     <span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span>
@@ -401,41 +383,47 @@
             </div>
             
             <div class="header-right">
-                <button class="admin-btn" onclick="openAdminModal()">Admin</button>
                 <button class="mode-toggle-btn" id="mode-toggle-btn">🌙</button>
+
+                <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
-
-        <div class="category-bar" id="category-bar">
-            </div>
     </div>
     
     <div id="main-content">
-        <div id="home-view">
-            <section id="trending-slider" class="slider-section">
-                <div id="slider-inner" class="slider-container">
-                    <div class="slider-caption">Featured Styles</div>
+        
+        <section id="trending-slider" class="slider-section">
+            <div id="slider-inner" class="slider-container">
+                <div class="slider-item"><img src="https://via.placeholder.com/1600x900/FF6F61/FFFFFF?text=Trending+Fashion+1" alt="Slider 1"></div>
+                <div class="slider-item"><img src="https://via.placeholder.com/1600x900/007bff/FFFFFF?text=New+Arrivals+2" alt="Slider 2"></div>
+                <div class="slider-item"><img src="https://via.placeholder.com/1600x900/28a745/FFFFFF?text=Winter+Collection+3" alt="Slider 3"></div>
+                <div class="slider-caption">Featured Styles</div>
+            </div>
+        </section>
+
+        <div class="category-bar-wrapper">
+            <h3 class="category-title">Men's Fashion</h3>
+            <div class="category-bar" id="category-bar-male">
                 </div>
-            </section>
             
+            <h3 class="category-title">Women's Fashion</h3>
+            <div class="category-bar" id="category-bar-female">
+                </div>
+        </div>
+        
+        <div id="home-view">
             <h2 class="product-grid-title">Most Loved Products</h2>
             
             <div class="container" id="trending-cards-container">
                 </div>
         </div>
 
-        <div id="category-view" style="display: none;">
-            </div>
-        
-        <div id="detail-view" style="display: none;">
-            </div>
-
     </div>
     
     <footer>
         <div class="footer-links">
-            <a href="#">About Us</a>
-            <a href="#">Privacy Policy</a>
+            <a href="#">About Us</a> | 
+            <a href="#">Privacy Policy</a> | 
             <a href="#">Terms of Use</a>
         </div>
         <div class="footer-copyright">
@@ -443,55 +431,36 @@
         </div>
     </footer>
     
-    <div id="authModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Admin Login</h2>
-                <span class="close-btn" onclick="closeAdminModal()">×</span>
-            </div>
-            <div class="form-group">
-                <input type="password" id="passwordInput" placeholder="Password" required>
-            </div>
-            <div class="form-buttons">
-                <button id="authSubmit" class="submit" onclick="handleAdminLogin()">Submit</button>
-            </div>
-        </div>
-    </div>
-    
-    <div id="notificationPopup" class="notification"></div>
-    
     <script>
         // --- ১. কনফিগারেশন এবং প্রাথমিক স্টেট ---
-        const ADMIN_PASSWORD = 'SGADMIN'; // index.html থেকে প্রাপ্ত
         const CATEGORIES = {
-            'male_tshirts': "Men's T-Shirts", 'male_pants': "Men's Pants", 'male_outerwear': "Men's Outerwear",
-            'male_shoes': "Men's Shoes", 'male_accessories': "Men's Accessories", 'female_dresses': "Women's Dresses",
-            'female_tops': "Women's Tops & Blouses", 'female_bottoms': "Women's Jeans & Leggings",
-            'female_activewear': "Women's Activewear", 'female_jewelry': "Women's Jewelry & Bags"
+            'Men': {
+                'male_tshirts': "T-Shirts & Polos", 
+                'male_pants': "Jeans & Pants", 
+                'male_outerwear': "Outerwear",
+                'male_shoes': "Sneakers & Shoes", 
+                'male_accessories': "Watches & Accessories"
+            },
+            'Women': {
+                'female_dresses': "Dresses",
+                'female_tops': "Tops & Blouses", 
+                'female_bottoms': "Jeans & Leggings",
+                'female_activewear': "Activewear", 
+                'female_jewelry': "Jewelry & Bags"
+            }
         };
-        const ALL_CATEGORY_KEYS = Object.keys(CATEGORIES);
         let currentMode = localStorage.getItem('mode') || 'light';
 
-        // --- ২. ইউটিলিটি ফাংশন ---
-        function showNotification(message, duration = 3000) {
-            const popup = document.getElementById('notificationPopup');
-            popup.textContent = message;
-            popup.style.backgroundColor = '#FF6F61'; // Accent color for notification
-            popup.classList.add('show');
-            setTimeout(() => {
-                popup.classList.remove('show');
-            }, duration);
-        }
-        
-        // --- ৩. Dark/Light Mode টগল ---
+        // --- ২. Dark/Light Mode টগল ---
         function setMode(mode) {
+            const btn = document.getElementById('mode-toggle-btn');
             if (mode === 'dark') {
                 document.body.classList.add('dark-mode');
-                document.getElementById('mode-toggle-btn').textContent = '☀️'; // Sun icon for light mode
+                btn.innerHTML = '☀️'; // Sun icon for light mode
                 localStorage.setItem('mode', 'dark');
             } else {
                 document.body.classList.remove('dark-mode');
-                document.getElementById('mode-toggle-btn').textContent = '🌙'; // Moon icon for dark mode
+                btn.innerHTML = '🌙'; // Moon icon for dark mode
                 localStorage.setItem('mode', 'light');
             }
             currentMode = mode;
@@ -501,86 +470,77 @@
             setMode(currentMode === 'light' ? 'dark' : 'light');
         });
 
-        // --- ৪. ক্যাটাগরি বার ডায়নামিক রেন্ডারিং ---
+        // --- ৩. ক্যাটাগরি বার ডায়নামিক রেন্ডারিং ---
         function renderCategoryBar() {
-            const bar = document.getElementById('category-bar');
-            let html = '';
+            const barMale = document.getElementById('category-bar-male');
+            const barFemale = document.getElementById('category-bar-female');
+            let maleHtml = '';
+            let femaleHtml = '';
             
-            // "All" বাটন
-            html += `
-                <div class="category-link active" onclick="loadCategoryView('all')">
+            // "Home/All" বাটন শুধু ছেলেদের বারের প্রথমে থাকবে
+            maleHtml += `
+                <div class="category-link active" onclick="loadCategoryView('all', this)">
                     <div class="cat-icon-placeholder">
-                        <span style="font-size:30px;">🏠</span>
+                        <i class="fas fa-home" style="font-size:28px;"></i>
                     </div>
                     <span class="category-name">Home / All</span>
                 </div>
             `;
             
-            // ১০টি ক্যাটাগরি রেন্ডার
-            ALL_CATEGORY_KEYS.forEach(key => {
-                const name = CATEGORIES[key];
-                // ইমেজ লোড না হলেও যেন ফাঁকা জায়গা দেখায়
-                const placeholderContent = `<img src="data/placeholder_icons/${key}.png" alt="${name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';">`;
+            // পুরুষদের ক্যাটাগরি রেন্ডার
+            Object.keys(CATEGORIES.Men).forEach(key => {
+                const name = CATEGORIES.Men[key];
+                // এখানে ডামি ইমেজ URL ব্যবহার করা হয়েছে।
+                const placeholderContent = `<img src="https://via.placeholder.com/80x80/2196F3/FFFFFF?text=${name.charAt(0)}" alt="${name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentNode.innerHTML='<i class=\\'fas fa-male\\' style=\\'font-size:28px;\\'></i>'">`;
                 
-                html += `
-                    <div class="category-link" data-category-key="${key}" onclick="loadCategoryView('${key}', this)">
+                maleHtml += `
+                    <a href="#" class="category-link" data-category-key="${key}" onclick="loadCategoryView('${key}', this)">
                         <div class="cat-icon-placeholder">
                             ${placeholderContent}
                         </div>
                         <span class="category-name">${name}</span>
-                    </div>
+                    </a>
                 `;
             });
-            bar.innerHTML = html;
+            barMale.innerHTML = maleHtml;
+
+            // মহিলাদের ক্যাটাগরি রেন্ডার
+            Object.keys(CATEGORIES.Women).forEach(key => {
+                const name = CATEGORIES.Women[key];
+                // এখানে ডামি ইমেজ URL ব্যবহার করা হয়েছে।
+                const placeholderContent = `<img src="https://via.placeholder.com/80x80/E91E63/FFFFFF?text=${name.charAt(0)}" alt="${name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentNode.innerHTML='<i class=\\'fas fa-female\\' style=\\'font-size:28px;\\'></i>'">`;
+                
+                femaleHtml += `
+                    <a href="#" class="category-link" data-category-key="${key}" onclick="loadCategoryView('${key}', this)">
+                        <div class="cat-icon-placeholder">
+                            ${placeholderContent}
+                        </div>
+                        <span class="category-name">${name}</span>
+                    </a>
+                `;
+            });
+            barFemale.innerHTML = femaleHtml;
         }
 
-        // --- ৫. Admin Panel মডাল লজিক (আগের কোড থেকে সরল করা) ---
-        window.openAdminModal = () => {
-            document.getElementById('authModal').classList.add('show');
-            document.getElementById('passwordInput').focus();
-        };
-
-        window.closeAdminModal = () => {
-            document.getElementById('authModal').classList.remove('show');
-        };
-
-        window.handleAdminLogin = () => {
-            const password = document.getElementById('passwordInput').value;
-            if (password === ADMIN_PASSWORD) {
-                closeAdminModal();
-                // Admin প্যানেলটি একটি নতুন ফাইল (admin.html) হিসেবে খুলবে
-                window.open('admin.html', '_blank');
-            } else {
-                showNotification("Incorrect Admin Password.");
-                document.getElementById('passwordInput').value = '';
-            }
-        };
-
-        // --- ৬. ডামি স্লাইডার এবং হোম কার্ড রেন্ডারিং (প্রথমে দেখানোর জন্য) ---
+        // --- ৪. ডামি স্লাইডার এবং হোম কার্ড রেন্ডারিং ---
         function renderHomeContent() {
-            // ডামি স্লাইডার
+            // স্লাইডার লজিক (অটো-প্লে বাটন ছাড়া, শুধুমাত্র ডামি ইমেজ)
             const slider = document.getElementById('slider-inner');
-            slider.innerHTML = `
-                <div class="slider-item"><img src="https://via.placeholder.com/1200x400/FF6F61/FFFFFF?text=Trending+Fashion+1" alt="Slider 1"></div>
-                <div class="slider-item"><img src="https://via.placeholder.com/1200x400/007bff/FFFFFF?text=New+Arrivals+2" alt="Slider 2"></div>
-                <div class="slider-item"><img src="https://via.placeholder.com/1200x400/28a745/FFFFFF?text=Winter+Collection+3" alt="Slider 3"></div>
-            `;
-            // স্লাইডার চালু করার লজিক (অসম্পূর্ণ রাখা হলো, পরের ধাপে যোগ করা হবে)
-            
-            // ডামি কার্ড (Flipkart-like Look)
-            const cardContainer = document.getElementById('trending-cards-container');
+            const cards = document.getElementById('trending-cards-container');
+
+            // ডামি কার্ড রেন্ডার
             let cardHtml = '';
             for(let i=1; i<=8; i++) {
                 cardHtml += `
-                    <div class="card" onclick="alert('Navigating to Product Detail Page (Step 2)')">
+                    <div class="card" onclick="alert('Product Detail for Product ${i}')">
                         <div class="card-image-container">
-                            <img src="https://via.placeholder.com/300x300/F0F0F0/333333?text=Product+${i}" alt="Product ${i}" loading="lazy">
+                            <img src="https://via.placeholder.com/300x300/F0F0F0/333333?text=Style+Product+${i}" alt="Product ${i}" loading="lazy">
                         </div>
                         <div class="card-content">
-                            <h3 class="card-title">Product Title: Stylish Item for Affiliates</h3>
+                            <h3 class="card-title">Premium Long-Sleeve Shirt with Stylish Design</h3>
                             <div class="card-footer">
                                 <div class="card-rating">
-                                    <span>★ 4.${(i % 5) + 5}</span> | ${i * 100} Reviews
+                                    <span><i class="fas fa-star"></i> 4.${(i % 5) + 5}</span> | ${i * 100} Reviews
                                 </div>
                                 <div class="card-price">
                                     ₹ 999
@@ -590,38 +550,29 @@
                     </div>
                 `;
             }
-            cardContainer.innerHTML = cardHtml;
+            cards.innerHTML = cardHtml;
         }
         
-        // --- ৭. ক্যাটাগরি ভিউ লোড ফাংশন (SPA লজিক) ---
-        window.loadCategoryView = (categoryKey, element = null) => {
-            // ক্যাটাগরি বাটন হাইলাইট আপডেট
+        // --- ৫. ক্যাটাগরি ভিউ লোড ফাংশন ---
+        window.loadCategoryView = (categoryKey, element) => {
+            // সমস্ত ক্যাটাগরি লিংক থেকে 'active' ক্লাস রিমুভ
             document.querySelectorAll('.category-link').forEach(link => link.classList.remove('active'));
+            
+            // বর্তমান ক্লিক করা লিংক-এ 'active' ক্লাস যোগ করা
             if (element) {
                  element.classList.add('active');
-            } else {
-                 document.querySelector('.category-link').classList.add('active'); // "All" বাটন
             }
             
-            // এই ফাংশনটি Category View Page-এ ডেটা লোড করার কাজ করবে
-            // এটি পরের ধাপে (category-view.html বা index.html-এর SPA লজিক) সম্পন্ন হবে।
-            // আপাতত একটি নোটিফিকেশন দেখাই:
-            showNotification(`Loading category: ${CATEGORIES[categoryKey] || 'All Products'}...`);
-            
-            // SPA View চেঞ্জ লজিক (আপাতত হোমেই থাকবে)
-            // document.getElementById('home-view').style.display = 'none';
-            // document.getElementById('category-view').style.display = 'block';
-            
+            // এখানে আপনি AJAX কল বা SPA লজিক দিয়ে প্রোডাক্ট লোড করতে পারেন
+            console.log(`Loading category: ${categoryKey}`);
+            // উদাহরণ: alert(`Loading category: ${categoryKey}`); 
         };
 
-
-        // --- ৮. প্রারম্ভিক ইনিশিয়ালাইজেশন ---
+        // --- ৬. প্রারম্ভিক ইনিশিয়ালাইজেশন ---
         document.addEventListener('DOMContentLoaded', () => {
-            setMode(currentMode); // ডার্ক/লাইট মোড সেট
-            renderCategoryBar(); // ক্যাটাগরি বার তৈরি
-            renderHomeContent(); // হোম ভিউ রেন্ডার
-
-            // URL-এ যদি কোনো ক্যাটাগরি/কার্ড আইডি থাকে, তাহলে সেই ভিউ লোড হবে (পরে যোগ করা হবে)
+            setMode(currentMode);
+            renderCategoryBar();
+            renderHomeContent();
         });
         
     </script>
