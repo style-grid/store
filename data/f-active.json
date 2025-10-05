@@ -1,0 +1,28 @@
+[
+  {
+    "id": "fa001",
+    "category": "f-active",
+    "title": "High-Support Sports Bra",
+    "description": "A high-support sports bra designed for intense workouts, featuring moisture-wicking fabric.",
+    "price": "1199.00",
+    "rating": "4.9",
+    "images": [
+      "https://i.ibb.co/Yj7R9Yg/sportsbra1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-17T08:00:00Z"
+  },
+  {
+    "id": "fa002",
+    "category": "f-active",
+    "title": "Performance Training Leggings",
+    "description": "Squat-proof and flexible, these performance leggings are perfect for gym, yoga, or running.",
+    "price": "1999.00",
+    "rating": "4.8",
+    "images": [
+      "https://i.ibb.co/QvjXhL7/leggings1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-18T18:30:00Z"
+  }
+]
