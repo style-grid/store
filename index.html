@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Style Grid - Final Header</title>
+    <title>Style Grid - Final Polish</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
@@ -70,8 +70,6 @@
     .name-part-1 { color: var(--accent-color); }
     .name-part-2 { color: var(--header-text); }
     .header-right { display: flex; align-items: center; gap: 15px; }
-    
-    /* নতুন: প্রফেশনাল ডার্ক/লাইট মোড বাটন */
     .mode-toggle-btn {
         background: transparent; border: none; padding: 0;
         font-size: 20px; color: var(--header-text);
@@ -136,27 +134,44 @@
     .card-price { font-size: 18px; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
 
     /* =======================================
-     ৬. ডেস্কটপ ক্যাটাগরি ভিউ ফিক্স
+     ৬. ডেস্কটপ ক্যাটাগরি ভিউ ফিক্স (আপডেট করা)
     ======================================= */
     @media (min-width: 768px) {
         .category-bar .swiper-wrapper { display: flex; transform: none !important; }
         .category-bar .swiper-slide { width: auto !important; flex-grow: 1; }
-        .category-bar .cat-title-card { flex-grow: 0; }
+        /* নতুন: ডেস্কটপ ভিউতে ক্যাটাগরি কার্ডের সাইজ বৃদ্ধি */
+        .category-bar .cat-title-card {
+            flex-grow: 0;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            height: 100%;
+        }
     }
 
     /* =======================================
-     ৭. মোবাইল অপটিমাইজেশন (নতুন হেডার ফিক্স)
+     ৭. মোবাইল অপটিমাইজেশন (আপডেট করা)
     ======================================= */
     @media (max-width: 767px) {
-        /* নতুন: মোবাইল হেডার সাইজ কমানো */
         .header { padding: 8px 15px; }
         .website-icon i { font-size: 20px; }
         .website-name { font-size: 20px; }
         .header-right { gap: 12px; }
         .header-right .social-icon, .mode-toggle-btn { font-size: 18px; }
 
-        .slider-container { aspect-ratio: 16 / 9; border-radius: 10px; width: 95%; }
-        .slider-caption { font-size: 16px; bottom: 10px; left: 10px; padding: 8px 15px; }
+        /* নতুন: মোবাইল ব্যানার ফুল-স্ক্রিন করা */
+        .slider-container {
+            aspect-ratio: 16 / 9;
+            border-radius: 0;
+            width: 100%;
+        }
+        /* নতুন: মোবাইল ক্যাপশন সাইজ কমানো */
+        .slider-caption {
+            font-size: 14px;
+            bottom: 15px;
+            left: 15px;
+            padding: 6px 12px;
+        }
+
         .category-bar { padding: 10px; }
         .cat-image-container { width: 55px; height: 55px; }
         .category-name { font-size: 10px; max-width: 55px; height: 28px; }
@@ -175,11 +190,8 @@
                 <div class="website-icon"><i class="fas fa-shopping-bag"></i></div>
                 <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
             </div>
-            <!-- নতুন: আপডেট করা হেডার আইকন -->
             <div class="header-right">
-                <button class="mode-toggle-btn" id="mode-toggle-btn">
-                    <i class="fas fa-moon"></i>
-                </button>
+                <button class="mode-toggle-btn" id="mode-toggle-btn"><i class="fas fa-moon"></i></button>
                 <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
@@ -227,7 +239,6 @@
         };
         let currentMode = localStorage.getItem('mode') || 'light';
 
-        // নতুন: আইকন ক্লাস পরিবর্তনের জন্য আপডেট করা ফাংশন
         function setMode(mode) {
             const btn = document.getElementById('mode-toggle-btn');
             const icon = btn.querySelector('i');
