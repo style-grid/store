@@ -1,0 +1,28 @@
+[
+  {
+    "id": "fb001",
+    "category": "f-bottoms",
+    "title": "High-Waist Skinny Jeans",
+    "description": "Flattering high-waist skinny jeans with excellent stretch for a perfect fit and all-day comfort.",
+    "price": "1799.00",
+    "rating": "4.8",
+    "images": [
+      "https://i.ibb.co/Y2B7KJW/fjeans1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-15T09:00:00Z"
+  },
+  {
+    "id": "fb002",
+    "category": "f-bottoms",
+    "title": "Flowy Wide-Leg Palazzos",
+    "description": "Elegant and comfortable, these wide-leg palazzos are perfect for a sophisticated yet relaxed look.",
+    "price": "1299.00",
+    "rating": "4.7",
+    "images": [
+      "https://i.ibb.co/Bq8MfcP/palazzo1.jpg"
+    ],
+    "affiliateLink": "https://example.com/link",
+    "timestamp": "2025-10-16T17:00:00Z"
+  }
+]
