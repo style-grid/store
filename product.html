@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <style>
+    /* আপনার দেওয়া সম্পূর্ণ CSS অপরিবর্তিত থাকবে */
     :root {
         --bg-primary: #FFFFFF; --bg-secondary: #F7F7F7; --text-primary: #121212;
         --text-secondary: #666666; --accent-color: #FF6F61; --card-bg: #FFFFFF;
@@ -40,7 +41,7 @@
         display: flex; justify-content: space-between; align-items: center;
         max-width: 1400px; margin: 0 auto;
     }
-    .header-left { display: flex; align-items: center; gap: 8px; }
+    .header-left { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
     .website-icon i { font-size: 24px; color: var(--accent-color); }
     .website-name { font-size: 24px; font-weight: 900; font-family: 'Fugaz One', cursive; white-space: nowrap; }
     .name-part-1 { color: var(--accent-color); }
@@ -49,77 +50,16 @@
     .social-icon { color: var(--header-text); font-size: 20px; transition: color 0.3s; text-decoration: none; }
     .social-icon:hover { color: var(--accent-color); }
 
-    #product-detail-container {
-        display: flex; gap: 30px; padding: 30px;
-        background-color: var(--bg-primary);
-    }
-    .product-gallery { flex: 1 1 50%; max-width: 50%; position: relative; }
-    .product-info { flex: 1 1 50%; max-width: 50%; }
-    .product-gallery .swiper-container {
-        width: 100%; border-radius: 10px; overflow: hidden;
-        border: 1px solid rgba(0,0,0,0.1);
-    }
-    body.dark-mode .product-gallery .swiper-container { border: 1px solid #3a3a3a; }
-    .product-gallery .swiper-slide { aspect-ratio: 1/1; background-color: var(--bg-secondary); cursor: zoom-in; }
-    .product-gallery img { width: 100%; height: 100%; object-fit: contain; }
-    .product-gallery .swiper-pagination-bullet { background: #888; opacity: 0.7; }
-    .product-gallery .swiper-pagination-bullet-active { background: var(--accent-color); opacity: 1; }
-    .product-gallery .swiper-pagination { bottom: 15px !important; }
-    
-    .product-title { font-size: 28px; font-weight: 700; margin: 0 0 15px 0; }
-    .product-meta { display: flex; align-items: center; gap: 20px; font-size: 18px; margin-bottom: 20px; }
-    .product-rating { color: var(--text-primary); }
-    .product-price { font-size: 24px; font-weight: 700; color: var(--accent-color); }
-    .product-description { font-size: 16px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 30px; }
-    .order-button {
-        display: inline-block; width: 100%; text-align: center; padding: 15px 30px;
-        background-color: var(--accent-color); color: white; text-decoration: none;
-        font-size: 18px; font-weight: 700; border-radius: 8px; transition: background-color 0.3s;
-    }
-    .order-button:hover { background-color: #e65c50; }
-    #loading-placeholder { text-align: center; padding: 50px; font-size: 20px; }
+    /* ... (বাকি সকল CSS কোড অপরিবর্তিত) ... */
+    #product-detail-container{display:flex;gap:30px;padding:30px;background-color:var(--bg-primary)}.product-gallery{flex:1 1 50%;max-width:50%;position:relative}.product-info{flex:1 1 50%;max-width:50%}.product-gallery .swiper-container{width:100%;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.1)}body.dark-mode .product-gallery .swiper-container{border:1px solid #3a3a3a}.product-gallery .swiper-slide{aspect-ratio:1/1;background-color:var(--bg-secondary);cursor:zoom-in}.product-gallery img{width:100%;height:100%;object-fit:contain}.product-gallery .swiper-pagination-bullet{background:#888;opacity:.7}.product-gallery .swiper-pagination-bullet-active{background:var(--accent-color);opacity:1}.product-gallery .swiper-pagination{bottom:15px!important}.product-title{font-size:28px;font-weight:700;margin:0 0 15px}.product-meta{display:flex;align-items:center;gap:20px;font-size:18px;margin-bottom:20px}.product-rating{color:var(--text-primary)}.product-price{font-size:24px;font-weight:700;color:var(--accent-color)}.product-description{font-size:16px;line-height:1.7;color:var(--text-secondary);margin-bottom:30px}.order-button{display:inline-block;width:100%;text-align:center;padding:15px 30px;background-color:var(--accent-color);color:#fff;text-decoration:none;font-size:18px;font-weight:700;border-radius:8px;transition:background-color .3s}.order-button:hover{background-color:#e65c50}#loading-placeholder{text-align:center;padding:50px;font-size:20px}.related-products-section{padding:30px;background-color:var(--bg-secondary)}.related-title{font-size:24px;font-weight:700;text-align:center;margin:0 0 25px;color:var(--text-primary)}.container{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:0;max-width:1400px;margin:0 auto}.card{background-color:var(--card-bg);border-radius:8px;box-shadow:var(--card-shadow);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;transition:transform .2s ease,box-shadow .3s ease;cursor:pointer}.card:hover{transform:translateY(-5px);box-shadow:0 8px 15px rgba(0,0,0,.15)}.card-image-container{height:200px;background-color:var(--bg-secondary)}.card-image-container img{width:100%;height:100%;object-fit:cover}.card-content{padding:15px;display:flex;flex-direction:column;flex-grow:1}.card-title{font-size:16px;font-weight:600;color:var(--text-primary);margin:0 0 10px;line-height:1.4;height:45px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}.card-rating{font-size:14px;display:flex;align-items:center;gap:5px;color:var(--text-secondary)}body.dark-mode .card-rating{color:var(--text-primary)}.card-price{font-size:18px;font-weight:700;color:var(--text-primary);white-space:nowrap}@media (max-width:992px){.container{grid-template-columns:repeat(3,1fr)}}@media (max-width:767px){.header{padding:6px 15px}.website-icon i{font-size:20px}.website-name{font-size:20px}.header-right{gap:12px}.header-right .social-icon{font-size:18px}#product-detail-container{flex-direction:column;padding:15px;gap:20px}.product-gallery,.product-info{max-width:100%}.product-title{font-size:22px}.product-meta{font-size:16px}.product-price{font-size:20px}.related-products-section{padding:20px}.container{grid-template-columns:1fr 1fr;gap:10px}}
 
-    .related-products-section { padding: 30px; background-color: var(--bg-secondary); }
-    .related-title { font-size: 24px; font-weight: 700; text-align: center; margin: 0 0 25px 0; color: var(--text-primary); }
-    .container {
-        display: grid; grid-template-columns: repeat(4, 1fr); 
-        gap: 20px; padding: 0; max-width: 1400px; margin: 0 auto;
-    }
-    /* কার্ডের স্টাইল (কপি করা) */
-    .card { background-color: var(--card-bg); border-radius: 8px; box-shadow: var(--card-shadow); overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.3s ease; cursor: pointer; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
-    .card-image-container { height: 200px; background-color: var(--bg-secondary); }
-    .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
-    .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
-    .card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 0 10px 0; line-height: 1.4; height: 45px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-    .card-rating { font-size: 14px; display: flex; align-items: center; gap: 5px; color: var(--text-secondary); }
-    body.dark-mode .card-rating { color: var(--text-primary); }
-    .card-price { font-size: 18px; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
-    
-    @media (max-width: 992px) {
-        .container { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 767px) {
-        .header { padding: 6px 15px; }
-        .website-icon i { font-size: 20px; }
-        .website-name { font-size: 20px; }
-        .header-right { gap: 12px; }
-        .header-right .social-icon { font-size: 18px; }
-        #product-detail-container { flex-direction: column; padding: 15px; gap: 20px; }
-        .product-gallery, .product-info { max-width: 100%; }
-        .product-title { font-size: 22px; }
-        .product-meta { font-size: 16px; }
-        .product-price { font-size: 20px; }
-        .related-products-section { padding: 20px; }
-        .container { grid-template-columns: 1fr 1fr; gap: 10px; }
-    }
     </style>
 </head>
 <body>
     <div class="sticky-header-top">
         <header class="header">
-            <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <!-- পরিবর্তন: এখানে HTML কাঠামোটি সংশোধন করা হয়েছে -->
+            <a href="index.html" class="header-left">
                 <div class="website-icon"><i class="fas fa-shopping-bag"></i></div>
                 <div class="website-name"><span class="name-part-1">STYLE</span><span class="name-part-2">GRID</span></div>
             </a>
@@ -141,11 +81,11 @@
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
+        // আপনার দেওয়া সম্পূর্ণ JS কোড অপরিবর্তিত
         const SOCIAL_LINKS = { /* ... */ };
         const CATEGORIES = { /* ... */ };
         let currentMode = localStorage.getItem('mode') || 'light';
 
-        // নতুন: সকল প্রোডাক্ট লোড করার ফাংশন
         async function fetchAllProducts() {
             const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
             try {
@@ -203,16 +143,11 @@
             document.title = `${product.title} - Style Grid`;
         }
         
-        // সংশোধিত: সকল প্রোডাক্ট থেকে র‍্যান্ডমভাবে সাজেস্ট করার ফাংশন
         function renderRelatedProducts(allProducts, currentProductId) {
             const wrapper = document.getElementById('related-products-wrapper');
-            if (!wrapper || allProducts.length < 2) return; // কমপক্ষে ২টি প্রোডাক্ট থাকতে হবে
-
-            // বর্তমান প্রোডাক্টটি বাদ দিয়ে বাকিগুলো নেওয়া
+            if (!wrapper || allProducts.length < 2) return;
             const related = allProducts.filter(p => p.id !== currentProductId);
-            // র‍্যান্ডমভাবে সাজানো
             const shuffled = related.sort(() => 0.5 - Math.random());
-            // প্রথম ১২টি নেওয়া
             const selected = shuffled.slice(0, 12);
 
             const productsHtml = selected.map(product => `
@@ -246,9 +181,7 @@
         function setupSocialLinks() { /* ... */ }
         
         async function initializePage() {
-            // সকল কন্টেন্ট লোড হওয়ার আগে স্ক্রল একদম উপরে রাখা
             window.scrollTo(0, 0);
-
             setMode(currentMode);
             setupSocialLinks();
 
@@ -259,7 +192,6 @@
             }
             const [categoryId, productId] = hash.split('/');
             
-            // একই সাথে মূল প্রোডাক্ট এবং সকল প্রোডাক্ট লোড করা
             const [product, allProducts] = await Promise.all([
                 fetchProductDetails(categoryId, productId),
                 fetchAllProducts()
@@ -272,7 +204,6 @@
             }
         }
         
-        // ... (বাকি জাভাস্ক্রিপ্ট কোড অপরিবর্তিত) ...
         const CATEGORIES_TO_COPY = {Men:{'m-shirts':"T-Shirts & Polos",'m-pants':"Jeans & Pants",'m-outer':"Outerwear",'m-shoes':"Shoes",'m-acc':"Accessories"},Women:{'f-dresses':"Dresses",'f-tops':"Tops & Blouses",'f-bottoms':"Jeans & Leggings",'f-active':"Activewear",'f-jewelry':"Jewelry & Bags"}};
         const SOCIAL_LINKS_TO_COPY = {facebook:"https://facebook.com/your-page-url",instagram:"https://instagram.com/your-username",pinterest:"https://pinterest.com/your-username",whatsapp:"https://wa.me/8801234567890"};
         Object.assign(CATEGORIES, CATEGORIES_TO_COPY);
