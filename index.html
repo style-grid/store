@@ -61,7 +61,8 @@
     }
     #main-content {
         flex-grow: 1; max-width: 1400px; margin: 0 auto; width: 100%;
-        padding: 0 15px;
+        /* নতুন: রেসপনসিভ প্যাডিং নিশ্চিত করতে */
+        padding: 0 15px; 
     }
     a { text-decoration: none; color: var(--text-primary); }
 
@@ -116,7 +117,7 @@
 
     /* Category Bar Section */
     .category-bar-wrapper { padding: 30px 0; background-color: var(--bg-primary); }
-    .category-bar { padding: 0 15px; }
+    .category-bar { padding: 0 15px; } /* প্যাডিং ঠিক করা হয়েছে */
     .cat-title-card { 
         background-color: var(--accent-color); 
         color: white !important; 
@@ -154,8 +155,10 @@
         letter-spacing: 1.5px;
     }
     .container {
-        display: grid; grid-template-columns: repeat(4, 1fr); 
-        gap: 25px; padding: 15px;
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); /* ডেস্কটপে 4 কলাম */
+        gap: 25px; 
+        padding: 15px; /* ensure padding here as well for overall alignment */
     }
     /* LUXURY CARD DESIGN */
     .product-card {
@@ -172,7 +175,10 @@
     .product-image-wrapper { background-color: var(--bg-secondary); }
     .product-image { 
         transition: transform 0.4s ease;
-        object-fit: contain; /* ফ্যাশনের জন্য কন্টেইন বা কভার ব্যবহার করুন */
+        object-fit: cover; /* ফ্যাশনের জন্য 'cover' রাখা ভালো যাতে ইমেজ পুরো জায়গা নেয় */
+        width: 100%; /* ইমেজকে কার্ডের প্রস্থে ফিট করতে */
+        aspect-ratio: 3 / 4; /* ইমেজ অনুপাত */
+        display: block;
     }
     .product-card:hover .product-image { transform: scale(1.05); }
 
@@ -180,6 +186,9 @@
         background-color: var(--rating-bg); color: var(--rating-text);
         padding: 5px 10px; border-radius: 0 0 10px 0; /* Corner effect */
         font-size: 14px; font-weight: 600;
+        display: inline-flex; /* রেটিং আইটেমগুলোকে এক লাইনে রাখতে */
+        align-items: center;
+        gap: 5px; /* আইকন এবং টেক্সটের মধ্যে ব্যবধান */
     }
     .product-rating .star-icon { font-size: 12px; color: #FFD700; }
     
@@ -192,7 +201,7 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
-    .product-price { margin-top: 10px; font-size: 18px; font-weight: 800; display: flex; align-items: center; }
+    .product-price { margin-top: 10px; font-size: 18px; font-weight: 800; display: flex; align-items: center; flex-wrap: wrap; /* ছোট স্ক্রিনে যাতে ঠিক থাকে */ }
     .price-current { color: var(--accent-color); font-size: 20px; }
     .price-original {
         text-decoration: line-through; color: var(--price-original-color);
@@ -203,29 +212,80 @@
         padding: 2px 6px; border-radius: 4px;
         font-size: 12px; font-weight: 700;
         margin-left: 10px;
+        white-space: nowrap; /* ডিসকাউন্ট ট্যাগ এক লাইনে রাখতে */
     }
     
-    /* Responsiveness */
-    @media (max-width: 992px) { .container { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 767px) {
-        .header { padding: 10px 15px; }
-        .website-name { font-size: 24px; }
-        .slider-container { aspect-ratio: 4 / 3; border-radius: 0; }
-        .slider-item-title { font-size: 22px; }
-        .slider-item-details { font-size: 14px; }
-        .product-grid-title { font-size: 26px; padding: 25px 15px 15px; }
-        .container { grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
-        .product-info { padding: 10px; }
+    /* ======================================
+    RESPONSIVENESS FIXES
+    ======================================
+    */
+
+    /* Medium Devices (Tablets) */
+    @media (max-width: 992px) { 
+        #main-content { padding: 0 10px; } /* ট্যাবলেটে প্যাডিং কমানো */
+        .header { padding: 12px 15px; }
+        .website-name { font-size: 26px; }
+        .header-right { gap: 15px; }
+        .mode-toggle-btn, .social-icon { font-size: 20px; }
+        .slider-container { aspect-ratio: 16 / 8; }
+        .slider-item-title { font-size: 28px; }
+        .slider-item-details { font-size: 16px; }
+        .category-bar-wrapper { padding: 20px 0; }
+        .cat-title-card { width: 120px; padding: 12px 8px; }
+        .cat-title-card h3 { font-size: 16px; }
+        .cat-image-container { width: 80px; height: 80px; }
+        .category-name { font-size: 13px; }
+        .product-grid-title { font-size: 30px; padding: 30px 15px 15px; }
+        .container { grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 10px; } /* 3 কলাম */
+        .product-info { padding: 12px; }
         .product-title { font-size: 15px; height: 40px; }
-        .price-current { font-size: 18px; }
+        .price-current { font-size: 19px; }
+        .price-original { font-size: 14px; margin-left: 8px; }
+        .price-discount-tag { font-size: 11px; margin-left: 8px; }
     }
+
+    /* Small Devices (Mobile Phones) */
+    @media (max-width: 767px) {
+        #main-content { padding: 0 5px; } /* মোবাইলে আরও কম প্যাডিং */
+        .header { padding: 10px 10px; }
+        .website-icon i { font-size: 22px; }
+        .website-name { font-size: 22px; }
+        .header-right { gap: 10px; }
+        .mode-toggle-btn, .social-icon { font-size: 18px; }
+        .slider-section { padding: 10px 0 20px 0; }
+        .slider-container { aspect-ratio: 4 / 3; border-radius: 0; }
+        .slider-item-content { padding: 20px; }
+        .slider-item-title { font-size: 20px; }
+        .slider-item-details { font-size: 14px; }
+        .category-bar-wrapper { padding: 15px 0; }
+        .category-bar { padding: 0 5px; } /* মোবাইলে প্যাডিং কমানো */
+        .cat-title-card { width: 100px; padding: 10px 5px; margin-right: 10px; }
+        .cat-title-card h3 { font-size: 14px; }
+        .cat-image-container { width: 65px; height: 65px; border-width: 2px; }
+        .category-name { font-size: 11px; max-width: 65px; }
+        .product-grid-title { font-size: 24px; padding: 20px 10px 10px; }
+        .container { grid-template-columns: 1fr 1fr; gap: 10px; padding: 5px; } /* 2 কলাম */
+        .product-info { padding: 10px; }
+        .product-title { font-size: 14px; height: 38px; line-height: 1.3; }
+        .product-price { flex-direction: column; align-items: flex-start; gap: 2px; margin-top: 5px; }
+        .price-current { font-size: 17px; }
+        .price-original { font-size: 13px; margin-left: 0; }
+        .price-discount-tag { font-size: 11px; margin-left: 0; }
+        .product-rating { border-radius: 0 0 8px 0; padding: 4px 8px; font-size: 12px; }
+    }
+    /*
+    ======================================
+    END CSS: LUXURY MODE & DARK MODE INTEGRATION
+    ======================================
+    */
     </style>
 </head>
 <body>
     <div class="sticky-header-top">
         <header class="header">
             <a href="index.html" class="header-left">
-                <div class="website-icon"><i class="fas fa-gem"></i></div> <div class="website-name"><span class="name-part-1">LUXE</span><span class="name-part-2">GRID</span></div>
+                <div class="website-icon"><i class="fas fa-gem"></i></div> 
+                <div class="website-name"><span class="name-part-1">LUXE</span><span class="name-part-2">GRID</span></div>
             </a>
             <div class="header-right">
                 <button class="mode-toggle-btn" id="mode-toggle-btn"><i class="fas fa-moon"></i></button>
@@ -249,12 +309,12 @@
         <section class="category-bar-wrapper">
             <div class="swiper-container category-bar men-slider">
                 <div class="swiper-wrapper" id="category-bar-male">
-                    <div class="swiper-slide cat-title-card" style="margin-right: 15px;"><i class="fas fa-male icon"></i><h3>MEN'S<br>CURATED</h3></div>
+                    <div class="swiper-slide cat-title-card" style="margin-right: 20px;"><i class="fas fa-male icon"></i><h3>MEN'S<br>CURATED</h3></div>
                 </div>
             </div>
             <div class="swiper-container category-bar women-slider">
                 <div class="swiper-wrapper" id="category-bar-female">
-                    <div class="swiper-slide cat-title-card" style="background-color: #E91E63; margin-right: 15px;"><i class="fas fa-female icon"></i><h3>WOMEN'S<br>COLLECTION</h3></div>
+                    <div class="swiper-slide cat-title-card" style="background-color: #E91E63; margin-right: 20px;"><i class="fas fa-female icon"></i><h3>WOMEN'S<br>COLLECTION</h3></div>
                 </div>
             </div>
         </section>
@@ -268,8 +328,7 @@
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        // কোড লিঙ্কিং ঠিক রাখার জন্য আপনার দেওয়া পুরো JS লজিক এখানে অপরিবর্তিত রাখা হলো।
-        // শুধুমাত্র renderMostLovedProducts ফাংশনের আউটপুট HTML নতুন লাক্সারি ডিজাইন অনুযায়ী পরিবর্তন করা হয়েছে।
+        // জাভাস্ক্রিপ্ট কোডটি আপনার দেওয়া সর্বশেষ কোডের মতোই থাকবে, কোনো পরিবর্তন নেই।
         const SOCIAL_LINKS = {
             facebook: "https://facebook.com/your-page-url",
             instagram: "https://instagram.com/your-username",
@@ -367,6 +426,7 @@
                 }
             }
             femaleBar.innerHTML += femaleHtml;
+            // spaceBetween মান বাড়ানো হয়েছে যাতে মোবাইলে কার্ডগুলো কাছাকাছি না আসে
             new Swiper('.men-slider', { slidesPerView: 'auto', spaceBetween: 20, freeMode: true });
             new Swiper('.women-slider', { slidesPerView: 'auto', spaceBetween: 20, freeMode: true });
         }
@@ -378,7 +438,6 @@
             return num;
         }
         
-        // **পরিবর্তিত অংশ:** লাক্সারি কার্ড ডিজাইন অনুযায়ী HTML আউটপুট পরিবর্তন করা হয়েছে।
         function renderMostLovedProducts(allProducts) {
             const container = document.getElementById('trending-cards-container');
             if (!container) return;
@@ -411,7 +470,6 @@
                 `;
             }).join('');
         }
-        // **পরিবর্তিত অংশ:** স্লাইডার লিঙ্কিং product.html এর বদলে deal.html এ পরিবর্তন করা হলো।
         
         function setMode(mode) {
             const btn = document.getElementById('mode-toggle-btn');
