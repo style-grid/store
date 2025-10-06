@@ -14,19 +14,20 @@
     /*
     ======================================
     CSS: LUXURY MODE & DARK MODE INTEGRATION
+    (লেআউট ফিক্স সহ)
     ======================================
     */
     :root {
         --font-primary: 'Inter', sans-serif;
         --font-serif: 'Playfair Display', serif;
         --bg-primary: #FFFFFF; 
-        --bg-secondary: #F0F0F0; /* হালকা গ্রে ব্যাকগ্রাউন্ড */
+        --bg-secondary: #F0F0F0; 
         --text-primary: #111111; 
         --text-secondary: #555555; 
-        --accent-color: #6A0DAD; /* ডিপ পার্পল: লাক্সারি এবং রয়্যালটি */
+        --accent-color: #6A0DAD; 
         --accent-light: #9370DB;
         --card-bg: #FFFFFF; 
-        --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* উন্নত শ্যাডো */
+        --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); 
         --header-bg: #FFFFFF; 
         --header-text: #111111;
         --price-original-color: #999999;
@@ -40,7 +41,7 @@
         --bg-secondary: #121212;
         --text-primary: #EAEAEA;
         --text-secondary: #AAAAAA;
-        --accent-color: #BB86FC; /* ডার্ক মোডের জন্য উজ্জ্বল পার্পল */
+        --accent-color: #BB86FC; 
         --accent-light: #D5B8FF;
         --card-bg: #2C2C2C; 
         --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
@@ -52,17 +53,19 @@
         --cat-border: #333333;
     }
     
-    /* Global Resets */
+    /* Global Resets and Layout Fixes */
     *, *::before, *::after { box-sizing: border-box; }
     body {
         font-family: var(--font-primary); background-color: var(--bg-secondary); 
         color: var(--text-primary); margin: 0; padding: 0; min-height: 100vh; 
         display: flex; flex-direction: column; transition: background-color 0.4s ease, color 0.4s ease;
+        /* ফিক্স: অতিরিক্ত স্ক্রোলবার এড়াতে */
+        overflow-x: hidden; 
     }
     #main-content {
         flex-grow: 1; max-width: 1400px; margin: 0 auto; width: 100%;
-        /* নতুন: রেসপনসিভ প্যাডিং নিশ্চিত করতে */
-        padding: 0 15px; 
+        /* ফিক্স: মূল কন্টেইনারে কোনো পার্শ্বীয় প্যাডিং নয় */
+        padding: 0; 
     }
     a { text-decoration: none; color: var(--text-primary); }
 
@@ -75,7 +78,7 @@
     }
     body.dark-mode .sticky-header-top { box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
     .header {
-        color: var(--header-text); padding: 15px 20px;
+        color: var(--header-text); padding: 15px;
         display: flex; justify-content: space-between; align-items: center;
         max-width: 1400px; margin: 0 auto; width: 100%;
     }
@@ -102,6 +105,7 @@
         padding: 15px 0 30px 0; 
         background-color: var(--bg-primary); 
         border-bottom: 1px solid var(--cat-border); 
+        width: 100%;
     }
     .slider-container {
         aspect-ratio: 16 / 6; max-width: 1300px; margin: 0 auto;
@@ -116,8 +120,8 @@
     .slider-item-details { font-size: 18px; font-weight: 500;}
 
     /* Category Bar Section */
-    .category-bar-wrapper { padding: 30px 0; background-color: var(--bg-primary); }
-    .category-bar { padding: 0 15px; } /* প্যাডিং ঠিক করা হয়েছে */
+    .category-bar-wrapper { padding: 30px 0; background-color: var(--bg-primary); width: 100%; }
+    .category-bar { padding: 0 15px; } 
     .cat-title-card { 
         background-color: var(--accent-color); 
         color: white !important; 
@@ -134,7 +138,7 @@
     }
     .cat-image-container { 
         width: 90px; height: 90px; 
-        border: 3px solid var(--cat-border); /* লাক্সারি বর্ডার */
+        border: 3px solid var(--cat-border); 
         box-shadow: 0 0 10px rgba(0,0,0,0.1); 
     }
     body.dark-mode .cat-image-container { border-color: var(--accent-light); }
@@ -145,6 +149,11 @@
         text-transform: uppercase; 
         letter-spacing: 0.5px;
     }
+    /* ফিক্স: Swiper স্লাইড যাতে বাইরে না চলে যায় */
+    .swiper-slide {
+        width: auto;
+    }
+
 
     /* Product Grid Section */
     .product-grid-title { 
@@ -156,52 +165,54 @@
     }
     .container {
         display: grid; 
-        grid-template-columns: repeat(4, 1fr); /* ডেস্কটপে 4 কলাম */
+        grid-template-columns: repeat(4, 1fr); 
         gap: 25px; 
-        padding: 15px; /* ensure padding here as well for overall alignment */
+        /* ফিক্স: গ্রিড কন্টেইনারে পার্শ্বীয় প্যাডিং যোগ করা হলো */
+        padding: 0 15px 30px 15px; 
+        max-width: 1400px;
+        margin: 0 auto;
     }
-    /* LUXURY CARD DESIGN */
+    /* LUXURY CARD DESIGN স্টাইল */
     .product-card {
         background-color: var(--card-bg);
         border-radius: 10px;
         box-shadow: var(--card-shadow);
+        width: 100%; 
     }
     .product-card:hover { 
         transform: translateY(-6px); 
         box-shadow: 0 12px 30px rgba(0,0,0,0.15); 
     }
     body.dark-mode .product-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.8); }
-
-    .product-image-wrapper { background-color: var(--bg-secondary); }
     .product-image { 
         transition: transform 0.4s ease;
-        object-fit: cover; /* ফ্যাশনের জন্য 'cover' রাখা ভালো যাতে ইমেজ পুরো জায়গা নেয় */
-        width: 100%; /* ইমেজকে কার্ডের প্রস্থে ফিট করতে */
-        aspect-ratio: 3 / 4; /* ইমেজ অনুপাত */
+        object-fit: cover; 
+        width: 100%; 
+        aspect-ratio: 3 / 4; 
         display: block;
     }
     .product-card:hover .product-image { transform: scale(1.05); }
-
     .product-rating {
+        position: absolute; bottom: 8px; left: 8px; /* পজিশন ঠিক করা হয়েছে */
         background-color: var(--rating-bg); color: var(--rating-text);
-        padding: 5px 10px; border-radius: 0 0 10px 0; /* Corner effect */
+        padding: 5px 10px; border-radius: 6px; /* গোল কোণ */
         font-size: 14px; font-weight: 600;
-        display: inline-flex; /* রেটিং আইটেমগুলোকে এক লাইনে রাখতে */
+        display: inline-flex; 
         align-items: center;
-        gap: 5px; /* আইকন এবং টেক্সটের মধ্যে ব্যবধান */
+        gap: 5px;
+        backdrop-filter: blur(5px); /* ইফেক্ট যোগ করা হয়েছে */
     }
     .product-rating .star-icon { font-size: 12px; color: #FFD700; }
-    
     .product-info { padding: 15px; }
     .product-title {
         font-size: 16px; font-weight: 600; margin: 0;
         white-space: normal; overflow: hidden; text-overflow: ellipsis;
-        color: var(--text-primary); line-height: 1.4; height: 45px; /* ফিক্সড হাইট */
+        color: var(--text-primary); line-height: 1.4; height: 45px; 
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
-    .product-price { margin-top: 10px; font-size: 18px; font-weight: 800; display: flex; align-items: center; flex-wrap: wrap; /* ছোট স্ক্রিনে যাতে ঠিক থাকে */ }
+    .product-price { margin-top: 10px; font-size: 18px; font-weight: 800; display: flex; align-items: center; flex-wrap: wrap; }
     .price-current { color: var(--accent-color); font-size: 20px; }
     .price-original {
         text-decoration: line-through; color: var(--price-original-color);
@@ -212,7 +223,7 @@
         padding: 2px 6px; border-radius: 4px;
         font-size: 12px; font-weight: 700;
         margin-left: 10px;
-        white-space: nowrap; /* ডিসকাউন্ট ট্যাগ এক লাইনে রাখতে */
+        white-space: nowrap; 
     }
     
     /* ======================================
@@ -220,23 +231,16 @@
     ======================================
     */
 
-    /* Medium Devices (Tablets) */
     @media (max-width: 992px) { 
-        #main-content { padding: 0 10px; } /* ট্যাবলেটে প্যাডিং কমানো */
         .header { padding: 12px 15px; }
-        .website-name { font-size: 26px; }
-        .header-right { gap: 15px; }
-        .mode-toggle-btn, .social-icon { font-size: 20px; }
-        .slider-container { aspect-ratio: 16 / 8; }
-        .slider-item-title { font-size: 28px; }
-        .slider-item-details { font-size: 16px; }
-        .category-bar-wrapper { padding: 20px 0; }
+        .slider-container { max-width: 100%; border-radius: 0; }
+        .category-bar { padding: 0 10px; } 
+        .container { grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 10px 20px 10px; } 
         .cat-title-card { width: 120px; padding: 12px 8px; }
         .cat-title-card h3 { font-size: 16px; }
         .cat-image-container { width: 80px; height: 80px; }
         .category-name { font-size: 13px; }
         .product-grid-title { font-size: 30px; padding: 30px 15px 15px; }
-        .container { grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 10px; } /* 3 কলাম */
         .product-info { padding: 12px; }
         .product-title { font-size: 15px; height: 40px; }
         .price-current { font-size: 19px; }
@@ -244,27 +248,22 @@
         .price-discount-tag { font-size: 11px; margin-left: 8px; }
     }
 
-    /* Small Devices (Mobile Phones) */
     @media (max-width: 767px) {
-        #main-content { padding: 0 5px; } /* মোবাইলে আরও কম প্যাডিং */
-        .header { padding: 10px 10px; }
-        .website-icon i { font-size: 22px; }
-        .website-name { font-size: 22px; }
-        .header-right { gap: 10px; }
-        .mode-toggle-btn, .social-icon { font-size: 18px; }
-        .slider-section { padding: 10px 0 20px 0; }
-        .slider-container { aspect-ratio: 4 / 3; border-radius: 0; }
-        .slider-item-content { padding: 20px; }
+        .header { padding: 10px; }
+        .slider-section { padding-bottom: 10px; }
+        .slider-container { aspect-ratio: 4 / 3; }
+        .slider-item-content { padding: 15px; }
         .slider-item-title { font-size: 20px; }
         .slider-item-details { font-size: 14px; }
         .category-bar-wrapper { padding: 15px 0; }
-        .category-bar { padding: 0 5px; } /* মোবাইলে প্যাডিং কমানো */
-        .cat-title-card { width: 100px; padding: 10px 5px; margin-right: 10px; }
-        .cat-title-card h3 { font-size: 14px; }
-        .cat-image-container { width: 65px; height: 65px; border-width: 2px; }
-        .category-name { font-size: 11px; max-width: 65px; }
+        .category-bar { padding: 0 5px; } 
+        .cat-title-card { width: 90px; padding: 8px 4px; margin-right: 10px; }
+        .cat-title-card h3 { font-size: 12px; }
+        .cat-image-container { width: 60px; height: 60px; border-width: 2px; }
+        .category-name { font-size: 10px; max-width: 60px; }
         .product-grid-title { font-size: 24px; padding: 20px 10px 10px; }
-        .container { grid-template-columns: 1fr 1fr; gap: 10px; padding: 5px; } /* 2 কলাম */
+        /* ফিক্স: মোবাইলে 2 কলাম এবং পর্যাপ্ত প্যাডিং */
+        .container { grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 10px 20px 10px; } 
         .product-info { padding: 10px; }
         .product-title { font-size: 14px; height: 38px; line-height: 1.3; }
         .product-price { flex-direction: column; align-items: flex-start; gap: 2px; margin-top: 5px; }
@@ -273,11 +272,7 @@
         .price-discount-tag { font-size: 11px; margin-left: 0; }
         .product-rating { border-radius: 0 0 8px 0; padding: 4px 8px; font-size: 12px; }
     }
-    /*
-    ======================================
-    END CSS: LUXURY MODE & DARK MODE INTEGRATION
-    ======================================
-    */
+    
     </style>
 </head>
 <body>
@@ -328,7 +323,7 @@
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        // জাভাস্ক্রিপ্ট কোডটি আপনার দেওয়া সর্বশেষ কোডের মতোই থাকবে, কোনো পরিবর্তন নেই।
+        // জাভাস্ক্রিপ্ট কোড: লিঙ্কিং এবং লজিক অপরিবর্তিত
         const SOCIAL_LINKS = {
             facebook: "https://facebook.com/your-page-url",
             instagram: "https://instagram.com/your-username",
@@ -426,7 +421,7 @@
                 }
             }
             femaleBar.innerHTML += femaleHtml;
-            // spaceBetween মান বাড়ানো হয়েছে যাতে মোবাইলে কার্ডগুলো কাছাকাছি না আসে
+            // spaceBetween 
             new Swiper('.men-slider', { slidesPerView: 'auto', spaceBetween: 20, freeMode: true });
             new Swiper('.women-slider', { slidesPerView: 'auto', spaceBetween: 20, freeMode: true });
         }
