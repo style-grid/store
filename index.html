@@ -14,7 +14,7 @@
     /*
     ======================================
     CSS: LUXURY MODE & DARK MODE INTEGRATION
-    (লেআউট ফিক্স সহ)
+    (লেআউট ফিক্সড, ডিজাইন অপরিবর্তিত)
     ======================================
     */
     :root {
@@ -178,12 +178,21 @@
         border-radius: 10px;
         box-shadow: var(--card-shadow);
         width: 100%; 
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .product-card:hover { 
         transform: translateY(-6px); 
         box-shadow: 0 12px 30px rgba(0,0,0,0.15); 
     }
     body.dark-mode .product-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.8); }
+    
+    /* Image and Rating Position Fix */
+    .product-image-wrapper {
+        position: relative; 
+        background-color: var(--bg-secondary); 
+        border-radius: 10px 10px 0 0; 
+        overflow: hidden;
+    }
     .product-image { 
         transition: transform 0.4s ease;
         object-fit: cover; 
@@ -192,17 +201,25 @@
         display: block;
     }
     .product-card:hover .product-image { transform: scale(1.05); }
+
     .product-rating {
-        position: absolute; bottom: 8px; left: 8px; /* পজিশন ঠিক করা হয়েছে */
-        background-color: var(--rating-bg); color: var(--rating-text);
-        padding: 5px 10px; border-radius: 6px; /* গোল কোণ */
-        font-size: 14px; font-weight: 600;
+        position: absolute; /* ফিক্স: রেটিংকে ছবির উপরে ডানদিকে সেট করা হয়েছে */
+        top: 8px;
+        right: 8px;
+        background-color: var(--rating-bg); 
+        color: var(--rating-text); 
+        padding: 5px 10px; 
+        border-radius: 6px; /* গোল কোণ */
+        font-size: 14px; 
+        font-weight: 600;
         display: inline-flex; 
         align-items: center;
         gap: 5px;
-        backdrop-filter: blur(5px); /* ইফেক্ট যোগ করা হয়েছে */
+        z-index: 10;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
     .product-rating .star-icon { font-size: 12px; color: #FFD700; }
+
     .product-info { padding: 15px; }
     .product-title {
         font-size: 16px; font-weight: 600; margin: 0;
@@ -227,10 +244,11 @@
     }
     
     /* ======================================
-    RESPONSIVENESS FIXES
+    RESPONSIVENESS FIXES (লেআউট ফিক্স)
     ======================================
     */
 
+    /* Medium Devices (Tablets) */
     @media (max-width: 992px) { 
         .header { padding: 12px 15px; }
         .slider-container { max-width: 100%; border-radius: 0; }
@@ -248,6 +266,7 @@
         .price-discount-tag { font-size: 11px; margin-left: 8px; }
     }
 
+    /* Small Devices (Mobile Phones) */
     @media (max-width: 767px) {
         .header { padding: 10px; }
         .slider-section { padding-bottom: 10px; }
@@ -270,7 +289,7 @@
         .price-current { font-size: 17px; }
         .price-original { font-size: 13px; margin-left: 0; }
         .price-discount-tag { font-size: 11px; margin-left: 0; }
-        .product-rating { border-radius: 0 0 8px 0; padding: 4px 8px; font-size: 12px; }
+        .product-rating { border-radius: 6px; padding: 4px 8px; font-size: 12px; }
     }
     
     </style>
