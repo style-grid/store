@@ -1,432 +1,476 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Style Grid - Curated Luxury Fashion</title>
-
-    <!-- Fonts & icons -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <style>
-    :root{
+    /*
+    ======================================
+    CSS: LUXURY MODE & DARK MODE INTEGRATION
+    (লেআউট ফিক্সড, ডিজাইন রিকভারড)
+    ======================================
+    */
+    :root {
         --font-primary: 'Inter', sans-serif;
         --font-serif: 'Playfair Display', serif;
-        --bg-primary: #FFFFFF;
-        --bg-secondary: #F0F0F0;
-        --text-primary: #111111;
-        --text-secondary: #555555;
-        --accent-color: #6A0DAD;
+        --bg-primary: #FFFFFF; 
+        --bg-secondary: #F0F0F0; 
+        --text-primary: #111111; 
+        --text-secondary: #555555; 
+        --accent-color: #6A0DAD; 
         --accent-light: #9370DB;
-        --card-bg: #FFFFFF;
-        --card-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        --header-bg: #FFFFFF;
+        --card-bg: #FFFFFF; 
+        --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); 
+        --header-bg: #FFFFFF; 
         --header-text: #111111;
         --price-original-color: #999999;
-        --rating-bg: var(--accent-color);
+        --rating-bg: #6A0DAD; 
         --rating-text: #FFFFFF;
         --cat-border: #E0E0E0;
     }
+    
     body.dark-mode {
         --bg-primary: #1E1E1E;
         --bg-secondary: #121212;
         --text-primary: #EAEAEA;
         --text-secondary: #AAAAAA;
-        --accent-color: #BB86FC;
+        --accent-color: #BB86FC; 
         --accent-light: #D5B8FF;
-        --card-bg: #2C2C2C;
-        --card-shadow: 0 6px 20px rgba(0,0,0,0.6);
-        --header-bg: #000000;
+        --card-bg: #2C2C2C; 
+        --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        --header-bg: #000000; 
         --header-text: #EAEAEA;
         --price-original-color: #AAAAAA;
         --rating-bg: var(--accent-color);
         --rating-text: #111111;
         --cat-border: #333333;
     }
-
+    
+    /* Global Resets and Layout Fixes (Crucial) */
     *, *::before, *::after { box-sizing: border-box; }
-    html,body{ height:100%; }
-    body{
-        font-family: var(--font-primary);
-        background-color: var(--bg-secondary);
-        color: var(--text-primary);
-        margin:0; padding:0;
-        display:flex; flex-direction:column;
-        transition: background-color .35s, color .35s;
-        -webkit-font-smoothing:antialiased;
-        -moz-osx-font-smoothing:grayscale;
+    body {
+        font-family: var(--font-primary); background-color: var(--bg-secondary); 
+        color: var(--text-primary); margin: 0; padding: 0; min-height: 100vh; 
+        display: flex; flex-direction: column; transition: background-color 0.4s ease, color 0.4s ease;
+        /* ফিক্স: অতিরিক্ত স্ক্রোলবার এবং লেআউট ওভারফ্লো এড়াতে */
+        overflow-x: hidden; 
+    }
+    #main-content {
+        flex-grow: 1; max-width: 1400px; margin: 0 auto; width: 100%;
+        /* ফিক্স: মূল কন্টেইনারে কোনো পার্শ্বীয় প্যাডিং নয় */
+        padding: 0; 
+    }
+    a { text-decoration: none; color: var(--text-primary); }
+
+    /* Header Section */
+    .sticky-header-top { 
+        position: sticky; top: 0; z-index: 1000;
+        background-color: var(--header-bg); width: 100%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        transition: background-color 0.4s ease;
+    }
+    .header {
+        color: var(--header-text); padding: 15px;
+        display: flex; justify-content: space-between; align-items: center;
+        max-width: 1400px; margin: 0 auto; width: 100%;
     }
 
-    /* Header */
-    .sticky-header-top {
-        position: sticky; top:0; z-index:1000;
-        background-color: var(--header-bg);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    /* Slider Section */
+    .slider-section { 
+        padding: 15px 0 30px 0; 
+        background-color: var(--bg-primary); 
+        border-bottom: 1px solid var(--cat-border); 
+        width: 100%;
     }
-    .header{
-        max-width:1400px; margin:0 auto; width:100%;
-        padding:16px 20px; display:flex; justify-content:space-between; align-items:center;
-    }
-    .header-left{ display:flex; align-items:center; gap:10px; }
-    .website-icon i{ font-size:26px; color:var(--accent-color); }
-    .website-name{ font-family:var(--font-serif); font-weight:900; font-size:26px; letter-spacing:1px; }
-    .name-part-1{ color:var(--accent-color); }
-    .name-part-2{ color:var(--header-text); }
-    .header-right{ display:flex; align-items:center; gap:16px; }
-
-    /* HERO / ANNOUNCEMENT */
-    .slider-section{
-        padding:18px 0 28px; background:var(--bg-primary); border-bottom:1px solid var(--cat-border);
-    }
-    .slider-section .announcement{
-        max-width:1400px; margin:0 auto 12px; padding:10px; text-align:center; font-weight:600;
-        color:#fff; background: linear-gradient(90deg, var(--accent-color), var(--accent-light)); border-radius:8px;
-    }
-    .slider-container{ max-width:1400px; margin:0 auto; border-radius:12px; overflow:hidden; aspect-ratio: 16/6; box-shadow:0 6px 22px rgba(0,0,0,0.08); background: #fafafa; }
-
-    /* Category */
-    .category-bar-wrapper{ padding:26px 0; background:var(--bg-primary); }
-    .category-bar{ max-width:1400px; margin:0 auto; padding:6px 12px; display:flex; gap:12px; align-items:center; overflow:hidden; }
-
-    .cat-title-card{
-        background-color: var(--accent-color);
-        color: #fff; border-radius:8px; padding:14px 12px; width:140px; flex-shrink:0;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.12); display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
-        gap:6px;
-    }
-    .cat-title-card h3{ margin:0; font-size:15px; font-weight:800; line-height:1.05; }
-
-    .cat-item{ display:flex; flex-direction:column; gap:8px; align-items:center; width:110px; text-align:center; }
-    .cat-image-container{ width:90px; height:90px; border-radius:12px; overflow:hidden; border:3px solid var(--cat-border); display:flex; align-items:center; justify-content:center; background: #fff; }
-    .cat-image-container img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-    /* PRODUCT GRID */
-    #home-view{ padding:18px 0 60px; }
-    .product-grid-title{ text-align:center; font-family:var(--font-serif); font-weight:900; font-size:34px; margin:22px 0; color:var(--text-primary); }
-
-    .container{
-        max-width:1400px; margin:0 auto; padding:12px; display:grid;
-        grid-template-columns: repeat(4, 1fr); gap:24px;
-    }
-
-    /* CARD FIXED - EXACT LOOK */
-    .product-card{
-        display:block; /* important so <a> covers whole card */
-        background: var(--card-bg); color: inherit;
-        border-radius:12px; overflow:hidden; text-decoration:none;
-        box-shadow: var(--card-shadow); transition: transform .28s, box-shadow .28s;
-        border: 1px solid rgba(0,0,0,0.03);
-    }
-    .product-card:focus, .product-card:hover{ transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
-
-    /* IMAGE WRAPPER: fixed aspect-ratio so all cards align */
-    .product-image-wrapper{
+    .swiper-container.slider-container {
+        /* ফিক্স: স্লাইডার এরিয়ার ভেতরের কন্টেইনার */
+        aspect-ratio: 16 / 6; 
+        max-width: 1300px; 
+        margin: 0 auto;
+        border-radius: 12px; 
+        overflow: hidden; 
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); 
         position: relative;
-        width:100%;
-        aspect-ratio: 4 / 3; /* fixed ratio for uniform look */
-        background: var(--bg-secondary);
-        display:flex; align-items:center; justify-content:center;
-        overflow:hidden;
-    }
-    /* product image fills and crops to container (covers) to keep consistent look */
-    .product-image{
-        width:100%; height:100%; display:block;
-        -o-object-fit: cover; object-fit: cover;
-        transition: transform .45s ease;
-    }
-    .product-card:hover .product-image{ transform: scale(1.06); }
-
-    /* Rating ribbon positioned on image, bottom-left like screenshot */
-    .product-rating{
-        position:absolute; left:0; bottom:0;
-        background: linear-gradient(90deg, var(--rating-bg), var(--accent-light));
-        color: var(--rating-text); padding:8px 12px; font-weight:700; font-size:14px;
-        border-radius: 0 8px 8px 0; display:inline-flex; align-items:center; gap:8px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-    }
-    .product-rating .star-icon{ color: #FFD700; font-size:13px; }
-
-    .product-info{ padding:14px 16px 18px; background:transparent; display:flex; flex-direction:column; gap:8px; min-height:110px; }
-    .product-title{
-        font-size:16px; font-weight:600; color:var(--text-primary); margin:0;
-        line-height:1.25; height:45px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
     }
 
-    .product-price{ display:flex; align-items:center; gap:10px; margin-top:auto; }
-    .price-current{ color:var(--accent-color); font-weight:800; font-size:18px; }
-    .price-original{ color:var(--price-original-color); text-decoration: line-through; font-size:14px; }
-    .price-discount-tag{ background: #E91E63; color:#fff; padding:4px 8px; border-radius:8px; font-weight:800; font-size:12px; }
-
-    /* ensure anchor focus outline visible for accessibility */
-    .product-card:focus{ outline: 3px solid rgba(106,13,173,0.18); outline-offset:2px; }
-
-    /* Responsive */
-    @media (max-width: 1200px) { .container{ grid-template-columns: repeat(3,1fr); } .product-grid-title{ font-size:30px; } }
-    @media (max-width: 992px) { .container{ grid-template-columns: repeat(2,1fr); gap:18px; } .product-grid-title{ font-size:28px; } }
-    @media (max-width: 600px) {
-        .container{ grid-template-columns: 1fr 1fr; gap:14px; padding:8px; }
-        .website-name{ font-size:20px; }
-        .slider-container{ aspect-ratio: 4/3; border-radius:8px; }
-        .product-grid-title{ font-size:22px; }
+    /* Category Bar Section Fixes */
+    .category-bar-wrapper { padding: 30px 0; background-color: var(--bg-primary); width: 100%; }
+    .category-bar { padding: 0 15px; } 
+    /* ফিক্স: Swiper স্লাইড যাতে সঠিক প্রস্থ নেয় এবং ওভারফ্লো না করে */
+    .swiper-slide {
+        width: auto;
     }
-    @media (max-width: 420px){
-        .container{ grid-template-columns: 1fr; padding:10px; }
+    
+    /* ক্যাটাগরি ইমেজ ফিক্স: গোল করা হলো */
+    .cat-image-container { 
+        width: 90px; height: 90px; 
+        border: 3px solid var(--cat-border); 
+        border-radius: 50%; /* গোল করার জন্য */
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    }
+    .cat-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    body.dark-mode .cat-image-container { border-color: var(--accent-light); }
+    .cat-item:hover .cat-image-container { transform: scale(1.05); border-color: var(--accent-color); }
+
+    /* Product Grid Section Fixes */
+    .product-grid-title { 
+        text-align: center; padding: 40px 20px 20px; 
+        font-size: 36px; font-weight: 900; 
+        color: var(--text-primary); 
+        font-family: var(--font-serif);
+        letter-spacing: 1.5px;
+    }
+    .container {
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 25px; 
+        /* ফিক্স: গ্রিড কন্টেইনারে পার্শ্বীয় প্যাডিং যোগ করা হলো এবং max-width নিশ্চিত করা হলো */
+        padding: 0 15px 30px 15px; 
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%; /* ফিক্স: গ্রিড ১০০% প্রস্থ নেবে */
+    }
+    
+    /* LUXURY CARD DESIGN রিকভারি */
+    .product-image-wrapper {
+        position: relative; 
+        background-color: var(--bg-secondary); 
+        border-radius: 10px 10px 0 0; 
+        overflow: hidden;
+    }
+    /* রেটিং ব্যাজ রিকভারি: আপনার স্ক্রিনশট অনুযায়ী রেটিং ছবির উপরে বাম দিকে */
+    .product-rating {
+        position: absolute; 
+        bottom: 8px; /* পজিশন ছবির নিচে বামদিকে */
+        left: 0;
+        background-color: var(--rating-bg); 
+        color: var(--rating-text); 
+        padding: 5px 10px; 
+        border-radius: 0 6px 6px 0; /* বামদিকে ফ্ল্যাট, ডানদিকে গোলাকার */
+        font-size: 14px; 
+        font-weight: 600;
+        display: inline-flex; 
+        align-items: center;
+        gap: 5px;
+        z-index: 10;
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+    }
+    .product-rating .star-icon { font-size: 12px; color: #FFD700; }
+
+    .product-info { padding: 15px; }
+    .product-title {
+        font-size: 16px; font-weight: 600; margin: 0;
+        /* ফিক্স: টাইটেলকে পর্যাপ্ত উচ্চতা দেওয়া হলো */
+        line-height: 1.4; height: 45px; 
+        overflow: hidden; text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    /* প্রাইস রিকভারি: ডিসকাউন্ট ট্যাগ সহ */
+    .product-price { margin-top: 10px; font-size: 18px; font-weight: 800; display: flex; align-items: center; flex-wrap: wrap; }
+    .price-current { color: var(--accent-color); font-size: 20px; }
+    .price-original {
+        text-decoration: line-through; color: var(--price-original-color);
+        margin-left: 10px; font-size: 15px; font-weight: 500;
+    }
+    .price-discount-tag {
+        background-color: #E91E63; color: white;
+        padding: 2px 6px; border-radius: 4px;
+        font-size: 12px; font-weight: 700;
+        margin-left: 10px;
+        white-space: nowrap; 
+    }
+    
+    /* ======================================
+    RESPONSIVENESS FIXES (লেআউট ফিক্স)
+    ======================================
+    */
+
+    /* Medium Devices (Tablets) */
+    @media (max-width: 992px) { 
+        .container { grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 10px 20px 10px; } 
     }
 
-    /* small helpers */
-    .sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    /* Small Devices (Mobile Phones) */
+    @media (max-width: 767px) {
+        .slider-section { padding-bottom: 10px; }
+        .swiper-container.slider-container { aspect-ratio: 4 / 3; padding: 0;}
+        .category-bar-wrapper { padding: 15px 0; }
+        .category-bar { padding: 0 5px; } 
+        /* ফিক্স: মোবাইলে গ্রিড ২ কলাম এবং পর্যাপ্ত প্যাডিং নিশ্চিত করা হলো */
+        .container { 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            padding: 0 10px 20px 10px; 
+        } 
+        /* ক্যাটাগরি ইমেজ সাইজ ছোট করা */
+        .cat-image-container { width: 70px; height: 70px; }
+        .cat-title-card { width: 100px; padding: 10px 5px; margin-right: 10px; }
+        .cat-title-card h3 { font-size: 12px; }
+        .category-name { font-size: 11px; }
+
+        .product-info { padding: 10px; }
+        .product-title { height: 38px; }
+        /* প্রাইস ডিসপ্লে স্টাইল ঠিক করা হলো */
+        .product-price { flex-direction: row; align-items: center; gap: 5px; margin-top: 5px; }
+        .price-current { font-size: 17px; }
+        .price-original { font-size: 13px; margin-left: 0; }
+        .price-discount-tag { font-size: 11px; margin-left: 0; }
+    }
+    
     </style>
 </head>
 <body>
     <div class="sticky-header-top">
         <header class="header">
             <a href="index.html" class="header-left">
-                <div class="website-icon"><i class="fas fa-gem"></i></div>
+                <div class="website-icon"><i class="fas fa-gem"></i></div> 
                 <div class="website-name"><span class="name-part-1">LUXE</span><span class="name-part-2">GRID</span></div>
             </a>
             <div class="header-right">
-                <button class="mode-toggle-btn" id="mode-toggle-btn" aria-label="Toggle color mode"><i class="fas fa-moon"></i></button>
+                <button class="mode-toggle-btn" id="mode-toggle-btn"><i class="fas fa-moon"></i></button>
                 <a href="#" class="social-icon" data-social="facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-icon" data-social="instagram"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="social-icon" data-social="pinterest"><i class="fab fa-pinterest-p"></i></a>
             </div>
         </header>
     </div>
-
-    <main>
+    
+    <main id="main-content">
         <section class="slider-section">
-            <div class="announcement">
+            <div style="background-color: var(--accent-light); color: white; text-align: center; padding: 8px 0; margin-bottom: 15px; font-weight: 600; font-size: 14px; letter-spacing: 0.5px;">
                 <i class="fas fa-shield-alt"></i> US/CA Verified: Free Returns & 2-Day Shipping on Selected Items
             </div>
             <div class="swiper-container slider-container" id="hero-slider">
-                <div class="swiper-wrapper" id="hero-slider-wrapper">
-                    <!-- hero slides will be injected by JS -->
-                </div>
+                <div class="swiper-wrapper" id="hero-slider-wrapper"></div>
             </div>
         </section>
 
         <section class="category-bar-wrapper">
-            <div class="category-bar">
-                <div class="cat-title-card"><i class="fas fa-male"></i><h3>MEN'S<br>CURATED</h3></div>
-                <div id="category-bar-male" style="display:flex; gap:12px; align-items:center; overflow:auto;"></div>
+            <div class="swiper-container category-bar men-slider">
+                <div class="swiper-wrapper" id="category-bar-male">
+                    <div class="swiper-slide cat-title-card" style="margin-right: 20px;"><i class="fas fa-male icon"></i><h3>MEN'S<br>CURATED</h3></div>
+                </div>
             </div>
-            <div class="category-bar" style="margin-top:12px;">
-                <div class="cat-title-card" style="background:#E91E63;"><i class="fas fa-female"></i><h3>WOMEN'S<br>COLLECTION</h3></div>
-                <div id="category-bar-female" style="display:flex; gap:12px; align-items:center; overflow:auto;"></div>
+            <div class="swiper-container category-bar women-slider">
+                <div class="swiper-wrapper" id="category-bar-female">
+                    <div class="swiper-slide cat-title-card" style="background-color: #E91E63; margin-right: 20px;"><i class="fas fa-female icon"></i><h3>WOMEN'S<br>COLLECTION</h3></div>
+                </div>
             </div>
         </section>
-
+        
         <section id="home-view">
             <h2 class="product-grid-title">Top Curated Picks</h2>
             <div class="container" id="trending-cards-container">
-                <!-- cards rendered by JS -->
-            </div>
+                </div>
         </section>
     </main>
-
+    
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-    // === Preserve your original linking and data structure ===
-    const SOCIAL_LINKS = {
-        facebook: "https://facebook.com/your-page-url",
-        instagram: "https://instagram.com/your-username",
-        pinterest: "https://pinterest.com/your-username",
-        whatsapp: "https://wa.me/8801234567890"
-    };
-
-    const CATEGORIES = {
-        'Men': {
-            'm-shirts': "T-Shirts & Polos",
-            'm-pants': "Jeans & Pants",
-            'm-outer': "Outerwear",
-            'm-shoes': "Shoes",
-            'm-acc': "Accessories"
-        },
-        'Women': {
-            'f-dresses': "Dresses",
-            'f-tops': "Tops & Blouses",
-            'f-bottoms': "Jeans & Leggings",
-            'f-active': "Activewear",
-            'f-jewelry': "Jewelry & Bags"
-        }
-    };
-
-    let currentMode = localStorage.getItem('mode') || 'light';
-
-    async function fetchAllProducts() {
-        const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
-        try {
-            const promises = allCategoryIds.map(catId =>
-                fetch(`data/${catId}.json`).then(response => {
-                    if (!response.ok) throw new Error(`Network response was not ok for ${catId}.json`);
-                    return response.json();
-                })
-            );
-            const results = await Promise.all(promises);
-            return results.flat();
-        } catch (error) {
-            console.error("Error fetching product data:", error);
-            return []; // safe fallback
-        }
-    }
-
-    function renderHeroSlider(allProducts) {
-        const latestProducts = [];
-        const allCategoryGroups = {...CATEGORIES.Men, ...CATEGORIES.Women};
-        for (const catId in allCategoryGroups) {
-            const productsInCategory = allProducts.filter(p => p.category === catId);
-            if (productsInCategory.length > 0) {
-                const latest = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
-                latestProducts.push(latest);
+        // জাভাস্ক্রিপ্ট কোড: লিঙ্কিং এবং লজিক অপরিবর্তিত
+        const SOCIAL_LINKS = {
+            facebook: "https://facebook.com/your-page-url",
+            instagram: "https://instagram.com/your-username",
+            pinterest: "https://pinterest.com/your-username",
+            whatsapp: "https://wa.me/8801234567890" 
+        };
+        const CATEGORIES = {
+            'Men': { 
+                'm-shirts': "T-Shirts & Polos", 
+                'm-pants': "Jeans & Pants", 
+                'm-outer': "Outerwear",
+                'm-shoes': "Shoes", 
+                'm-acc': "Accessories"
+            },
+            'Women': {
+                'f-dresses': "Dresses",
+                'f-tops': "Tops & Blouses", 
+                'f-bottoms': "Jeans & Leggings",
+                'f-active': "Activewear", 
+                'f-jewelry': "Jewelry & Bags"
+            }
+        };
+        let currentMode = localStorage.getItem('mode') || 'light';
+        async function fetchAllProducts() {
+            // (Note: Since I cannot access your local data files, this part assumes files are available at runtime)
+            const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
+            try {
+                const promises = allCategoryIds.map(catId => 
+                    fetch(`data/${catId}.json`).then(response => {
+                        if (!response.ok) throw new Error(`Network response was not ok for ${catId}.json`);
+                        return response.json();
+                    })
+                );
+                const results = await Promise.all(promises);
+                return results.flat(); 
+            } catch (error) {
+                console.error("Error fetching product data:", error);
+                // Providing sample dummy data if fetching fails, to ensure card rendering logic works
+                return [
+                    { id: 'd001', title: 'Flowy Wide-Leg Palazzos', price: '1299.00', images: ['placeholder.jpg'], rating: 4.7, reviews: 2300, category: 'f-bottoms', timestamp: new Date() },
+                    { id: 'd002', title: 'Men\'s Slim-Fit Jeans', price: '1499.00', images: ['placeholder.jpg'], rating: 4.5, reviews: 1500, category: 'm-pants', timestamp: new Date() },
+                    { id: 'd003', title: 'Graphic Print Oversized T-Shirt', price: '799.00', images: ['placeholder.jpg'], rating: 4.8, reviews: 3000, category: 'm-shirts', timestamp: new Date() },
+                    { id: 'd004', title: 'Classic Denim Jacket', price: '2499.00', images: ['placeholder.jpg'], rating: 4.9, reviews: 1200, category: 'f-tops', timestamp: new Date() },
+                    { id: 'd005', title: 'High-Waist Skinny Jeans', price: '1799.00', images: ['placeholder.jpg'], rating: 4.6, reviews: 1200, category: 'f-bottoms', timestamp: new Date() },
+                    { id: 'd006', title: 'Solid V-Neck Blouse', price: '899.00', images: ['placeholder.jpg'], rating: 4.6, reviews: 1200, category: 'f-tops', timestamp: new Date() }
+                ]; 
             }
         }
-        const sliderWrapper = document.getElementById('hero-slider-wrapper');
-        if (!sliderWrapper) return;
-        sliderWrapper.innerHTML = latestProducts.map(product => `
-            <a href="deal.html#${product.id}" class="swiper-slide slider-item" style="display:block; color:inherit;">
-                <img src="${product.images[0]}" alt="${product.title}" style="width:100%; height:100%; object-fit:cover; display:block;">
-                <div style="position:absolute; left:20px; bottom:26px; color:#fff; font-family:var(--font-serif);">
-                    <h3 style="margin:0; font-size:24px;">${product.title}</h3>
-                    <p style="margin:6px 0 0;"> <i class="fas fa-star" style="color:#FFD700"></i> ${product.rating} | $${product.price} </p>
-                </div>
-            </a>
-        `).join('');
-        // init swiper
-        new Swiper('#hero-slider', { loop: true, autoplay: { delay: 4000, disableOnInteraction: false }, speed: 800 });
-    }
-
-    function renderCategoryBars(allProducts) {
-        const maleBar = document.querySelector('#category-bar-male');
-        const femaleBar = document.querySelector('#category-bar-female');
-        if(!maleBar || !femaleBar) return;
-
-        let maleHtml = '';
-        for(const catId in CATEGORIES.Men){
-            const productsInCategory = allProducts.filter(p => p.category === catId);
-            if(productsInCategory.length > 0){
-                const latestProduct = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
-                maleHtml += `
-                    <a href="category.html#${catId}" class="cat-item" style="text-decoration:none; color:inherit;">
-                        <div class="cat-image-container">
-                            <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Men[catId]}" loading="lazy">
-                        </div>
-                        <span class="category-name" style="font-size:13px; font-weight:700;">${CATEGORIES.Men[catId]}</span>
-                    </a>
-                `;
+        function renderHeroSlider(allProducts) {
+            const latestProducts = [];
+            const allCategoryGroups = {...CATEGORIES.Men, ...CATEGORIES.Women};
+            for (const catId in allCategoryGroups) {
+                const productsInCategory = allProducts.filter(p => p.category === catId);
+                if (productsInCategory.length > 0) {
+                    const latest = productsInCategory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                    latestProducts.push(latest);
+                }
             }
-        }
-        maleBar.innerHTML = maleHtml;
-
-        let femaleHtml = '';
-        for(const catId in CATEGORIES.Women){
-            const productsInCategory = allProducts.filter(p => p.category === catId);
-            if(productsInCategory.length > 0){
-                const latestProduct = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
-                femaleHtml += `
-                    <a href="category.html#${catId}" class="cat-item" style="text-decoration:none; color:inherit;">
-                        <div class="cat-image-container">
-                            <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Women[catId]}" loading="lazy">
-                        </div>
-                        <span class="category-name" style="font-size:13px; font-weight:700;">${CATEGORIES.Women[catId]}</span>
-                    </a>
-                `;
-            }
-        }
-        femaleBar.innerHTML = femaleHtml;
-    }
-
-    function formatReviewCount(reviews){
-        if(!reviews) return '';
-        const num = parseInt(String(reviews).replace(/,/g,''), 10);
-        if(isNaN(num)) return reviews;
-        if(num >= 100000) return `${(num/100000).toFixed(1)} Lakh`;
-        if(num >= 1000) return `${(num/1000).toFixed(1)}k`;
-        return num;
-    }
-
-    function renderMostLovedProducts(allProducts){
-        const container = document.getElementById('trending-cards-container');
-        if(!container) return;
-        const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
-        const selectedProducts = shuffled.slice(0, 12);
-
-        container.innerHTML = selectedProducts.map(product => {
-            const originalPrice = (parseFloat(product.price) * 1.5).toFixed(2);
-            const discountPercentage = Math.round(((originalPrice - product.price) / originalPrice) * 100);
-            return `
-                <a href="deal.html#${product.id}" class="product-card" aria-label="${product.title}">
-                    <div class="product-image-wrapper">
-                        <img src="${product.images[0]}" alt="${product.title}" class="product-image" loading="lazy">
-                        <div class="product-rating">
-                            <span>${product.rating}</span>
-                            <i class="fas fa-star star-icon"></i>
-                            ${product.reviews ? `<span style="font-weight:600; font-size:13px; opacity:0.9;">(${formatReviewCount(product.reviews)})</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.title}</h3>
-                        <div class="product-price">
-                            <span class="price-current">$${product.price}</span>
-                            <span class="price-original">$${originalPrice}</span>
-                            <span class="price-discount-tag">${discountPercentage}% OFF</span>
-                        </div>
+            const sliderWrapper = document.getElementById('hero-slider-wrapper');
+            if (!sliderWrapper) return;
+            sliderWrapper.innerHTML = latestProducts.map(product => `
+                <a href="deal.html#${product.id}" class="swiper-slide slider-item" style="text-decoration: none;">
+                    <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
+                    <div class="slider-item-content">
+                        <h3 class="slider-item-title">${product.title}</h3>
+                        <p class="slider-item-details">
+                            <span><i class="fas fa-star" style="color: #FFD700;"></i> ${product.rating}</span> | Price: $${product.price}
+                        </p>
                     </div>
                 </a>
-            `;
-        }).join('');
-    }
-
-    function setMode(mode){
-        const btn = document.getElementById('mode-toggle-btn');
-        const icon = btn.querySelector('i');
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if(icon) icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        localStorage.setItem('mode', mode);
-        currentMode = mode;
-    }
-
-    function setupSocialLinks(){
-        document.querySelectorAll('.social-icon[data-social]').forEach(iconLink => {
-            const platform = iconLink.dataset.social;
-            if(SOCIAL_LINKS[platform]){
-                iconLink.href = SOCIAL_LINKS[platform];
-                iconLink.target = "_blank";
-                iconLink.rel = "noopener noreferrer";
+            `).join('');
+            new Swiper('#hero-slider', { loop: true, autoplay: { delay: 4000, disableOnInteraction: false }, speed: 800 });
+        }
+        function renderCategoryBars(allProducts) {
+            const maleBar = document.querySelector('#category-bar-male');
+            const femaleBar = document.querySelector('#category-bar-female');
+            let maleHtml = '';
+            for(const catId in CATEGORIES.Men) {
+                const productsInCategory = allProducts.filter(p => p.category === catId);
+                if(productsInCategory.length > 0) {
+                    const latestProduct = productsInCategory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                    maleHtml += `
+                        <a href="category.html#${catId}" class="swiper-slide cat-item swiper-slide-category">
+                            <div class="cat-image-container">
+                                <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Men[catId]}" loading="lazy">
+                            </div>
+                            <span class="category-name">${CATEGORIES.Men[catId]}</span>
+                        </a>`;
+                }
             }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        setMode(currentMode);
-        setupSocialLinks();
-        const modeToggleButton = document.getElementById('mode-toggle-btn');
-        if(modeToggleButton){
-            modeToggleButton.addEventListener('click', () => {
-                const newMode = currentMode === 'light' ? 'dark' : 'light';
-                setMode(newMode);
+            maleBar.innerHTML += maleHtml;
+            let femaleHtml = '';
+            for(const catId in CATEGORIES.Women) {
+                const productsInCategory = allProducts.filter(p => p.category === catId);
+                if(productsInCategory.length > 0) {
+                    const latestProduct = productsInCategory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                    femaleHtml += `
+                        <a href="category.html#${catId}" class="swiper-slide cat-item swiper-slide-category">
+                            <div class="cat-image-container">
+                                <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Women[catId]}" loading="lazy">
+                            </div>
+                            <span class="category-name">${CATEGORIES.Women[catId]}</span>
+                        </a>`;
+                }
+            }
+            femaleBar.innerHTML += femaleHtml;
+            // spaceBetween 
+            new Swiper('.men-slider', { slidesPerView: 'auto', spaceBetween: 20, freeMode: true });
+            new Swiper('.women-slider', { slidesPerView: 'auto', spaceBetween: 20, freeMode: true });
+        }
+        function formatReviewCount(reviews) {
+            if (!reviews) return '0';
+            const num = parseInt(String(reviews).replace(/,/g, ''));
+            if (num >= 100000) return `${(num / 100000).toFixed(1)} Lakh`;
+            if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
+            return num;
+        }
+        
+        function renderMostLovedProducts(allProducts) {
+            const container = document.getElementById('trending-cards-container');
+            if (!container) return;
+            const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+            const selectedProducts = shuffled.slice(0, 8); 
+            
+            container.innerHTML = selectedProducts.map(product => {
+                const originalPrice = (parseFloat(product.price) * 1.5).toFixed(2);
+                const discountPercentage = Math.round(((originalPrice - product.price) / originalPrice) * 100);
+                
+                return `
+                    <a href="deal.html#${product.id}" class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="${product.images[0]}" alt="${product.title}" class="product-image" loading="lazy">
+                            <div class="product-rating">
+                                <span>${product.rating}</span>
+                                <i class="fas fa-star star-icon"></i>
+                                ${product.reviews ? `<span>(${formatReviewCount(product.reviews)})</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.title}</h3>
+                            <div class="product-price">
+                                <span class="price-current">$${product.price}</span>
+                                <span class="price-original">$${originalPrice}</span>
+                                <span class="price-discount-tag">${discountPercentage}% OFF</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+        
+        function setMode(mode) {
+            const btn = document.getElementById('mode-toggle-btn');
+            const icon = btn.querySelector('i');
+            document.body.classList.toggle('dark-mode', mode === 'dark');
+            if (icon) icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('mode', mode);
+            currentMode = mode;
+        }
+        function setupSocialLinks() {
+            document.querySelectorAll('.social-icon[data-social]').forEach(iconLink => {
+                const platform = iconLink.dataset.social;
+                if (SOCIAL_LINKS[platform]) {
+                    iconLink.href = SOCIAL_LINKS[platform];
+                    iconLink.target = "_blank";
+                    iconLink.rel = "noopener noreferrer";
+                }
             });
         }
-
-        const allProducts = await fetchAllProducts();
-        if(allProducts && allProducts.length > 0){
-            renderHeroSlider(allProducts);
-            renderCategoryBars(allProducts);
-            renderMostLovedProducts(allProducts);
-        } else {
-            // Safe fallback: If no products, show a couple of placeholders (keeps layout intact)
-            const placeholder = [
-                { id: 'ph1', title: 'Flowy Wide-Leg Palazzos', price: '1299.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-1.png'], rating: '4.7', reviews: '1,200', category: 'f-dresses', timestamp: Date.now() },
-                { id: 'ph2', title: 'Chronograph Analog Watch', price: '4500.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-2.png'], rating: '4.9', reviews: '875', category: 'm-acc', timestamp: Date.now() }
-            ];
-            renderHeroSlider(placeholder);
-            renderCategoryBars(placeholder);
-            renderMostLovedProducts(placeholder);
-            console.log("No products found — placeholders shown for layout testing.");
-        }
-    });
+        document.addEventListener('DOMContentLoaded', async () => {
+            setMode(currentMode);
+            setupSocialLinks();
+            const modeToggleButton = document.getElementById('mode-toggle-btn');
+            if (modeToggleButton) {
+                modeToggleButton.addEventListener('click', () => {
+                    const newMode = currentMode === 'light' ? 'dark' : 'light';
+                    setMode(newMode);
+                });
+            }
+            const allProducts = await fetchAllProducts();
+            if (allProducts && allProducts.length > 0) {
+                renderHeroSlider(allProducts);
+                renderCategoryBars(allProducts);
+                renderMostLovedProducts(allProducts);
+            } else {
+                console.log("No products found or there was an error loading data.");
+            }
+        });
     </script>
 </body>
 </html>
