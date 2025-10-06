@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Style Grid - Curated Luxury Fashion</title>
 
+    <!-- Fonts & icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -28,6 +29,10 @@
         --rating-bg: var(--accent-color);
         --rating-text: #FFFFFF;
         --cat-border: #E0E0E0;
+
+        /* hero heights */
+        --hero-height-desktop: 360px;
+        --hero-height-mobile: 260px;
     }
     body.dark-mode {
         --bg-primary: #1E1E1E;
@@ -57,7 +62,7 @@
         transition: background-color .35s, color .35s;
         -webkit-font-smoothing:antialiased;
         -moz-osx-font-smoothing:grayscale;
-        overflow-x: hidden; /* গ্লোবাল ওভারফ্লো ফিক্স */
+        -webkit-tap-highlight-color: transparent; /* remove mobile tap circle */
     }
 
     /* Header */
@@ -70,154 +75,158 @@
         max-width:1400px; margin:0 auto; width:100%;
         padding:16px 20px; display:flex; justify-content:space-between; align-items:center;
     }
-    
-    /* HERO / ANNOUNCEMENT FIXES */
+    .header-left{ display:flex; align-items:center; gap:10px; }
+    .website-icon i{ font-size:26px; color:var(--accent-color); }
+    .website-name{ font-family:var(--font-serif); font-weight:900; font-size:26px; letter-spacing:1px; }
+    .name-part-1{ color:var(--accent-color); }
+    .name-part-2{ color:var(--header-text); }
+    .header-right{ display:flex; align-items:center; gap:16px; }
+
+    /* HERO / ANNOUNCEMENT */
     .slider-section{
-        padding:18px 0 28px; background:var(--bg-primary); border-bottom:1px solid var(--cat-border);
+        padding:18px 0 20px; background:var(--bg-primary); border-bottom:1px solid var(--cat-border);
     }
     .slider-section .announcement{
-        max-width:1400px; margin:0 auto 12px; padding:8px 15px; text-align:center; font-weight:600;
+        max-width:1400px; margin:0 auto 12px; padding:10px; text-align:center; font-weight:600;
         color:#fff; background: linear-gradient(90deg, var(--accent-color), var(--accent-light)); border-radius:8px;
-        /* ফিক্স: টেক্সট এক লাইনে রাখার জন্য */
-        white-space: nowrap; 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 14px; /* ডেস্কটপ ভিউতে একটু বড় */
     }
-    .slider-container{ 
-        max-width:1400px; margin:0 auto; border-radius:12px; overflow:hidden; 
-        /* ফিক্স: স্লাইডারের হাইট কমানো হলো */
-        aspect-ratio: 16/7; 
-        box-shadow:0 6px 22px rgba(0,0,0,0.08); background: #fafafa; 
+    .slider-container{
+        max-width:1400px; margin:0 auto; border-radius:12px; overflow:hidden;
+        box-shadow:0 6px 22px rgba(0,0,0,0.08); background: #fafafa;
+        height: var(--hero-height-desktop); /* explicit height to control mobile/desktop */
     }
-    
-    /* ফিক্স: স্লাইডার টাইটেল ও টেক্সট সাইজ বড় করা */
-    .slider-item-content {
-        position:absolute; left:20px; bottom:26px; color:#fff; font-family:var(--font-serif);
+    /* slide internals */
+    .swiper-slide { position: relative; height:100%; display:block; }
+    .slide-media img { width:100%; height:100%; object-fit:cover; display:block; }
+    .slider-caption {
+        position:absolute; left:20px; bottom:24px; color:#fff; font-family:var(--font-serif);
+        text-shadow: 0 4px 18px rgba(0,0,0,0.45);
     }
-    .slider-item-content h3 { 
-        margin:0; 
-        font-size:32px !important; /* সাইজ বাড়ানো */
-        font-weight: 700;
-    }
-    .slider-item-content p {
-        margin:6px 0 0;
-        font-size:18px !important; /* সাইজ বাড়ানো */
-        font-weight: 500;
-    }
+    .slider-title { margin:0; font-size:28px; font-weight:800; line-height:1.05; }
+    .slider-meta { margin:6px 0 0; font-weight:600; font-size:16px; }
 
-    /* Category Fixes */
-    .category-bar-wrapper{ padding:26px 0; background:var(--bg-primary); }
-    /* ফিক্স: মূল ক্যাটাগরি কন্টেইনার ওভারফ্লো ফিক্স এবং ফুল উইডথ */
-    .category-bar{ 
-        max-width:1400px; 
-        margin:0 auto; 
-        padding:6px 12px; 
-        display:flex; 
-        gap:12px; 
-        align-items:center; 
-        overflow:hidden; 
+    /* Category: combine title inside scrollable list so it slides */
+    .category-bar-wrapper{ padding:20px 0 26px; background:var(--bg-primary); }
+    .category-row { max-width:1400px; margin:0 auto; padding:6px 12px; overflow:hidden; }
+    .category-scroll {
+        display:flex; gap:12px; align-items:center; overflow-x:auto; -webkit-overflow-scrolling:touch;
+        padding-bottom:6px; scroll-snap-type:x proximity; white-space:nowrap;
     }
-    /* ফিক্স: Inner slider container কে স্লাইড করার অনুমতি দেওয়া হলো */
-    #category-bar-male, #category-bar-female {
-        display:flex; gap:12px; align-items:center; 
-        /* এই অংশটি এখন স্লাইড করতে পারবে */
-        overflow-x: auto !important; 
-        -webkit-overflow-scrolling: touch; 
-        scrollbar-width: none; /* Firefox */
-    }
-    /* Hide scrollbar for Webkit browsers */
-    #category-bar-male::-webkit-scrollbar, #category-bar-female::-webkit-scrollbar {
-        display: none;
-    }
+    .category-scroll::-webkit-scrollbar{ display:none; }
+
+    .cat-slide { flex: 0 0 auto; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center; scroll-snap-align:start; }
     .cat-title-card{
         background-color: var(--accent-color);
-        color: #fff; border-radius:8px; padding:14px 12px; width:140px; flex-shrink:0;
+        color: #fff; border-radius:8px; padding:12px 10px; width:120px; flex-shrink:0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12); display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+        gap:6px; font-weight:800;
     }
-    .cat-item{ 
-        display:flex; flex-direction:column; gap:8px; align-items:center; 
-        width:90px; /* ফিক্স: ক্যাটাগরি আইটেমের সাইজ ছোট করা */
-        flex-shrink: 0; /* স্লাইড করার জন্য অপরিহার্য */
-        text-align:center; 
-    }
-    .cat-image-container{ 
-        width:70px; height:70px; /* ফিক্স: ক্যাটাগরি ইমেজের সাইজ ছোট করা */
-        border-radius:50%; /* গোল করার জন্য */
-        overflow:hidden; border:3px solid var(--cat-border); display:flex; align-items:center; justify-content:center; background: #fff; 
-    }
-    
-    /* PRODUCT GRID FIXES */
+    .cat-title-card h3{ margin:0; font-size:14px; line-height:1.05; }
+
+    .cat-image-container{ width:86px; height:86px; border-radius:12px; overflow:hidden; border:3px solid var(--cat-border); display:flex; align-items:center; justify-content:center; background: #fff; }
+    .cat-image-container img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .category-name { font-size:13px; font-weight:700; display:block; width:100%; }
+
+    /* PRODUCT GRID */
+    #home-view{ padding:18px 0 60px; }
+    .product-grid-title{ text-align:center; font-family:var(--font-serif); font-weight:900; font-size:34px; margin:22px 0; color:var(--text-primary); }
+
+    /* DESKTOP = 3 columns as requested */
     .container{
         max-width:1400px; margin:0 auto; padding:12px; display:grid;
-        /* ফিক্স: ডেক্সটপ ভিউতে ৩টি কার্ড */
-        grid-template-columns: repeat(3, 1fr); 
-        gap:24px;
+        grid-template-columns: repeat(3, 1fr); gap:22px;
     }
-    
-    /* CARD FIXES */
-    .product-info{ 
-        padding:14px 16px 18px; background:transparent; display:flex; 
-        flex-direction:column; gap:8px; 
-        min-height:110px; 
+
+    /* CARD */
+    .product-card{
+        display:block;
+        background: var(--card-bg); color: inherit;
+        border-radius:12px; overflow:hidden; text-decoration:none;
+        box-shadow: var(--card-shadow); transition: transform .28s, box-shadow .28s;
+        border: 1px solid rgba(0,0,0,0.03);
+        -webkit-tap-highlight-color: transparent;
     }
+    .product-card:hover{ transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+    .product-card:focus{ outline: none; } /* user requested no click circle */
+
+    /* IMAGE WRAPPER */
+    .product-image-wrapper{
+        position: relative;
+        width:100%;
+        aspect-ratio: 4 / 3; /* uniform */
+        background: var(--bg-secondary);
+        display:flex; align-items:center; justify-content:center;
+        overflow:hidden;
+    }
+    .product-image{
+        width:100%; height:100%; display:block; object-fit:cover; transition: transform .45s ease;
+    }
+    .product-card:hover .product-image{ transform: scale(1.06); }
+
+    /* Rating ribbon */
+    .product-rating{
+        position:absolute; left:0; bottom:0;
+        background: linear-gradient(90deg, var(--rating-bg), var(--accent-light));
+        color: var(--rating-text); padding:8px 12px; font-weight:700; font-size:14px;
+        border-radius: 0 8px 8px 0; display:inline-flex; align-items:center; gap:8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+    .product-rating .star-icon{ color: #FFD700; font-size:13px; }
+
+    .product-info{ padding:14px 16px 18px; display:flex; flex-direction:column; gap:8px; min-height:120px; }
     .product-title{
         font-size:16px; font-weight:600; color:var(--text-primary); margin:0;
-        line-height:1.25; height:45px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+        line-height:1.25; height:48px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
     }
-    .product-price{ 
-        display:flex; align-items:center; 
-        /* ফিক্স: ওভারফ্লো এড়াতে flex-wrap ব্যবহার করা হলো */
-        flex-wrap: wrap; 
-        gap:8px; /* গ্যাপ কমানো হলো */
-        margin-top:auto; 
-    }
-    .price-current{ font-weight:800; font-size:18px; }
-    .price-original{ font-size:14px; }
-    .price-discount-tag{ padding:3px 6px; font-size:11px; }
 
-    /* Responsive */
-    @media (max-width: 1200px) { 
-        .container{ grid-template-columns: repeat(3,1fr); } 
-    }
-    @media (max-width: 992px) { 
-        .container{ grid-template-columns: repeat(2,1fr); gap:18px; } 
-    }
-    /* মোবাইল ভিউ ফিক্স */
-    @media (max-width: 767px) {
-        /* Announcement ফিক্স (মোবাইলে এক লাইনে) */
-        .slider-section .announcement{ font-size: 12px; padding: 6px 10px; }
-        
-        /* স্লাইডার হাইট ফিক্স */
-        .slider-container{ aspect-ratio: 4/3; border-radius:8px; }
+    .product-price{ display:flex; align-items:center; gap:10px; margin-top:auto; }
+    .price-current{ color:var(--accent-color); font-weight:800; font-size:18px; }
+    .price-original{ color:var(--price-original-color); text-decoration: line-through; font-size:14px; }
+    .price-discount-tag{ background: #E91E63; color:#fff; padding:4px 8px; border-radius:8px; font-weight:800; font-size:12px; }
 
-        /* স্লাইডার টাইটেল ছোট করা */
-        .slider-item-content { left: 15px; bottom: 15px; }
-        .slider-item-content h3 { font-size: 24px !important; }
-        .slider-item-content p { font-size: 15px !important; }
+    /* small helpers */
+    .sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 
-        /* ক্যাটাগরি ফিক্স (সবকিছু এক লাইনে, ছোট) */
-        .category-bar{ padding: 6px 0; }
-        .cat-title-card{ width: 100px; padding: 10px 8px; margin-right: 10px; }
-        .cat-title-card h3{ font-size: 12px; line-height: 1.1; }
-        .cat-item{ width: 70px; gap: 4px; }
-        .cat-image-container{ width: 60px; height: 60px; }
-        .category-name{ font-size: 11px !important; }
-        
-        /* গ্রিড ফিক্স */
-        .container{ grid-template-columns: 1fr 1fr; gap:12px; padding:8px; }
-        
-        /* কার্ড ওভারফ্লো ফিক্স */
-        .product-info{ padding: 10px; min-height: 90px; }
-        .product-title{ font-size: 14px; height: 35px; }
-        .product-price{ 
-            gap: 4px; 
-            flex-direction: row; /* এক লাইনে নিশ্চিত করা হলো */
-        }
-        .price-current{ font-size: 16px; }
-        .price-original{ font-size: 12px; }
-        .price-discount-tag{ font-size: 10px; padding: 2px 4px; }
+    /* RESPONSIVE rules -> mobile 2 cards per row, keep category single-line and smaller */
+    @media (max-width: 1200px) {
+        .slider-container { height: var(--hero-height-desktop); }
     }
-    
+    @media (max-width: 992px) {
+        .container{ grid-template-columns: repeat(2, 1fr); gap:18px; }
+        .product-grid-title{ font-size:30px; }
+        .slider-title{ font-size:26px; }
+        .slider-meta{ font-size:15px; }
+    }
+    @media (max-width: 600px) {
+        /* mobile: keep 2 columns as requested */
+        .container{ grid-template-columns: repeat(2, 1fr); gap:12px; padding:8px; }
+        .website-name{ font-size:20px; }
+        /* reduce hero height on mobile to be balanced */
+        .slider-container{ height: var(--hero-height-mobile); border-radius:8px; }
+        .slider-title{ font-size:20px; }
+        .slider-meta{ font-size:13px; }
+
+        /* category: smaller items and keep them in one line */
+        .cat-image-container{ width:64px; height:64px; border-width:2px; }
+        .cat-title-card{ width:100px; padding:10px 8px; }
+        .category-name{ font-size:11px; }
+
+        /* product card adjustments for small screens */
+        .product-info{ padding:10px 12px 12px; min-height:100px; }
+        .product-title{ font-size:14px; height:44px; }
+        .price-current{ font-size:16px; }
+    }
+    @media (max-width: 420px) {
+        /* still keep 2 columns (user insisted) but make fonts even smaller to fit */
+        .container{ grid-template-columns: repeat(2, 1fr); gap:10px; padding:6px; }
+        .slider-title{ font-size:18px; }
+        .slider-meta{ font-size:12px; }
+        .cat-image-container{ width:58px; height:58px; }
+        .cat-title-card{ width:88px; padding:8px 6px; font-size:13px; }
+        .category-name{ font-size:10px; }
+        .product-title{ font-size:13px; height:40px; }
+        .price-current{ font-size:15px; }
+    }
     </style>
 </head>
 <body>
@@ -241,27 +250,32 @@
             <div class="announcement">
                 <i class="fas fa-shield-alt"></i> US/CA Verified: Free Returns & 2-Day Shipping on Selected Items
             </div>
+
             <div class="swiper-container slider-container" id="hero-slider">
                 <div class="swiper-wrapper" id="hero-slider-wrapper">
-                    </div>
+                    <!-- hero slides will be injected by JS -->
+                </div>
             </div>
         </section>
 
         <section class="category-bar-wrapper">
-            <div class="category-bar">
-                <div class="cat-title-card"><i class="fas fa-male"></i><h3>MEN'S<br>CURATED</h3></div>
-                <div id="category-bar-male" style="display:flex; gap:12px; align-items:center; overflow-x: auto;"></div>
+            <div class="category-row">
+                <div class="category-scroll" id="category-bar-male">
+                    <!-- male slides injected by JS (title card will be first slide) -->
+                </div>
             </div>
-            <div class="category-bar" style="margin-top:12px;">
-                <div class="cat-title-card" style="background:#E91E63;"><i class="fas fa-female"></i><h3>WOMEN'S<br>COLLECTION</h3></div>
-                <div id="category-bar-female" style="display:flex; gap:12px; align-items:center; overflow-x: auto;"></div>
+            <div class="category-row" style="margin-top:10px;">
+                <div class="category-scroll" id="category-bar-female">
+                    <!-- female slides injected by JS -->
+                </div>
             </div>
         </section>
 
         <section id="home-view">
             <h2 class="product-grid-title">Top Curated Picks</h2>
             <div class="container" id="trending-cards-container">
-                </div>
+                <!-- cards rendered by JS -->
+            </div>
         </section>
     </main>
 
@@ -295,17 +309,20 @@
     let currentMode = localStorage.getItem('mode') || 'light';
 
     async function fetchAllProducts() {
-        // Safe fallback data
-        return [
-            { id: 'ph1', title: 'Luxury Leather Wallet with Card Slots', price: '1299.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-1.png'], rating: '4.7', reviews: '1200', category: 'm-acc', timestamp: Date.now() },
-            { id: 'ph2', title: 'Elegant Floral Print Maxi Dress', price: '4500.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-2.png'], rating: '4.9', reviews: '875', category: 'f-dresses', timestamp: Date.now() },
-            { id: 'ph3', title: 'Men\'s Casual Linen Shirt', price: '799.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-3.png'], rating: '4.5', reviews: '250', category: 'm-shirts', timestamp: Date.now() },
-            { id: 'ph4', title: 'Slim Fit Dark Wash Denim Jeans', price: '1999.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-4.png'], rating: '4.6', reviews: '1500', category: 'm-pants', timestamp: Date.now() },
-            { id: 'ph5', title: 'Women\'s Stylish Knit Top', price: '899.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-5.png'], rating: '4.4', reviews: '320', category: 'f-tops', timestamp: Date.now() },
-            { id: 'ph6', title: 'Winter Padded Jacket', price: '3200.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-6.png'], rating: '4.8', reviews: '900', category: 'm-outer', timestamp: Date.now() },
-            { id: 'ph7', title: 'High-Waist Leggings for Activewear', price: '699.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-7.png'], rating: '4.7', reviews: '450', category: 'f-active', timestamp: Date.now() },
-            { id: 'ph8', title: 'Classic Leather Loafers', price: '2800.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-8.png'], rating: '4.6', reviews: '600', category: 'm-shoes', timestamp: Date.now() }
-        ];
+        const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
+        try {
+            const promises = allCategoryIds.map(catId =>
+                fetch(`data/${catId}.json`).then(response => {
+                    if (!response.ok) throw new Error(`Network response was not ok for ${catId}.json`);
+                    return response.json();
+                })
+            );
+            const results = await Promise.all(promises);
+            return results.flat();
+        } catch (error) {
+            console.error("Error fetching product data:", error);
+            return []; // safe fallback
+        }
     }
 
     function renderHeroSlider(allProducts) {
@@ -320,19 +337,31 @@
         }
         const sliderWrapper = document.getElementById('hero-slider-wrapper');
         if (!sliderWrapper) return;
-        
-        // ফিক্স: স্লাইডার কন্টেন্ট রেন্ডারিং এ ক্লাস ব্যবহার করা হলো
+
+        // Build slides with structured HTML (so CSS can style)
         sliderWrapper.innerHTML = latestProducts.map(product => `
-            <a href="deal.html#${product.id}" class="swiper-slide slider-item" style="display:block; color:inherit; position:relative;">
-                <img src="${product.images[0]}" alt="${product.title}" style="width:100%; height:100%; object-fit:cover; display:block;">
-                <div class="slider-item-content">
-                    <h3 style="font-size:32px;">${product.title}</h3>
-                    <p style="font-size:18px;"> <i class="fas fa-star" style="color:#FFD700"></i> ${product.rating} | $${product.price} </p>
+            <div class="swiper-slide slider-item" aria-hidden="false">
+                <div class="slide-media">
+                    <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
                 </div>
-            </a>
+                <div class="slider-caption">
+                    <h3 class="slider-title">${product.title}</h3>
+                    <p class="slider-meta"><i class="fas fa-star" style="color:#FFD700"></i> ${product.rating} | $${product.price}</p>
+                </div>
+            </div>
         `).join('');
-        
-        new Swiper('#hero-slider', { loop: true, autoplay: { delay: 4000, disableOnInteraction: false }, speed: 800 });
+
+        // init swiper with autoplay
+        if (window.heroSwiperInstance) {
+            window.heroSwiperInstance.destroy(true, true);
+        }
+        window.heroSwiperInstance = new Swiper('#hero-slider', {
+            loop: true,
+            autoplay: { delay: 4200, disableOnInteraction: false },
+            speed: 700,
+            slidesPerView: 1,
+            spaceBetween: 0,
+        });
     }
 
     function renderCategoryBars(allProducts) {
@@ -340,34 +369,49 @@
         const femaleBar = document.querySelector('#category-bar-female');
         if(!maleBar || !femaleBar) return;
 
+        // Helper to create slide HTML
+        function makeCatSlide(html) { return html; }
+
+        // Male: first slide is title card (so it scrolls)
         let maleHtml = '';
+        maleHtml += `
+            <div class="cat-slide">
+                <div class="cat-title-card"><i class="fas fa-male"></i><h3>MEN'S<br>CURATED</h3></div>
+            </div>
+        `;
         for(const catId in CATEGORIES.Men){
             const productsInCategory = allProducts.filter(p => p.category === catId);
             if(productsInCategory.length > 0){
-                const latestProduct = productsInCategory.filter(p => p.images && p.images.length > 0)[0] || productsInCategory[0];
+                const latestProduct = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
                 maleHtml += `
-                    <a href="category.html#${catId}" class="cat-item" style="text-decoration:none; color:inherit;">
+                    <a href="category.html#${catId}" class="cat-slide" style="text-decoration:none; color:inherit;">
                         <div class="cat-image-container">
                             <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Men[catId]}" loading="lazy">
                         </div>
-                        <span class="category-name" style="font-size:13px; font-weight:700;">${CATEGORIES.Men[catId]}</span>
+                        <span class="category-name">${CATEGORIES.Men[catId]}</span>
                     </a>
                 `;
             }
         }
         maleBar.innerHTML = maleHtml;
 
+        // Female: first slide is title card
         let femaleHtml = '';
+        femaleHtml += `
+            <div class="cat-slide">
+                <div class="cat-title-card" style="background:#E91E63;"><i class="fas fa-female"></i><h3>WOMEN'S<br>COLLECTION</h3></div>
+            </div>
+        `;
         for(const catId in CATEGORIES.Women){
             const productsInCategory = allProducts.filter(p => p.category === catId);
             if(productsInCategory.length > 0){
-                const latestProduct = productsInCategory.filter(p => p.images && p.images.length > 0)[0] || productsInCategory[0];
+                const latestProduct = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
                 femaleHtml += `
-                    <a href="category.html#${catId}" class="cat-item" style="text-decoration:none; color:inherit;">
+                    <a href="category.html#${catId}" class="cat-slide" style="text-decoration:none; color:inherit;">
                         <div class="cat-image-container">
                             <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Women[catId]}" loading="lazy">
                         </div>
-                        <span class="category-name" style="font-size:13px; font-weight:700;">${CATEGORIES.Women[catId]}</span>
+                        <span class="category-name">${CATEGORIES.Women[catId]}</span>
                     </a>
                 `;
             }
@@ -453,6 +497,14 @@
             renderCategoryBars(allProducts);
             renderMostLovedProducts(allProducts);
         } else {
+            // Safe fallback: If no products, show a couple of placeholders (keeps layout intact)
+            const placeholder = [
+                { id: 'ph1', title: 'Flowy Wide-Leg Palazzos', price: '1299.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-1.png'], rating: '4.7', reviews: '1,200', category: 'f-dresses', timestamp: Date.now() },
+                { id: 'ph2', title: 'Chronograph Analog Watch', price: '4500.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-2.png'], rating: '4.9', reviews: '875', category: 'm-acc', timestamp: Date.now() }
+            ];
+            renderHeroSlider(placeholder);
+            renderCategoryBars(placeholder);
+            renderMostLovedProducts(placeholder);
             console.log("No products found — placeholders shown for layout testing.");
         }
     });
