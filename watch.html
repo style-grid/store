@@ -233,7 +233,7 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* ✅ সংশোধিত CSS: মুভি টাইটেল স্টাইল */
+        /* ✅ সংশোধিত CSS: মুভি টাইটেল স্টাইল (নো-হাইডিং, নরমাল ওয়েট) */
         #movie-dynamic-title {
             position: absolute; 
             bottom: 15px; 
@@ -250,10 +250,10 @@
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9); 
             margin: 0; 
             
-            /* এক লাইনে রাখার জন্য */
-            white-space: nowrap; 
-            overflow: hidden;
-            text-overflow: ellipsis; 
+            /* আগের স্টাইল রিমুভ করা হলো যাতে সম্পূর্ণ টাইটেল দেখা যায় */
+            white-space: normal; 
+            overflow: visible;
+            text-overflow: clip; 
         }
         
         /* ভিডিও CTA সেকশন */
@@ -493,6 +493,7 @@
             color: var(--text-gray);
         }
 
+        /* ✅ সংশোধিত CSS: আর্টিকেল হেডলাইন (নো-হাইডিং) */
         .content-section h3 {
             color: var(--text-light);
             font-size: 1.5rem;
@@ -574,14 +575,14 @@
                 padding: 5px 10px 10px 10px; 
             }
             
-            /* ✅ সংশোধিত CSS: মোবাইল টাইটেল ফিক্স (সাইজ মানানসই ও নরমাল ফন্ট) */
+            /* ✅ সংশোধিত CSS: মোবাইল টাইটেল ফিক্স (নো-হাইডিং, নরমাল ওয়েট) */
             #movie-dynamic-title {
                 font-size: 1rem; /* ছোট করা হলো */
                 font-weight: 400; /* নরমাল ফন্ট ওয়েট */
                 bottom: 10px; 
-                white-space: nowrap; 
-                overflow: hidden;
-                text-overflow: ellipsis; 
+                white-space: normal; 
+                overflow: visible;
+                text-overflow: clip; 
             }
             
             .video-cta {
