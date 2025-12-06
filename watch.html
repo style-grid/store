@@ -22,7 +22,7 @@
     ></script>
   
     <style>
-        /* CSS কোড: যেমন ছিল তেমনই আছে */
+        /* CSS কোড: */
         :root {
             --primary-gold: #d4af37;
             --primary-gold-hover: #b4942b;
@@ -123,6 +123,7 @@
             background-size: cover;
             background-position: center;
             display: flex;
+            flex-direction: column; /* টাইটেল নিচে দেখানোর জন্য */
             justify-content: center;
             align-items: center;
             position: relative;
@@ -232,21 +233,29 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* ভিডিও CTA সেকশন */
-        .video-cta {
-            margin-top: 0px; 
-            margin-bottom: 15px; 
+        /* ✅ ডাইনামিক টাইটেল স্টাইল (সংশোধিত: থাম্বনেইল কন্টেইনারের ভিতরে) ✅ */
+        #movie-dynamic-title {
+            position: absolute; 
+            bottom: 15px; /* নিচের দিকে পজিশন */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 95%;
+            font-size: 1.4rem; 
+            font-weight: 500; /* কম বোল্ড */
+            color: var(--text-light);
             text-align: center;
+            z-index: 10;
+            line-height: 1.3;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9); /* টাইটেলকে থাম্বনেইলের উপরে স্পষ্ট করার জন্য */
+            margin: 0; /* অতিরিক্ত মার্জিন বাতিল */
         }
         
-        /* ✅ ডাইনামিক টাইটেল স্টাইল (সংশোধিত) ✅ */
-        #movie-dynamic-title {
-            font-size: 1.5rem; /* ফন্ট সাইজ সামান্য কমানো */
-            font-weight: 600; /* কম বোল্ড করা */
+        /* ভিডিও CTA সেকশন (টাইটেল এখান থেকে সরানো হয়েছে) */
+        .video-cta {
             margin-top: 10px; 
-            margin-bottom: 10px; 
-            color: var(--text-light);
-            line-height: 1.3;
+            margin-bottom: 15px; 
+            text-align: center;
         }
         
         .video-cta h2 {
@@ -513,20 +522,18 @@
             }
             
             .video-cta {
-                margin-top: 0px; 
+                margin-top: 10px; 
                 margin-bottom: 10px; 
             }
-
+            
             .video-cta h2 {
                 margin-bottom: 1px; 
             }
             
-            /* ✅ মোবাইল টাইটেল ফিক্স (কম বোল্ড ও ছোট) ✅ */
+            /* ✅ মোবাইল টাইটেল ফিক্স (থাম্বনেইল কন্টেইনারের ভিতরে) ✅ */
             #movie-dynamic-title {
-                font-size: 1.2rem; /* আরও ছোট */
-                font-weight: 600; 
-                margin-top: 5px; 
-                margin-bottom: 5px; 
+                font-size: 1.1rem; /* আরও ছোট */
+                bottom: 10px; 
             }
 
             .download-title {
@@ -575,7 +582,7 @@
     <div class="container">
       
         <div class="video-cta">
-            <h1 id="movie-dynamic-title">Loading Movie Title...</h1> <h2>Ready to Watch?</h2>
+            <h2>Ready to Watch?</h2>
             <p class="blink-text">Click the Play Button Below to Stream or Download</p> 
         </div>
 
@@ -587,7 +594,7 @@
             <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="thumbnail-link" id="thumbnailLink" title="Play to Access">
                 <div class="thumbnail-container" id="thumbnailContainer">
                     <div class="overlay"></div>
-                    <div class="play-button" id="playButton"></div>
+                    <h1 id="movie-dynamic-title">Loading Movie Title...</h1> <div class="play-button" id="playButton"></div>
                     <div class="spinner" id="spinner"></div> 
                 </div>
             </a>
