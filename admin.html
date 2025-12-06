@@ -3,270 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - JSON Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>PrimeFlix-Hub | Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+        :root {
+            --primary-gold: #d4af37;
+            --bg-dark: #0f1014;
+            --bg-card: #1a1c24;
+            --text-light: #ffffff;
+            --text-gray: #b3b3b3;
+            --success-green: #28a745;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
         .container {
             max-width: 800px;
-            width: 100%;
-            background-color: #ffffff;
+            margin: 0 auto;
+            background-color: var(--bg-card);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-top: 5px solid var(--primary-gold);
         }
+
         h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary-gold);
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-weight: 700;
+            margin-bottom: 5px;
         }
+        
+        .subtitle {
+            text-align: center;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 15px;
+        }
+
+        /* --- Form Styles --- */
         .form-group {
             margin-bottom: 20px;
         }
+
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 500;
-            color: #555;
+            font-weight: 600;
+            color: var(--text-light);
         }
-        input[type="text"],
-        input[type="number"],
-        textarea,
-        select {
+
+        input[type="text"], select {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background-color: #2a2c34;
+            color: var(--text-light);
+            font-size: 1rem;
             transition: border-color 0.3s;
+            -webkit-appearance: none; /* iOS fix */
+            -moz-appearance: none;
+            appearance: none;
         }
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        textarea:focus,
-        select:focus {
+        
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23d4af37" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: 98%;
+            background-position-y: 50%;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--primary-gold);
             outline: none;
-            border-color: #FF6F61;
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
         }
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-        button {
-            flex-grow: 1;
+
+        .btn-generate {
+            display: block;
+            width: 100%;
             padding: 15px;
+            background-color: var(--primary-gold);
+            color: var(--bg-dark);
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        #generate-btn {
-            background-color: #FF6F61;
-            color: white;
-        }
-        #generate-btn:hover {
-            background-color: #e65c50;
-            transform: translateY(-2px);
-        }
-        #reset-btn {
-            background-color: #95a5a6;
-            color: white;
-        }
-        #reset-btn:hover {
-            background-color: #7f8c8d;
-        }
-        #output-container {
+            transition: background-color 0.3s, transform 0.1s;
             margin-top: 30px;
-            position: relative;
         }
-        #output {
+
+        .btn-generate:hover {
+            background-color: var(--primary-gold);
+            filter: brightness(1.1);
+        }
+        
+        .btn-generate:active {
+            transform: scale(0.99);
+        }
+
+        /* --- Output Section --- */
+        .output-container {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px dashed #333;
+            display: none; /* Initially hidden */
+        }
+
+        h3 {
+            color: var(--text-light);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #json-output {
             width: 100%;
-            min-height: 200px;
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            border: none;
-            border-radius: 5px;
+            height: 150px;
+            background-color: #000;
+            color: var(--success-green);
             padding: 15px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            white-space: pre;
+            border: 1px solid #444;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9rem;
             overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
-        #copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #3498db;
-            color: white;
+        
+        .btn-copy {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--success-green);
+            color: var(--bg-dark);
             border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-top: 10px;
         }
-        #copy-btn:hover {
-            background-color: #2980b9;
+        
+        .btn-copy:hover {
+             background-color: #38c156;
         }
-        .copy-feedback {
-            position: absolute;
-            top: 12px;
-            right: 100px;
-            color: #2ecc71;
-            font-weight: 500;
+
+        #copy-message {
+            text-align: center;
+            margin-top: 10px;
+            color: var(--primary-gold);
+            font-size: 0.9rem;
             opacity: 0;
-            transition: opacity 0.5s;
+            transition: opacity 0.3s;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Product JSON Generator</h1>
-        <form id="product-form">
+        <h1>Movie Card Generator</h1>
+        <p class="subtitle">Generate JSON code for `data.json` (Always paste at the top of `all_cards` array)</p>
+
+        <form id="card-form">
             <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" required>
-                    <option value="">-- Select a Category --</option>
+                <label for="title">1. Movie Title:</label>
+                <input type="text" id="title" placeholder="e.g., The Golden Sword: Last Kingdom" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image-url">2. Thumbnail Image Link (Full URL):</label>
+                <input type="text" id="image-url" placeholder="e.g., https://picsum.photos/id/1025/200/300" required>
+            </div>
+
+            <div class="form-group">
+                <label for="download-link">3. Original Movie Download Link (Target URL):</label>
+                <input type="text" id="download-link" placeholder="e.g., https://prototypesorting.com/dl/action/movie-code" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category-id">4. Select Category:</label>
+                <select id="category-id" required>
+                    <option value="" disabled selected>--- Select a Category ---</option>
+                    <option value="action_movie">Action Movie</option>
+                    <option value="trending_movie">Trending Movie</option>
+                    <option value="english_movie">English Movie</option>
+                    <option value="hindi_movie">Hindi Movie</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="title">Product Title</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="price">Price (e.g., 550.00)</label>
-                <input type="number" step="0.01" id="price" name="price" required>
-            </div>
-            <div class="form-group">
-                <label for="rating">Rating (e.g., 4.7)</label>
-                <input type="number" step="0.1" id="rating" name="rating" required>
-            </div>
-            <div class="form-group">
-                <label for="images">Image URLs (comma-separated)</label>
-                <textarea id="images" name="images" placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="affiliateLink">Affiliate Link</label>
-                <input type="text" id="affiliateLink" name="affiliateLink" required>
-            </div>
-            <div class="button-group">
-                <button type="submit" id="generate-btn">Generate Code</button>
-                <button type="button" id="reset-btn">Reset Form</button>
-            </div>
+
+            <button type="submit" class="btn-generate" id="generate-btn">
+                <i class="fa-solid fa-code-merge"></i> Generate JSON Code
+            </button>
         </form>
 
-        <div id="output-container" style="display: none;">
-            <label>Generated JSON Code</label>
-            <button id="copy-btn">Copy</button>
-            <span class="copy-feedback">Copied!</span>
-            <textarea id="output" readonly></textarea>
+        <div class="output-container" id="output-section">
+            <h3>✅ Copy the Code Below:</h3>
+            <textarea id="json-output" readonly></textarea>
+            <button class="btn-copy" id="copy-btn"><i class="fa-solid fa-copy"></i> Copy to Clipboard</button>
+            <p id="copy-message">Copied! Now paste it at the very top of your `data.json`'s `all_cards` list.</p>
         </div>
     </div>
 
     <script>
-        // ক্যাটাগরি তালিকা, যা আপনার মূল সাইটের সাথে মিল রাখা হয়েছে
-        const CATEGORIES = {
-            'Men': { 
-                'm-shirts': "T-Shirts & Polos", 'm-pants': "Jeans & Pants", 'm-outer': "Outerwear",
-                'm-shoes': "Shoes", 'm-acc': "Accessories"
-            },
-            'Women': {
-                'f-dresses': "Dresses", 'f-tops': "Tops & Blouses", 'f-bottoms': "Jeans & Leggings",
-                'f-active': "Activewear", 'f-jewelry': "Jewelry & Bags"
-            }
-        };
+        document.getElementById('card-form').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        // ড্রপডাউন মেনু তৈরি করা
-        const categorySelect = document.getElementById('category');
-        for (const group in CATEGORIES) {
-            const optgroup = document.createElement('optgroup');
-            optgroup.label = group;
-            for (const catId in CATEGORIES[group]) {
-                const option = document.createElement('option');
-                option.value = catId;
-                option.textContent = CATEGORIES[group][catId];
-                optgroup.appendChild(option);
-            }
-            categorySelect.appendChild(optgroup);
-        }
+            const title = document.getElementById('title').value.trim();
+            const imageUrl = document.getElementById('image-url').value.trim();
+            const downloadLink = document.getElementById('download-link').value.trim();
+            const categoryId = document.getElementById('category-id').value;
 
-        const form = document.getElementById('product-form');
-        const outputContainer = document.getElementById('output-container');
-        const outputTextarea = document.getElementById('output');
-        
-        // ইউনিক আইডি জেনারেট করার ফাংশন
-        function generateUniqueId() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            for (let i = 0; i < 6; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return result;
-        }
+            // JSON Object তৈরি
+            const newCardObject = {
+                "title": title,
+                "image_url": imageUrl,
+                "download_link": downloadLink,
+                "category_id": categoryId 
+            };
+            
+            // JSON String তৈরি এবং ফরম্যাটিং
+            const jsonString = JSON.stringify(newCardObject, null, 4)
+                                   .replace(/"/g, '\"')
+                                   .replace(/\n/g, '\n    ')
+                                   .trim(); 
+                                   
+            // জেনারেট করা কোডের চূড়ান্ত ফরম্যাট (comma, spacing সহ)
+            const finalCode = `,\n    {\n      "title": "${title}",\n      "image_url": "${imageUrl}",\n      "download_link": "${downloadLink}",\n      "category_id": "${categoryId}" \n    }`;
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(form);
-            const product = {};
-
-            product.id = generateUniqueId();
-            product.category = formData.get('category');
-            product.title = formData.get('title');
-            product.description = formData.get('description');
-            product.price = parseFloat(formData.get('price')).toFixed(2);
-            product.rating = parseFloat(formData.get('rating')).toFixed(1);
-            
-            // কমা দিয়ে আলাদা করা ইমেজ লিংকগুলোকে একটি অ্যারেতে রূপান্তর
-            product.images = formData.get('images').split(',').map(url => url.trim()).filter(url => url);
-            
-            product.affiliateLink = formData.get('affiliateLink');
-            
-            // ISO 8601 ফরম্যাটে বর্তমান সময় জেনারেট করা
-            product.timestamp = new Date().toISOString();
-
-            // JSON কোডটি সুন্দরভাবে ফরম্যাট করে দেখানো
-            const jsonString = JSON.stringify(product, null, 2); // 2 স্পেস দিয়ে ইন্ডেন্টেশন
-            
-            outputTextarea.value = `,\n${jsonString}`; // আগে একটি কমা যোগ করা হয়েছে, যাতে আপনি সরাসরি পেস্ট করতে পারেন
-            outputContainer.style.display = 'block';
+            document.getElementById('json-output').value = finalCode;
+            document.getElementById('output-section').style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
         });
 
-        // রিসেট বাটন
-        document.getElementById('reset-btn').addEventListener('click', () => {
-            form.reset();
-            outputContainer.style.display = 'none';
-        });
-
-        // কপি বাটন
-        const copyBtn = document.getElementById('copy-btn');
-        const copyFeedback = document.querySelector('.copy-feedback');
-        copyBtn.addEventListener('click', () => {
+        document.getElementById('copy-btn').addEventListener('click', function() {
+            const outputTextarea = document.getElementById('json-output');
             outputTextarea.select();
             document.execCommand('copy');
+
+            // কপি মেসেজ দেখানো
+            const copyMessage = document.getElementById('copy-message');
+            copyMessage.style.opacity = '1';
             
-            copyFeedback.style.opacity = 1;
             setTimeout(() => {
-                copyFeedback.style.opacity = 0;
+                copyMessage.style.opacity = '0';
             }, 2000);
         });
     </script>
