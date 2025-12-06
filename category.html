@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Movies | PrimeFlix-Hub</title> 
+    
+    <meta property="og:title" content="Full Movie Watch and Download link - Full HD 1080p"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --primary-gold-hover: #b4942b;
+            --bg-dark: #0f1014;
+            --bg-card: #1a1c24;
+            --text-light: #ffffff;
+            --text-gray: #b3b3b3;
+            --danger: #e50914;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header Styles (Home page থেকে কপি করা) --- */
+        header {
+            background: rgba(15, 16, 20, 0.95);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo i {
+            font-size: 28px;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px 20px 20px; 
+        }
+
+        /* --- Page Title (Category Name) --- */
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--primary-gold);
+            text-align: center;
+        }
+
+        /* --- ✅ গ্রিড কার্ড কন্টেইনার ✅ --- */
+        .cards-grid {
+            display: grid;
+            /* ✅ ডেস্কটপ ডিফল্ট: ৪ কলাম ✅ */
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            padding-bottom: 20px;
+        }
+        
+        /* --- Individual Card Style (Home page থেকে কপি করা) --- */
+        .movie-card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+        }
+
+        .thumbnail-link {
+            display: block;
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; 
+        }
+
+        .thumbnail-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .movie-title-box {
+            padding: 8px 5px; 
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light); 
+            
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+
+        /* --- Footer Styles (unchanged) --- */
+        footer {
+            background: #000;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+        
+        /* --- Responsive Tweaks --- */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+            .cards-grid {
+                /* ✅ মোবাইল ভিউ: ৩ কলাম ✅ */
+                grid-template-columns: repeat(3, 1fr); 
+            }
+            .movie-title-box {
+                font-size: 0.7rem;
+                padding: 6px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="brand-logo">
+                <i class="fa-solid fa-clapperboard"></i> 
+                <a href="index.html" style="color: var(--primary-gold); text-decoration:none;">PrimeFlix</a> <span style="color:white; font-weight:300;">-Hub</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title" id="category-page-title">Loading...</h1> 
+      
+        <div class="cards-grid" id="category-cards-container">
+            </div>
+        
+        <p id="loading-message" style="text-align:center; color:var(--text-gray); margin-top:30px;">Loading movie list...</p>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">DMCA</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Support</a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 PrimeFlix-Hub. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // ✅ ক্যাটাগরি পেজ লোডিং লজিক ✅
+        document.addEventListener('DOMContentLoaded', () => {
+            const jsonUrl = './data.json'; 
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryId = urlParams.get('id');
+            const cardContainer = document.getElementById('category-cards-container');
+            const pageTitle = document.getElementById('category-page-title');
+            const loadingMessage = document.getElementById('loading-message');
+
+            // ক্যাটাগরি ম্যাপিং (index.html থেকে কপি করা)
+            const categoriesMap = {
+                "new_releases": "New Releases",
+                "action_thrillers": "Action Thrillers",
+                "trending_bengali": "Trending Bengali"
+            };
+            
+            // টাইটেল সেট করা
+            const categoryName = categoriesMap[categoryId] || "All Movies";
+            pageTitle.textContent = categoryName;
+            document.title = `${categoryName} | PrimeFlix-Hub`;
+
+
+            if (!categoryId) {
+                cardContainer.innerHTML = '<p style="color:var(--danger); text-align:center;">Category ID not found in URL.</p>';
+                loadingMessage.style.display = 'none';
+                return;
+            }
+
+            fetch(jsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    loadingMessage.style.display = 'none';
+                    if (!data.all_cards || data.all_cards.length === 0) {
+                        cardContainer.innerHTML = '<p style="color:var(--text-gray); text-align:center;">No movie cards found.</p>';
+                        return;
+                    }
+                    
+                    // নির্দিষ্ট ক্যাটাগরির কার্ডগুলি ফিল্টার করা
+                    let filteredCards = data.all_cards.filter(card => card.category_id === categoryId);
+                    
+                    if (filteredCards.length === 0) {
+                        cardContainer.innerHTML = `<p style="color:var(--text-gray); text-align:center;">No movies found in the "${categoryName}" category.</p>`;
+                        return;
+                    }
+
+                    // নতুন কার্ড প্রথমে দেখানোর জন্য উল্টো করা
+                    filteredCards.reverse().forEach(card => { 
+                        const cardElement = document.createElement('div');
+                        cardElement.className = 'movie-card';
+                        cardElement.innerHTML = `
+                            <a href="${card.link}" class="thumbnail-link" title="${card.title}">
+                                <div class="thumbnail-img" style="background-image: url('${card.image_url}')"></div>
+                            </a>
+                            <div class="movie-title-box">${card.title}</div>
+                        `;
+                        cardContainer.appendChild(cardElement); 
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading or parsing JSON:', error);
+                    loadingMessage.style.display = 'none';
+                    cardContainer.innerHTML = '<p style="color:var(--danger); text-align:center;">Failed to load movie data. Please check data.json.</p>';
+                });
+        });
+    </script>
+</body>
+</html>
