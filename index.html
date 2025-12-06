@@ -83,6 +83,23 @@
             max-width: 60%; 
         }
         
+        /* ✅ নতুন CSS: টেলিগ্রাম আইকন/লিংক স্টাইল (Header Right Side) */
+        .header-telegram-link {
+            display: none; /* ডিফল্টভাবে লুকানো থাকবে, JS দিয়ে শুধু হোমপেজে দেখানো হবে */
+            color: var(--text-light);
+            font-size: 20px;
+            padding: 5px 10px;
+            border: 1px solid var(--text-gray);
+            border-radius: 4px;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0; 
+        }
+        
+        .header-telegram-link:hover {
+            color: #0088cc; /* Telegram Blue */
+            border-color: #0088cc;
+        }
         /* --- Main Container & Views --- */
         .container {
             max-width: 1200px;
@@ -205,11 +222,12 @@
             background-position: center;
         }
 
+        /* ✅ সংশোধিত CSS: মুভি টাইটেল নরমাল ফন্ট ওয়েটে */
         .movie-title-box {
             padding: 8px 5px; 
             text-align: center;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 400; /* পরিবর্তন করা হলো: বোল্ড (600) থেকে নরমাল (400) */
             color: var(--text-light); 
             white-space: nowrap; 
             overflow: hidden; 
@@ -225,22 +243,7 @@
             display: none; 
         }
 
-        /* ক্যাটাগরি শেষ বার্তা স্টাইল */
-        #end-of-category {
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 20px;
-            color: var(--primary-gold);
-            font-size: 1.2rem;
-            font-family: 'Playfair Display', serif;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            border-top: 1px dashed rgba(212, 175, 55, 0.3);
-        }
-        #end-of-category i {
-            margin-right: 10px;
-            font-size: 1.5rem;
-        }
+        /* ✅ সরানো হলো: ক্যাটাগরি শেষ বার্তা স্টাইল (পুরোপুরি বাদ দেওয়া হলো) */
         
         /* --- Footer Styles --- */
         footer {
@@ -295,25 +298,28 @@
                 <i class="fa-solid fa-clapperboard"></i> 
                 PrimeFlix <span style="color:white; font-weight:300;">-Hub</span>
             </a>
+            
             <h1 class="header-category-title" id="category-header-title"></h1>
+            
+            <a href="আপনার_টেলিগ্রাম_চ্যানেলের_লিংক" class="header-telegram-link" id="telegram-link" target="_blank" title="Join Telegram Channel">
+                <i class="fa-brands fa-telegram"></i>
+            </a>
+            
         </div>
     </header>
 
     <div class="container">
         
         <div id="home-view">
-            </div>
+        </div>
 
         <div id="category-view" style="display:none;">
             <div class="cards-grid" id="category-cards-container">
-                </div>
+            </div>
             <div id="loading-indicator">
                 <i class="fa-solid fa-spinner fa-spin"></i> Loading more movies...
             </div>
-            <div id="end-of-category" style="display:none;">
-                <i class="fa-solid fa-hand-peace"></i> No More Movies in This Category
             </div>
-        </div>
         
     </div>
 
@@ -335,8 +341,9 @@
             const cardContainer = document.getElementById('category-cards-container');
             const headerTitle = document.getElementById('category-header-title');
             const loadingIndicator = document.getElementById('loading-indicator');
-            const endOfCategory = document.getElementById('end-of-category');
+            // const endOfCategory = document.getElementById('end-of-category'); // ✅ HTML থেকে সরানো হয়েছে
             const pageTitle = document.getElementById('page-title');
+            const telegramLink = document.getElementById('telegram-link'); // ✅ নতুন ভেরিয়েবল
 
             let allCardsData = [];
             let currentCategoryCards = [];
@@ -350,7 +357,7 @@
                 "trending_bengali": "Trending Bengali"
             };
 
-            // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন (সংশোধিত) ---
+            // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন ---
             const createCardElement = (card) => {
                 const cardElement = document.createElement('div');
                 cardElement.className = 'movie-card';
@@ -364,9 +371,6 @@
                     <div class="movie-title-box">${card.title}</div>
                 `;
                 
-                // ✅ গুরুত্বপূর্ণ পরিবর্তন: target="_blank" সরানো হয়েছে। এখন এটি একই ট্যাবে লোড হবে। ✅
-                // cardElement.querySelector('.thumbnail-link').target = "_blank"; // এটি মুছে ফেলা হলো
-
                 return cardElement;
             };
 
@@ -376,6 +380,7 @@
                 homeView.style.display = 'block';
                 categoryView.style.display = 'none';
                 headerTitle.style.display = 'none';
+                telegramLink.style.display = 'flex'; // ✅ পরিবর্তন: হোমপেজে টেলিগ্রাম আইকন দেখাও
                 pageTitle.textContent = "Dynamic Movie Gallery | PrimeFlix-Hub";
                 homeView.innerHTML = ''; 
 
@@ -435,11 +440,12 @@
                 categoryView.style.display = 'block';
                 cardContainer.innerHTML = '';
                 cardsLoadedCount = 0;
-                endOfCategory.style.display = 'none';
+                // endOfCategory.style.display = 'none'; // ✅ সরানো হয়েছে
 
                 const categoryName = categoriesMap[id] || "All Movies";
                 headerTitle.textContent = categoryName;
                 headerTitle.style.display = 'block';
+                telegramLink.style.display = 'none'; // ✅ পরিবর্তন: ক্যাটাগরি ভিউয়ে টেলিগ্রাম আইকন লুকানো
                 pageTitle.textContent = `${categoryName} | PrimeFlix-Hub`;
 
                 currentCategoryCards = allCardsData.filter(card => card.category_id === id).reverse();
@@ -450,9 +456,7 @@
             // --- ৪. ইনফিনিটি স্ক্রলিং / লেজি লোডিং ফাংশন ---
             const loadMoreCards = () => {
                 if (isLoading || cardsLoadedCount >= currentCategoryCards.length) {
-                    if (cardsLoadedCount >= currentCategoryCards.length) {
-                        endOfCategory.style.display = 'block';
-                    }
+                    // ✅ পরিবর্তন: মুভি শেষ বার্তা দেখানোর লজিক সরানো হয়েছে
                     return;
                 }
 
@@ -472,9 +476,7 @@
                     isLoading = false;
                     loadingIndicator.style.display = 'none';
                     
-                    if (cardsLoadedCount >= currentCategoryCards.length) {
-                        endOfCategory.style.display = 'block';
-                    }
+                    // ✅ পরিবর্তন: মুভি শেষ বার্তা দেখানোর লজিক সরানো হয়েছে
                 }, 500);
             };
 
