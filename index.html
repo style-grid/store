@@ -350,23 +350,22 @@
                 "trending_bengali": "Trending Bengali"
             };
 
-            // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন (পরিবর্তন করা হয়েছে) ---
+            // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন (সংশোধিত) ---
             const createCardElement = (card) => {
                 const cardElement = document.createElement('div');
                 cardElement.className = 'movie-card';
                 
-                // ✅ গুরুত্বপূর্ণ পরিবর্তন: watch.html-এ লিংক করা এবং টাইটেল ও ইমেজ প্যারামিটার হিসেবে পাস করা ✅
                 const watchLink = `watch.html?title=${encodeURIComponent(card.title)}&image=${encodeURIComponent(card.image_url)}`;
                 
                 cardElement.innerHTML = `
-                    <a href="${watchLink}" class="thumbnail-link" title="${card.title}" target="_blank">
+                    <a href="${watchLink}" class="thumbnail-link" title="${card.title}"> 
                         <div class="thumbnail-img" style="background-image: url('${card.image_url}')"></div>
                     </a>
                     <div class="movie-title-box">${card.title}</div>
                 `;
                 
-                // এখানে target="_blank" রাখা হয়েছে যাতে নতুন ব্রাউজার ট্যাব/উইন্ডোতে watch.html লোড হয়।
-                cardElement.querySelector('.thumbnail-link').target = "_blank"; 
+                // ✅ গুরুত্বপূর্ণ পরিবর্তন: target="_blank" সরানো হয়েছে। এখন এটি একই ট্যাবে লোড হবে। ✅
+                // cardElement.querySelector('.thumbnail-link').target = "_blank"; // এটি মুছে ফেলা হলো
 
                 return cardElement;
             };
