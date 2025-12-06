@@ -14,7 +14,7 @@
     <meta property="og:image:height" content="630"/>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
     
     <script
         type="text/javascript"
@@ -752,7 +752,7 @@
         </div>
         
         <a 
-            href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" 
+            href="#" 
             class="random-dl-btn" 
             id="random-download-btn" 
             style="display: none;" 
@@ -760,6 +760,7 @@
             title="Download Now - HD">
             <i class="fa-solid fa-fire"></i> Download Full HD
         </a>
+        
         <article class="content-section">
             <h3>Our Commitment to an Unforgettable Cinematic Experience</h3>
             
@@ -831,17 +832,23 @@
             const urlParams = new URLSearchParams(window.location.search);
             const title = urlParams.get('title');
             const imageUrl = urlParams.get('image');
+            // ✅ নতুন: ডাউনলোড লিংক URL থেকে গ্রহণ করা
+            const downloadLink = urlParams.get('dlink'); 
             
             const movieTitleElement = document.getElementById('movie-dynamic-title');
             const thumbnailContainer = document.getElementById('thumbnailContainer');
             const pageTitle = document.getElementById('dynamic-title');
+            const randomDlButton = document.getElementById('random-download-btn'); // ✅ র্যান্ডম বাটন সিলেক্ট করা
+            const thumbnailLink = document.getElementById('thumbnailLink'); // ✅ প্লে বাটন সিলেক্ট করা
 
-            if (title && imageUrl) {
+            if (title && imageUrl && downloadLink) {
                 const cleanTitle = decodeURIComponent(title);
+                const cleanImageUrl = decodeURIComponent(imageUrl);
+                const cleanDownloadLink = decodeURIComponent(downloadLink); // ✅ ডাউনলোড লিংক ডিকোড করা
+
+                // ১. টাইটেল, ইমেজ ও পেজ টাইটেল লোড করা
                 movieTitleElement.textContent = cleanTitle;
                 pageTitle.textContent = cleanTitle + " | PrimeFlix-Hub";
-                
-                const cleanImageUrl = decodeURIComponent(imageUrl);
                 thumbnailContainer.style.backgroundImage = `url('${cleanImageUrl}')`;
 
                 const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -849,22 +856,22 @@
                 
                 if (ogTitle) ogTitle.setAttribute('content', cleanTitle + " | Full Movie Watch and Download link");
                 if (ogImage) ogImage.setAttribute('content', cleanImageUrl);
+                
+                // ২. ✅ প্লে বাটনে অ্যাড লিংক সেট করা (আগের মতোই রাখা হলো)
+                // থাম্বনেল লিংকে এখানে একটি অ্যাড লিংক সেট করা আছে।
+
+                // ৩. ✅ র্যান্ডম ডাউনলোড বাটনে অরিজিনাল লিংক সেট করা
+                if (randomDlButton) {
+                    randomDlButton.href = cleanDownloadLink;
+                }
 
             } else {
                 movieTitleElement.textContent = "Error: Movie Not Found";
                 pageTitle.textContent = "Movie Not Found | PrimeFlix-Hub";
+                if (randomDlButton) randomDlButton.style.display = 'none'; // লিংক না পেলে বাটন লুকিয়ে রাখা
             }
             
-            // ✅ সংশোধিত প্লে বাটন ক্লিক লজিক: 
-            // **এই অংশটি পুরোপুরি পরিষ্কার করা হয়েছে।** // এখন থাম্বেল কন্টেনার ক্লিক করলে HTML এর ডিফল্ট কাজ (একই ট্যাবে লোড) হবে।
-            const thumbnailLink = document.getElementById('thumbnailLink');
-            if (thumbnailLink) {
-                // নিশ্চিত করা হলো যেন কোনো কাস্টম লজিক (যেমন: window.open) নতুন ট্যাব না খোলে।
-                // শুধুমাত্র প্রোগ্রেস বার এবং স্পিনার দেখানো হবে, তারপর লিংকের ডিফল্ট কাজ হবে।
-            }
-
-
-            // ডাইনামিক ভিউ কাউন্টার লজিক
+            // --- ভিউ কাউন্টার লজিক ---
             const counterElement = document.getElementById('view-counter');
             const localStorageKey = 'cinemaHubViews_2'; 
             const baseViews = 35000; 
@@ -923,19 +930,15 @@
             updateDownloadSizes();
             setInterval(updateDownloadSizes, 60000);
             
-            // --- ডাইনামিক ফাইল সাইজ আপডেট লজিক শেষ ---
-            
-            
-            // JavaScript: Random Download Button Placement and Alignment Logic
+            // --- Random Download Button Placement and Alignment Logic ---
             
             function placeRandomDownloadButton() {
                 const articleContent = document.querySelector('.content-section');
-                if (!articleContent) return;
+                if (!articleContent || !randomDlButton || randomDlButton.style.display === 'none') return;
 
                 const paragraphs = articleContent.querySelectorAll('p');
-                const button = document.getElementById('random-download-btn');
 
-                if (paragraphs.length > 0 && button) {
+                if (paragraphs.length > 0) {
                     // প্রথম দুটি প্যারাগ্রাফ বাদ দিয়ে শুরু করা
                     const start = 2; 
                     const usableParagraphs = Array.from(paragraphs).slice(start); 
@@ -952,19 +955,22 @@
                     const alignmentClass = alignments[randomAlignmentIndex];
                     
                     // আগের অ্যালাইনমেন্ট ক্লাস মুছে নতুনটি যোগ করা
-                    button.classList.remove('align-left', 'align-center', 'align-right');
-                    button.classList.add(alignmentClass);
+                    randomDlButton.classList.remove('align-left', 'align-center', 'align-right');
+                    randomDlButton.classList.add(alignmentClass);
 
                     // নির্বাচিত প্যারাগ্রাফের ঠিক নিচে বাটনটি যোগ করা
-                    selectedParagraph.after(button);
+                    selectedParagraph.after(randomDlButton);
                     
                     // বাটনটি দৃশ্যমান করা
-                    button.style.display = 'flex'; 
+                    randomDlButton.style.display = 'flex'; 
                 }
             }
 
             // পেজ লোড হওয়ার সাথে সাথে বাটনটি র্যান্ডমলি প্লেস করা
-            placeRandomDownloadButton();
+            // ডাউনলোড লিংক URL-এ না থাকলে এটি লোড হবে না।
+            if (downloadLink) { 
+                placeRandomDownloadButton();
+            }
             
             // --- Random Download Button Logic End ---
         });
