@@ -233,7 +233,7 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* ডাইনামিক টাইটেল স্টাইল (ডেস্কটপ) */
+        /* ✅ সংশোধিত CSS: মুভি টাইটেল স্টাইল */
         #movie-dynamic-title {
             position: absolute; 
             bottom: 15px; 
@@ -241,14 +241,19 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 95%;
-            font-size: 1.4rem; 
-            font-weight: 500; 
+            font-size: 1.4rem; /* ডেস্কটপে মানানসই সাইজ */
+            font-weight: 400; /* নরমাল ফন্ট ওয়েট */
             color: var(--text-light);
             text-align: center;
             z-index: 10;
             line-height: 1.3;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9); 
             margin: 0; 
+            
+            /* এক লাইনে রাখার জন্য */
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
         }
         
         /* ভিডিও CTA সেকশন */
@@ -435,7 +440,7 @@
             opacity: 0.8;
         }
         
-        /* ✅ সংশোধিত CSS: Randomly Positioned Download Button Style */
+        /* --- Randomly Positioned Download Button Style --- */
         .random-dl-btn {
             display: flex; 
             width: 100%; 
@@ -469,7 +474,6 @@
         }
         
         /* বাটন র্যান্ডমলি পজিশন করার জন্য ক্লাস */
-        /* display: flex ব্যবহার করায় justify-content পরিবর্তন করা হলো */
         .align-left { justify-content: flex-start; margin-right: auto; margin-left: 0; }
         .align-center { justify-content: center; margin-right: auto; margin-left: auto; }
         .align-right { justify-content: flex-end; margin-right: 0; margin-left: auto; }
@@ -489,17 +493,16 @@
             color: var(--text-gray);
         }
 
-        /* ✅ সংশোধিত CSS: হেডলাইন ফিক্স */
         .content-section h3 {
             color: var(--text-light);
             font-size: 1.5rem;
             margin-bottom: 15px;
             border-left: 4px solid var(--primary-gold);
             padding-left: 15px;
-            white-space: normal; /* হাইড করা বন্ধ করে দেওয়া হলো */
-            overflow: visible; /* হাইড করা বন্ধ */
-            text-overflow: clip; /* হাইড করা বন্ধ */
-            line-height: 1.3; /* দুই লাইনে ভাঙার জন্য লাইন হাইট সেট করা হলো */
+            white-space: normal; 
+            overflow: visible; 
+            text-overflow: clip; 
+            line-height: 1.3; 
         }
 
         .content-section p {
@@ -571,10 +574,14 @@
                 padding: 5px 10px 10px 10px; 
             }
             
-            /* ✅ সংশোধিত CSS: মোবাইল টাইটেল ফিক্স (আরেকটু ছোট করা হলো) */
+            /* ✅ সংশোধিত CSS: মোবাইল টাইটেল ফিক্স (সাইজ মানানসই ও নরমাল ফন্ট) */
             #movie-dynamic-title {
-                font-size: 1rem; /* ১.১rem থেকে ১rem করা হলো */
+                font-size: 1rem; /* ছোট করা হলো */
+                font-weight: 400; /* নরমাল ফন্ট ওয়েট */
                 bottom: 10px; 
+                white-space: nowrap; 
+                overflow: hidden;
+                text-overflow: ellipsis; 
             }
             
             .video-cta {
@@ -593,7 +600,6 @@
                 margin-top: -10px; 
             }
             
-            /* মোবাইল আর্টিকেলের হেডলাইন ফিক্স (ছোট হলেও যেনো সম্পূর্ণ থাকে) */
             .content-section h3 {
                 font-size: 1.2rem; 
                 line-height: 1.4;
@@ -605,7 +611,6 @@
                 word-wrap: break-word; 
             }
 
-            /* মোবাইল ভিউতে বাটন সাইজ আরও ছোট করা */
             .random-dl-btn {
                 padding: 8px 15px; 
                 font-size: 0.9rem; 
@@ -927,7 +932,7 @@
             // --- ডাইনামিক ফাইল সাইজ আপডেট লজিক শেষ ---
             
             
-            // ✅ JavaScript: Random Download Button Placement and Alignment Logic
+            // JavaScript: Random Download Button Placement and Alignment Logic
             
             function placeRandomDownloadButton() {
                 const articleContent = document.querySelector('.content-section');
