@@ -227,7 +227,7 @@
             padding: 8px 5px; 
             text-align: center;
             font-size: 0.9rem;
-            font-weight: 400; /* পরিবর্তন করা হলো: বোল্ড (600) থেকে নরমাল (400) */
+            font-weight: 400; 
             color: var(--text-light); 
             white-space: nowrap; 
             overflow: hidden; 
@@ -242,8 +242,6 @@
             color: var(--primary-gold);
             display: none; 
         }
-
-        /* ✅ সরানো হলো: ক্যাটাগরি শেষ বার্তা স্টাইল (পুরোপুরি বাদ দেওয়া হলো) */
         
         /* --- Footer Styles --- */
         footer {
@@ -330,7 +328,7 @@
     </footer>
 
     <script>
-        // ✅ সিঙ্গেল পেজ অ্যাপ্লিকেশন লজিক ✅
+        // ✅ JS: নতুন ক্যাটাগরি ম্যাপিং যোগ করা হলো
         document.addEventListener('DOMContentLoaded', () => {
             const jsonUrl = './data.json'; 
             const MAX_SLIDER_CARDS = 10; 
@@ -341,9 +339,8 @@
             const cardContainer = document.getElementById('category-cards-container');
             const headerTitle = document.getElementById('category-header-title');
             const loadingIndicator = document.getElementById('loading-indicator');
-            // const endOfCategory = document.getElementById('end-of-category'); // ✅ HTML থেকে সরানো হয়েছে
             const pageTitle = document.getElementById('page-title');
-            const telegramLink = document.getElementById('telegram-link'); // ✅ নতুন ভেরিয়েবল
+            const telegramLink = document.getElementById('telegram-link');
 
             let allCardsData = [];
             let currentCategoryCards = [];
@@ -351,10 +348,12 @@
             let isLoading = false;
             let currentView = 'home'; 
 
+            // **✅ সংশোধিত ক্যাটাগরি ম্যাপিং**
             const categoriesMap = {
-                "new_releases": "New Releases",
-                "action_thrillers": "Action Thrillers",
-                "trending_bengali": "Trending Bengali"
+                "action_movie": "Action Movie",
+                "trending_movie": "Trending Movie",
+                "english_movie": "English Movie",
+                "hindi_movie": "Hindi Movie"
             };
 
             // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন ---
@@ -362,7 +361,8 @@
                 const cardElement = document.createElement('div');
                 cardElement.className = 'movie-card';
                 
-                const watchLink = `watch.html?title=${encodeURIComponent(card.title)}&image=${encodeURIComponent(card.image_url)}`;
+                // watch.html-এ টাইটেল, ইমেজ URL এবং **অরিজিনাল ডাউনলোড লিংক** পাস করা হবে।
+                const watchLink = `watch.html?title=${encodeURIComponent(card.title)}&image=${encodeURIComponent(card.image_url)}&dlink=${encodeURIComponent(card.download_link)}`;
                 
                 cardElement.innerHTML = `
                     <a href="${watchLink}" class="thumbnail-link" title="${card.title}"> 
@@ -380,7 +380,7 @@
                 homeView.style.display = 'block';
                 categoryView.style.display = 'none';
                 headerTitle.style.display = 'none';
-                telegramLink.style.display = 'flex'; // ✅ পরিবর্তন: হোমপেজে টেলিগ্রাম আইকন দেখাও
+                telegramLink.style.display = 'flex'; 
                 pageTitle.textContent = "Dynamic Movie Gallery | PrimeFlix-Hub";
                 homeView.innerHTML = ''; 
 
@@ -388,7 +388,8 @@
 
                 uniqueCategories.forEach(id => {
                     const categoryName = categoriesMap[id];
-                    const categoryCards = data.filter(card => card.category_id === id).reverse();
+                    // ✅ রিসেন্ট কার্ডগুলো প্রথমের দিকে দেখাতে .reverse() যোগ করা হলো।
+                    const categoryCards = data.filter(card => card.category_id === id).reverse(); 
                     
                     const section = document.createElement('div');
                     section.className = 'category-section';
@@ -440,14 +441,14 @@
                 categoryView.style.display = 'block';
                 cardContainer.innerHTML = '';
                 cardsLoadedCount = 0;
-                // endOfCategory.style.display = 'none'; // ✅ সরানো হয়েছে
 
                 const categoryName = categoriesMap[id] || "All Movies";
                 headerTitle.textContent = categoryName;
                 headerTitle.style.display = 'block';
-                telegramLink.style.display = 'none'; // ✅ পরিবর্তন: ক্যাটাগরি ভিউয়ে টেলিগ্রাম আইকন লুকানো
+                telegramLink.style.display = 'none'; 
                 pageTitle.textContent = `${categoryName} | PrimeFlix-Hub`;
 
+                // ✅ রিসেন্ট কার্ডগুলো প্রথমের দিকে দেখাতে .reverse() যোগ করা হলো।
                 currentCategoryCards = allCardsData.filter(card => card.category_id === id).reverse();
                 
                 loadMoreCards();
@@ -456,7 +457,6 @@
             // --- ৪. ইনফিনিটি স্ক্রলিং / লেজি লোডিং ফাংশন ---
             const loadMoreCards = () => {
                 if (isLoading || cardsLoadedCount >= currentCategoryCards.length) {
-                    // ✅ পরিবর্তন: মুভি শেষ বার্তা দেখানোর লজিক সরানো হয়েছে
                     return;
                 }
 
@@ -476,7 +476,6 @@
                     isLoading = false;
                     loadingIndicator.style.display = 'none';
                     
-                    // ✅ পরিবর্তন: মুভি শেষ বার্তা দেখানোর লজিক সরানো হয়েছে
                 }, 500);
             };
 
@@ -521,6 +520,7 @@
                     return response.json();
                 })
                 .then(data => {
+                    // ✅ এখানে download_link অ্যাট্রিবিউটটি প্রত্যাশিত
                     allCardsData = data.all_cards || [];
                     
                     const initialHash = window.location.hash.substring(1);
