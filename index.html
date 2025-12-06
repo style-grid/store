@@ -83,9 +83,9 @@
             max-width: 60%; 
         }
         
-        /* ✅ নতুন CSS: টেলিগ্রাম আইকন/লিংক স্টাইল (Header Right Side) */
+        /* নতুন CSS: টেলিগ্রাম আইকন/লিংক স্টাইল (Header Right Side) */
         .header-telegram-link {
-            display: none; /* ডিফল্টভাবে লুকানো থাকবে, JS দিয়ে শুধু হোমপেজে দেখানো হবে */
+            display: none; 
             color: var(--text-light);
             font-size: 20px;
             padding: 5px 10px;
@@ -97,7 +97,7 @@
         }
         
         .header-telegram-link:hover {
-            color: #0088cc; /* Telegram Blue */
+            color: #0088cc; 
             border-color: #0088cc;
         }
         /* --- Main Container & Views --- */
@@ -222,7 +222,7 @@
             background-position: center;
         }
 
-        /* ✅ সংশোধিত CSS: মুভি টাইটেল নরমাল ফন্ট ওয়েটে */
+        /* সংশোধিত CSS: মুভি টাইটেল নরমাল ফন্ট ওয়েটে */
         .movie-title-box {
             padding: 8px 5px; 
             text-align: center;
@@ -348,7 +348,7 @@
             let isLoading = false;
             let currentView = 'home'; 
 
-            // **✅ সংশোধিত ক্যাটাগরি ম্যাপিং**
+            // **সংশোধিত ক্যাটাগরি ম্যাপিং**
             const categoriesMap = {
                 "action_movie": "Action Movie",
                 "trending_movie": "Trending Movie",
@@ -388,8 +388,8 @@
 
                 uniqueCategories.forEach(id => {
                     const categoryName = categoriesMap[id];
-                    // ✅ রিসেন্ট কার্ডগুলো প্রথমের দিকে দেখাতে .reverse() যোগ করা হলো।
-                    const categoryCards = data.filter(card => card.category_id === id).reverse(); 
+                    // ✅ পরিবর্তন: রিসেন্ট কার্ডগুলো প্রথমের দিকে দেখাতে .reverse() যোগ করা হলো।
+                    const categoryCards = data.filter(card => card.category_id === id).slice().reverse(); 
                     
                     const section = document.createElement('div');
                     section.className = 'category-section';
@@ -448,8 +448,9 @@
                 telegramLink.style.display = 'none'; 
                 pageTitle.textContent = `${categoryName} | PrimeFlix-Hub`;
 
-                // ✅ রিসেন্ট কার্ডগুলো প্রথমের দিকে দেখাতে .reverse() যোগ করা হলো।
-                currentCategoryCards = allCardsData.filter(card => card.category_id === id).reverse();
+                // ✅ পরিবর্তন: রিসেন্ট কার্ডগুলো প্রথমের দিকে দেখাতে .reverse() যোগ করা হলো।
+                // .slice() ব্যবহার করা হয়েছে কারণ .reverse() মূল অ্যারে পরিবর্তন করে।
+                currentCategoryCards = allCardsData.filter(card => card.category_id === id).slice().reverse();
                 
                 loadMoreCards();
             };
@@ -520,7 +521,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    // ✅ এখানে download_link অ্যাট্রিবিউটটি প্রত্যাশিত
                     allCardsData = data.all_cards || [];
                     
                     const initialHash = window.location.hash.substring(1);
