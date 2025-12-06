@@ -435,29 +435,34 @@
             opacity: 0.8;
         }
         
-        /* ✅ নতুন CSS: Randomly Positioned Download Button Style */
+        /* ✅ সংশোধিত CSS: Randomly Positioned Download Button Style */
         .random-dl-btn {
-            display: inline-flex;
+            /* Text Flow ফিক্স: float: right বাদ দেওয়া হয়েছে, এখন ফুল উইড্থ নেবে */
+            display: block; /* পুরো প্রস্থ জুড়ে বাটনটি থাকবে */
+            width: 100%; /* সম্পূর্ণ প্যারেন্ট এলিমেন্টের প্রস্থ */
+            max-width: 350px; /* ডেস্কটপে এর বেশি বড় হবে না */
+            
+            /* টেক্সট ও ডিজাইনের জন্য */
             align-items: center;
             justify-content: center;
-            padding: 8px 15px;
-            margin: 10px 0;
+            padding: 10px 20px;
+            margin: 20px auto; /* উপরে-নিচে ২০ পিক্সেল মার্জিন */
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 8px; /* সামান্য কম রাউন্ডেড */
             background: var(--danger);
             color: var(--text-light);
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 1rem; /* একটু বড় সাইজ, যা মোবাইলে অ্যাডজাস্ট হবে */
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(229, 9, 20, 0.5);
             line-height: 1; 
             animation: pulse-red 2s infinite; 
-            margin-right: 15px; /* প্যারাগ্রাফের মধ্যে টেক্সট থেকে দূরত্ব */
-            float: right; /* প্যারাগ্রাফের টেক্সটকে ঘিরে রাখার জন্য */
+            text-align: center; /* টেক্সট সেন্টারে রাখতে */
         }
 
         .random-dl-btn i {
-            margin-right: 8px;
+            margin-right: 10px;
+            font-size: 1.1em;
         }
         
         .random-dl-btn:hover {
@@ -465,9 +470,14 @@
             box-shadow: 0 6px 15px rgba(229, 9, 20, 0.7);
         }
         
+        /* বাটন র্যান্ডমলি পজিশন করার জন্য ক্লাস */
+        .align-left { margin-right: auto; margin-left: 0; }
+        .align-center { margin-right: auto; margin-left: auto; }
+        .align-right { margin-right: 0; margin-left: auto; }
+        
         @keyframes pulse-red {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.03); }
             100% { transform: scale(1); }
         }
         /* --- Random Button CSS End --- */
@@ -478,7 +488,7 @@
             max-width: 800px; /* Readability constraint */
             margin: 0 auto 50px auto;
             color: var(--text-gray);
-            /* overflow: auto; /* ফ্লোটিং বাটন সাপোর্ট করার জন্য */
+            /* overflow: auto; */
         }
 
         .content-section h3 {
@@ -561,6 +571,20 @@
                 padding: 5px 10px 10px 10px; 
             }
             
+            /* মোবাইল ভিউতে বাটন সাইজ আরও ছোট করা */
+            .random-dl-btn {
+                padding: 8px 15px; /* ছোট প্যাডিং */
+                font-size: 0.9rem; /* ছোট ফন্ট সাইজ */
+                max-width: 250px; /* সর্বোচ্চ প্রস্থ ২৫০ পিক্সেল */
+                margin: 15px auto; /* উপরে-নিচে মার্জিন কম হবে */
+            }
+
+            .random-dl-btn i {
+                margin-right: 8px;
+                font-size: 1em;
+            }
+            
+            /* অন্যান্য মোবাইল স্টাইল */
             .video-cta {
                 margin-top: 10px; 
                 margin-bottom: 10px; 
@@ -570,7 +594,6 @@
                 margin-bottom: 1px; 
             }
             
-            /* মোবাইল টাইটেল ফিক্স (থাম্বনেইল কন্টেইনারের ভিতরে) */
             #movie-dynamic-title {
                 font-size: 1.1rem; 
                 bottom: 10px; 
@@ -583,25 +606,14 @@
                 margin-top: -10px; 
             }
             
-            /* মোবাইল আর্টিকেলের হেডলাইন ফিক্স */
             .content-section h3 {
                 font-size: 1.2rem; 
             }
 
-            /* মোবাইল আর্টিকেলের প্যারাগ্রাফ ফিক্স */
             .content-section p {
                 line-height: 1.6; 
                 hyphens: auto; 
                 word-wrap: break-word; 
-            }
-            
-            /* ছোট স্ক্রিনে ফ্লোটিং বাটনকে মাঝখানে আনতে float: none */
-            .random-dl-btn {
-                float: none; 
-                display: block; 
-                width: 80%;
-                max-width: 250px;
-                margin: 15px auto;
             }
 
             .live-counter-box {
@@ -877,53 +889,43 @@
             
             // --- ডাইনামিক ফাইল সাইজ আপডেট লজিক (প্রতি ১ মিনিটে) ---
             
-            // ১. বেস সাইজ ও রেঞ্জ 
             const baseSizes = {
                 '1080': 2.4, // Full HD (GB)
                 '720': 1.1,  // HD (GB)
                 '480': 450,  // SD (MB)
             };
             
-            // রেঞ্জ (GB/MB-তে)
             const randomRange = {
                 '1080': 0.1, // +/- 0.1 GB
                 '720': 0.05, // +/- 0.05 GB
                 '480': 30,   // +/- 30 MB
             };
 
-            // র্যান্ডম ফ্লোটিং-পয়েন্ট নাম্বার জেনারেট করা
             function getRandomVariation(base, range) {
                 const variation = (Math.random() * 2 * range) - range;
                 return base + variation;
             }
 
-            // সাইজ আপডেট করার ফাংশন
             function updateDownloadSizes() {
-                // Full HD (1080p) - GB
                 const new1080Size = getRandomVariation(baseSizes['1080'], randomRange['1080']);
                 const formatted1080 = new1080Size.toFixed(1); 
                 document.getElementById('size-1080').innerHTML = `Blue-Ray Quality • ${formatted1080}GB`;
                 
-                // HD (720p) - GB
                 const new720Size = getRandomVariation(baseSizes['720'], randomRange['720']);
                 const formatted720 = new720Size.toFixed(1); 
                 document.getElementById('size-720').innerHTML = `High Quality • ${formatted720}GB`;
 
-                // SD (480p) - MB
                 const new480Size = Math.round(getRandomVariation(baseSizes['480'], randomRange['480']));
                 document.getElementById('size-480').innerHTML = `Mobile Version • ${new480Size}MB`;
             }
 
-            // প্রাথমিক আপডেট
             updateDownloadSizes();
-
-            // প্রতি ১ মিনিটে (60000 মিলিসেকেন্ড) সাইজ আপডেট করা
             setInterval(updateDownloadSizes, 60000);
             
             // --- ডাইনামিক ফাইল সাইজ আপডেট লজিক শেষ ---
             
             
-            // ✅ নতুন JavaScript: Random Download Button Placement Logic
+            // ✅ নতুন JavaScript: Random Download Button Placement and Alignment Logic
             
             function placeRandomDownloadButton() {
                 const articleContent = document.querySelector('.content-section');
@@ -934,19 +936,31 @@
                 const button = document.getElementById('random-download-btn');
 
                 if (paragraphs.length > 0 && button) {
+                    // প্রথম দুটি প্যারাগ্রাফ বাদ দিয়ে শুরু করা (কারণ প্রথমটি হেডলাইনের খুব কাছে)
+                    const start = 2; 
+                    const usableParagraphs = Array.from(paragraphs).slice(start); 
+
+                    if (usableParagraphs.length === 0) return;
+
                     // র্যান্ডমলি একটি প্যারাগ্রাফের ইন্ডেক্স নির্বাচন করা
-                    // প্রথম এবং শেষ প্যারাগ্রাফকে বাদ দেওয়ার জন্য 1 থেকে length - 2 পর্যন্ত নির্বাচন করা যেতে পারে, 
-                    // কিন্তু এখানে সমস্ত প্যারাগ্রাফের মধ্যে থেকে একটি নির্বাচন করা হলো।
-                    const randomIndex = Math.floor(Math.random() * paragraphs.length);
+                    const randomIndex = Math.floor(Math.random() * usableParagraphs.length);
+                    const selectedParagraph = usableParagraphs[randomIndex];
+                    
+                    // র্যান্ডমলি একটি অ্যালাইনমেন্ট ক্লাস নির্বাচন করা
+                    const alignments = ['align-left', 'align-center', 'align-right'];
+                    const randomAlignmentIndex = Math.floor(Math.random() * alignments.length);
+                    const alignmentClass = alignments[randomAlignmentIndex];
+                    
+                    // আগের অ্যালাইনমেন্ট ক্লাস মুছে নতুনটি যোগ করা
+                    button.classList.remove('align-left', 'align-center', 'align-right');
+                    button.classList.add(alignmentClass);
 
-                    const selectedParagraph = paragraphs[randomIndex];
-
-                    // নির্বাচিত প্যারাগ্রাফের মধ্যে বাটনটি যোগ করা
-                    // float: right CSS ব্যবহারের কারণে এটি প্যারাগ্রাফের ডান দিকে দৃশ্যমান হবে এবং টেক্সট এটিকে ঘিরে থাকবে।
-                    selectedParagraph.prepend(button);
+                    // নির্বাচিত প্যারাগ্রাফের ঠিক নিচে বাটনটি যোগ করা
+                    // .after() ব্যবহার করলে এটি প্যারাগ্রাফের শেষে আলাদা ব্লক হিসেবে আসবে
+                    selectedParagraph.after(button);
                     
                     // বাটনটি দৃশ্যমান করা
-                    button.style.display = 'inline-flex'; 
+                    button.style.display = 'flex'; // CSS এ display: block আছে, কিন্তু flex এ পরিবর্তন করা হলো
                 }
             }
 
