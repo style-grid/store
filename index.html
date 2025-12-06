@@ -1,513 +1,310 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Style Grid - Curated Luxury Fashion</title>
-
-    <!-- Fonts & icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Movie Gallery | PrimeFlix-Hub</title>
+    
+    <meta property="og:title" content="Full Movie Watch and Download link - Full HD 1080p"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    
     <style>
-    :root{
-        --font-primary: 'Inter', sans-serif;
-        --font-serif: 'Playfair Display', serif;
-        --bg-primary: #FFFFFF;
-        --bg-secondary: #F0F0F0;
-        --text-primary: #111111;
-        --text-secondary: #555555;
-        --accent-color: #6A0DAD;
-        --accent-light: #9370DB;
-        --card-bg: #FFFFFF;
-        --card-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        --header-bg: #FFFFFF;
-        --header-text: #111111;
-        --price-original-color: #999999;
-        --rating-bg: var(--accent-color);
-        --rating-text: #FFFFFF;
-        --cat-border: #E0E0E0;
+        :root {
+            --primary-gold: #d4af37;
+            --primary-gold-hover: #b4942b;
+            --bg-dark: #0f1014;
+            --bg-card: #1a1c24;
+            --text-light: #ffffff;
+            --text-gray: #b3b3b3;
+            --danger: #e50914;
+        }
 
-        /* hero heights */
-        --hero-height-desktop: 360px;
-        --hero-height-mobile: 260px;
-    }
-    body.dark-mode {
-        --bg-primary: #1E1E1E;
-        --bg-secondary: #121212;
-        --text-primary: #EAEAEA;
-        --text-secondary: #AAAAAA;
-        --accent-color: #BB86FC;
-        --accent-light: #D5B8FF;
-        --card-bg: #2C2C2C;
-        --card-shadow: 0 6px 20px rgba(0,0,0,0.6);
-        --header-bg: #000000;
-        --header-text: #EAEAEA;
-        --price-original-color: #AAAAAA;
-        --rating-bg: var(--accent-color);
-        --rating-text: #111111;
-        --cat-border: #333333;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    *, *::before, *::after { box-sizing: border-box; }
-    html,body{ height:100%; }
-    body{
-        font-family: var(--font-primary);
-        background-color: var(--bg-secondary);
-        color: var(--text-primary);
-        margin:0; padding:0;
-        display:flex; flex-direction:column;
-        transition: background-color .35s, color .35s;
-        -webkit-font-smoothing:antialiased;
-        -moz-osx-font-smoothing:grayscale;
-        -webkit-tap-highlight-color: transparent; /* remove mobile tap circle */
-    }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    /* Header */
-    .sticky-header-top {
-        position: sticky; top:0; z-index:1000;
-        background-color: var(--header-bg);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .header{
-        max-width:1400px; margin:0 auto; width:100%;
-        padding:16px 20px; display:flex; justify-content:space-between; align-items:center;
-    }
-    .header-left{ display:flex; align-items:center; gap:10px; }
-    .website-icon i{ font-size:26px; color:var(--accent-color); }
-    .website-name{ font-family:var(--font-serif); font-weight:900; font-size:26px; letter-spacing:1px; }
-    .name-part-1{ color:var(--accent-color); }
-    .name-part-2{ color:var(--header-text); }
-    .header-right{ display:flex; align-items:center; gap:16px; }
+        /* --- Header & Footer Styles (unchanged) --- */
+        header {
+            background: rgba(15, 16, 20, 0.95);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
 
-    /* HERO / ANNOUNCEMENT */
-    .slider-section{
-        padding:18px 0 20px; background:var(--bg-primary); border-bottom:1px solid var(--cat-border);
-    }
-    .slider-section .announcement{
-        max-width:1400px; margin:0 auto 12px; padding:10px; text-align:center; font-weight:600;
-        color:#fff; background: linear-gradient(90deg, var(--accent-color), var(--accent-light)); border-radius:8px;
-    }
-    .slider-container{
-        max-width:1400px; margin:0 auto; border-radius:12px; overflow:hidden;
-        box-shadow:0 6px 22px rgba(0,0,0,0.08); background: #fafafa;
-        height: var(--hero-height-desktop); /* explicit height to control mobile/desktop */
-    }
-    /* slide internals */
-    .swiper-slide { position: relative; height:100%; display:block; }
-    .slide-media img { width:100%; height:100%; object-fit:cover; display:block; }
-    .slider-caption {
-        position:absolute; left:20px; bottom:24px; color:#fff; font-family:var(--font-serif);
-        text-shadow: 0 4px 18px rgba(0,0,0,0.45);
-    }
-    .slider-title { margin:0; font-size:28px; font-weight:800; line-height:1.05; }
-    .slider-meta { margin:6px 0 0; font-weight:600; font-size:16px; }
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
 
-    /* Category: combine title inside scrollable list so it slides */
-    .category-bar-wrapper{ padding:20px 0 26px; background:var(--bg-primary); }
-    .category-row { max-width:1400px; margin:0 auto; padding:6px 12px; overflow:hidden; }
-    .category-scroll {
-        display:flex; gap:12px; align-items:center; overflow-x:auto; -webkit-overflow-scrolling:touch;
-        padding-bottom:6px; scroll-snap-type:x proximity; white-space:nowrap;
-    }
-    .category-scroll::-webkit-scrollbar{ display:none; }
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .cat-slide { flex: 0 0 auto; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center; scroll-snap-align:start; }
-    .cat-title-card{
-        background-color: var(--accent-color);
-        color: #fff; border-radius:8px; padding:12px 10px; width:120px; flex-shrink:0;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.12); display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
-        gap:6px; font-weight:800;
-    }
-    .cat-title-card h3{ margin:0; font-size:14px; line-height:1.05; }
+        .brand-logo i {
+            font-size: 28px;
+        }
 
-    .cat-image-container{ width:86px; height:86px; border-radius:12px; overflow:hidden; border:3px solid var(--cat-border); display:flex; align-items:center; justify-content:center; background: #fff; }
-    .cat-image-container img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .category-name { font-size:13px; font-weight:700; display:block; width:100%; }
+        /* --- Main Container --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px 20px 20px; 
+        }
 
-    /* PRODUCT GRID */
-    #home-view{ padding:18px 0 60px; }
-    .product-grid-title{ text-align:center; font-family:var(--font-serif); font-weight:900; font-size:34px; margin:22px 0; color:var(--text-primary); }
+        /* --- Category & Header Styles (unchanged) --- */
+        .category-section {
+            margin-bottom: 30px;
+        }
 
-    /* DESKTOP = 3 columns as requested */
-    .container{
-        max-width:1400px; margin:0 auto; padding:12px; display:grid;
-        grid-template-columns: repeat(3, 1fr); gap:22px;
-    }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 5px;
+        }
 
-    /* CARD */
-    .product-card{
-        display:block;
-        background: var(--card-bg); color: inherit;
-        border-radius:12px; overflow:hidden; text-decoration:none;
-        box-shadow: var(--card-shadow); transition: transform .28s, box-shadow .28s;
-        border: 1px solid rgba(0,0,0,0.03);
-        -webkit-tap-highlight-color: transparent;
-    }
-    .product-card:hover{ transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
-    .product-card:focus{ outline: none; } /* user requested no click circle */
+        .category-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-light);
+            border-left: 4px solid var(--primary-gold);
+            padding-left: 10px;
+        }
 
-    /* IMAGE WRAPPER */
-    .product-image-wrapper{
-        position: relative;
-        width:100%;
-        aspect-ratio: 4 / 3; /* uniform */
-        background: var(--bg-secondary);
-        display:flex; align-items:center; justify-content:center;
-        overflow:hidden;
-    }
-    .product-image{
-        width:100%; height:100%; display:block; object-fit:cover; transition: transform .45s ease;
-    }
-    .product-card:hover .product-image{ transform: scale(1.06); }
+        .view-all {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border: 1px solid var(--primary-gold);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .view-all:hover {
+            background: var(--primary-gold);
+            color: var(--bg-dark);
+        }
 
-    /* Rating ribbon */
-    .product-rating{
-        position:absolute; left:0; bottom:0;
-        background: linear-gradient(90deg, var(--rating-bg), var(--accent-light));
-        color: var(--rating-text); padding:8px 12px; font-weight:700; font-size:14px;
-        border-radius: 0 8px 8px 0; display:inline-flex; align-items:center; gap:8px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-    }
-    .product-rating .star-icon{ color: #FFD700; font-size:13px; }
+        /* --- Card Slider Container --- */
+        .cards-slider {
+            display: flex;
+            overflow-x: scroll;
+            gap: 15px;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
 
-    .product-info{ padding:14px 16px 18px; display:flex; flex-direction:column; gap:8px; min-height:120px; }
-    .product-title{
-        font-size:16px; font-weight:600; color:var(--text-primary); margin:0;
-        line-height:1.25; height:48px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
-    }
+        .cards-slider::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* --- Individual Card Style --- */
+        .movie-card {
+            flex-shrink: 0;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+            cursor: pointer;
+            
+            /* ✅ মোবাইল ভিউ: এক লাইনে ৩টি কার্ড ✅ */
+            width: calc((100vw - 45px) / 3); 
+            min-width: 120px;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.2);
+        }
 
-    .product-price{ display:flex; align-items:center; gap:10px; margin-top:auto; }
-    .price-current{ color:var(--accent-color); font-weight:800; font-size:18px; }
-    .price-original{ color:var(--price-original-color); text-decoration: line-through; font-size:14px; }
-    .price-discount-tag{ background: #E91E63; color:#fff; padding:4px 8px; border-radius:8px; font-weight:800; font-size:12px; }
+        .thumbnail-link {
+            display: block;
+            position: relative;
+            width: 100%;
+            padding-top: 150%; 
+        }
 
-    /* small helpers */
-    .sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+        .thumbnail-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
 
-    /* RESPONSIVE rules -> mobile 2 cards per row, keep category single-line and smaller */
-    @media (max-width: 1200px) {
-        .slider-container { height: var(--hero-height-desktop); }
-    }
-    @media (max-width: 992px) {
-        .container{ grid-template-columns: repeat(2, 1fr); gap:18px; }
-        .product-grid-title{ font-size:30px; }
-        .slider-title{ font-size:26px; }
-        .slider-meta{ font-size:15px; }
-    }
-    @media (max-width: 600px) {
-        /* mobile: keep 2 columns as requested */
-        .container{ grid-template-columns: repeat(2, 1fr); gap:12px; padding:8px; }
-        .website-name{ font-size:20px; }
-        /* reduce hero height on mobile to be balanced */
-        .slider-container{ height: var(--hero-height-mobile); border-radius:8px; }
-        .slider-title{ font-size:20px; }
-        .slider-meta{ font-size:13px; }
+        /* ✅ টাইটেল স্টাইল (এক লাইনে সীমাবদ্ধ ও ellipsis) ✅ */
+        .movie-title-box {
+            padding: 8px 5px; 
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
 
-        /* category: smaller items and keep them in one line */
-        .cat-image-container{ width:64px; height:64px; border-width:2px; }
-        .cat-title-card{ width:100px; padding:10px 8px; }
-        .category-name{ font-size:11px; }
-
-        /* product card adjustments for small screens */
-        .product-info{ padding:10px 12px 12px; min-height:100px; }
-        .product-title{ font-size:14px; height:44px; }
-        .price-current{ font-size:16px; }
-    }
-    @media (max-width: 420px) {
-        /* still keep 2 columns (user insisted) but make fonts even smaller to fit */
-        .container{ grid-template-columns: repeat(2, 1fr); gap:10px; padding:6px; }
-        .slider-title{ font-size:18px; }
-        .slider-meta{ font-size:12px; }
-        .cat-image-container{ width:58px; height:58px; }
-        .cat-title-card{ width:88px; padding:8px 6px; font-size:13px; }
-        .category-name{ font-size:10px; }
-        .product-title{ font-size:13px; height:40px; }
-        .price-current{ font-size:15px; }
-    }
+        /* --- Footer Styles (unchanged) --- */
+        footer {
+            background: #000;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+        
+        /* --- Responsive Tweaks --- */
+        @media (max-width: 768px) {
+            .movie-card {
+                width: calc((100vw - 40px) / 3); 
+                min-width: 100px;
+            }
+            .movie-title-box {
+                font-size: 0.7rem;
+                padding: 6px 4px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+             .movie-card {
+                /* ✅ ডেস্কটপ ভিউ: ৪টি কার্ড ✅ */
+                width: calc((1200px - 75px) / 4); 
+             }
+        }
     </style>
 </head>
 <body>
-    <div class="sticky-header-top">
-        <header class="header">
-            <a href="index.html" class="header-left">
-                <div class="website-icon"><i class="fas fa-gem"></i></div>
-                <div class="website-name"><span class="name-part-1">LUXE</span><span class="name-part-2">GRID</span></div>
-            </a>
-            <div class="header-right">
-                <button class="mode-toggle-btn" id="mode-toggle-btn" aria-label="Toggle color mode"><i class="fas fa-moon"></i></button>
-                <a href="#" class="social-icon" data-social="facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon" data-social="instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon" data-social="pinterest"><i class="fab fa-pinterest-p"></i></a>
-            </div>
-        </header>
-    </div>
 
-    <main>
-        <section class="slider-section">
-            <div class="announcement">
-                <i class="fas fa-shield-alt"></i> US/CA Verified: Free Returns & 2-Day Shipping on Selected Items
+    <header>
+        <div class="navbar">
+            <div class="brand-logo">
+                <i class="fa-solid fa-clapperboard"></i> 
+                PrimeFlix <span style="color:white; font-weight:300;">-Hub</span>
             </div>
+        </div>
+    </header>
 
-            <div class="swiper-container slider-container" id="hero-slider">
-                <div class="swiper-wrapper" id="hero-slider-wrapper">
-                    <!-- hero slides will be injected by JS -->
-                </div>
-            </div>
-        </section>
+    <div class="container" id="main-content">
+        </div>
 
-        <section class="category-bar-wrapper">
-            <div class="category-row">
-                <div class="category-scroll" id="category-bar-male">
-                    <!-- male slides injected by JS (title card will be first slide) -->
-                </div>
-            </div>
-            <div class="category-row" style="margin-top:10px;">
-                <div class="category-scroll" id="category-bar-female">
-                    <!-- female slides injected by JS -->
-                </div>
-            </div>
-        </section>
+    <footer>
+        <div class="footer-links">
+            <a href="#">DMCA</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Support</a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 PrimeFlix-Hub. All rights reserved.
+        </div>
+    </footer>
 
-        <section id="home-view">
-            <h2 class="product-grid-title">Top Curated Picks</h2>
-            <div class="container" id="trending-cards-container">
-                <!-- cards rendered by JS -->
-            </div>
-        </section>
-    </main>
-
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-    // === Preserve your original linking and data structure ===
-    const SOCIAL_LINKS = {
-        facebook: "https://facebook.com/your-page-url",
-        instagram: "https://instagram.com/your-username",
-        pinterest: "https://pinterest.com/your-username",
-        whatsapp: "https://wa.me/8801234567890"
-    };
+        // ✅ ডাইনামিক ক্যাটাগরি এবং কার্ড লোডিং জাভাস্ক্রিপ্ট ✅
+        document.addEventListener('DOMContentLoaded', () => {
+            const jsonUrl = './data.json'; 
+            const mainContent = document.getElementById('main-content');
+            
+            // ক্যাটাগরির ডেটা (হার্ডকোডেড রাখা হলো, যেন JSON ফাইল না ভেঙে যায়)
+            const categories = [
+                { id: "new_releases", name: "🔥 New Releases", view_all_link: "/new-releases" },
+                { id: "action_thrillers", name: "🔫 Action Thrillers", view_all_link: "/action-thrillers" },
+                { id: "trending_bengali", name: "🎬 Trending Bengali", view_all_link: "/bengali" }
+            ];
 
-    const CATEGORIES = {
-        'Men': {
-            'm-shirts': "T-Shirts & Polos",
-            'm-pants': "Jeans & Pants",
-            'm-outer': "Outerwear",
-            'm-shoes': "Shoes",
-            'm-acc': "Accessories"
-        },
-        'Women': {
-            'f-dresses': "Dresses",
-            'f-tops': "Tops & Blouses",
-            'f-bottoms': "Jeans & Leggings",
-            'f-active': "Activewear",
-            'f-jewelry': "Jewelry & Bags"
-        }
-    };
+            // 1. HTML এ ক্যাটাগরি সেকশন তৈরি করা 
+            const sliders = {}; // প্রতিটি ক্যাটাগরি স্লাইডার এলিমেন্ট রাখার জন্য অবজেক্ট
+            
+            categories.forEach(category => {
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.innerHTML = `
+                    <div class="category-header">
+                        <h2 class="category-title">${category.name}</h2>
+                        <a href="${category.view_all_link || '#'}" class="view-all">VIEW ALL</a>
+                    </div>
+                    <div class="cards-slider" id="slider-${category.id}">
+                        </div>
+                `;
+                mainContent.appendChild(section);
+                sliders[category.id] = document.getElementById(`slider-${category.id}`);
+            });
 
-    let currentMode = localStorage.getItem('mode') || 'light';
-
-    async function fetchAllProducts() {
-        const allCategoryIds = [...Object.keys(CATEGORIES.Men), ...Object.keys(CATEGORIES.Women)];
-        try {
-            const promises = allCategoryIds.map(catId =>
-                fetch(`data/${catId}.json`).then(response => {
-                    if (!response.ok) throw new Error(`Network response was not ok for ${catId}.json`);
+            // 2. JSON ডেটা লোড করা এবং কার্ডগুলি সঠিক সেকশনে যোগ করা
+            fetch(jsonUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
                     return response.json();
                 })
-            );
-            const results = await Promise.all(promises);
-            return results.flat();
-        } catch (error) {
-            console.error("Error fetching product data:", error);
-            return []; // safe fallback
-        }
-    }
-
-    function renderHeroSlider(allProducts) {
-        const latestProducts = [];
-        const allCategoryGroups = {...CATEGORIES.Men, ...CATEGORIES.Women};
-        for (const catId in allCategoryGroups) {
-            const productsInCategory = allProducts.filter(p => p.category === catId);
-            if (productsInCategory.length > 0) {
-                const latest = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
-                latestProducts.push(latest);
-            }
-        }
-        const sliderWrapper = document.getElementById('hero-slider-wrapper');
-        if (!sliderWrapper) return;
-
-        // Build slides with structured HTML (so CSS can style)
-        sliderWrapper.innerHTML = latestProducts.map(product => `
-            <div class="swiper-slide slider-item" aria-hidden="false">
-                <div class="slide-media">
-                    <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
-                </div>
-                <div class="slider-caption">
-                    <h3 class="slider-title">${product.title}</h3>
-                    <p class="slider-meta"><i class="fas fa-star" style="color:#FFD700"></i> ${product.rating} | $${product.price}</p>
-                </div>
-            </div>
-        `).join('');
-
-        // init swiper with autoplay
-        if (window.heroSwiperInstance) {
-            window.heroSwiperInstance.destroy(true, true);
-        }
-        window.heroSwiperInstance = new Swiper('#hero-slider', {
-            loop: true,
-            autoplay: { delay: 4200, disableOnInteraction: false },
-            speed: 700,
-            slidesPerView: 1,
-            spaceBetween: 0,
+                .then(data => {
+                    if (!data.all_cards || data.all_cards.length === 0) {
+                        mainContent.innerHTML = '<p style="color:var(--text-gray); text-align:center;">No movie cards found in data.json.</p>';
+                        return;
+                    }
+                    
+                    // ✅ আপনার চাহিদা অনুযায়ী, নতুন কার্ডকে প্রথমে দেখানোর জন্য অ্যারেটি উল্টো করা হলো।
+                    // আপনাকে শুধু data.json-এ উপরে যোগ করতে হবে।
+                    data.all_cards.reverse().forEach(card => { 
+                        const slider = sliders[card.category_id];
+                        
+                        // যদি category_id সঠিকভাবে ম্যাপ না হয় বা স্লাইডার না থাকে তবে কার্ডটি বাদ যাবে।
+                        if (slider) {
+                            const cardElement = document.createElement('div');
+                            cardElement.className = 'movie-card';
+                            cardElement.innerHTML = `
+                                <a href="${card.link}" class="thumbnail-link" title="${card.title}">
+                                    <div class="thumbnail-img" style="background-image: url('${card.image_url}')"></div>
+                                </a>
+                                <div class="movie-title-box">${card.title}</div>
+                            `;
+                            // prepend() ব্যবহার করা হয়েছে কারণ আমরা অ্যারেটিকে reverse() করেছি 
+                            // যাতে নতুন যোগ করা কার্ড প্রথমে দেখায়।
+                            slider.appendChild(cardElement); 
+                        } else {
+                            console.warn(`Card "${card.title}" has unknown category_id: ${card.category_id}`);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading or parsing JSON:', error);
+                    mainContent.innerHTML = '<p style="color:var(--danger); text-align:center;">Failed to load movie data. Please check data.json.</p>';
+                });
         });
-    }
-
-    function renderCategoryBars(allProducts) {
-        const maleBar = document.querySelector('#category-bar-male');
-        const femaleBar = document.querySelector('#category-bar-female');
-        if(!maleBar || !femaleBar) return;
-
-        // Helper to create slide HTML
-        function makeCatSlide(html) { return html; }
-
-        // Male: first slide is title card (so it scrolls)
-        let maleHtml = '';
-        maleHtml += `
-            <div class="cat-slide">
-                <div class="cat-title-card"><i class="fas fa-male"></i><h3>MEN'S<br>CURATED</h3></div>
-            </div>
-        `;
-        for(const catId in CATEGORIES.Men){
-            const productsInCategory = allProducts.filter(p => p.category === catId);
-            if(productsInCategory.length > 0){
-                const latestProduct = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
-                maleHtml += `
-                    <a href="category.html#${catId}" class="cat-slide" style="text-decoration:none; color:inherit;">
-                        <div class="cat-image-container">
-                            <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Men[catId]}" loading="lazy">
-                        </div>
-                        <span class="category-name">${CATEGORIES.Men[catId]}</span>
-                    </a>
-                `;
-            }
-        }
-        maleBar.innerHTML = maleHtml;
-
-        // Female: first slide is title card
-        let femaleHtml = '';
-        femaleHtml += `
-            <div class="cat-slide">
-                <div class="cat-title-card" style="background:#E91E63;"><i class="fas fa-female"></i><h3>WOMEN'S<br>COLLECTION</h3></div>
-            </div>
-        `;
-        for(const catId in CATEGORIES.Women){
-            const productsInCategory = allProducts.filter(p => p.category === catId);
-            if(productsInCategory.length > 0){
-                const latestProduct = productsInCategory.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
-                femaleHtml += `
-                    <a href="category.html#${catId}" class="cat-slide" style="text-decoration:none; color:inherit;">
-                        <div class="cat-image-container">
-                            <img src="${latestProduct.images[0]}" alt="${CATEGORIES.Women[catId]}" loading="lazy">
-                        </div>
-                        <span class="category-name">${CATEGORIES.Women[catId]}</span>
-                    </a>
-                `;
-            }
-        }
-        femaleBar.innerHTML = femaleHtml;
-    }
-
-    function formatReviewCount(reviews){
-        if(!reviews) return '';
-        const num = parseInt(String(reviews).replace(/,/g,''), 10);
-        if(isNaN(num)) return reviews;
-        if(num >= 100000) return `${(num/100000).toFixed(1)} Lakh`;
-        if(num >= 1000) return `${(num/1000).toFixed(1)}k`;
-        return num;
-    }
-
-    function renderMostLovedProducts(allProducts){
-        const container = document.getElementById('trending-cards-container');
-        if(!container) return;
-        const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
-        const selectedProducts = shuffled.slice(0, 12);
-
-        container.innerHTML = selectedProducts.map(product => {
-            const originalPrice = (parseFloat(product.price) * 1.5).toFixed(2);
-            const discountPercentage = Math.round(((originalPrice - product.price) / originalPrice) * 100);
-            return `
-                <a href="deal.html#${product.id}" class="product-card" aria-label="${product.title}">
-                    <div class="product-image-wrapper">
-                        <img src="${product.images[0]}" alt="${product.title}" class="product-image" loading="lazy">
-                        <div class="product-rating">
-                            <span>${product.rating}</span>
-                            <i class="fas fa-star star-icon"></i>
-                            ${product.reviews ? `<span style="font-weight:600; font-size:13px; opacity:0.9;">(${formatReviewCount(product.reviews)})</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.title}</h3>
-                        <div class="product-price">
-                            <span class="price-current">$${product.price}</span>
-                            <span class="price-original">$${originalPrice}</span>
-                            <span class="price-discount-tag">${discountPercentage}% OFF</span>
-                        </div>
-                    </div>
-                </a>
-            `;
-        }).join('');
-    }
-
-    function setMode(mode){
-        const btn = document.getElementById('mode-toggle-btn');
-        const icon = btn.querySelector('i');
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if(icon) icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        localStorage.setItem('mode', mode);
-        currentMode = mode;
-    }
-
-    function setupSocialLinks(){
-        document.querySelectorAll('.social-icon[data-social]').forEach(iconLink => {
-            const platform = iconLink.dataset.social;
-            if(SOCIAL_LINKS[platform]){
-                iconLink.href = SOCIAL_LINKS[platform];
-                iconLink.target = "_blank";
-                iconLink.rel = "noopener noreferrer";
-            }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        setMode(currentMode);
-        setupSocialLinks();
-        const modeToggleButton = document.getElementById('mode-toggle-btn');
-        if(modeToggleButton){
-            modeToggleButton.addEventListener('click', () => {
-                const newMode = currentMode === 'light' ? 'dark' : 'light';
-                setMode(newMode);
-            });
-        }
-
-        const allProducts = await fetchAllProducts();
-        if(allProducts && allProducts.length > 0){
-            renderHeroSlider(allProducts);
-            renderCategoryBars(allProducts);
-            renderMostLovedProducts(allProducts);
-        } else {
-            // Safe fallback: If no products, show a couple of placeholders (keeps layout intact)
-            const placeholder = [
-                { id: 'ph1', title: 'Flowy Wide-Leg Palazzos', price: '1299.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-1.png'], rating: '4.7', reviews: '1,200', category: 'f-dresses', timestamp: Date.now() },
-                { id: 'ph2', title: 'Chronograph Analog Watch', price: '4500.00', images: ['https://i.ibb.co/3d9vJmK/placeholder-2.png'], rating: '4.9', reviews: '875', category: 'm-acc', timestamp: Date.now() }
-            ];
-            renderHeroSlider(placeholder);
-            renderCategoryBars(placeholder);
-            renderMostLovedProducts(placeholder);
-            console.log("No products found — placeholders shown for layout testing.");
-        }
-    });
     </script>
 </body>
 </html>
