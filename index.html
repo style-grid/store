@@ -7,7 +7,7 @@
     
     <meta property="og:title" content="Full Movie Watch and Download link - Full HD 1080p"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -50,7 +50,6 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            /* ✅ ডেস্কটপে স্পেস বিটুইন ✅ */
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
@@ -66,7 +65,6 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            /* ✅ মোবাইল ফিক্সের জন্য ফ্লেক্স-শ্রিন্ক ✅ */
             flex-shrink: 0; 
         }
 
@@ -74,7 +72,6 @@
             font-size: 28px;
         }
         
-        /* ✅ ক্যাটাগরি ভিউয়ের টাইটেল স্টাইল (ডেস্কটপ) ✅ */
         .header-category-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -83,7 +80,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: none; 
-            max-width: 60%; /* ফ্লেক্সিবল করার জন্য */
+            max-width: 60%; 
         }
         
         /* --- Main Container & Views --- */
@@ -106,7 +103,6 @@
             padding: 0 5px;
         }
 
-        /* ✅ ফন্ট স্টাইল: Montserrat বা Playfair ব্যবহার করা হলো ✅ */
         .category-title {
             font-family: 'Playfair Display', serif; 
             font-size: 1.3rem; 
@@ -161,7 +157,6 @@
             padding-top: 10px;
         }
         
-        /* ✅ ডেস্কটপ: ৩ কলাম গ্রিড ✅ */
         @media (min-width: 769px) {
             #category-view .cards-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -230,7 +225,7 @@
             display: none; 
         }
 
-        /* ✅ ক্যাটাগরি শেষ বার্তা স্টাইলিশ করা হয়েছে ✅ */
+        /* ক্যাটাগরি শেষ বার্তা স্টাইল */
         #end-of-category {
             text-align: center;
             padding: 40px 0;
@@ -262,21 +257,19 @@
         
         /* --- Responsive Tweaks --- */
         @media (max-width: 768px) {
-            /* ✅ মোবাইল হেডার ফিক্স ✅ */
             .brand-logo {
-                font-size: 20px; /* লোগো ছোট করা হলো */
+                font-size: 20px;
                 gap: 5px;
             }
             .brand-logo i {
                 font-size: 22px;
             }
             .header-category-title {
-                font-size: 1rem; /* ক্যাটাগরি নাম ছোট করা হলো */
+                font-size: 1rem;
                 max-width: 45%;
                 text-align: right;
             }
             
-            /* ✅ মোবাইল ভিউ: ২ কলাম গ্রিড ✅ */
             #category-view .cards-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -349,7 +342,7 @@
             let currentCategoryCards = [];
             let cardsLoadedCount = 0;
             let isLoading = false;
-            let currentView = 'home'; // ✅ বর্তমান ভিউ ট্র্যাক করা ✅
+            let currentView = 'home'; 
 
             const categoriesMap = {
                 "new_releases": "New Releases",
@@ -357,27 +350,35 @@
                 "trending_bengali": "Trending Bengali"
             };
 
-            // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন ---
+            // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন (পরিবর্তন করা হয়েছে) ---
             const createCardElement = (card) => {
                 const cardElement = document.createElement('div');
                 cardElement.className = 'movie-card';
+                
+                // ✅ গুরুত্বপূর্ণ পরিবর্তন: watch.html-এ লিংক করা এবং টাইটেল ও ইমেজ প্যারামিটার হিসেবে পাস করা ✅
+                const watchLink = `watch.html?title=${encodeURIComponent(card.title)}&image=${encodeURIComponent(card.image_url)}`;
+                
                 cardElement.innerHTML = `
-                    <a href="${card.link}" class="thumbnail-link" title="${card.title}">
+                    <a href="${watchLink}" class="thumbnail-link" title="${card.title}" target="_blank">
                         <div class="thumbnail-img" style="background-image: url('${card.image_url}')"></div>
                     </a>
                     <div class="movie-title-box">${card.title}</div>
                 `;
+                
+                // এখানে target="_blank" রাখা হয়েছে যাতে নতুন ব্রাউজার ট্যাব/উইন্ডোতে watch.html লোড হয়।
+                cardElement.querySelector('.thumbnail-link').target = "_blank"; 
+
                 return cardElement;
             };
 
             // --- ২. হোমপেজ রেন্ডার ফাংশন ---
             const renderHomeView = (data) => {
-                currentView = 'home'; // ✅ ভিউ সেট করা ✅
+                currentView = 'home'; 
                 homeView.style.display = 'block';
                 categoryView.style.display = 'none';
                 headerTitle.style.display = 'none';
                 pageTitle.textContent = "Dynamic Movie Gallery | PrimeFlix-Hub";
-                homeView.innerHTML = ''; // ✅ কন্টেন্ট রিফ্রেশ করার জন্য ✅
+                homeView.innerHTML = ''; 
 
                 const uniqueCategories = Object.keys(categoriesMap);
 
@@ -423,14 +424,14 @@
                         const id = e.currentTarget.getAttribute('data-category-id');
                         window.history.pushState({ category: id }, categoriesMap[id], `#${id}`);
                         loadCategoryView(id);
-                        window.scrollTo(0, 0); // ক্যাটাগরি ভিউতে উপরে স্ক্রল করা
+                        window.scrollTo(0, 0); 
                     });
                 });
             };
 
             // --- ৩. ক্যাটাগরি গ্রিড ভিউ লোড ফাংশন ---
             const loadCategoryView = (id) => {
-                currentView = 'category'; // ✅ ভিউ সেট করা ✅
+                currentView = 'category'; 
                 homeView.style.display = 'none';
                 categoryView.style.display = 'block';
                 cardContainer.innerHTML = '';
@@ -495,10 +496,8 @@
             window.addEventListener('popstate', () => {
                 const hash = window.location.hash.substring(1);
                 if (categoriesMap[hash]) {
-                    // ক্যাটাগরি ভিউ
                     loadCategoryView(hash);
                 } else {
-                    // হোম ভিউ (যখন হ্যাশ নেই বা ব্যাক বাটন প্রেস করা হয়েছে)
                     renderHomeView(allCardsData); 
                 }
             });
@@ -506,12 +505,11 @@
             // লোগো ক্লিক করলে হোমপেজে নিয়ে যাওয়ার ফাংশন
             window.navigateToHome = (e) => {
                  e.preventDefault();
-                 // হ্যাশ রিমুভ করে পপস্টেট ট্রিগার করা
                  if (window.location.hash) {
                      window.history.pushState(null, "Home", window.location.pathname);
                      renderHomeView(allCardsData);
                  } else {
-                     window.scrollTo(0, 0); //যদি হোমে থাকে, শুধু উপরে স্ক্রল
+                     window.scrollTo(0, 0); 
                  }
             };
 
