@@ -434,12 +434,51 @@
             font-weight: 400;
             opacity: 0.8;
         }
+        
+        /* ✅ নতুন CSS: Randomly Positioned Download Button Style */
+        .random-dl-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 15px;
+            margin: 10px 0;
+            text-decoration: none;
+            border-radius: 50px;
+            background: var(--danger);
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(229, 9, 20, 0.5);
+            line-height: 1; 
+            animation: pulse-red 2s infinite; 
+            margin-right: 15px; /* প্যারাগ্রাফের মধ্যে টেক্সট থেকে দূরত্ব */
+            float: right; /* প্যারাগ্রাফের টেক্সটকে ঘিরে রাখার জন্য */
+        }
+
+        .random-dl-btn i {
+            margin-right: 8px;
+        }
+        
+        .random-dl-btn:hover {
+            background: #ff4d4d; 
+            box-shadow: 0 6px 15px rgba(229, 9, 20, 0.7);
+        }
+        
+        @keyframes pulse-red {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        /* --- Random Button CSS End --- */
+
 
         /* --- Generic Content / Article Section (Desktop/Base) --- */
         .content-section {
             max-width: 800px; /* Readability constraint */
             margin: 0 auto 50px auto;
             color: var(--text-gray);
+            /* overflow: auto; /* ফ্লোটিং বাটন সাপোর্ট করার জন্য */
         }
 
         .content-section h3 {
@@ -544,17 +583,25 @@
                 margin-top: -10px; 
             }
             
-            /* ✅ মোবাইল আর্টিকেলের হেডলাইন ফিক্স: সাইজ ছোট এবং এক লাইনে নিশ্চিত করা হয়েছে */
+            /* মোবাইল আর্টিকেলের হেডলাইন ফিক্স */
             .content-section h3 {
-                font-size: 1.2rem; /* Reduced for better single-line fit on mobile */
-                /* Inherits nowrap, hidden, ellipsis from above rules */
+                font-size: 1.2rem; 
             }
 
-            /* ✅ মোবাইল আর্টিকেলের প্যারাগ্রাফ ফিক্স: লাইন-হাইট ও গোছালো ভাব উন্নত করা হয়েছে */
+            /* মোবাইল আর্টিকেলের প্যারাগ্রাফ ফিক্স */
             .content-section p {
-                line-height: 1.6; /* Reduced line height for denser, neater look on mobile (was 1.8) */
-                hyphens: auto; /* Encourages better hyphenation to reduce gaps */
-                word-wrap: break-word; /* Ensures long words wrap properly */
+                line-height: 1.6; 
+                hyphens: auto; 
+                word-wrap: break-word; 
+            }
+            
+            /* ছোট স্ক্রিনে ফ্লোটিং বাটনকে মাঝখানে আনতে float: none */
+            .random-dl-btn {
+                float: none; 
+                display: block; 
+                width: 80%;
+                max-width: 250px;
+                margin: 15px auto;
             }
 
             .live-counter-box {
@@ -680,6 +727,16 @@
             ></script>
         </div>
         
+        <a 
+            href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" 
+            class="random-dl-btn" 
+            id="random-download-btn" 
+            style="display: none;" 
+            rel="nofollow" 
+            target="_blank"
+            title="Download Now - HD">
+            <i class="fa-solid fa-fire"></i> Download Full HD
+        </a>
         <article class="content-section">
             <h3>Our Commitment to an Unforgettable Cinematic Experience</h3>
             
@@ -864,6 +921,39 @@
             setInterval(updateDownloadSizes, 60000);
             
             // --- ডাইনামিক ফাইল সাইজ আপডেট লজিক শেষ ---
+            
+            
+            // ✅ নতুন JavaScript: Random Download Button Placement Logic
+            
+            function placeRandomDownloadButton() {
+                const articleContent = document.querySelector('.content-section');
+                if (!articleContent) return;
+
+                // আর্টিকেলের ভেতরের সব প্যারাগ্রাফ ট্যাগ সংগ্রহ করা
+                const paragraphs = articleContent.querySelectorAll('p');
+                const button = document.getElementById('random-download-btn');
+
+                if (paragraphs.length > 0 && button) {
+                    // র্যান্ডমলি একটি প্যারাগ্রাফের ইন্ডেক্স নির্বাচন করা
+                    // প্রথম এবং শেষ প্যারাগ্রাফকে বাদ দেওয়ার জন্য 1 থেকে length - 2 পর্যন্ত নির্বাচন করা যেতে পারে, 
+                    // কিন্তু এখানে সমস্ত প্যারাগ্রাফের মধ্যে থেকে একটি নির্বাচন করা হলো।
+                    const randomIndex = Math.floor(Math.random() * paragraphs.length);
+
+                    const selectedParagraph = paragraphs[randomIndex];
+
+                    // নির্বাচিত প্যারাগ্রাফের মধ্যে বাটনটি যোগ করা
+                    // float: right CSS ব্যবহারের কারণে এটি প্যারাগ্রাফের ডান দিকে দৃশ্যমান হবে এবং টেক্সট এটিকে ঘিরে থাকবে।
+                    selectedParagraph.prepend(button);
+                    
+                    // বাটনটি দৃশ্যমান করা
+                    button.style.display = 'inline-flex'; 
+                }
+            }
+
+            // পেজ লোড হওয়ার সাথে সাথে বাটনটি র্যান্ডমলি প্লেস করা
+            placeRandomDownloadButton();
+            
+            // --- Random Download Button Logic End ---
         });
     </script>
 </body>
