@@ -6,6 +6,12 @@
     <title>Dynamic Movie Gallery | PrimeFlix-Hub</title>
     
     <meta property="og:title" content="Full Movie Watch and Download link - Full HD 1080p"/>
+    <meta property="og:description" content="নিরাপদে হাই-ডেফিনিশন কোয়ালিটিতে সম্পূর্ণ মুভিটি স্ট্রিম করুন বা ডাউনলোড করুন। কোনো অ্যাড বা ভাইরাস নেই!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/images/mvie.png"/>
+    <meta property="og:url" content="আপনার-পেজের-আসল-URL-এখানে-দিন"/>
+    <meta property="og:type" content="video.other"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
     
@@ -15,7 +21,7 @@
             --primary-gold-hover: #b4942b;
             --bg-dark: #0f1014;
             --bg-card: #1a1c24;
-            --text-light: #ffffff; /* এখন টাইটেল এর জন্য ব্যবহার হবে */
+            --text-light: #ffffff;
             --text-gray: #b3b3b3;
             --danger: #e50914;
         }
@@ -77,7 +83,7 @@
             padding: 10px 20px 20px 20px; 
         }
 
-        /* --- Category & Header Styles (unchanged) --- */
+        /* --- Category & Header Styles --- */
         .category-section {
             margin-bottom: 30px;
         }
@@ -91,7 +97,8 @@
         }
 
         .category-title {
-            font-size: 1.6rem;
+            /* ✅ ক্যাটাগরি টাইটেলের আকার ছোট করা হয়েছে ✅ */
+            font-size: 1.3rem; 
             font-weight: 700;
             color: var(--text-light);
             border-left: 4px solid var(--primary-gold);
@@ -101,9 +108,10 @@
         .view-all {
             color: var(--primary-gold);
             text-decoration: none;
+            /* ✅ View All বাটনের আকার ছোট করা হয়েছে ✅ */
             font-weight: 600;
-            font-size: 0.9rem;
-            padding: 5px 10px;
+            font-size: 0.8rem; 
+            padding: 4px 8px; 
             border: 1px solid var(--primary-gold);
             border-radius: 4px;
             transition: all 0.3s;
@@ -134,25 +142,27 @@
             background-color: var(--bg-card);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            /* ✅ শ্যাডো বন্ধ করা হলো ✅ */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
             transition: transform 0.2s;
             cursor: pointer;
             
-            /* ✅ মোবাইল ভিউ: এক লাইনে ৩টি কার্ড ✅ */
-            width: calc((100vw - 45px) / 3); 
-            min-width: 120px;
+            /* ✅ মোবাইল ভিউ (ডিফল্ট): এক লাইনে ৩টির বদলে ২টা কার্ড ✅ */
+            width: calc((100vw - 45px) / 2); 
+            min-width: 150px; 
         }
         
         .movie-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.2);
+            transform: translateY(-5px); 
+            /* ✅ হোভার শ্যাডো বন্ধ করা হলো ✅ */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
         }
 
         .thumbnail-link {
             display: block;
             position: relative;
             width: 100%;
-            /* ✅ পরিবর্তন: ইমেজের আকার (Height) সংশোধন - 16:9 রেশিও ✅ */
+            /* ইমেজের আকার (Height) সংশোধন - 16:9 রেশিও */
             padding-top: 56.25%; 
         }
 
@@ -166,13 +176,13 @@
             background-position: center;
         }
 
-        /* ✅ টাইটেল স্টাইল (রঙ পরিবর্তন: সাদা) ✅ */
+        /* ✅ টাইটেল স্টাইল (রঙ: সাদা) ✅ */
         .movie-title-box {
             padding: 8px 5px; 
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: var(--text-light); /* ✅ হোয়াইট কালার সেট করা হলো ✅ */
+            color: var(--text-light); 
             
             white-space: nowrap; 
             overflow: hidden; 
@@ -190,18 +200,22 @@
         /* --- Responsive Tweaks --- */
         @media (max-width: 768px) {
             .movie-card {
-                width: calc((100vw - 40px) / 3); 
-                min-width: 100px;
+                /* ✅ 768px বা তার কমে ২টা কার্ড (মোবাইল ভিউ) ✅ */
+                width: calc((100vw - 35px) / 2); 
+                min-width: 140px;
             }
             .movie-title-box {
-                font-size: 0.7rem;
+                font-size: 0.8rem;
                 padding: 6px 4px;
+            }
+            .category-title {
+                 font-size: 1.1rem;
             }
         }
         
         @media (min-width: 769px) {
              .movie-card {
-                /* ✅ ডেস্কটপ ভিউ: ৪টি কার্ড ✅ */
+                /* ✅ ডেস্কটপ ভিউ: ৪টি কার্ড (অপরিবর্তিত) ✅ */
                 width: calc((1200px - 75px) / 4); 
              }
         }
@@ -234,16 +248,16 @@
     </footer>
 
     <script>
-        // ✅ ডাইনামিক ক্যাটাগরি এবং কার্ড লোডিং জাভাস্ক্রিপ্ট (পূর্বের মতো) ✅
+        // ✅ ডাইনামিক ক্যাটাগরি এবং কার্ড লোডিং জাভাস্ক্রিপ্ট ✅
         document.addEventListener('DOMContentLoaded', () => {
             const jsonUrl = './data.json'; 
             const mainContent = document.getElementById('main-content');
             
-            // ক্যাটাগরির ডেটা 
+            // ✅ ক্যাটাগরির ডেটা (ইমোজি সরানো হলো) ✅
             const categories = [
-                { id: "new_releases", name: "🔥 New Releases", view_all_link: "/new-releases" },
-                { id: "action_thrillers", name: "🔫 Action Thrillers", view_all_link: "/action-thrillers" },
-                { id: "trending_bengali", name: "🎬 Trending Bengali", view_all_link: "/bengali" }
+                { id: "new_releases", name: "New Releases", view_all_link: "/new-releases" },
+                { id: "action_thrillers", name: "Action Thrillers", view_all_link: "/action-thrillers" },
+                { id: "trending_bengali", name: "Trending Bengali", view_all_link: "/bengali" }
             ];
 
             // 1. HTML এ ক্যাটাগরি সেকশন তৈরি করা 
