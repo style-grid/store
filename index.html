@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Movie Gallery | PrimeFlix-Hub</title>
+    <title id="page-title">Dynamic Movie Gallery | PrimeFlix-Hub</title>
     
     <meta property="og:title" content="Full Movie Watch and Download link - Full HD 1080p"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,7 +34,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Header & Footer Styles (unchanged) --- */
+        /* --- Header Styles --- */
         header {
             background: rgba(15, 16, 20, 0.95);
             padding: 15px 0;
@@ -50,9 +50,10 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             padding: 0 20px;
+            gap: 30px; 
         }
 
         .brand-logo {
@@ -64,21 +65,33 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
         }
 
         .brand-logo i {
             font-size: 28px;
         }
-
-        /* --- Main Container --- */
+        
+        /* ক্যাটাগরি ভিউয়ের টাইটেল */
+        .header-category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: none; /* ডিফল্টভাবে হাইড */
+        }
+        
+        /* --- Main Container & Views --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 10px 20px 20px 20px; 
         }
 
-        /* --- Category & Header Styles --- */
-        .category-section {
+        /* --- Category Section (Home/Slider View) --- */
+        #home-view .category-section {
             margin-bottom: 30px;
         }
 
@@ -98,7 +111,7 @@
             padding-left: 10px;
         }
 
-        .view-all {
+        .view-all-button {
             color: var(--primary-gold);
             text-decoration: none;
             font-weight: 600;
@@ -107,14 +120,15 @@
             border: 1px solid var(--primary-gold);
             border-radius: 4px;
             transition: all 0.3s;
+            cursor: pointer;
         }
         
-        .view-all:hover {
+        .view-all-button:hover {
             background: var(--primary-gold);
             color: var(--bg-dark);
         }
 
-        /* --- Card Slider Container --- */
+        /* --- Slider & Slide Cards (Home View) --- */
         .cards-slider {
             display: flex;
             overflow-x: scroll;
@@ -128,21 +142,52 @@
             display: none;
         }
         
-        /* --- Individual Card Style --- */
+        .slide-card-container {
+             flex-shrink: 0;
+             /* মোবাইল: এক লাইনে ২টা কার্ড এর মতো সাইজ */
+             width: calc((100vw - 45px) / 2); 
+             min-width: 150px; 
+             /* ডেস্কটপ: এক লাইনে ৪টা কার্ড এর মতো সাইজ */
+             max-width: 250px; 
+        }
+
+        /* --- গ্রিড কার্ড কন্টেইনার (Category View) --- */
+        #category-view .cards-grid {
+            display: grid;
+            gap: 15px; 
+            padding-top: 10px;
+        }
+        
+        /* ✅ ডেস্কটপ: ৩ কলাম গ্রিড ✅ */
+        @media (min-width: 769px) {
+            #category-view .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* --- Individual Card Style (Both Views) --- */
         .movie-card {
-            flex-shrink: 0;
             background-color: var(--bg-card);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
             transition: transform 0.2s;
             cursor: pointer;
-            
-            /* ✅ মোবাইল ভিউ (ডিফল্ট): এক লাইনে ২টা কার্ড ✅ */
-            width: calc((100vw - 45px) / 2); 
-            min-width: 150px; 
+            /* ✅ Lazy Load: শুরুতে হাইড থাকবে ক্যাটাগরি ভিউতে ✅ */
+            opacity: 1;
         }
-        
+
+        /* ক্যাটাগরি ভিউ এর কার্ড */
+        #category-view .movie-card {
+            /* শুরুতে opacity 0, পরে JS দিয়ে 1 করা হবে */
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #category-view .movie-card.loaded {
+            opacity: 1;
+        }
+
         .movie-card:hover {
             transform: translateY(-5px); 
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
@@ -165,30 +210,53 @@
             background-position: center;
         }
 
-        /* ✅ টাইটেল স্টাইল (রঙ: সাদা) ✅ */
         .movie-title-box {
             padding: 8px 5px; 
             text-align: center;
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-light); 
-            
             white-space: nowrap; 
             overflow: hidden; 
             text-overflow: ellipsis; 
         }
-
-        /* --- Footer Styles (unchanged) --- */
+        
+        /* লোডিং ইন্ডিকেটর */
+        #loading-indicator {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+            display: none; 
+        }
+        
+        /* --- Footer Styles (সংশোধিত) --- */
         footer {
             background: #000;
-            padding: 40px 20px;
+            padding: 20px 20px;
             text-align: center;
             border-top: 1px solid #333;
         }
         
+        .copyright {
+            color: #555;
+            font-size: 0.8rem;
+        }
+        
         /* --- Responsive Tweaks --- */
         @media (max-width: 768px) {
-            .movie-card {
+            .navbar {
+                gap: 15px;
+            }
+            .header-category-title {
+                font-size: 1.2rem;
+            }
+            
+            /* ✅ মোবাইল ভিউ: ২ কলাম গ্রিড ✅ */
+            #category-view .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .slide-card-container {
                 width: calc((100vw - 35px) / 2); 
                 min-width: 140px;
             }
@@ -200,101 +268,246 @@
                  font-size: 1.1rem;
             }
         }
-        
-        @media (min-width: 769px) {
-             .movie-card {
-                /* ডেস্কটপ ভিউ: ৪টি কার্ড (অপরিবর্তিত) */
-                width: calc((1200px - 75px) / 4); 
-             }
-        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="navbar">
-            <div class="brand-logo">
+            <a href="#" class="brand-logo" onclick="navigateToHome(event)">
                 <i class="fa-solid fa-clapperboard"></i> 
                 PrimeFlix <span style="color:white; font-weight:300;">-Hub</span>
-            </div>
+            </a>
+            <h1 class="header-category-title" id="category-header-title"></h1>
         </div>
     </header>
 
-    <div class="container" id="main-content">
+    <div class="container">
+        
+        <div id="home-view">
+            </div>
+
+        <div id="category-view" style="display:none;">
+            <div class="cards-grid" id="category-cards-container">
+                </div>
+            <div id="loading-indicator">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading more movies...
+            </div>
+            <div id="end-of-category" style="text-align:center; color:var(--text-gray); padding:30px; display:none;">
+                End of category list.
+            </div>
         </div>
+        
+    </div>
 
     <footer>
-        <div class="footer-links">
-            <a href="#">DMCA</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Contact Support</a>
-        </div>
         <div class="copyright">
             &copy; 2026 PrimeFlix-Hub. All rights reserved.
         </div>
     </footer>
 
     <script>
-        // ✅ ডাইনামিক ক্যাটাগরি এবং কার্ড লোডিং জাভাস্ক্রিপ্ট ✅
         document.addEventListener('DOMContentLoaded', () => {
             const jsonUrl = './data.json'; 
-            const mainContent = document.getElementById('main-content');
+            const MAX_SLIDER_CARDS = 10; // স্লাইডারে সর্বোচ্চ ১০টি কার্ড
+            const CARDS_PER_LOAD = 15;   // ক্যাটাগরি ভিউতে প্রতি লোডে ১৫টি কার্ড (ইনফিনিটি স্ক্রলিং এর জন্য)
             
-            // ✅ ক্যাটাগরির ডেটা (ইমোজি সরানো হলো) ✅
-            const categories = [
-                { id: "new_releases", name: "New Releases", view_all_link: "category.html?id=new_releases" },
-                { id: "action_thrillers", name: "Action Thrillers", view_all_link: "category.html?id=action_thrillers" },
-                { id: "trending_bengali", name: "Trending Bengali", view_all_link: "category.html?id=trending_bengali" }
-            ];
+            const homeView = document.getElementById('home-view');
+            const categoryView = document.getElementById('category-view');
+            const cardContainer = document.getElementById('category-cards-container');
+            const headerTitle = document.getElementById('category-header-title');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const endOfCategory = document.getElementById('end-of-category');
+            const pageTitle = document.getElementById('page-title');
 
-            // 1. HTML এ ক্যাটাগরি সেকশন তৈরি করা 
-            const sliders = {}; 
-            
-            categories.forEach(category => {
-                const section = document.createElement('div');
-                section.className = 'category-section';
-                section.innerHTML = `
-                    <div class="category-header">
-                        <h2 class="category-title">${category.name}</h2>
-                        <a href="${category.view_all_link}" class="view-all">VIEW ALL</a>
-                    </div>
-                    <div class="cards-slider" id="slider-${category.id}">
-                        </div>
+            let allCardsData = [];
+            let currentCategoryCards = [];
+            let cardsLoadedCount = 0;
+            let isLoading = false;
+
+            const categoriesMap = {
+                "new_releases": "New Releases",
+                "action_thrillers": "Action Thrillers",
+                "trending_bengali": "Trending Bengali"
+            };
+
+            // --- ১. কার্ড তৈরি করার সাধারণ ফাংশন ---
+            const createCardElement = (card) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'movie-card';
+                cardElement.innerHTML = `
+                    <a href="${card.link}" class="thumbnail-link" title="${card.title}">
+                        <div class="thumbnail-img" style="background-image: url('${card.image_url}')"></div>
+                    </a>
+                    <div class="movie-title-box">${card.title}</div>
                 `;
-                mainContent.appendChild(section);
-                sliders[category.id] = document.getElementById(`slider-${category.id}`);
-            });
+                return cardElement;
+            };
 
-            // 2. JSON ডেটা লোড করা এবং কার্ডগুলি সঠিক সেকশনে যোগ করা
+            // --- ২. হোমপেজ রেন্ডার ফাংশন ---
+            const renderHomeView = (data) => {
+                homeView.innerHTML = '';
+                categoryView.style.display = 'none';
+                headerTitle.style.display = 'none';
+                pageTitle.textContent = "Dynamic Movie Gallery | PrimeFlix-Hub";
+
+                // সমস্ত ক্যাটাগরি ID বের করে আনা
+                const uniqueCategories = Object.keys(categoriesMap);
+
+                uniqueCategories.forEach(id => {
+                    const categoryName = categoriesMap[id];
+                    // কার্ড ফিল্টার করা এবং নতুন কার্ড প্রথমে দেখানোর জন্য উল্টো করা
+                    const categoryCards = data.filter(card => card.category_id === id).reverse();
+                    
+                    const section = document.createElement('div');
+                    section.className = 'category-section';
+                    section.innerHTML = `
+                        <div class="category-header">
+                            <h2 class="category-title">${categoryName}</h2>
+                            <span class="view-all-button" data-category-id="${id}">VIEW ALL</span>
+                        </div>
+                        <div class="cards-slider" id="slider-${id}">
+                            </div>
+                    `;
+                    homeView.appendChild(section);
+
+                    const slider = document.getElementById(`slider-${id}`);
+
+                    // শুধুমাত্র MAX_SLIDER_CARDS (১০টি) কার্ড লোড করা
+                    categoryCards.slice(0, MAX_SLIDER_CARDS).forEach(card => {
+                        const cardContainer = document.createElement('div');
+                        cardContainer.className = 'slide-card-container';
+                        cardContainer.appendChild(createCardElement(card));
+                        slider.appendChild(cardContainer);
+                    });
+
+                    // যদি ১০টির বেশি কার্ড থাকে তবে VIEW ALL বাটনটি স্লাইডারের শেষেও যোগ করা
+                    if (categoryCards.length > MAX_SLIDER_CARDS) {
+                        const viewAllInSlider = document.createElement('div');
+                        viewAllInSlider.className = 'slide-card-container';
+                        viewAllInSlider.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100%; background:var(--bg-card); border-radius:8px;">
+                                <span class="view-all-button" data-category-id="${id}" style="border:none; padding: 10px 15px;">
+                                    More (${categoryCards.length - MAX_SLIDER_CARDS}+)
+                                </span>
+                            </div>`;
+                        slider.appendChild(viewAllInSlider);
+                    }
+                });
+
+                // VIEW ALL বাটনে ইভেন্ট লিসেনার যোগ করা
+                document.querySelectorAll('.view-all-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const id = e.currentTarget.getAttribute('data-category-id');
+                        window.history.pushState({ category: id }, categoriesMap[id], `#${id}`);
+                        loadCategoryView(id);
+                    });
+                });
+            };
+
+            // --- ৩. ক্যাটাগরি গ্রিড ভিউ লোড ফাংশন ---
+            const loadCategoryView = (id) => {
+                homeView.style.display = 'none';
+                categoryView.style.display = 'block';
+                cardContainer.innerHTML = '';
+                cardsLoadedCount = 0;
+                endOfCategory.style.display = 'none';
+
+                const categoryName = categoriesMap[id] || "All Movies";
+                headerTitle.textContent = categoryName;
+                headerTitle.style.display = 'block';
+                pageTitle.textContent = `${categoryName} | PrimeFlix-Hub`;
+
+                // শুধুমাত্র এই ক্যাটাগরির সমস্ত কার্ড ফিল্টার করা
+                currentCategoryCards = allCardsData.filter(card => card.category_id === id).reverse();
+                
+                // প্রথম সেট কার্ড লোড করা
+                loadMoreCards();
+            };
+
+            // --- ৪. ইনফিনিটি স্ক্রলিং / লেজি লোডিং ফাংশন ---
+            const loadMoreCards = () => {
+                if (isLoading || cardsLoadedCount >= currentCategoryCards.length) {
+                    if (cardsLoadedCount >= currentCategoryCards.length) {
+                        endOfCategory.style.display = 'block';
+                    }
+                    return;
+                }
+
+                isLoading = true;
+                loadingIndicator.style.display = 'block';
+
+                const cardsToLoad = currentCategoryCards.slice(cardsLoadedCount, cardsLoadedCount + CARDS_PER_LOAD);
+                
+                // ডেমো লোডিং ডিলে
+                setTimeout(() => {
+                    cardsToLoad.forEach(card => {
+                        const cardElement = createCardElement(card);
+                        cardContainer.appendChild(cardElement);
+                        // ✅ লেজি লোডিং এর জন্য অপাসিটি যোগ করা ✅
+                        setTimeout(() => { cardElement.classList.add('loaded'); }, 50); 
+                    });
+
+                    cardsLoadedCount += cardsToLoad.length;
+                    isLoading = false;
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (cardsLoadedCount >= currentCategoryCards.length) {
+                        endOfCategory.style.display = 'block';
+                    }
+                }, 500);
+            };
+
+            // --- ৫. স্ক্রল লিসেনার (ইনফিনিটি স্ক্রলিং) ---
+            const handleScroll = () => {
+                if (categoryView.style.display !== 'block') return;
+
+                // চেক করুন ইউজার পেজের প্রায় শেষ দিকে পৌঁছেছে কিনা (বটম থেকে ~৭০০ পিক্সেল)
+                const scrollThreshold = document.documentElement.scrollHeight - window.innerHeight - 700;
+                
+                if (window.scrollY > scrollThreshold) {
+                    loadMoreCards();
+                }
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            
+            // --- ৬. ব্যাক বাটন/URL চেঞ্জ হ্যান্ডলিং ---
+            window.addEventListener('popstate', (e) => {
+                const hash = window.location.hash.substring(1);
+                if (categoriesMap[hash]) {
+                    loadCategoryView(hash);
+                } else {
+                    renderHomeView(allCardsData);
+                }
+            });
+            
+            // লোগো ক্লিক করলে হোমপেজে নিয়ে যাওয়ার ফাংশন
+            window.navigateToHome = (e) => {
+                 e.preventDefault();
+                 window.history.pushState(null, "Home", window.location.pathname);
+                 renderHomeView(allCardsData);
+            };
+
+            // --- ৭. প্রাথমিক ডেটা ফেচিং ---
             fetch(jsonUrl)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
-                    if (!data.all_cards || data.all_cards.length === 0) {
-                        mainContent.innerHTML = '<p style="color:var(--text-gray); text-align:center;">No movie cards found in data.json.</p>';
-                        return;
-                    }
+                    allCardsData = data.all_cards || [];
                     
-                    data.all_cards.reverse().forEach(card => { 
-                        const slider = sliders[card.category_id];
-                        
-                        if (slider) {
-                            const cardElement = document.createElement('div');
-                            cardElement.className = 'movie-card';
-                            cardElement.innerHTML = `
-                                <a href="${card.link}" class="thumbnail-link" title="${card.title}">
-                                    <div class="thumbnail-img" style="background-image: url('${card.image_url}')"></div>
-                                </a>
-                                <div class="movie-title-box">${card.title}</div>
-                            `;
-                            slider.appendChild(cardElement); 
-                        }
-                    });
+                    // URL চেক করে কোন ভিউ লোড হবে তা নির্ধারণ করা
+                    const initialHash = window.location.hash.substring(1);
+                    if (categoriesMap[initialHash]) {
+                        loadCategoryView(initialHash);
+                    } else {
+                        renderHomeView(allCardsData);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading or parsing JSON:', error);
+                    homeView.innerHTML = '<p style="color:var(--danger); text-align:center;">Failed to load movie data. Please check data.json.</p>';
                 });
         });
     </script>
