@@ -6,12 +6,6 @@
     <title>Dynamic Movie Gallery | PrimeFlix-Hub</title>
     
     <meta property="og:title" content="Full Movie Watch and Download link - Full HD 1080p"/>
-    <meta property="og:description" content="নিরাপদে হাই-ডেফিনিশন কোয়ালিটিতে সম্পূর্ণ মুভিটি স্ট্রিম করুন বা ডাউনলোড করুন। কোনো অ্যাড বা ভাইরাস নেই!"/>
-    <meta property="og:image" content="https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/images/mvie.png"/>
-    <meta property="og:url" content="আপনার-পেজের-আসল-URL-এখানে-দিন"/>
-    <meta property="og:type" content="video.other"/>
-    <meta property="og:image:width" content="1200"/>
-    <meta property="og:image:height" content="630"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
     
@@ -97,7 +91,6 @@
         }
 
         .category-title {
-            /* ✅ ক্যাটাগরি টাইটেলের আকার ছোট করা হয়েছে ✅ */
             font-size: 1.3rem; 
             font-weight: 700;
             color: var(--text-light);
@@ -108,7 +101,6 @@
         .view-all {
             color: var(--primary-gold);
             text-decoration: none;
-            /* ✅ View All বাটনের আকার ছোট করা হয়েছে ✅ */
             font-weight: 600;
             font-size: 0.8rem; 
             padding: 4px 8px; 
@@ -142,19 +134,17 @@
             background-color: var(--bg-card);
             border-radius: 8px;
             overflow: hidden;
-            /* ✅ শ্যাডো বন্ধ করা হলো ✅ */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
             transition: transform 0.2s;
             cursor: pointer;
             
-            /* ✅ মোবাইল ভিউ (ডিফল্ট): এক লাইনে ৩টির বদলে ২টা কার্ড ✅ */
+            /* ✅ মোবাইল ভিউ (ডিফল্ট): এক লাইনে ২টা কার্ড ✅ */
             width: calc((100vw - 45px) / 2); 
             min-width: 150px; 
         }
         
         .movie-card:hover {
             transform: translateY(-5px); 
-            /* ✅ হোভার শ্যাডো বন্ধ করা হলো ✅ */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
         }
 
@@ -162,7 +152,6 @@
             display: block;
             position: relative;
             width: 100%;
-            /* ইমেজের আকার (Height) সংশোধন - 16:9 রেশিও */
             padding-top: 56.25%; 
         }
 
@@ -200,7 +189,6 @@
         /* --- Responsive Tweaks --- */
         @media (max-width: 768px) {
             .movie-card {
-                /* ✅ 768px বা তার কমে ২টা কার্ড (মোবাইল ভিউ) ✅ */
                 width: calc((100vw - 35px) / 2); 
                 min-width: 140px;
             }
@@ -215,7 +203,7 @@
         
         @media (min-width: 769px) {
              .movie-card {
-                /* ✅ ডেস্কটপ ভিউ: ৪টি কার্ড (অপরিবর্তিত) ✅ */
+                /* ডেস্কটপ ভিউ: ৪টি কার্ড (অপরিবর্তিত) */
                 width: calc((1200px - 75px) / 4); 
              }
         }
@@ -255,9 +243,9 @@
             
             // ✅ ক্যাটাগরির ডেটা (ইমোজি সরানো হলো) ✅
             const categories = [
-                { id: "new_releases", name: "New Releases", view_all_link: "/new-releases" },
-                { id: "action_thrillers", name: "Action Thrillers", view_all_link: "/action-thrillers" },
-                { id: "trending_bengali", name: "Trending Bengali", view_all_link: "/bengali" }
+                { id: "new_releases", name: "New Releases", view_all_link: "category.html?id=new_releases" },
+                { id: "action_thrillers", name: "Action Thrillers", view_all_link: "category.html?id=action_thrillers" },
+                { id: "trending_bengali", name: "Trending Bengali", view_all_link: "category.html?id=trending_bengali" }
             ];
 
             // 1. HTML এ ক্যাটাগরি সেকশন তৈরি করা 
@@ -269,7 +257,7 @@
                 section.innerHTML = `
                     <div class="category-header">
                         <h2 class="category-title">${category.name}</h2>
-                        <a href="${category.view_all_link || '#'}" class="view-all">VIEW ALL</a>
+                        <a href="${category.view_all_link}" class="view-all">VIEW ALL</a>
                     </div>
                     <div class="cards-slider" id="slider-${category.id}">
                         </div>
@@ -292,7 +280,6 @@
                         return;
                     }
                     
-                    // নতুন কার্ড প্রথমে দেখানোর জন্য অ্যারেটি উল্টো করা হলো।
                     data.all_cards.reverse().forEach(card => { 
                         const slider = sliders[card.category_id];
                         
@@ -306,14 +293,8 @@
                                 <div class="movie-title-box">${card.title}</div>
                             `;
                             slider.appendChild(cardElement); 
-                        } else {
-                            console.warn(`Card "${card.title}" has unknown category_id: ${card.category_id}`);
                         }
                     });
-                })
-                .catch(error => {
-                    console.error('Error loading or parsing JSON:', error);
-                    mainContent.innerHTML = '<p style="color:var(--danger); text-align:center;">Failed to load movie data. Please check data.json.</p>';
                 });
         });
     </script>
