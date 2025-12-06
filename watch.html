@@ -435,7 +435,7 @@
             opacity: 0.8;
         }
 
-        /* --- Generic Content / Article Section --- */
+        /* --- Generic Content / Article Section (Desktop/Base) --- */
         .content-section {
             max-width: 800px; /* Readability constraint */
             margin: 0 auto 50px auto;
@@ -448,19 +448,20 @@
             margin-bottom: 15px;
             border-left: 4px solid var(--primary-gold);
             padding-left: 15px;
-            white-space: nowrap; 
+            white-space: nowrap; /* Forces headings to one line (desktop) */
             overflow: hidden; 
             text-overflow: ellipsis; 
         }
 
         .content-section p {
-            margin-bottom: 20px; /* Increased margin for long article readability */
+            margin-bottom: 20px; 
             font-size: 1rem;
             text-align: justify; 
             font-weight: 400; 
-            line-height: 1.8; /* Increased line-height for readability */
+            line-height: 1.8; 
             font-style: normal; 
         }
+        /* --- End Desktop Styles --- */
 
         .trust-badges {
             display: flex;
@@ -543,9 +544,17 @@
                 margin-top: -10px; 
             }
             
+            /* ✅ মোবাইল আর্টিকেলের হেডলাইন ফিক্স: সাইজ ছোট এবং এক লাইনে নিশ্চিত করা হয়েছে */
             .content-section h3 {
-                font-size: 1.3rem; 
-                white-space: normal; 
+                font-size: 1.2rem; /* Reduced for better single-line fit on mobile */
+                /* Inherits nowrap, hidden, ellipsis from above rules */
+            }
+
+            /* ✅ মোবাইল আর্টিকেলের প্যারাগ্রাফ ফিক্স: লাইন-হাইট ও গোছালো ভাব উন্নত করা হয়েছে */
+            .content-section p {
+                line-height: 1.6; /* Reduced line height for denser, neater look on mobile (was 1.8) */
+                hyphens: auto; /* Encourages better hyphenation to reduce gaps */
+                word-wrap: break-word; /* Ensures long words wrap properly */
             }
 
             .live-counter-box {
