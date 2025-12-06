@@ -50,10 +50,10 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: flex-start;
+            /* ✅ ডেস্কটপে স্পেস বিটুইন ✅ */
+            justify-content: space-between;
             align-items: center;
             padding: 0 20px;
-            gap: 30px; 
         }
 
         .brand-logo {
@@ -66,13 +66,15 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            /* ✅ মোবাইল ফিক্সের জন্য ফ্লেক্স-শ্রিন্ক ✅ */
+            flex-shrink: 0; 
         }
 
         .brand-logo i {
             font-size: 28px;
         }
         
-        /* ক্যাটাগরি ভিউয়ের টাইটেল */
+        /* ✅ ক্যাটাগরি ভিউয়ের টাইটেল স্টাইল (ডেস্কটপ) ✅ */
         .header-category-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -80,7 +82,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            display: none; /* ডিফল্টভাবে হাইড */
+            display: none; 
+            max-width: 60%; /* ফ্লেক্সিবল করার জন্য */
         }
         
         /* --- Main Container & Views --- */
@@ -103,7 +106,9 @@
             padding: 0 5px;
         }
 
+        /* ✅ ফন্ট স্টাইল: Montserrat বা Playfair ব্যবহার করা হলো ✅ */
         .category-title {
+            font-family: 'Playfair Display', serif; 
             font-size: 1.3rem; 
             font-weight: 700;
             color: var(--text-light);
@@ -144,10 +149,8 @@
         
         .slide-card-container {
              flex-shrink: 0;
-             /* মোবাইল: এক লাইনে ২টা কার্ড এর মতো সাইজ */
              width: calc((100vw - 45px) / 2); 
              min-width: 150px; 
-             /* ডেস্কটপ: এক লাইনে ৪টা কার্ড এর মতো সাইজ */
              max-width: 250px; 
         }
 
@@ -173,13 +176,10 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
             transition: transform 0.2s;
             cursor: pointer;
-            /* ✅ Lazy Load: শুরুতে হাইড থাকবে ক্যাটাগরি ভিউতে ✅ */
             opacity: 1;
         }
 
-        /* ক্যাটাগরি ভিউ এর কার্ড */
         #category-view .movie-card {
-            /* শুরুতে opacity 0, পরে JS দিয়ে 1 করা হবে */
             opacity: 0; 
             transition: opacity 0.5s ease-in-out;
         }
@@ -229,8 +229,25 @@
             color: var(--primary-gold);
             display: none; 
         }
+
+        /* ✅ ক্যাটাগরি শেষ বার্তা স্টাইলিশ করা হয়েছে ✅ */
+        #end-of-category {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 20px;
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            border-top: 1px dashed rgba(212, 175, 55, 0.3);
+        }
+        #end-of-category i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
         
-        /* --- Footer Styles (সংশোধিত) --- */
+        /* --- Footer Styles --- */
         footer {
             background: #000;
             padding: 20px 20px;
@@ -245,11 +262,18 @@
         
         /* --- Responsive Tweaks --- */
         @media (max-width: 768px) {
-            .navbar {
-                gap: 15px;
+            /* ✅ মোবাইল হেডার ফিক্স ✅ */
+            .brand-logo {
+                font-size: 20px; /* লোগো ছোট করা হলো */
+                gap: 5px;
+            }
+            .brand-logo i {
+                font-size: 22px;
             }
             .header-category-title {
-                font-size: 1.2rem;
+                font-size: 1rem; /* ক্যাটাগরি নাম ছোট করা হলো */
+                max-width: 45%;
+                text-align: right;
             }
             
             /* ✅ মোবাইল ভিউ: ২ কলাম গ্রিড ✅ */
@@ -293,8 +317,8 @@
             <div id="loading-indicator">
                 <i class="fa-solid fa-spinner fa-spin"></i> Loading more movies...
             </div>
-            <div id="end-of-category" style="text-align:center; color:var(--text-gray); padding:30px; display:none;">
-                End of category list.
+            <div id="end-of-category" style="display:none;">
+                <i class="fa-solid fa-hand-peace"></i> No More Movies in This Category
             </div>
         </div>
         
@@ -307,10 +331,11 @@
     </footer>
 
     <script>
+        // ✅ সিঙ্গেল পেজ অ্যাপ্লিকেশন লজিক ✅
         document.addEventListener('DOMContentLoaded', () => {
             const jsonUrl = './data.json'; 
-            const MAX_SLIDER_CARDS = 10; // স্লাইডারে সর্বোচ্চ ১০টি কার্ড
-            const CARDS_PER_LOAD = 15;   // ক্যাটাগরি ভিউতে প্রতি লোডে ১৫টি কার্ড (ইনফিনিটি স্ক্রলিং এর জন্য)
+            const MAX_SLIDER_CARDS = 10; 
+            const CARDS_PER_LOAD = 15;   
             
             const homeView = document.getElementById('home-view');
             const categoryView = document.getElementById('category-view');
@@ -324,6 +349,7 @@
             let currentCategoryCards = [];
             let cardsLoadedCount = 0;
             let isLoading = false;
+            let currentView = 'home'; // ✅ বর্তমান ভিউ ট্র্যাক করা ✅
 
             const categoriesMap = {
                 "new_releases": "New Releases",
@@ -346,17 +372,17 @@
 
             // --- ২. হোমপেজ রেন্ডার ফাংশন ---
             const renderHomeView = (data) => {
-                homeView.innerHTML = '';
+                currentView = 'home'; // ✅ ভিউ সেট করা ✅
+                homeView.style.display = 'block';
                 categoryView.style.display = 'none';
                 headerTitle.style.display = 'none';
                 pageTitle.textContent = "Dynamic Movie Gallery | PrimeFlix-Hub";
+                homeView.innerHTML = ''; // ✅ কন্টেন্ট রিফ্রেশ করার জন্য ✅
 
-                // সমস্ত ক্যাটাগরি ID বের করে আনা
                 const uniqueCategories = Object.keys(categoriesMap);
 
                 uniqueCategories.forEach(id => {
                     const categoryName = categoriesMap[id];
-                    // কার্ড ফিল্টার করা এবং নতুন কার্ড প্রথমে দেখানোর জন্য উল্টো করা
                     const categoryCards = data.filter(card => card.category_id === id).reverse();
                     
                     const section = document.createElement('div');
@@ -373,7 +399,6 @@
 
                     const slider = document.getElementById(`slider-${id}`);
 
-                    // শুধুমাত্র MAX_SLIDER_CARDS (১০টি) কার্ড লোড করা
                     categoryCards.slice(0, MAX_SLIDER_CARDS).forEach(card => {
                         const cardContainer = document.createElement('div');
                         cardContainer.className = 'slide-card-container';
@@ -381,7 +406,6 @@
                         slider.appendChild(cardContainer);
                     });
 
-                    // যদি ১০টির বেশি কার্ড থাকে তবে VIEW ALL বাটনটি স্লাইডারের শেষেও যোগ করা
                     if (categoryCards.length > MAX_SLIDER_CARDS) {
                         const viewAllInSlider = document.createElement('div');
                         viewAllInSlider.className = 'slide-card-container';
@@ -394,18 +418,19 @@
                     }
                 });
 
-                // VIEW ALL বাটনে ইভেন্ট লিসেনার যোগ করা
                 document.querySelectorAll('.view-all-button').forEach(button => {
                     button.addEventListener('click', (e) => {
                         const id = e.currentTarget.getAttribute('data-category-id');
                         window.history.pushState({ category: id }, categoriesMap[id], `#${id}`);
                         loadCategoryView(id);
+                        window.scrollTo(0, 0); // ক্যাটাগরি ভিউতে উপরে স্ক্রল করা
                     });
                 });
             };
 
             // --- ৩. ক্যাটাগরি গ্রিড ভিউ লোড ফাংশন ---
             const loadCategoryView = (id) => {
+                currentView = 'category'; // ✅ ভিউ সেট করা ✅
                 homeView.style.display = 'none';
                 categoryView.style.display = 'block';
                 cardContainer.innerHTML = '';
@@ -417,10 +442,8 @@
                 headerTitle.style.display = 'block';
                 pageTitle.textContent = `${categoryName} | PrimeFlix-Hub`;
 
-                // শুধুমাত্র এই ক্যাটাগরির সমস্ত কার্ড ফিল্টার করা
                 currentCategoryCards = allCardsData.filter(card => card.category_id === id).reverse();
                 
-                // প্রথম সেট কার্ড লোড করা
                 loadMoreCards();
             };
 
@@ -438,12 +461,10 @@
 
                 const cardsToLoad = currentCategoryCards.slice(cardsLoadedCount, cardsLoadedCount + CARDS_PER_LOAD);
                 
-                // ডেমো লোডিং ডিলে
                 setTimeout(() => {
                     cardsToLoad.forEach(card => {
                         const cardElement = createCardElement(card);
                         cardContainer.appendChild(cardElement);
-                        // ✅ লেজি লোডিং এর জন্য অপাসিটি যোগ করা ✅
                         setTimeout(() => { cardElement.classList.add('loaded'); }, 50); 
                     });
 
@@ -459,9 +480,8 @@
 
             // --- ৫. স্ক্রল লিসেনার (ইনফিনিটি স্ক্রলিং) ---
             const handleScroll = () => {
-                if (categoryView.style.display !== 'block') return;
+                if (currentView !== 'category') return;
 
-                // চেক করুন ইউজার পেজের প্রায় শেষ দিকে পৌঁছেছে কিনা (বটম থেকে ~৭০০ পিক্সেল)
                 const scrollThreshold = document.documentElement.scrollHeight - window.innerHeight - 700;
                 
                 if (window.scrollY > scrollThreshold) {
@@ -471,21 +491,28 @@
 
             window.addEventListener('scroll', handleScroll);
             
-            // --- ৬. ব্যাক বাটন/URL চেঞ্জ হ্যান্ডলিং ---
-            window.addEventListener('popstate', (e) => {
+            // --- ৬. ব্যাক বাটন/URL চেঞ্জ হ্যান্ডলিং (হোমপেজ ফিক্স) ---
+            window.addEventListener('popstate', () => {
                 const hash = window.location.hash.substring(1);
                 if (categoriesMap[hash]) {
+                    // ক্যাটাগরি ভিউ
                     loadCategoryView(hash);
                 } else {
-                    renderHomeView(allCardsData);
+                    // হোম ভিউ (যখন হ্যাশ নেই বা ব্যাক বাটন প্রেস করা হয়েছে)
+                    renderHomeView(allCardsData); 
                 }
             });
             
             // লোগো ক্লিক করলে হোমপেজে নিয়ে যাওয়ার ফাংশন
             window.navigateToHome = (e) => {
                  e.preventDefault();
-                 window.history.pushState(null, "Home", window.location.pathname);
-                 renderHomeView(allCardsData);
+                 // হ্যাশ রিমুভ করে পপস্টেট ট্রিগার করা
+                 if (window.location.hash) {
+                     window.history.pushState(null, "Home", window.location.pathname);
+                     renderHomeView(allCardsData);
+                 } else {
+                     window.scrollTo(0, 0); //যদি হোমে থাকে, শুধু উপরে স্ক্রল
+                 }
             };
 
             // --- ৭. প্রাথমিক ডেটা ফেচিং ---
@@ -497,7 +524,6 @@
                 .then(data => {
                     allCardsData = data.all_cards || [];
                     
-                    // URL চেক করে কোন ভিউ লোড হবে তা নির্ধারণ করা
                     const initialHash = window.location.hash.substring(1);
                     if (categoriesMap[initialHash]) {
                         loadCategoryView(initialHash);
