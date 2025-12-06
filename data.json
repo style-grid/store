@@ -1,0 +1,80 @@
+{
+  "all_cards": [
+    
+    {
+      "title": "The Golden Sword: The Epic Adventure of the Last Kingdom (2025) - NEWLY ADDED",
+      "image_url": "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/images/mvie.png",
+      "link": "https://prototypesorting.com/new-link",
+      "category_id": "new_releases" 
+    },
+    
+    {
+      "title": "The Last Frontier: Part 2",
+      "image_url": "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/images/mvie.png",
+      "link": "https://prototypesorting.com/link1",
+      "category_id": "new_releases" 
+    },
+    {
+      "title": "A Silent Promise",
+      "image_url": "https://picsum.photos/id/237/200/300",
+      "link": "https://prototypesorting.com/link2",
+      "category_id": "new_releases" 
+    },
+    {
+      "title": "Cosmic Drift: The Origin Story",
+      "image_url": "https://picsum.photos/id/102/200/300",
+      "link": "https://prototypesorting.com/link3",
+      "category_id": "new_releases" 
+    },
+    {
+      "title": "City of Shadows",
+      "image_url": "https://picsum.photos/id/106/200/300",
+      "link": "https://prototypesorting.com/link4",
+      "category_id": "new_releases" 
+    },
+    
+    {
+      "title": "Redemption Protocol",
+      "image_url": "https://picsum.photos/id/301/200/300",
+      "link": "https://prototypesorting.com/link5",
+      "category_id": "action_thrillers" 
+    },
+    {
+      "title": "The Rogue Agent",
+      "image_url": "https://picsum.photos/id/304/200/300",
+      "link": "https://prototypesorting.com/link6",
+      "category_id": "action_thrillers" 
+    },
+    {
+      "title": "High Octane Heist",
+      "image_url": "https://picsum.photos/id/400/200/300",
+      "link": "https://prototypesorting.com/link7",
+      "category_id": "action_thrillers" 
+    },
+    {
+      "title": "Bullet Proof Destiny",
+      "image_url": "https://picsum.photos/id/402/200/300",
+      "link": "https://prototypesorting.com/link8",
+      "category_id": "action_thrillers" 
+    },
+    
+    {
+      "title": "Aguner Poroshmoni (অগ্নির পরশমণি)",
+      "image_url": "https://picsum.photos/id/500/200/300",
+      "link": "https://prototypesorting.com/link9",
+      "category_id": "trending_bengali" 
+    },
+    {
+      "title": "Sonar Kella (সোনার কেল্লা)",
+      "image_url": "https://picsum.photos/id/502/200/300",
+      "link": "https://prototypesorting.com/link10",
+      "category_id": "trending_bengali" 
+    },
+    {
+      "title": "Bhooter Bhobishyot (ভূতের ভবিষ্যত)",
+      "image_url": "https://picsum.photos/id/503/200/300",
+      "link": "https://prototypesorting.com/link11",
+      "category_id": "trending_bengali" 
+    }
+  ]
+}
