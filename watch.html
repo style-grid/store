@@ -56,7 +56,7 @@
             z-index: 1000;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .navbar {
@@ -210,6 +210,7 @@
             100% { opacity: 0; }
         }
 
+        /* ✅ CSS: স্পিনার (তৃতীয় লোডিং) এর স্টাইলটি আর প্রয়োজন নেই, তবে কম্পোনেন্টটি HTML থেকে সরাতে না চাইলে তার ডিসপ্লে 'none' রাখতে হবে */
         .spinner {
             position: absolute;
             top: 50%;
@@ -233,7 +234,7 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* ✅ সংশোধিত CSS: মুভি টাইটেল স্টাইল (নো-হাইডিং, নরমাল ওয়েট) */
+        /* মুভি টাইটেল স্টাইল */
         #movie-dynamic-title {
             position: absolute; 
             bottom: 15px; 
@@ -241,8 +242,8 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 95%;
-            font-size: 1.4rem; /* ডেস্কটপে মানানসই সাইজ */
-            font-weight: 400; /* নরমাল ফন্ট ওয়েট */
+            font-size: 1.4rem; 
+            font-weight: 400; 
             color: var(--text-light);
             text-align: center;
             z-index: 10;
@@ -250,7 +251,6 @@
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9); 
             margin: 0; 
             
-            /* আগের স্টাইল রিমুভ করা হলো যাতে সম্পূর্ণ টাইটেল দেখা যায় */
             white-space: normal; 
             overflow: visible;
             text-overflow: clip; 
@@ -290,7 +290,7 @@
             justify-content: space-between; 
             align-items: center;
             border: 1px solid #333;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             margin-bottom: 5px; 
         }
         
@@ -493,7 +493,7 @@
             color: var(--text-gray);
         }
 
-        /* ✅ সংশোধিত CSS: আর্টিকেল হেডলাইন (নো-হাইডিং) */
+        /* আর্টিকেল হেডলাইন */
         .content-section h3 {
             color: var(--text-light);
             font-size: 1.5rem;
@@ -575,10 +575,10 @@
                 padding: 5px 10px 10px 10px; 
             }
             
-            /* ✅ সংশোধিত CSS: মোবাইল টাইটেল ফিক্স (নো-হাইডিং, নরমাল ওয়েট) */
+            /* মোবাইল টাইটেল ফিক্স */
             #movie-dynamic-title {
-                font-size: 1rem; /* ছোট করা হলো */
-                font-weight: 400; /* নরমাল ফন্ট ওয়েট */
+                font-size: 1rem; 
+                font-weight: 400; 
                 bottom: 10px; 
                 white-space: normal; 
                 overflow: visible;
@@ -852,7 +852,7 @@
                 pageTitle.textContent = "Movie Not Found | PrimeFlix-Hub";
             }
             
-            // প্লে বাটন ক্লিক লজিক
+            // ✅ সংশোধিত প্লে বাটন ক্লিক লজিক: কোনো লোডিং ইফেক্ট ছাড়াই সরাসরি লিংকে প্রবেশ করবে
             const playButton = document.getElementById('playButton');
             const spinner = document.getElementById('spinner');
             const thumbnailLink = document.getElementById('thumbnailLink');
@@ -860,15 +860,15 @@
             const targetLink = thumbnailLink.href; 
 
             thumbnailLink.addEventListener('click', function(e) {
-                e.preventDefault(); 
+                // e.preventDefault();
                 
-                playButton.style.display = 'none';
-                spinner.classList.add('active');
-                progressBar.style.opacity = '0'; 
+                // ✅ তৃতীয় লোডিং ইফেক্ট (স্পিনার) সম্পূর্ণ বাদ দেওয়া হলো
+                // playButton.style.display = 'none';
+                // spinner.classList.add('active');
+                // progressBar.style.opacity = '0'; 
 
-                setTimeout(() => {
-                    window.open(targetLink, '_blank');
-                }, 2000); 
+                // setTimeout-এর ব্যবহারও বাদ দেওয়া হলো, যেন ক্লিক করার সাথে সাথেই লিংকে চলে যায়।
+                window.open(targetLink, '_blank');
             });
 
             // ডাইনামিক ভিউ কাউন্টার লজিক
