@@ -22,7 +22,7 @@
     ></script>
   
     <style>
-        /* CSS কোড: (আগের মতোই রাখা হলো) */
+        /* CSS কোড (আগের মতোই রাখা হলো) */
         :root {
             --primary-gold: #d4af37;
             --primary-gold-hover: #b4942b;
@@ -832,19 +832,17 @@
             const urlParams = new URLSearchParams(window.location.search);
             const title = urlParams.get('title');
             const imageUrl = urlParams.get('image');
-            // ✅ নতুন: ডাউনলোড লিংক URL থেকে গ্রহণ করা
             const downloadLink = urlParams.get('dlink'); 
             
             const movieTitleElement = document.getElementById('movie-dynamic-title');
             const thumbnailContainer = document.getElementById('thumbnailContainer');
             const pageTitle = document.getElementById('dynamic-title');
-            const randomDlButton = document.getElementById('random-download-btn'); // ✅ র্যান্ডম বাটন সিলেক্ট করা
-            const thumbnailLink = document.getElementById('thumbnailLink'); // ✅ প্লে বাটন সিলেক্ট করা
-
+            const randomDlButton = document.getElementById('random-download-btn');
+            
             if (title && imageUrl && downloadLink) {
                 const cleanTitle = decodeURIComponent(title);
                 const cleanImageUrl = decodeURIComponent(imageUrl);
-                const cleanDownloadLink = decodeURIComponent(downloadLink); // ✅ ডাউনলোড লিংক ডিকোড করা
+                const cleanDownloadLink = decodeURIComponent(downloadLink);
 
                 // ১. টাইটেল, ইমেজ ও পেজ টাইটেল লোড করা
                 movieTitleElement.textContent = cleanTitle;
@@ -857,18 +855,18 @@
                 if (ogTitle) ogTitle.setAttribute('content', cleanTitle + " | Full Movie Watch and Download link");
                 if (ogImage) ogImage.setAttribute('content', cleanImageUrl);
                 
-                // ২. ✅ প্লে বাটনে অ্যাড লিংক সেট করা (আগের মতোই রাখা হলো)
-                // থাম্বনেল লিংকে এখানে একটি অ্যাড লিংক সেট করা আছে।
-
-                // ৩. ✅ র্যান্ডম ডাউনলোড বাটনে অরিজিনাল লিংক সেট করা
+                // ২. র্যান্ডম ডাউনলোড বাটনে অরিজিনাল লিংক সেট করা
                 if (randomDlButton) {
                     randomDlButton.href = cleanDownloadLink;
                 }
+                
+                // ৩. ✅ র্যান্ডম ডাউনলোড বাটনটিকে পজিশন করা এবং দৃশ্যমান করা
+                placeRandomDownloadButton(downloadLink);
 
             } else {
                 movieTitleElement.textContent = "Error: Movie Not Found";
                 pageTitle.textContent = "Movie Not Found | PrimeFlix-Hub";
-                if (randomDlButton) randomDlButton.style.display = 'none'; // লিংক না পেলে বাটন লুকিয়ে রাখা
+                if (randomDlButton) randomDlButton.style.display = 'none';
             }
             
             // --- ভিউ কাউন্টার লজিক ---
@@ -932,9 +930,11 @@
             
             // --- Random Download Button Placement and Alignment Logic ---
             
-            function placeRandomDownloadButton() {
+            function placeRandomDownloadButton(downloadLink) {
                 const articleContent = document.querySelector('.content-section');
-                if (!articleContent || !randomDlButton || randomDlButton.style.display === 'none') return;
+                
+                // ✅ র্যান্ডম বাটনটি যদি না থাকে বা ডাউনলোড লিংক না আসে, তাহলে রিটার্ন করা
+                if (!articleContent || !randomDlButton || !downloadLink) return;
 
                 const paragraphs = articleContent.querySelectorAll('p');
 
@@ -961,18 +961,12 @@
                     // নির্বাচিত প্যারাগ্রাফের ঠিক নিচে বাটনটি যোগ করা
                     selectedParagraph.after(randomDlButton);
                     
-                    // বাটনটি দৃশ্যমান করা
+                    // ✅ সমস্যাটির সমাধান: বাটনটি দৃশ্যমান করা
                     randomDlButton.style.display = 'flex'; 
                 }
             }
-
-            // পেজ লোড হওয়ার সাথে সাথে বাটনটি র্যান্ডমলি প্লেস করা
-            // ডাউনলোড লিংক URL-এ না থাকলে এটি লোড হবে না।
-            if (downloadLink) { 
-                placeRandomDownloadButton();
-            }
-            
             // --- Random Download Button Logic End ---
+            
         });
     </script>
 </body>
