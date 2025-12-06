@@ -56,7 +56,7 @@
             z-index: 1000;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         .navbar {
@@ -210,7 +210,6 @@
             100% { opacity: 0; }
         }
 
-        /* ✅ CSS: স্পিনার (তৃতীয় লোডিং) এর স্টাইলটি আর প্রয়োজন নেই, তবে কম্পোনেন্টটি HTML থেকে সরাতে না চাইলে তার ডিসপ্লে 'none' রাখতে হবে */
         .spinner {
             position: absolute;
             top: 50%;
@@ -667,7 +666,13 @@
                 <div class="progress-fill"></div>
             </div>
 
-            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="thumbnail-link" id="thumbnailLink" title="Play to Access">
+            <a 
+                href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" 
+                class="thumbnail-link" 
+                id="thumbnailLink" 
+                title="Play to Access"
+                target="_blank" 
+                rel="nofollow"> 
                 <div class="thumbnail-container" id="thumbnailContainer">
                     <div class="overlay"></div>
                     <h1 id="movie-dynamic-title">Loading Movie Title...</h1> 
@@ -705,7 +710,7 @@
             <div class="download-title">Select Quality to Download</div>
             
             <div class="download-grid">
-                <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" class="dl-btn res-1080">
+                <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" class="dl-btn res-1080" target="_blank" rel="nofollow">
                     <div class="dl-info">
                         <span>FULL HD (1080p)</span>
                         <span class="dl-size" id="size-1080">Blue-Ray Quality • 2.4GB</span>
@@ -713,7 +718,7 @@
                     <i class="fa-solid fa-cloud-arrow-down fa-lg"></i>
                 </a>
 
-                <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="dl-btn res-720">
+                <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="dl-btn res-720" target="_blank" rel="nofollow">
                     <div class="dl-info">
                         <span>HD (720p)</span>
                         <span class="dl-size" id="size-720">High Quality • 1.1GB</span>
@@ -721,7 +726,7 @@
                     <i class="fa-solid fa-download fa-lg"></i>
                 </a>
 
-                <a href="https://otieu.com/4/10282820" class="dl-btn res-480">
+                <a href="https://otieu.com/4/10282820" class="dl-btn res-480" target="_blank" rel="nofollow">
                     <div class="dl-info">
                         <span>SD (480p)</span>
                         <span class="dl-size" id="size-480">Mobile Version • 450MB</span>
@@ -811,10 +816,10 @@
 
     <footer>
         <div class="footer-links">
-            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec">DMCA</a>
-            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea">Privacy Policy</a>
-            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec">Terms of Service</a>
-            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea">Contact Support</a>
+            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" target="_blank" rel="nofollow">DMCA</a>
+            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" target="_blank" rel="nofollow">Privacy Policy</a>
+            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" target="_blank" rel="nofollow">Terms of Service</a>
+            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" target="_blank" rel="nofollow">Contact Support</a>
         </div>
         <div class="copyright">
             &copy; 2026 PrimeFlix-Hub. All rights reserved.<br>
@@ -852,24 +857,14 @@
                 pageTitle.textContent = "Movie Not Found | PrimeFlix-Hub";
             }
             
-            // ✅ সংশোধিত প্লে বাটন ক্লিক লজিক: কোনো লোডিং ইফেক্ট ছাড়াই সরাসরি লিংকে প্রবেশ করবে
-            const playButton = document.getElementById('playButton');
-            const spinner = document.getElementById('spinner');
+            // ✅ সংশোধিত প্লে বাটন ক্লিক লজিক: 
+            // যেহেতু HTML এ target="_blank" যোগ করা হয়েছে, তাই কাস্টম JS লজিকের আর প্রয়োজন নেই।
+            // এই অংশের আগের কোডটি মুছে দেওয়া হলো যাতে শুধুমাত্র HTML ট্যাগ কাজ করে।
             const thumbnailLink = document.getElementById('thumbnailLink');
-            const progressBar = document.getElementById('progressBar');
-            const targetLink = thumbnailLink.href; 
+            
+            // অতিরিক্ত/ডুপ্লিকেট ট্যাব খোলার জন্য দায়ী কোডটি (addEventListener) সম্পূর্ণ মুছে ফেলা হলো।
+            // এই ট্যাগের ডিফল্ট কাজ (target="_blank" অনুযায়ী নতুন ট্যাব খোলা) এখন স্বয়ংক্রিয়ভাবে ঘটবে।
 
-            thumbnailLink.addEventListener('click', function(e) {
-                // e.preventDefault();
-                
-                // ✅ তৃতীয় লোডিং ইফেক্ট (স্পিনার) সম্পূর্ণ বাদ দেওয়া হলো
-                // playButton.style.display = 'none';
-                // spinner.classList.add('active');
-                // progressBar.style.opacity = '0'; 
-
-                // setTimeout-এর ব্যবহারও বাদ দেওয়া হলো, যেন ক্লিক করার সাথে সাথেই লিংকে চলে যায়।
-                window.open(targetLink, '_blank');
-            });
 
             // ডাইনামিক ভিউ কাউন্টার লজিক
             const counterElement = document.getElementById('view-counter');
