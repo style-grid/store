@@ -14,7 +14,7 @@
     <meta property="og:image:height" content="630"/>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <script
         type="text/javascript"
@@ -22,7 +22,7 @@
     ></script>
   
     <style>
-        /* CSS কোড: */
+        /* CSS কোড: (আগের মতোই রাখা হলো) */
         :root {
             --primary-gold: #d4af37;
             --primary-gold-hover: #b4942b;
@@ -671,7 +671,6 @@
                 class="thumbnail-link" 
                 id="thumbnailLink" 
                 title="Play to Access"
-                target="_blank" 
                 rel="nofollow"> 
                 <div class="thumbnail-container" id="thumbnailContainer">
                     <div class="overlay"></div>
@@ -710,7 +709,7 @@
             <div class="download-title">Select Quality to Download</div>
             
             <div class="download-grid">
-                <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" class="dl-btn res-1080" target="_blank" rel="nofollow">
+                <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" class="dl-btn res-1080" rel="nofollow">
                     <div class="dl-info">
                         <span>FULL HD (1080p)</span>
                         <span class="dl-size" id="size-1080">Blue-Ray Quality • 2.4GB</span>
@@ -718,7 +717,7 @@
                     <i class="fa-solid fa-cloud-arrow-down fa-lg"></i>
                 </a>
 
-                <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="dl-btn res-720" target="_blank" rel="nofollow">
+                <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="dl-btn res-720" rel="nofollow">
                     <div class="dl-info">
                         <span>HD (720p)</span>
                         <span class="dl-size" id="size-720">High Quality • 1.1GB</span>
@@ -726,7 +725,7 @@
                     <i class="fa-solid fa-download fa-lg"></i>
                 </a>
 
-                <a href="https://otieu.com/4/10282820" class="dl-btn res-480" target="_blank" rel="nofollow">
+                <a href="https://otieu.com/4/10282820" class="dl-btn res-480" rel="nofollow">
                     <div class="dl-info">
                         <span>SD (480p)</span>
                         <span class="dl-size" id="size-480">Mobile Version • 450MB</span>
@@ -758,7 +757,6 @@
             id="random-download-btn" 
             style="display: none;" 
             rel="nofollow" 
-            target="_blank"
             title="Download Now - HD">
             <i class="fa-solid fa-fire"></i> Download Full HD
         </a>
@@ -816,10 +814,10 @@
 
     <footer>
         <div class="footer-links">
-            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" target="_blank" rel="nofollow">DMCA</a>
-            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" target="_blank" rel="nofollow">Privacy Policy</a>
-            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" target="_blank" rel="nofollow">Terms of Service</a>
-            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" target="_blank" rel="nofollow">Contact Support</a>
+            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" rel="nofollow">DMCA</a>
+            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" rel="nofollow">Privacy Policy</a>
+            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" rel="nofollow">Terms of Service</a>
+            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" rel="nofollow">Contact Support</a>
         </div>
         <div class="copyright">
             &copy; 2026 PrimeFlix-Hub. All rights reserved.<br>
@@ -858,12 +856,12 @@
             }
             
             // ✅ সংশোধিত প্লে বাটন ক্লিক লজিক: 
-            // যেহেতু HTML এ target="_blank" যোগ করা হয়েছে, তাই কাস্টম JS লজিকের আর প্রয়োজন নেই।
-            // এই অংশের আগের কোডটি মুছে দেওয়া হলো যাতে শুধুমাত্র HTML ট্যাগ কাজ করে।
+            // **এই অংশটি পুরোপুরি পরিষ্কার করা হয়েছে।** // এখন থাম্বেল কন্টেনার ক্লিক করলে HTML এর ডিফল্ট কাজ (একই ট্যাবে লোড) হবে।
             const thumbnailLink = document.getElementById('thumbnailLink');
-            
-            // অতিরিক্ত/ডুপ্লিকেট ট্যাব খোলার জন্য দায়ী কোডটি (addEventListener) সম্পূর্ণ মুছে ফেলা হলো।
-            // এই ট্যাগের ডিফল্ট কাজ (target="_blank" অনুযায়ী নতুন ট্যাব খোলা) এখন স্বয়ংক্রিয়ভাবে ঘটবে।
+            if (thumbnailLink) {
+                // নিশ্চিত করা হলো যেন কোনো কাস্টম লজিক (যেমন: window.open) নতুন ট্যাব না খোলে।
+                // শুধুমাত্র প্রোগ্রেস বার এবং স্পিনার দেখানো হবে, তারপর লিংকের ডিফল্ট কাজ হবে।
+            }
 
 
             // ডাইনামিক ভিউ কাউন্টার লজিক
