@@ -123,7 +123,7 @@
             background-size: cover;
             background-position: center;
             display: flex;
-            flex-direction: column; /* টাইটেল নিচে দেখানোর জন্য */
+            flex-direction: column; 
             justify-content: center;
             align-items: center;
             position: relative;
@@ -233,25 +233,25 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* ✅ ডাইনামিক টাইটেল স্টাইল (সংশোধিত: থাম্বনেইল কন্টেইনারের ভিতরে) ✅ */
+        /* ডাইনামিক টাইটেল স্টাইল */
         #movie-dynamic-title {
             position: absolute; 
-            bottom: 15px; /* নিচের দিকে পজিশন */
+            bottom: 15px; 
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
             max-width: 95%;
             font-size: 1.4rem; 
-            font-weight: 500; /* কম বোল্ড */
+            font-weight: 500; 
             color: var(--text-light);
             text-align: center;
             z-index: 10;
             line-height: 1.3;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9); /* টাইটেলকে থাম্বনেইলের উপরে স্পষ্ট করার জন্য */
-            margin: 0; /* অতিরিক্ত মার্জিন বাতিল */
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9); 
+            margin: 0; 
         }
         
-        /* ভিডিও CTA সেকশন (টাইটেল এখান থেকে সরানো হয়েছে) */
+        /* ভিডিও CTA সেকশন */
         .video-cta {
             margin-top: 10px; 
             margin-bottom: 15px; 
@@ -530,9 +530,9 @@
                 margin-bottom: 1px; 
             }
             
-            /* ✅ মোবাইল টাইটেল ফিক্স (থাম্বনেইল কন্টেইনারের ভিতরে) ✅ */
+            /* মোবাইল টাইটেল ফিক্স (থাম্বনেইল কন্টেইনারের ভিতরে) */
             #movie-dynamic-title {
-                font-size: 1.1rem; /* আরও ছোট */
+                font-size: 1.1rem; 
                 bottom: 10px; 
             }
 
@@ -594,7 +594,8 @@
             <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="thumbnail-link" id="thumbnailLink" title="Play to Access">
                 <div class="thumbnail-container" id="thumbnailContainer">
                     <div class="overlay"></div>
-                    <h1 id="movie-dynamic-title">Loading Movie Title...</h1> <div class="play-button" id="playButton"></div>
+                    <h1 id="movie-dynamic-title">Loading Movie Title...</h1> 
+                    <div class="play-button" id="playButton"></div>
                     <div class="spinner" id="spinner"></div> 
                 </div>
             </a>
@@ -631,7 +632,7 @@
                 <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" class="dl-btn res-1080">
                     <div class="dl-info">
                         <span>FULL HD (1080p)</span>
-                        <span class="dl-size">Blue-Ray Quality • 2.4GB</span>
+                        <span class="dl-size" id="size-1080">Blue-Ray Quality • 2.4GB</span>
                     </div>
                     <i class="fa-solid fa-cloud-arrow-down fa-lg"></i>
                 </a>
@@ -639,7 +640,7 @@
                 <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="dl-btn res-720">
                     <div class="dl-info">
                         <span>HD (720p)</span>
-                        <span class="dl-size">High Quality • 1.1GB</span>
+                        <span class="dl-size" id="size-720">High Quality • 1.1GB</span>
                     </div>
                     <i class="fa-solid fa-download fa-lg"></i>
                 </a>
@@ -647,7 +648,7 @@
                 <a href="https://otieu.com/4/10282820" class="dl-btn res-480">
                     <div class="dl-info">
                         <span>SD (480p)</span>
-                        <span class="dl-size">Mobile Version • 450MB</span>
+                        <span class="dl-size" id="size-480">Mobile Version • 450MB</span>
                     </div>
                     <i class="fa-solid fa-circle-down fa-lg"></i>
                 </a>
@@ -705,7 +706,7 @@
     </footer>
 
     <script>
-        // ✅ ডাইনামিক ডেটা লোডিং লজিক (URL থেকে) ✅
+        // ✅ ডাইনামিক ডেটা লোডিং লজিক (URL থেকে)
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const title = urlParams.get('title');
@@ -716,16 +717,13 @@
             const pageTitle = document.getElementById('dynamic-title');
 
             if (title && imageUrl) {
-                // ১. টাইটেল সেট করা
                 const cleanTitle = decodeURIComponent(title);
                 movieTitleElement.textContent = cleanTitle;
                 pageTitle.textContent = cleanTitle + " | PrimeFlix-Hub";
                 
-                // ২. থাম্বনেইল সেট করা
                 const cleanImageUrl = decodeURIComponent(imageUrl);
                 thumbnailContainer.style.backgroundImage = `url('${cleanImageUrl}')`;
 
-                // ৩. OG মেটা ট্যাগ আপডেট করা (শেয়ারিং এর জন্য)
                 const ogTitle = document.querySelector('meta[property="og:title"]');
                 const ogImage = document.querySelector('meta[property="og:image"]');
                 
@@ -733,7 +731,6 @@
                 if (ogImage) ogImage.setAttribute('content', cleanImageUrl);
 
             } else {
-                // ডেটা না পেলে ডিফল্ট বা এরর বার্তা দেখানো
                 movieTitleElement.textContent = "Error: Movie Not Found";
                 pageTitle.textContent = "Movie Not Found | PrimeFlix-Hub";
             }
@@ -780,6 +777,55 @@
 
             updateViews();
             setInterval(updateViews, 2000); 
+            
+            // --- ✅ ডাইনামিক ফাইল সাইজ আপডেট লজিক (প্রতি ২ মিনিটে) ✅ ---
+            
+            // ১. বেস সাইজ ও রেঞ্জ (GB-তে)
+            const baseSizes = {
+                '1080': 2.4, // Full HD (GB)
+                '720': 1.1,  // HD (GB)
+                '480': 450,  // SD (MB)
+            };
+            
+            // রেঞ্জ (GB/MB-তে). যেমন: 1080p এর সাইজ 2.4GB, এটি 2.3GB থেকে 2.5GB-র মধ্যে random হবে
+            const randomRange = {
+                '1080': 0.1, // +/- 0.1 GB
+                '720': 0.05, // +/- 0.05 GB
+                '480': 30,   // +/- 30 MB
+            };
+
+            // র্যান্ডম ফ্লোটিং-পয়েন্ট নাম্বার জেনারেট করা
+            function getRandomVariation(base, range) {
+                // (Math.random() * 2 * range) = 0 থেকে 2 * range এর মধ্যে মান
+                // - range = -range থেকে +range এর মধ্যে মান
+                const variation = (Math.random() * 2 * range) - range;
+                return base + variation;
+            }
+
+            // সাইজ আপডেট করার ফাংশন
+            function updateDownloadSizes() {
+                // Full HD (1080p) - GB
+                const new1080Size = getRandomVariation(baseSizes['1080'], randomRange['1080']);
+                const formatted1080 = new1080Size.toFixed(1); // ১ দশমিক স্থান পর্যন্ত 
+                document.getElementById('size-1080').innerHTML = `Blue-Ray Quality • **${formatted1080}GB**`;
+                
+                // HD (720p) - GB
+                const new720Size = getRandomVariation(baseSizes['720'], randomRange['720']);
+                const formatted720 = new720Size.toFixed(1); // ১ দশমিক স্থান পর্যন্ত
+                document.getElementById('size-720').innerHTML = `High Quality • **${formatted720}GB**`;
+
+                // SD (480p) - MB
+                const new480Size = Math.round(getRandomVariation(baseSizes['480'], randomRange['480']));
+                document.getElementById('size-480').innerHTML = `Mobile Version • **${new480Size}MB**`;
+            }
+
+            // প্রাথমিক আপডেট
+            updateDownloadSizes();
+
+            // প্রতি ২ মিনিটে (120000 মিলিসেকেন্ড) সাইজ আপডেট করা
+            setInterval(updateDownloadSizes, 120000);
+            
+            // --- ✅ ডাইনামিক ফাইল সাইজ আপডেট লজিক শেষ ✅ ---
         });
     </script>
 </body>
