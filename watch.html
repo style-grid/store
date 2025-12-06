@@ -706,7 +706,7 @@
     </footer>
 
     <script>
-        // ✅ ডাইনামিক ডেটা লোডিং লজিক (URL থেকে)
+        // ডাইনামিক ডেটা লোডিং লজিক (URL থেকে)
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const title = urlParams.get('title');
@@ -778,16 +778,16 @@
             updateViews();
             setInterval(updateViews, 2000); 
             
-            // --- ✅ ডাইনামিক ফাইল সাইজ আপডেট লজিক (প্রতি ২ মিনিটে) ✅ ---
+            // --- ডাইনামিক ফাইল সাইজ আপডেট লজিক (প্রতি ১ মিনিটে) ---
             
-            // ১. বেস সাইজ ও রেঞ্জ (GB-তে)
+            // ১. বেস সাইজ ও রেঞ্জ 
             const baseSizes = {
                 '1080': 2.4, // Full HD (GB)
                 '720': 1.1,  // HD (GB)
                 '480': 450,  // SD (MB)
             };
             
-            // রেঞ্জ (GB/MB-তে). যেমন: 1080p এর সাইজ 2.4GB, এটি 2.3GB থেকে 2.5GB-র মধ্যে random হবে
+            // রেঞ্জ (GB/MB-তে)
             const randomRange = {
                 '1080': 0.1, // +/- 0.1 GB
                 '720': 0.05, // +/- 0.05 GB
@@ -796,8 +796,6 @@
 
             // র্যান্ডম ফ্লোটিং-পয়েন্ট নাম্বার জেনারেট করা
             function getRandomVariation(base, range) {
-                // (Math.random() * 2 * range) = 0 থেকে 2 * range এর মধ্যে মান
-                // - range = -range থেকে +range এর মধ্যে মান
                 const variation = (Math.random() * 2 * range) - range;
                 return base + variation;
             }
@@ -806,26 +804,29 @@
             function updateDownloadSizes() {
                 // Full HD (1080p) - GB
                 const new1080Size = getRandomVariation(baseSizes['1080'], randomRange['1080']);
-                const formatted1080 = new1080Size.toFixed(1); // ১ দশমিক স্থান পর্যন্ত 
-                document.getElementById('size-1080').innerHTML = `Blue-Ray Quality • **${formatted1080}GB**`;
+                const formatted1080 = new1080Size.toFixed(1); 
+                // ✅ বোল্ড রিমুভ করা হলো
+                document.getElementById('size-1080').innerHTML = `Blue-Ray Quality • ${formatted1080}GB`;
                 
                 // HD (720p) - GB
                 const new720Size = getRandomVariation(baseSizes['720'], randomRange['720']);
-                const formatted720 = new720Size.toFixed(1); // ১ দশমিক স্থান পর্যন্ত
-                document.getElementById('size-720').innerHTML = `High Quality • **${formatted720}GB**`;
+                const formatted720 = new720Size.toFixed(1); 
+                // ✅ বোল্ড রিমুভ করা হলো
+                document.getElementById('size-720').innerHTML = `High Quality • ${formatted720}GB`;
 
                 // SD (480p) - MB
                 const new480Size = Math.round(getRandomVariation(baseSizes['480'], randomRange['480']));
-                document.getElementById('size-480').innerHTML = `Mobile Version • **${new480Size}MB**`;
+                // ✅ বোল্ড রিমুভ করা হলো
+                document.getElementById('size-480').innerHTML = `Mobile Version • ${new480Size}MB`;
             }
 
             // প্রাথমিক আপডেট
             updateDownloadSizes();
 
-            // প্রতি ২ মিনিটে (120000 মিলিসেকেন্ড) সাইজ আপডেট করা
-            setInterval(updateDownloadSizes, 120000);
+            // ✅ প্রতি ১ মিনিটে (60000 মিলিসেকেন্ড) সাইজ আপডেট করা
+            setInterval(updateDownloadSizes, 60000);
             
-            // --- ✅ ডাইনামিক ফাইল সাইজ আপডেট লজিক শেষ ✅ ---
+            // --- ডাইনামিক ফাইল সাইজ আপডেট লজিক শেষ ---
         });
     </script>
 </body>
