@@ -1,1 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Movie Access | High Definition Download</title>
+    
+    <meta property="og:title" content="Full Movie Watch and Download link - Full HD 1080p"/>
+    <meta property="og:description" content="নিরাপদে হাই-ডেফিনিশন কোয়ালিটিতে সম্পূর্ণ মুভিটি স্ট্রিম করুন বা ডাউনলোড করুন। কোনো অ্যাড বা ভাইরাস নেই!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251207_160547.jpg"/>
+    <meta property="og:url" content="আপনার-পেজের-আসল-URL-এখানে-দিন"/>
+    <meta property="og:type" content="video.other"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    
+  
+  <script
+  type="text/javascript"
+  src="//prototypesorting.com/70/2c/67/702c67f9d1db58564142cc27691530f9.js"
+></script>
+  
+  
+    <style>
+        /* CSS কোড যেমন আছে তেমনই আছে, শুধু প্রয়োজনীয় পরিবর্তন করা হয়েছে */
+        :root {
+            --primary-gold: #d4af37;
+            --primary-gold-hover: #b4942b;
+            --bg-dark: #0f1014;
+            --bg-card: #1a1c24;
+            --text-light: #ffffff;
+            --text-gray: #b3b3b3;
+            --danger: #e50914;
+            --live-red: #ff0000;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header Section --- */
+        header {
+            background: rgba(15, 16, 20, 0.95);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            padding: 0 20px;
+            position: relative; 
+        }
+        
+        /* মেনু এবং সার্চ আইকনের জন্য কন্টেইনার */
+        .nav-icon-container {
+            font-size: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+            width: 30px; 
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: color 0.3s;
+            /* ✅ পরিবর্তন: flex আইটেম হিসেবে কাজ করার জন্য */
+            flex-shrink: 0; 
+        }
+        
+        .nav-icon-container:hover {
+            color: var(--primary-gold);
+        }
+
+        .menu-icon {
+            order: -1; 
+            margin-right: auto; 
+        }
+        
+        .search-icon {
+            order: 3; 
+            margin-left: auto; 
+        }
+
+
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            order: 0; 
+            /* ডেস্কটপ সেন্টারিং লজিক */
+            position: absolute; 
+            left: 50%;
+            transform: translateX(-50%);
+            /* ✅ নতুন: হেডার ভাঙা রোধের জন্য ফ্লেক্সের অংশ হতে বাধা দেওয়া */
+            white-space: nowrap; 
+        }
+
+        .brand-logo i {
+            font-size: 28px;
+        }
+
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 10px 20px 20px 20px; 
+        }
+
+        .ad-container-middle {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        /* --- Video Player Section (Hero) --- */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; 
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.1); 
+            margin-bottom: 5px; 
+            border: 1px solid #333;
+        }
+        
+        .thumbnail-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-decoration: none; 
+            display: block;
+            z-index: 5;
+        }
+
+        .thumbnail-container {
+            width: 100%;
+            height: 100%;
+            background-image: url('https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251207_160547.jpg'); 
+            background-size: cover;
+            background-position: center;
+            display: block; 
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0); 
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail-link:hover .overlay {
+            background: rgba(0, 0, 0, 0.4); 
+        }
+
+        /* লোডিং বার, প্লে বাটন, স্পিনার হাইড */
+        .play-button, .spinner, .progress-bar {
+            display: none !important; 
+        }
+        
+        /* ভিডিও CTA সেকশন */
+        .video-cta {
+            margin-top: 0px; 
+            margin-bottom: 15px; 
+            text-align: center;
+        }
+        
+        .video-cta h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2px; 
+            color: var(--primary-gold);
+        }
+
+        .blink-text {
+            animation: blinker 2s linear infinite;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 0; 
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0.5; }
+        }
+
+        /* --- ভিউ কাউন্টার বক্স স্টাইল --- */
+        .live-counter-box {
+            background-color: var(--bg-card);
+            padding: 8px 20px; 
+            border-radius: 8px;
+            margin-top: 5px; 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-bottom: 5px; 
+        }
+        
+        /* রেটিং স্টাইল */
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--live-red);
+            border-radius: 50%;
+            animation: live-pulse 1.5s infinite;
+        }
+
+        .counter-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-grow: 1; 
+            justify-content: center; 
+            padding-left: 10px; 
+        }
+
+        .counter-text i {
+            color: var(--text-light);
+        }
+
+        @keyframes live-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(255, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+        
+        /* --- Download Section --- */
+        .download-section {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            border-top: 3px solid var(--primary-gold);
+            text-align: center;
+            margin-bottom: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); 
+        }
+
+        /* ডাউনলোড টাইটেল সংশোধন */
+        .download-title {
+            font-size: 1.8rem;
+            margin-bottom: 45px; 
+            margin-top: -15px; 
+            font-weight: 700;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .dl-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: 700;
+        }
+
+        /* --- Shine Effect CSS (Fixed Speed: 0.7s run, 3s pause) --- */
+        .dl-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250%; 
+            height: 100%;
+            background: linear-gradient(
+                45deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4) 30%, 
+                rgba(255, 255, 255, 0.6) 50%, 
+                rgba(255, 255, 255, 0.4) 70%,
+                transparent
+            ); 
+            
+            transform: translateX(-100%) skewX(-30deg);
+            
+            /* মোট সাইকেল 3.7s (0.7s রানিং টাইম + 3s বিরতি) */
+            animation: shine 3.7s linear infinite; 
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) skewX(-30deg); } 
+            
+            /* 18.9% এ ডান-উপর কোণার বাইরে শেষ হবে */
+            18.9% { transform: translateX(400%) skewX(-30deg); } 
+            
+            /* 18.9% থেকে 100% পর্যন্ত এটি বাইরে থাকবে (3 সেকেন্ড বিরতি নিশ্চিত) */
+            100% { transform: translateX(400%) skewX(-30deg); } 
+        }
+        /* --- Shine Effect CSS শেষ --- */
+
+
+        .res-1080 {
+            background: linear-gradient(45deg, #d4af37, #f3d467);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .res-720 {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+            border: 1px solid #4a6fa5;
+        }
+
+        .res-480 {
+            background: transparent;
+            border: 1px solid #555;
+            color: var(--text-gray);
+        }
+
+        .dl-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        .dl-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .dl-size {
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        /* --- Generic Content / Article Section (আর্টিকেলের অংশ) --- */
+        .content-section {
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            color: var(--text-gray);
+        }
+
+        /* হেডলাইন স্টাইল */
+        .content-section h3 {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-gold);
+            padding-left: 15px;
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+
+        /* 💡 প্যারাগ্রাফ স্টাইল (নরমাল ফন্ট, গ্যাপ কমানো ও গোছানো) */
+        .content-section p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            text-align: justify; 
+            font-weight: 400; /* নরমাল ফন্ট */
+            line-height: 1.5; /* লাইন স্পেসিং কমানো */
+            font-style: normal; /* নর্মাল স্টাইল নিশ্চিতকরণ */
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            border: 1px solid var(--primary-gold);
+            padding: 8px 15px;
+            border-radius: 50px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #000;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        .copyright {
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        /* --- Mobile Responsive Tweaks (768px বা তার কম) --- */
+        @media (max-width: 768px) {
+            
+            /* মোবাইল মেনু/সার্চ আইকন সাইজ ছোট করা */
+            .nav-icon-container {
+                font-size: 18px;
+                width: 25px;
+                height: 25px;
+            }
+            
+            /* ✅ পরিবর্তন: লোগো ফন্ট সাইজ কমানো এবং মাঝখানে আনা */
+            .brand-logo {
+                font-size: 16px; /* ফন্ট সাইজ আরও কমানো হয়েছে */
+                position: static; /* absolute পজিশনিং তুলে ফেলা */
+                transform: none; /* transform তুলে ফেলা */
+                left: auto;
+                flex-grow: 1; /* ফ্লেক্স লেআউটে অংশ নিতে দেওয়া */
+                text-align: center;
+                /* ফন্টের আকার কমানো হলেও নিশ্চিত করা যে এটি ভাঙবে না */
+                white-space: nowrap; 
+                justify-content: center;
+            }
+            
+            .brand-logo i {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 5px 10px 10px 10px; 
+            }
+            
+            /* ভিডিও CTA মোবাইল গ্যাপ অ্যাডজাস্টমেন্ট */
+            .video-cta {
+                margin-top: 0px; 
+                margin-bottom: 10px; 
+            }
+
+            .video-cta h2 {
+                margin-bottom: 1px; 
+            }
+
+            /* ডাউনলোড টাইটেল ছোট করা */
+            .download-title {
+                font-size: 1.4rem; 
+                line-height: 1.2;
+                margin-bottom: 30px; 
+                margin-top: -10px; 
+            }
+            
+            /* আর্টিকেল হেডলাইন মোবাইল */
+            .content-section h3 {
+                font-size: 1.3rem; 
+                white-space: normal; 
+            }
+
+            /* ভিউ কাউন্টার ফ্লেক্সবক্সের মধ্যে ছোট ডিসপ্লে */
+            .live-counter-box {
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+
+            .counter-text {
+                font-size: 1rem;
+            }
+
+            .rating-box {
+                padding: 4px 8px;
+                font-size: 0.85rem;
+            }
+
+            .live-status {
+                margin-left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            
+            <div class="nav-icon-container menu-icon">
+                <i class="fa-solid fa-bars"></i> 
+            </div>
+
+            <div class="brand-logo">
+                <i class="fa-solid fa-clapperboard"></i> 
+                PrimeFlix <span style="color:white; font-weight:300;">-Hub</span>
+            </div>
+            
+            <div class="nav-icon-container search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+        </div>
+    </header>
+    
+    <div class="container">
+      
+      <div class="video-cta">
+            <h2>Ready to Watch?</h2>
+            <p class="blink-text">Click on the Image Below to Enter the Movie's Viewing Page.</p> 
+        </div>
+
+        <div class="video-wrapper">
+            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="thumbnail-link" id="thumbnailLink" title="Click to Access">
+                <div class="thumbnail-container" style="background-image: url('https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251207_160547.jpg');">
+                    <div class="overlay"></div>
+                </div>
+            </a>
+        </div>
+
+        <div class="live-counter-box">
+            
+            <div class="rating-box">
+                <i class="fa-solid fa-star"></i> 4.8
+            </div>
+            
+            <div class="counter-text">
+                <i class="fa-solid fa-users"></i> 
+                <span id="view-counter">35,000 Views</span> 
+            </div>
+            
+            <div class="live-status">
+                <span style="color: var(--text-gray); font-size: 0.9em; font-weight: 600;">LIVE</span>
+                <div class="live-dot"></div>
+            </div>
+        </div>
+      
+      <script
+  async="async"
+  data-cfasync="false"
+  src="//prototypesorting.com/e3acc6dca75414a62f26b9157050fe46/invoke.js"
+></script>
+<div id="container-e3acc6dca75414a62f26b9157050fe46"></div>
+      
+
+        <div id="download-section" class="download-section">
+            <div class="download-title">Select Quality to Download</div>
+            
+            <div class="download-grid">
+                <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" class="dl-btn res-1080">
+                    <div class="dl-info">
+                        <span>FULL HD (1080p)</span>
+                        <span class="dl-size">Blue-Ray Quality • 2.4GB</span>
+                    </div>
+                    <i class="fa-solid fa-cloud-arrow-down fa-lg"></i>
+                </a>
+
+                <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" class="dl-btn res-720">
+                    <div class="dl-info">
+                        <span>HD (720p)</span>
+                        <span class="dl-size">High Quality • 1.1GB</span>
+                    </div>
+                    <i class="fa-solid fa-download fa-lg"></i>
+                </a>
+
+                <a href="https://otieu.com/4/10282820" class="dl-btn res-480">
+                    <div class="dl-info">
+                        <span>SD (480p)</span>
+                        <span class="dl-size">Mobile Version • 450MB</span>
+                    </div>
+                    <i class="fa-solid fa-circle-down fa-lg"></i>
+                </a>
+            </div>
+        </div>
+      
+      <div class="ad-container-middle">
+          <script type="text/javascript">
+            atOptions = {
+                'key' : 'dd6ec52b1eb3679b789447aca6b4ed8e',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+          </script>
+          <script
+            type="text/javascript"
+            src="//prototypesorting.com/dd6ec52b1eb3679b789447aca6b4ed8e/invoke.js"
+          ></script>
+      </div>
+      <article class="content-section">
+            <h3>Experience Cinematic Excellence</h3>
+            <p>
+                Prepare yourself for an <strong style="color:var(--text-light);">immersive visual journey</strong>. This masterpiece has been optimized for the <strong style="color:var(--text-light);">best possible viewing experience</strong> on both mobile and desktop devices. With <strong style="color:var(--primary-gold);">crystal-clear audio engineering and high-definition visuals</strong>, every frame tells a story that captivates the audience from beginning to end.
+            </p>
+            <p>
+                Our platform ensures <strong style="color:var(--text-light);">high-speed, secure connections</strong> for your entertainment. Whether you are looking for intense action, deep emotional storytelling, or visual spectacles, this file delivers exactly what true cinema lovers desire. The file is <strong style="color:var(--primary-gold);">verified, virus-free, and ready for instant playback or offline viewing</strong>.
+            </p>
+            <p>
+                Don't miss out on the buzz. Download now to witness the performance and direction that everyone is talking about. Enjoy the <strong style="color:var(--text-light);">seamless quality</strong> that brings the theater experience right to your screen.
+            </p>
+
+            <div class="trust-badges">
+                <div class="badge"><i class="fa-solid fa-shield-halved"></i> 100% Secure</div>
+                <div class="badge"><i class="fa-solid fa-bolt"></i> Fast Server</div>
+                <div class="badge"><i class="fa-solid fa-check-double"></i> Verified File</div>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec">DMCA</a>
+            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea">Privacy Policy</a>
+            <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec">Terms of Service</a>
+            <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea">Contact Support</a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 PrimeFlix-Hub. All rights reserved.<br>
+            For promotional use only.
+        </div>
+    </footer>
+
+    <script>
+        const thumbnailLink = document.getElementById('thumbnailLink');
+        const targetLink = thumbnailLink.href; 
+
+        // ডাইনামিক ভিউ কাউন্টার (আগের মতো)
+        const counterElement = document.getElementById('view-counter');
+        const localStorageKey = 'cinemaHubViews_2'; 
+        const baseViews = 35000; 
+        const maxIncrement = 5; 
+
+        let currentViews = parseInt(localStorage.getItem(localStorageKey)) || baseViews;
+        
+        function formatViews(num) {
+            return num.toLocaleString('en-US') + ' Views'; 
+        }
+
+        function updateViews() {
+            const increment = Math.floor(Math.random() * maxIncrement) + 1; 
+            currentViews += increment;
+            
+            localStorage.setItem(localStorageKey, currentViews);
+            
+            counterElement.innerHTML = formatViews(currentViews);
+        }
+
+        updateViews();
+
+        // প্রতি 2 সেকেন্ডে সংখ্যা আপডেট করা (লাইভ ইফেক্ট)
+        setInterval(updateViews, 2000); 
+    </script>
+</body>
+</html>
