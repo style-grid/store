@@ -1,1 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Binodon - VIP Access Free 🔞</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 
+  
+
+  
+  
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-light: #FFD700; 
+            --gold-dark: #AA8C2C;
+            --bg-deep: #050505;
+            --text-silver: #c0c0c0;
+            --next-step-blue: #00BFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            color: var(--text-silver);
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            margin-bottom: 0px; 
+        }
+
+        .brand-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--gold-primary), #fff, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .brand-logo i {
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .telegram-btn {
+            color: #0088cc;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            filter: drop-shadow(0 0 5px rgba(0,136,204,0.4));
+        }
+
+        .wait-section {
+            text-align: center;
+            padding: 10px 10px;
+            background-color: #2a0000; 
+            border-bottom: 1px solid #ff3333;
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 0.9rem;
+            font-weight: 500; 
+            color: #fff;
+            overflow: hidden; 
+            white-space: nowrap; 
+            display: none; 
+        }
+        
+        .wait-section.show-timer {
+            display: block; 
+        }
+        
+        .wait-section #timer {
+            color: var(--gold-light);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            display: inline-block;
+            min-width: 25px; 
+        }
+
+        .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding: 10px 0;
+            user-select: none;
+            touch-action: pan-y; 
+            margin: 10px 0;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 15px; 
+            width: max-content;
+            will-change: transform;
+            cursor: grab;
+        }
+        
+        .marquee-track:active { cursor: grabbing; }
+
+        .marquee-item {
+            width: 40vw; 
+            margin-right: 0; 
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) { .marquee-item { width: 25vw; } }
+
+        .marquee-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s, opacity 0.5s;
+            opacity: 0.85;
+            pointer-events: none; 
+        }
+
+        .marquee-item:hover img { transform: scale(1.1); opacity: 0.4; }
+
+        .play-btn-overlay {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px; height: 45px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            border: 1px solid var(--gold-primary);
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .play-btn-overlay i { color: #fff; font-size: 18px; margin-left: 3px; }
+
+        .middle-section {
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column; 
+            padding: 10px 0; 
+            position: relative;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%); 
+            border-top: 1px solid rgba(212, 175, 55, 0.15); 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            margin: 0; 
+            cursor: pointer;
+            text-align: center; 
+        }
+
+        .vip-text {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold-light); 
+            font-size: 1rem; 
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); 
+            font-weight: 700;
+            line-height: 1.5; 
+        }
+        
+        .access-text {
+            font-size: 0.75rem; 
+            color: #fff; 
+            opacity: 0.8;
+            letter-spacing: 2px;
+            display: block; 
+            margin-top: 5px;
+        }
+
+        .video-thumbnail-container {
+            width: 100%;
+            padding: 0 20px; 
+            margin: 15px 0; 
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .video-thumbnail-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; 
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: none; 
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background-color: #111;
+            max-width: 800px; 
+            margin: 0 auto;
+        }
+
+        .video-thumbnail-wrapper img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s;
+        }
+        
+        .video-thumbnail-wrapper:hover img { opacity: 0.9; }
+
+        .btn-container { 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap; 
+            gap: 15px; 
+            margin: 20px 0; 
+            padding: 0 20px; 
+        }
+        
+        .gold-btn {
+            position: relative;
+            display: inline-block; 
+            padding: 14px 40px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            color: #000;
+            background: linear-gradient(to bottom, #FFD700, #DAA520, #FFD700);
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #fff;
+            overflow: hidden;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); 
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .get-link-btn {
+            position: relative;
+            display: inline-block; 
+            padding: 14px 40px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            
+            background: linear-gradient(to bottom, #2c2c2c, #111111, #2c2c2c);
+            color: var(--gold-light);
+            border: 1px solid var(--gold-primary);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            margin-top: 0;
+        }
+
+        .gold-btn:hover, .get-link-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.8); 
+        }
+        
+        .gold-btn::after, .get-link-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transition: 0.5s;
+            animation: shine 3s infinite;
+        }
+        
+        .content-box {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            text-align: justify;
+            background: linear-gradient(180deg, rgba(20,20,20,0) 0%, rgba(20,20,20,0.8) 100%);
+            border-top: 1px solid #222;
+        }
+
+        .content-box h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .content-box p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #aaa;
+        }
+
+        .highlight { color: var(--gold-light); font-weight: 600; }
+        .danger { color: #ff3333; font-weight: 600; }
+
+        .article-btn {
+            display: block; 
+            max-width: 200px; 
+            margin: 20px auto; 
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.0rem; 
+            background-color: var(--next-step-blue); 
+            border-radius: 4px;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 191, 255, 0.4);
+            /* 🔥 ডিফল্টভাবে লুকানো */
+            display: none;
+        }
+        
+        .article-btn:hover {
+            background-color: #0088cc;
+            transform: translateY(-2px);
+        }
+        
+        .article-btn.show-btn {
+            /* 🔥 টাইমার শেষ হলে দৃশ্যমান হবে */
+            display: block !important;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #111;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://secretbinodon.blogspot.com" class="brand-logo"> 
+            <i class="fa-solid fa-user-secret"></i>
+            <span>Secret Binodon</span>
+        </a>
+        <a href="https://t.me/virallink_market" target="_blank" class="telegram-btn">
+            <i class="fa-brands fa-telegram"></i>
+        </a>
+    </header>
+
+    <div class="wait-section" id="wait-section">
+        🔜 First Step Wait for <span id="timer">20</span> Second ⬅️
+    </div>
+
+    <div class="marquee-container" id="marquee-1">
+        <div class="marquee-track"></div>
+    </div>
+
+    <div class="middle-section" id="middle-section-click">
+        <div class="vip-text">
+            VIP & PREMIUM LOUNGE 
+            <span class="access-text">TAP TO ACCESS</span>
+        </div>
+    </div>
+
+    <div class="marquee-container" id="marquee-2">
+        <div class="marquee-track"></div>
+    </div>
+  
+  
+  
+  <div style="text-align: center; margin: 0 auto;">
+    <script type="text/javascript">
+        atOptions = {
+            'key' : 'f209fb58a687a0696ad81c3d27e36057',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+        };
+    </script>
+    <script
+        type="text/javascript"
+        src="//prototypesorting.com/f209fb58a687a0696ad81c3d27e36057/invoke.js"
+    ></script>
+</div>
+
+  
+  
+    <div class="video-thumbnail-container" id="video-thumbnail-click">
+        <div class="video-thumbnail-wrapper">
+            <img src="https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/SecretBinodonThumble.jpg" alt="Video Thumbnail" id="main-video-thumbnail" loading="lazy">
+        </div>
+    </div>
+    
+    <div class="btn-container">
+        <a href="https://otieu.com/4/10291975" class="gold-btn" id="click-package-btn">
+            <i class="fa-solid fa-play-circle" style="margin-right: 8px;"></i> Click All Package 📥
+        </a>
+
+        <a href="https://prototypesorting.com/x0tq9pfa?key=5eaa0857eb30fd0efb62daca7ba27aec" id="get-link-btn" class="get-link-btn"> 
+            <i class="fa-solid fa-link" style="margin-right: 8px;"></i> Recent Viral Link 🔗
+        </a>
+    </div>
+  
+  
+  <script
+  async="async"
+  data-cfasync="false"
+  src="//prototypesorting.com/e3acc6dca75414a62f26b9157050fe46/invoke.js"
+></script>
+<div id="container-e3acc6dca75414a62f26b9157050fe46"></div>
+  
+
+    <article class="content-box">
+        <h2>Exclusive Community Guidelines</h2>
+        
+        <p>
+            Welcome to the <span class="highlight">Secret Binodon</span> exclusive portal. This platform is engineered for a sophisticated audience. Please be advised that all content hosted herein is strictly for <span class="highlight">Mature Audiences (18+)</span> only. If you are under the legal age in your jurisdiction, you are <span class="danger">strictly prohibited</span> from proceeding further.
+        </p>
+
+        <a href="#" class="article-btn" id="next-step-btn">
+             <i class="fa-solid fa-forward" style="margin-right: 8px;"></i> Next Step
+        </a>
+
+        <p>
+            We prioritize your digital safety and privacy. In an era of digital uncertainty, we urge our members to exercise extreme caution. Do not engage with unverified external links. Our system provides a secure, single-point entry—clicking on the <span class="highlight">Text Area</span>, the <span class="highlight">Video Thumbnail</span> or the <span class="highlight">Gold Button</span> will redirect you safely to our premium destination.
+        </p>
+        
+        <p style="text-align: center; color: var(--gold-dark); font-style: italic;">
+            "Experience luxury, privacy, and premium entertainment."
+        </p>
+    </article>
+
+    <footer>
+        &copy; 2025 Secret Binodon Luxury. All Rights Reserved.
+    </footer>
+
+    <script>
+        // --- CONFIGURATION ---
+        // ডিফল্ট লিংক: এই লিঙ্কে ক্লিকগুলো যাবে যদি তা আর্টিকেল বাটন না হয়
+        const TARGET_LINK_DEFAULT = "https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea"; 
+        
+        let NEXT_STEP_FINAL_LINK = TARGET_LINK_DEFAULT; 
+        
+        let IS_STEP_ACCESS = false; 
+
+        // --- BASE64 DECODING UTILS ---
+        function decodeUrl(encodedUrl) {
+            const base64 = encodedUrl.replace(/-/g, '+').replace(/_/g, '/');
+            try {
+                const padding = (4 - base64.length % 4) % 4;
+                return atob(base64 + '='.repeat(padding));
+            } catch (e) {
+                console.error("Decoding error:", e);
+                return null;
+            }
+        }
+        
+        function visitLink(link) {
+            window.location.href = link;
+        }
+
+        // 🔥 ফাংশন: টাইমার চলাকালীন বা ডোমেন ভিজিটে ব্যবহৃত হবে
+        function handleOneClickDefault() {
+            visitLink(TARGET_LINK_DEFAULT);
+        }
+
+        // --- TIMER & VISIBILITY FUNCTIONALITY ---
+        let count = 20;
+        const timerElement = document.getElementById('timer');
+        const waitSection = document.getElementById('wait-section');
+        const nextStepBtn = document.getElementById('next-step-btn'); 
+        
+        // 💡 ফশন: টাইমার শুরু করা
+        function startTimer() {
+            if (!timerElement || !waitSection || !nextStepBtn) return; 
+
+            waitSection.classList.add('show-timer');
+
+            const countdown = setInterval(() => {
+                count--;
+                timerElement.textContent = count;
+
+                if (count <= 0) {
+                    clearInterval(countdown);
+                    waitSection.innerHTML = '⬇️ Scroll Down and Click the Button ✅';
+                    
+                    // 🔥 শুধুমাত্র টাইমার শেষ হলেই আর্টিকেলের বাটনটি চূড়ান্ত লিঙ্কে সেট এবং দৃশ্যমান করা হলো।
+                    nextStepBtn.href = NEXT_STEP_FINAL_LINK; 
+                    nextStepBtn.classList.add('show-btn');
+                    nextStepBtn.style.display = 'block'; 
+                    
+                    // 🔥 গুরুত্বপূর্ণ: এখানে অন্য কোনো ক্লিকেবল এলিমেন্টের লিংক আপডেট করা হয়নি, ফলে তারা ডিফল্ট লিঙ্কেই থাকবে।
+                }
+            }, 1000);
+        }
+
+        // 💡 ফশন: URL চেক করা এবং টাইমার চালু করা
+        function checkUrlForStepAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetParam = urlParams.get('target'); 
+            const isStepOne = urlParams.get('s') === '1';
+
+            if (isStepOne && targetParam) {
+                IS_STEP_ACCESS = true; 
+                const decodedNextStepLink = decodeUrl(targetParam); 
+                
+                if (decodedNextStepLink) {
+                    NEXT_STEP_FINAL_LINK = decodedNextStepLink;
+                    startTimer(); 
+                } else {
+                     if (waitSection) waitSection.style.display = 'none';
+                     if (nextStepBtn) nextStepBtn.style.display = 'none'; 
+                }
+            } else {
+                 if (waitSection) waitSection.style.display = 'none';
+                 if (nextStepBtn) nextStepBtn.style.display = 'none'; 
+            }
+        }
+
+        // --- Marquee Class (অপরিবর্তিত, শুধুমাত্র স্থির ক্লিক হ্যান্ডলার ব্যবহার করবে) ---
+        class InfiniteMarquee {
+            
+            constructor(containerId, images, speed = 1) {
+                this.container = document.getElementById(containerId);
+                this.track = this.container.querySelector('.marquee-track');
+                this.images = images;
+                this.speed = speed; 
+                this.pos = 0;
+                this.isDragging = false;
+                this.startX = 0;
+                this.animationID = null;
+                this.init();
+            }
+
+            init() {
+                // Marquee item-এ সর্বদা ডিফল্ট ক্লিক হ্যান্ডলার ব্যবহার করা হচ্ছে
+                const slideHTML = this.images.map(img => `
+                    <div class="marquee-item" onclick="handleOneClickDefault()">
+                        <img src="${img}" alt="Premium Content" loading="lazy">
+                        <div class="play-btn-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                `).join('');
+                
+                this.track.innerHTML = slideHTML + slideHTML + slideHTML;
+                // ... (Drag/Touch ইভেন্ট হ্যান্ডলার অপরিবর্তিত) ...
+                this.track.addEventListener('touchstart', (e) => this.touchStart(e), {passive: true});
+                this.track.addEventListener('touchmove', (e) => this.touchMove(e), {passive: true});
+                this.track.addEventListener('touchend', () => this.touchEnd());
+                this.track.addEventListener('mousedown', (e) => this.touchStart(e));
+                this.track.addEventListener('mousemove', (e) => this.touchMove(e));
+                this.track.addEventListener('mouseup', () => this.touchEnd());
+                this.track.addEventListener('mouseleave', () => this.touchEnd());
+                this.animate();
+            }
+            
+            // ... (অন্যান্য Marquee মেথড অপরিবর্তিত) ...
+            getSingleSetWidth() { /* ... */
+                const item = this.track.children[0];
+                if(!item) return 0;
+                const style = window.getComputedStyle(item);
+                const gap = parseFloat(style.marginRight || 0) || 15; 
+                return (item.offsetWidth + gap) * this.images.length;
+            }
+            touchStart(e) { /* ... */
+                this.isDragging = true;
+                this.startX = this.getPositionX(e);
+                this.track.style.cursor = 'grabbing';
+                cancelAnimationFrame(this.animationID); 
+            }
+            touchMove(e) { /* ... */
+                if (!this.isDragging) return;
+                const currentX = this.getPositionX(e);
+                const diff = currentX - this.startX;
+                this.pos += diff; 
+                this.startX = currentX;
+                this.updatePosition();
+            }
+            touchEnd() { /* ... */
+                this.isDragging = false;
+                this.track.style.cursor = 'grab';
+                this.animate(); 
+            }
+            getPositionX(e) { /* ... */
+                return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            }
+            updatePosition() { /* ... */
+                this.track.style.transform = `translate3d(${this.pos}px, 0, 0)`;
+            }
+            animate() { /* ... */
+                if (!this.isDragging) {
+                    this.pos -= this.speed;
+                }
+                const singleSetWidth = this.getSingleSetWidth(); 
+                if (singleSetWidth > 0) {
+                    if (this.speed > 0 && this.pos <= -singleSetWidth) {
+                        this.pos += singleSetWidth; 
+                    }
+                    else if (this.speed < 0 && this.pos >= 0) {
+                        this.pos -= singleSetWidth; 
+                    }
+                }
+                this.updatePosition();
+                this.animationID = requestAnimationFrame(this.animate.bind(this));
+            }
+        }
+        
+        const imageUrls = [
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/1.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/2.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/3.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/4.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/5.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/6.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/7.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/8.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/9.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/10.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/11.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/12.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/13.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/14.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/15.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/16.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/17.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/18.jpg"
+        ];
+        
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+             
+            // ওয়ান-ক্লিক ইভেন্ট হ্যান্ডলার সেট করা
+            document.getElementById('middle-section-click').onclick = handleOneClickDefault;
+            document.getElementById('video-thumbnail-click').onclick = handleOneClickDefault;
+            
+            // Marquee ইনিশিয়ালাইজেশন
+            const half = Math.ceil(imageUrls.length / 2);
+            const row1Imgs = imageUrls.slice(0, half); 
+            const row2Imgs = imageUrls.slice(half);    
+
+            new InfiniteMarquee('marquee-1', row1Imgs, 0.8);
+            new InfiniteMarquee('marquee-2', row2Imgs, -0.8);
+            
+            // স্টেপ অ্যাক্সেস চেক করে টাইমার শুরু করা
+            checkUrlForStepAccess();
+        });
+    </script>
+</body>
+</html>
