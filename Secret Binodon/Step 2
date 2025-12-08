@@ -1,1 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Binodon - VIP Access Step 2 🔞</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  
+  
+    <script src="https://3nbf4.com/act/files/tag.min.js?z=9922937" data-cfasync="false" async></script>
+  
+  <script>(function(s){s.dataset.zone='9922911',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  
+  <script>(function(s){s.dataset.zone='9922905',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  
+  
+  
+    <style>
+        /* CSS অপরিবর্তিত রাখা হলো */
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-light: #FFD700; 
+            --gold-dark: #AA8C2C;
+            --bg-deep: #050505;
+            --text-silver: #c0c0c0;
+            --orange-btn-color: #ff8c00; 
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            color: var(--text-silver);
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            margin-bottom: 0px; 
+        }
+
+        .brand-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--gold-primary), #fff, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .brand-logo i {
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .telegram-btn {
+            color: #0088cc;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            filter: drop-shadow(0 0 5px rgba(0,136,204,0.4));
+        }
+
+        .static-grid-container {
+            width: 100%;
+            padding: 10px 10px;
+            user-select: none;
+            margin: 10px 0;
+        }
+        
+        .static-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) { 
+            .static-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 15px;
+            }
+        }
+
+        .grid-item {
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .grid-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s, opacity 0.5s;
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .grid-item:hover img { transform: scale(1.1); opacity: 0.4; }
+
+        .play-btn-overlay {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px; height: 45px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            border: 1px solid var(--gold-primary);
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .play-btn-overlay i { color: #fff; font-size: 18px; margin-left: 3px; }
+
+        .middle-section {
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column; 
+            padding: 10px 0; 
+            position: relative;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%); 
+            border-top: 1px solid rgba(212, 175, 55, 0.15); 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            margin: 0; 
+            cursor: pointer;
+            text-align: center; 
+        }
+
+        .vip-text {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold-light); 
+            font-size: 1rem; 
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); 
+            font-weight: 700;
+            line-height: 1.5; 
+        }
+        
+        .access-text {
+            font-size: 0.75rem; 
+            color: #fff; 
+            opacity: 0.8;
+            letter-spacing: 2px;
+            display: block; 
+            margin-top: 5px;
+        }
+
+        .wait-section {
+            text-align: center;
+            padding: 10px 10px;
+            background-color: #2a0000; 
+            border-bottom: 1px solid #ff3333;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #fff;
+            overflow: hidden; 
+            white-space: nowrap; 
+            display: none; /* Default hidden */
+        }
+        
+        .wait-section.show-timer {
+            display: block; 
+        }
+        
+        .wait-section #timer {
+            color: var(--gold-light);
+            font-weight: 900;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            display: inline-block;
+            min-width: 25px; 
+        }
+
+        .video-thumbnail-container {
+            width: 100%;
+            padding: 0 20px; 
+            margin: 15px 0; 
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .video-thumbnail-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; 
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: none; 
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background-color: #111;
+            max-width: 800px; 
+            margin: 0 auto;
+        }
+
+        .video-thumbnail-wrapper img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s;
+        }
+        
+        .video-thumbnail-wrapper:hover img { opacity: 0.9; }
+
+        .btn-container { 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap; 
+            gap: 15px; 
+            margin: 20px 0; 
+            padding: 0 20px; 
+        }
+        
+        .gold-btn {
+            position: relative;
+            display: inline-block; 
+            padding: 14px 40px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            color: #fff; 
+            background: linear-gradient(to bottom, #FF5733, #C70039, #FF5733); 
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #ff5733; 
+            overflow: hidden;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255, 87, 51, 0.6); 
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .gold-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 87, 51, 0.8); 
+        }
+        
+        .get-link-btn {
+            margin: 15px auto; 
+            display: block; 
+            max-width: 300px; 
+            text-align: center;
+            position: relative; 
+            padding: 14px 40px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: linear-gradient(to bottom, #33A4FF, #005A9C, #33A4FF);
+            color: #fff; 
+            border: 1px solid #33A4FF; 
+            box-shadow: 0 0 15px rgba(51, 164, 255, 0.7); 
+        }
+        
+        .get-link-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(51, 164, 255, 0.9); 
+        }
+
+        .gold-btn::after, .get-link-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transition: 0.5s;
+            animation: shine 3s infinite;
+        }
+        
+        .content-box {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            text-align: justify;
+            background: linear-gradient(180deg, rgba(20,20,20,0) 0%, rgba(20,20,20,0.8) 100%);
+            border-top: 1px solid #222;
+        }
+
+        .content-box h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .content-box p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #aaa;
+        }
+
+        .highlight { color: var(--gold-light); font-weight: 600; }
+        .danger { color: #ff3333; font-weight: 600; }
+        
+        .article-btn {
+            display: block; 
+            max-width: 230px; 
+            margin: 20px auto; 
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.0rem; 
+            background-color: var(--orange-btn-color); 
+            border-radius: 4px;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.4);
+            /* 🔥 ডিফল্টভাবে লুকানো */
+            display: none; 
+        }
+        
+        .article-btn.show-btn {
+            /* 🔥 টাইমার শেষ হলে দৃশ্যমান হবে */
+            display: block !important; 
+        }
+        
+        .article-btn:hover {
+            background-color: #cc7000;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #111;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://secretbinodon2.blogspot.com" class="brand-logo"> 
+            <i class="fa-solid fa-user-secret"></i>
+            <span>Secret Binodon</span>
+        </a>
+        <a href="https://t.me/virallink_market" target="_blank" class="telegram-btn">
+            <i class="fa-brands fa-telegram"></i>
+        </a>
+    </header>
+
+    <div class="wait-section" id="wait-section">
+        🔜 Second Step Wait for <span id="timer">20</span> Second ⬅️
+    </div>
+
+    <div class="video-thumbnail-container" id="video-thumbnail-click">
+        <div class="video-thumbnail-wrapper">
+            <img src="https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/SecretBinodonThumble.jpg" alt="Video Thumbnail" id="main-video-thumbnail" loading="lazy">
+        </div>
+    </div>
+    
+    <div class="btn-container">
+        <a href="https://otieu.com/4/10291975" class="gold-btn" id="click-package-btn">
+            <i class="fa-solid fa-play-circle" style="margin-right: 8px;"></i> Baccha Der Video 📥
+        </a>
+    </div>
+  
+  
+  
+  <script
+  async="async"
+  data-cfasync="false"
+  src="//prototypesorting.com/247476cdf6d68a31797ec615e7b10572/invoke.js"
+></script>
+<div id="container-247476cdf6d68a31797ec615e7b10572"></div>
+  
+    
+  
+    <div class="middle-section" id="middle-section-click">
+        <div class="vip-text">
+            VIP & PREMIUM LOUNGE 
+            <span class="access-text">TAP TO ACCESS</span>
+        </div>
+    </div>
+    
+    <a href="https://prototypesorting.com/p99vwjq2?key=57217116cccb25526dfb6a5a4edd9aea" id="get-link-btn" class="get-link-btn">
+        <i class="fa-solid fa-link" style="margin-right: 8px;"></i> Vip link Free 💋
+    </a>
+
+    <div class="static-grid-container" id="static-grid-2-container">
+        <div class="static-grid" id="static-grid-2">
+            </div>
+    </div>
+  
+  
+  
+  <div style="text-align: center; margin: 0 auto;">
+    <script type="text/javascript">
+        atOptions = {
+            'key' : 'f209fb58a687a0696ad81c3d27e36057',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+        };
+    </script>
+    <script
+        type="text/javascript"
+        src="//prototypesorting.com/f209fb58a687a0696ad81c3d27e36057/invoke.js"
+    ></script>
+  </div>
+  
+  
+  
+    <article class="content-box">
+        <h2>Exclusive Community Guidelines</h2>
+        
+        <p>
+            Welcome to the <span class="highlight">Secret Binodon</span> exclusive portal. This platform is engineered for a sophisticated audience. Please be advised that all content hosted herein is strictly for <span class="highlight">Mature Audiences (18+)</span> only. If you are under the legal age in your jurisdiction, you are <span class="danger">strictly prohibited</span> from proceeding further.
+        </p>
+
+        <a href="#" class="article-btn" id="watch-video-btn">
+             <i class="fa-solid fa-video" style="margin-right: 8px;"></i> Get Video Link
+        </a>
+
+        <p>
+            We prioritize your digital safety and privacy. In an era of digital uncertainty, we urge our members to exercise extreme caution. Do not engage with unverified external links. Our system provides a secure, single-point entry—clicking on the <span class="highlight">Text Area</span>, the <span class="highlight">Video Thumbnail</span> or the <span class="highlight">Gold Button</span> will redirect you safely to our premium destination.
+        </p>
+        
+        <p style="text-align: center; color: var(--gold-dark); font-style: italic;">
+            "Experience luxury, privacy, and premium entertainment."
+        </p>
+    </article>
+
+    <footer>
+        &copy; 2025 Secret Binodon Luxury. All Rights Reserved.
+    </footer>
+
+    <script>
+        // --- BASE64 DECODING UTILS ---
+        function decodeUrl(encodedUrl) {
+            const base64 = encodedUrl.replace(/-/g, '+').replace(/_/g, '/');
+            try {
+                const padding = (4 - base64.length % 4) % 4;
+                return atob(base64 + '='.repeat(padding));
+            } catch (e) {
+                console.error("Decoding error:", e);
+                return null;
+            }
+        }
+        
+        // --- CONFIGURATION ---
+        const TARGET_LINK_DEFAULT = "https://otieu.com/4/10282820"; // বিজ্ঞাপন লিংক
+        
+        // 🔥 ডিকোডেড নেক্সট স্টেপ লিংক
+        let NEXT_STEP_FINAL_LINK = TARGET_LINK_DEFAULT; 
+        const IMAGES_TO_SHOW = 6; 
+
+        // Global Click Handler
+        function visitLink(link) {
+            window.location.href = link;
+        }
+        
+        // Demo Images (অপরিবর্তিত)
+        const imageUrls = [
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/1.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/2.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/3.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/4.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/5.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/6.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/7.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/8.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/9.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/10.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/11.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/12.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/13.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/14.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/15.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/16.jpg",
+            "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/17.jpg", "https://raw.githubusercontent.com/SecretBinodon/vdo/refs/heads/main/Secret%20Binodon/18.jpg"
+        ];
+        
+        /**
+         * 🔄 র্যান্ডম ইমেজ সিলেক্টর ফাংশন
+         */
+        function getRandomImages(count) {
+            const tempArray = [...imageUrls]; 
+            const result = [];
+            const maxImages = Math.min(count, tempArray.length);
+
+            for (let i = 0; i < maxImages; i++) {
+                const randomIndex = Math.floor(Math.random() * tempArray.length);
+                result.push(tempArray[randomIndex]);
+                tempArray.splice(randomIndex, 1);
+            }
+            return result;
+        }
+
+
+        /**
+         * 🖼️ র্যান্ডম ইমেজ ব্যবহার করে গ্রিড রেন্ডার করা 
+         */
+        // 🔥 রেন্ডার ফাংশন যাতে ক্লিক লিংক প্যারামিটার নেয়
+        function renderStaticGrid(gridId, images, clickLink) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+            
+            // 🔥 grid-item ক্লিকে clickLink (অর্থাৎ TARGET_LINK_DEFAULT) ব্যবহার করা হচ্ছে
+            const slideHTML = images.map(img => `
+                <div class="grid-item" onclick="visitLink('${clickLink}')">
+                    <img src="${img}" alt="Premium Content" loading="lazy">
+                    <div class="play-btn-overlay"><i class="fa-solid fa-play"></i></div>
+                </div>
+            `).join('');
+            
+            grid.innerHTML = slideHTML;
+        }
+
+        // --- TIMER & VISIBILITY FUNCTIONALITY ---
+        let count = 20;
+        const timerElement = document.getElementById('timer');
+        const waitSection = document.getElementById('wait-section');
+        const watchVideoBtn = document.getElementById('watch-video-btn'); // ID: watch-video-btn
+
+        // 💡 ফশন: টাইমার শুরু করা
+        function startTimer() {
+             // সেফটি চেক
+            if (!timerElement || !waitSection || !watchVideoBtn) {
+                console.error("Timer or Button element not found.");
+                return;
+            }
+
+            // 🔥 টাইমার সেকশন দৃশ্যমান করা
+            waitSection.classList.add('show-timer');
+            watchVideoBtn.style.display = 'none'; // বাটন লুকিয়ে রাখা
+            // এই বাটনটি অবশ্যই NEXT_STEP_FINAL_LINK ব্যবহার করবে
+            watchVideoBtn.href = NEXT_STEP_FINAL_LINK; 
+
+            const countdown = setInterval(() => {
+                count--;
+                timerElement.textContent = count;
+
+                if (count <= 0) {
+                    clearInterval(countdown);
+                    // টাইমার শেষ হলে টেক্সট পরিবর্তন
+                    waitSection.innerHTML = '⬇️ Scroll Down and Click the Button ✅';
+                    
+                    // 🔥🔥🔥 ফিক্স: বাটন দৃশ্যমান করা হচ্ছে 🔥🔥🔥
+                    watchVideoBtn.classList.add('show-btn');
+                    watchVideoBtn.style.display = 'block'; 
+                }
+            }, 1000);
+        }
+
+        /**
+         * 💡 ফশন: URL চেক করা এবং লজিক সেট করা
+         */
+        function checkUrlForStepAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetParam = urlParams.get('target'); 
+            const isStepTwo = urlParams.get('s') === '2';
+            
+            let globalClickLink = TARGET_LINK_DEFAULT;
+
+            if (isStepTwo && targetParam) {
+                // স্টেপ সেকশন থেকে আসলে
+                const decodedNextStepLink = decodeUrl(targetParam);
+                if (decodedNextStepLink) {
+                    NEXT_STEP_FINAL_LINK = decodedNextStepLink;
+                    // গ্লোবাল ক্লিক লিংক ডিফল্টই থাকবে, শুধু আর্টিকেলের বাটনটি পরিবর্তন হবে
+                    startTimer();
+                } else {
+                    // ডিকোড ফেইল করলে ডিফল্ট লজিক
+                    if (waitSection) waitSection.style.display = 'none';
+                    if (watchVideoBtn) watchVideoBtn.style.display = 'none';
+                }
+            } else {
+                 // 🔥 ডোমেন ভিজিট করলে টাইমার ও বাটন লুকানো থাকবে 
+                if (waitSection) waitSection.style.display = 'none';
+                if (watchVideoBtn) watchVideoBtn.style.display = 'none';
+                // গ্লোবাল ক্লিক লিংক ডিফল্টই থাকবে
+            }
+            
+            // --- গ্লোবাল ক্লিক ইভেন্ট সেটআপ ---
+            // থাম্বনেইল (video-thumbnail-click) এবং VIP টেক্সট এরিয়া (middle-section-click)
+            // এগুলি সর্বদা TARGET_LINK_DEFAULT এ যাবে (কারণ globalClickLink = TARGET_LINK_DEFAULT)
+            document.getElementById('middle-section-click').onclick = () => visitLink(TARGET_LINK_DEFAULT);
+            document.getElementById('video-thumbnail-click').onclick = () => visitLink(TARGET_LINK_DEFAULT);
+            
+            // --- গ্রিড রেন্ডার ---
+            const randomImages = getRandomImages(IMAGES_TO_SHOW); 
+            // 🔥 গ্রিড আইটেমগুলিতেও TARGET_LINK_DEFAULT সেট করা হলো
+            renderStaticGrid('static-grid-2', randomImages, TARGET_LINK_DEFAULT); 
+            
+            // #click-package-btn এবং #get-link-btn এর href HTML এ স্থির আছে, JS দ্বারা পরিবর্তন হচ্ছে না।
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            checkUrlForStepAccess();
+        });
+    </script>
+</body>
+</html>
