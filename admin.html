@@ -42,7 +42,7 @@
     <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Secret Binodon Post Generator</h2>
     
     <div class="info-note">
-        <i class="fa-solid fa-circle-info"></i> **স্বয়ংক্রিয় ফাংশন:** পোস্ট আইডি, আপলোড টাইম, প্রোফাইল ইমেজ এবং হ্যাশট্যাগ অটোমেটিকভাবে যুক্ত হবে।
+        <i class="fa-solid fa-circle-info"></i> **স্বয়ংক্রিয় ফাংশন:** পোস্ট আইডি, আপলোড টাইম এবং হ্যাশট্যাগ অটোমেটিকভাবে যুক্ত হবে। **প্রোফাইল ইমেজ এখন থেকে সরাসরি HTML/JS ফাইলে স্থায়ীভাবে সেট করা হয়েছে।**
     </div>
 
     <div class="form-group">
@@ -78,8 +78,7 @@
     </div>
     
     <input type="hidden" id="generatedId" class="hidden-field"> 
-    <input type="hidden" id="pfp" value="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="hidden-field">
-    <input type="hidden" id="hashtags" value="#viralvideo #trending #secretbinodon #video_viral_2025" class="hidden-field">
+    <input type="hidden" id="hashtags" value="#SecretBinodon #viralvideo #trending #virallink #viral_video_2026" class="hidden-field">
 
 
     <button onclick="generateJSON()">Generate Code for posts.json</button>
@@ -92,7 +91,6 @@
 
 <script>
     // একটি সেট যেখানে পূর্বে জেনারেট হওয়া আইডিগুলো স্টোর থাকবে
-    // এটি সেশন-ভিত্তিক কাজ করবে, পেজ রিফ্রেশ করলে রিসেট হবে। পার্মানেন্ট স্টোরেজ (Firebase/Local Storage) প্রয়োজন হবে না।
     const usedIds = new Set();
     const ID_LENGTH = 6;
     const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -108,9 +106,9 @@
             for (let i = 0; i < ID_LENGTH; i++) {
                 id += CHARACTERS.charAt(Math.floor(Math.random() * CHARACTERS.length));
             }
-        } while (usedIds.has(id)); // যদি আইডিটি ইতিমধ্যেই ব্যবহৃত হয়ে থাকে তবে পুনরায় জেনারেট করবে
+        } while (usedIds.has(id)); 
         
-        usedIds.add(id); // নতুন আইডিটিকে ব্যবহৃত সেট-এ যোগ করা হলো
+        usedIds.add(id); 
         return id;
     }
 
@@ -120,7 +118,6 @@
      */
     function getCurrentISOString() {
         const date = new Date();
-        // এটিই post.json এ ব্যবহৃত সঠিক ফরম্যাট
         return date.toISOString().slice(0, 19); 
     }
 
@@ -144,7 +141,7 @@
         
         // অটোমেটিক ও লুকানো ডেটা সংগ্রহ
         const uploadTime = getCurrentISOString();
-        const pfp = document.getElementById('pfp').value;
+        // const pfp = document.getElementById('pfp').value; <-- এই লাইনটি রিমুভ করা হয়েছে
         const hashtags = document.getElementById('hashtags').value;
 
         // প্যারাগ্রাফ লজিক: এন্টার (নতুন লাইন) দিয়ে ভাগ করা এবং খালি লাইন বাদ দেওয়া
@@ -160,7 +157,7 @@
             id: id,
             uploadTime: uploadTime,
             title: title,
-            profileImage: pfp,
+            // profileImage: pfp, <-- 'profileImage' প্রপার্টিটি JSON অবজেক্ট থেকে রিমুভ করা হয়েছে
             mediaImage: media,
             paragraphs: paragraphs,
             hashtags: hashtags,
@@ -178,7 +175,6 @@
         document.getElementById('output-box').style.display = 'block';
         
         // কোড জেনারেট হওয়ার পর নতুন আইডি তৈরি করা এবং লুকানো ফিল্ডে রাখা 
-        // এটি নিশ্চিত করে যে পরের বারে Generate-এ ক্লিক করলে ভিন্ন আইডি ব্যবহার হবে
         document.getElementById('generatedId').value = generateUniqueId(); 
     }
 
