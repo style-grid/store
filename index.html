@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Binodon - Home</title>
-    <!-- FontAwesome Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -173,7 +172,6 @@
 <body>
 
     <div class="main-container">
-        <!-- প্রোফাইল সেকশন -->
         <div class="cover-photo">
             <img src="https://images.unsplash.com/photo-1531256379416-9f000e705ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Cover">
         </div>
@@ -184,7 +182,6 @@
                     <img src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Logo">
                 </div>
             </div>
-            <!-- Action Buttons (Updated with onclick) -->
             <div class="action-buttons">
                 <button class="btn btn-email" onclick="sendEmail()">
                     <i class="fa-solid fa-envelope"></i> Send Email
@@ -214,22 +211,18 @@
             </p>
         </div>
 
-        <!-- নেভিগেশন -->
         <div class="nav-bar">
             <div class="nav-btn active" id="nav-home" onclick="showFeed()"><i class="fa-solid fa-house"></i> Home</div>
             <div class="nav-btn inactive" id="nav-signup" onclick="goToSignUp()"><i class="fa-solid fa-user-plus"></i> Sign Up</div>
             <div class="nav-btn inactive" id="nav-login" onclick="showLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</div>
         </div>
 
-        <!-- ফিড এরিয়া -->
         <div id="feed-container">
             <div id="loading-msg">Loading latest posts...</div>
         </div>
         
-        <!-- Infinite Scroll Sentinel -->
         <div id="sentinel"><div class="load-more-spinner"></div></div>
 
-        <!-- ফুটার সেকশন -->
         <footer class="site-footer" id="main-footer" style="display:none;">
             <div class="footer-links">
                 <a href="#" id="link-about">About</a>
@@ -242,7 +235,6 @@
             </div>
         </footer>
 
-        <!-- লগইন -->
         <div id="login-view">
             <div class="login-box">
                 <img src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Logo" class="login-logo">
@@ -262,6 +254,12 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        // ============================================
+        //  স্থায়ী প্রোফাইল ইমেজ URL 
+        // ============================================
+        const PERMANENT_PROFILE_IMAGE_URL = "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80";
+        // এই URL টিই এখন সব পোস্ট কার্ডে ব্যবহৃত হবে।
 
         const firebaseConfig = { apiKey: "AIzaSyCAsD8wucLsudzY5oNbiixLGyjN2apdV0Q", authDomain: "my-ad-analytics-4560a.firebaseapp.com", databaseURL: "https://my-ad-analytics-4560a-default-rtdb.firebaseio.com", projectId: "my-ad-analytics-4560a", storageBucket: "my-ad-analytics-4560a.firebasestorage.app", messagingSenderId: "104213283950", appId: "1:104213283950:web:b5a25ecd54df809625127f", measurementId: "G-WS7QSQ9H0Y" };
         const app = initializeApp(firebaseConfig);
@@ -375,7 +373,7 @@
                 cardWrapper.innerHTML = `
                     <div class="post-card" data-id="${post.id}">
                         <div class="post-header">
-                            <div class="post-pfp"><img src="${post.profileImage}" loading="lazy"></div>
+                            <div class="post-pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}" loading="lazy"></div>
                             <div class="post-meta-text">
                                 <div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div>
                             </div>
