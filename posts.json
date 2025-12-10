@@ -6,12 +6,13 @@
     "profileImage": "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
     "mediaImage": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     "paragraphs": [
-      "Instagram Viral Video 19 Minutes Link Complete information in one place. There is currently a huge discussion on the internet about instagram viral video 19 minutes link. Many people want to know how this video went viral.",
+      "Instagram Viral Video 19 Minutes Link Complete information in one place. There is currently a huge discussion on the internet about instagram viral video 19 minutes link.",
       "The video features some controversial scenes that have sparked debate among viewers. Authorities are looking into the source of the leak.",
       "If you want to watch the full video, please follow the secure link provided below. Always stay safe while browsing such content."
     ],
     "hashtags": "#Wpcnt #viralvideo #trending #viral #video_viral_2025",
-    "downloadLink": "https://example.com/link1",
+    "downloadLink1": "https://example.com/first-link",
+    "downloadLink2": "https://example.com/second-link",
     "videoDuration": "00:19:30"
   },
   {
@@ -25,7 +26,8 @@
       "This clip has been trending on Twitter for the last 5 hours."
     ],
     "hashtags": "#leaked #twitter #trending #secret",
-    "downloadLink": "https://example.com/link2",
+    "downloadLink1": "https://example.com/clip-link-1",
+    "downloadLink2": "https://example.com/clip-link-2",
     "videoDuration": "00:02:45"
   },
   {
@@ -40,7 +42,8 @@
       "Watch the full interview to know the truth."
     ],
     "hashtags": "#interview #exclusive #viral #star",
-    "downloadLink": "https://example.com/link3",
+    "downloadLink1": "https://example.com/interview-part1",
+    "downloadLink2": "https://example.com/interview-part2",
     "videoDuration": "00:15:00"
   },
   {
@@ -54,7 +57,8 @@
       "Don't forget to share this with your friends."
     ],
     "hashtags": "#cats #funny #compilation #2025",
-    "downloadLink": "https://example.com/link4",
+    "downloadLink1": "https://example.com/cat-1",
+    "downloadLink2": "https://example.com/cat-2",
     "videoDuration": "00:05:20"
   },
   {
@@ -69,7 +73,8 @@
       "Budget friendly locations included."
     ],
     "hashtags": "#travel #summer #vacation #places",
-    "downloadLink": "https://example.com/link5",
+    "downloadLink1": "https://example.com/travel-1",
+    "downloadLink2": "https://example.com/travel-2",
     "videoDuration": "00:10:00"
   },
   {
@@ -84,7 +89,8 @@
       "Check out the detailed analysis here."
     ],
     "hashtags": "#iphone #tech #review #apple",
-    "downloadLink": "https://example.com/link6",
+    "downloadLink1": "https://example.com/tech-1",
+    "downloadLink2": "https://example.com/tech-2",
     "videoDuration": "00:12:45"
   }
 ]
