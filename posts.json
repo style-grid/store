@@ -13,7 +13,8 @@
     "hashtags": "#Wpcnt #viralvideo #trending #viral #video_viral_2025",
     "downloadLink1": "https://example.com/first-link",
     "downloadLink2": "https://example.com/second-link",
-    "videoDuration": "00:19:30"
+    "videoDuration": "00:19:30",
+    "slug": "instagram-viral-video-19-minutes" 
   },
   {
     "id": "post_002",
@@ -28,7 +29,8 @@
     "hashtags": "#leaked #twitter #trending #secret",
     "downloadLink1": "https://example.com/clip-link-1",
     "downloadLink2": "https://example.com/clip-link-2",
-    "videoDuration": "00:02:45"
+    "videoDuration": "00:02:45",
+    "slug": "new-trending-clip-leaked"
   },
   {
     "id": "post_003",
@@ -44,7 +46,8 @@
     "hashtags": "#interview #exclusive #viral #star",
     "downloadLink1": "https://example.com/interview-part1",
     "downloadLink2": "https://example.com/interview-part2",
-    "videoDuration": "00:15:00"
+    "videoDuration": "00:15:00",
+    "slug": "exclusive-interview-with-famous-star"
   },
   {
     "id": "post_004",
@@ -59,7 +62,8 @@
     "hashtags": "#cats #funny #compilation #2025",
     "downloadLink1": "https://example.com/cat-1",
     "downloadLink2": "https://example.com/cat-2",
-    "videoDuration": "00:05:20"
+    "videoDuration": "00:05:20",
+    "slug": "funny-cat-video-compilation"
   },
   {
     "id": "post_005",
@@ -75,7 +79,8 @@
     "hashtags": "#travel #summer #vacation #places",
     "downloadLink1": "https://example.com/travel-1",
     "downloadLink2": "https://example.com/travel-2",
-    "videoDuration": "00:10:00"
+    "videoDuration": "00:10:00",
+    "slug": "amazing-travel-destinations"
   },
   {
     "id": "post_006",
@@ -91,6 +96,7 @@
     "hashtags": "#iphone #tech #review #apple",
     "downloadLink1": "https://example.com/tech-1",
     "downloadLink2": "https://example.com/tech-2",
-    "videoDuration": "00:12:45"
+    "videoDuration": "00:12:45",
+    "slug": "iphone-16-pro-max-review"
   }
 ]
