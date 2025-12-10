@@ -73,13 +73,28 @@
         
         .post-meta-text { display: flex; flex-direction: column; justify-content: center; }
         .name-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-        .name-row h3 { font-size: 16px; font-weight: 800; color: #0f1419; margin: 0; }
-        .post-username { font-size: 15px; color: #536471; }
+        
+        /* ৪. ওয়েবসাইটের নাম ফন্ট সাইজ বৃদ্ধি */
+        .name-row h3 { font-size: 17px; font-weight: 800; color: #0f1419; margin: 0; }
+        
+        /* ৫. ইউজারনেম ফন্ট সাইজ হ্রাস */
+        .post-username { font-size: 14px; color: #536471; }
+        
         .time-ago { font-size: 15px; color: #536471; }
         .dot-separator { font-size: 15px; color: #536471; margin: 0 2px; }
 
         .clickable-area { cursor: pointer; }
-        .post-title { font-size: 17px; font-weight: 700; color: #0f1419; margin-bottom: 5px; line-height: 1.3; }
+        
+        /* ১. পোস্ট টাইটেল ফন্ট সাইজ বৃদ্ধি, ২. নিচের গ্যাপ বৃদ্ধি, ৩. উপরের গ্যাপ হ্রাস */
+        .post-title { 
+            font-size: 18px; /* ফন্ট সাইজ বৃদ্ধি */
+            font-weight: 700; 
+            color: #0f1419; 
+            margin-bottom: 8px; /* নিচের গ্যাপ বৃদ্ধি */
+            margin-top: 2px; /* উপরের গ্যাপ কম রাখা */
+            line-height: 1.3; 
+        }
+        
         .post-excerpt { 
             font-size: 15px; color: #0f1419; line-height: 1.4; margin-bottom: 8px;
             display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
