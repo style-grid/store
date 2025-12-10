@@ -60,7 +60,8 @@
 
         /* --- পোস্ট কার্ড ডিজাইন --- */
         #feed-container { min-height: 200px; }
-        
+        #loading-msg { text-align: center; padding: 20px; color: #666; font-weight: bold; }
+
         .post-card { 
             padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; gap: 10px; 
@@ -157,7 +158,11 @@
         .login-submit-btn { width: 100%; padding: 12px; background-color: #000; color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .success-msg { color: green; font-weight: bold; margin-top: 15px; display: none; }
 
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
+        .spinner {
+            width: 14px; height: 14px; border: 2px solid #ccc;
+            border-top: 2px solid #000; border-radius: 50%;
+            animation: spin 1s linear infinite; display: inline-block;
+        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .notification {
@@ -184,7 +189,6 @@
                     <img src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Logo">
                 </div>
             </div>
-            <!-- Action Buttons (Updated with onclick) -->
             <div class="action-buttons">
                 <button class="btn btn-email" onclick="sendEmail()">
                     <i class="fa-solid fa-envelope"></i> Send Email
@@ -269,17 +273,15 @@
         const deviceId = localStorage.getItem('deviceId') || 'device-' + Date.now();
         localStorage.setItem('deviceId', deviceId);
 
-        // ============================================
-        //  CONFIGURATION & EMAIL SETTINGS
-        // ============================================
+        // CONFIGURATION
         const CONFIG = {
             INITIAL_LOAD: 20,
             BATCH_SIZE: 20,
-            CONTACT_EMAIL: "contact@secretbinodon.com", // আপনার ইমেইল দিন
+            CONTACT_EMAIL: "contact@secretbinodon.com", 
             footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
         };
 
-        // Footer Links Setup
+        // Footer Links
         document.getElementById('link-about').href = CONFIG.footer.about;
         document.getElementById('link-contact').href = CONFIG.footer.contact;
         document.getElementById('link-privacy').href = CONFIG.footer.privacy;
@@ -301,34 +303,20 @@
         function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
         function showNotification(msg) { const n = document.getElementById('notification'); n.textContent = msg; n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 3000); }
 
-        // --- EMAIL & PROFILE SHARE FUNCTIONS ---
-        
-        // ১. ইমেইল পাঠানো
-        window.sendEmail = function() {
-            window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`;
-        }
-
-        // ২. প্রোফাইল শেয়ার (ওয়েবসাইটের হোমপেজ লিংক)
+        window.sendEmail = function() { window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`; }
         window.shareProfile = function() {
-            const url = window.location.href.split('?')[0]; // শুধু হোম লিংক
-            const title = "Secret Binodon";
-            const text = "Secret Binodon - The #1 Platform for Viral Videos! 🎥 Watch the latest trending videos all in one place. Visit now!";
-
-            if (navigator.share) {
-                navigator.share({
-                    title: title,
-                    text: text,
-                    url: url
-                }).catch((error) => console.log('Share failed', error));
-            } else {
-                navigator.clipboard.writeText(`${text} ${url}`);
-                showNotification("Website link copied! 📋");
-            }
+            const url = window.location.href.split('?')[0]; const text = "Secret Binodon - The #1 Platform for Viral Videos! 🎥 Visit now!";
+            if (navigator.share) { navigator.share({ title: "Secret Binodon", text: text, url: url }).catch((error) => console.log('Share failed', error)); } 
+            else { navigator.clipboard.writeText(`${text} ${url}`); showNotification("Website link copied! 📋"); }
         }
 
-        // --- POST SHARE FUNCTION (CARD) ---
-        window.sharePost = function(id, title) {
-            const url = window.location.origin + `/post.html?id=${id}`;
+        // Slug দিয়ে লিংক ওপেন করা
+        window.openPost = (id) => {
+            window.location.href = `post.html?title=${id}-viral-video`;
+        };
+        
+        window.sharePost = (id, title) => {
+            const url = window.location.origin + `/post.html?title=${id}-viral-video`;
             if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); }
             else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
         }
@@ -453,8 +441,7 @@
             document.getElementById('total-views-count').innerText = formatCount(total);
         }
 
-        window.openPost = (id) => window.location.href = `post.html?id=${id}`;
-        
+        // Navigation & Login Logic
         window.showFeed = () => {
             document.getElementById('feed-container').style.display='block';
             document.getElementById('sentinel').style.display='flex';
