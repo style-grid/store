@@ -51,48 +51,54 @@
         .article-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #0f1419; line-height: 1.3; }
         .article-para { font-size: 16px; line-height: 1.6; color: #0f1419; margin-bottom: 15px; text-align: justify; }
 
-        /* ডাউনলোড বাটন (Center & Style) */
+        /* ডাউনলোড বাটন */
         .download-btn {
-            display: block; width: fit-content; margin: 20px auto; /* মাঝখানে */
+            display: block; width: fit-content; margin: 20px auto;
             padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px;
             text-align: center; color: white; cursor: pointer; text-transform: uppercase;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
         }
         .download-btn:active { transform: scale(0.98); }
 
-        /* ফুটার স্ট্যাটস বার (Layout Fixed) */
+        /* ফুটার স্ট্যাটস বার (বড় সাইজ) */
         .stats-bar { 
             display: flex; align-items: center; justify-content: space-between; 
             margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; 
-            color: #536471; font-size: 14px; 
+            color: #536471; font-size: 16px; /* ফন্ট সাইজ বাড়ানো হয়েছে */
         }
         
-        /* বাম পাশে ভিউ */
-        .view-stat { display: flex; align-items: center; gap: 5px; font-weight: bold; width: 80px; } 
-        
-        /* মাঝখানে লাইক */
+        .view-stat { display: flex; align-items: center; gap: 6px; font-weight: bold; }
+        .view-stat i { font-size: 18px; } /* আইকন বড় */
+
         .like-stat { 
-            display: flex; align-items: center; gap: 5px; font-weight: bold; 
+            display: flex; align-items: center; gap: 6px; font-weight: bold; 
             justify-content: center; flex-grow: 1; cursor: pointer; 
         }
-        .love-btn { transition: 0.2s; display: flex; align-items: center; gap: 5px; }
+        .love-btn { transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        .love-btn i { font-size: 18px; } /* আইকন বড় */
         .love-btn.liked { color: #e0245e; } 
         .love-btn.liked i { font-weight: 900; }
 
-        /* ডান পাশে শেয়ার আইকন */
-        .share-icons { display: flex; gap: 8px; justify-content: flex-end; }
+        .share-icons { display: flex; gap: 10px; justify-content: flex-end; }
         .share-icon { 
-            width: 30px; height: 30px; border-radius: 50%; /* ছোট সাইজ */
+            width: 32px; height: 32px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; 
-            color: white; cursor: pointer; font-size: 14px; transition: 0.2s; 
+            color: white; cursor: pointer; font-size: 15px; transition: 0.2s; 
         }
         .share-icon:hover { opacity: 0.8; }
 
-        /* রিলেটেড পোস্ট সেকশন (হোম পেজ কার্ড স্টাইল) */
-        .related-section { background: #f0f2f5; padding-top: 10px; margin-top: 20px; }
-        .related-header { background: white; padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; }
+        /* রিলেটেড পোস্ট সেকশন (হুবহু হোম পেজের মতো) */
+        .related-section { background: #fff; border-top: 8px solid #f0f2f5; } /* সেকশন ডিভাইডার */
+        .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; }
         
-        .post-card { background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; margin-bottom: 5px; display: flex; flex-direction: column; gap: 10px; }
+        /* রিলেটেড কার্ড ডিজাইন (বর্ডার ফিক্স) */
+        .post-card { 
+            background: white; padding: 15px; 
+            border-bottom: 1px solid #e1e8ed; /* হোম পেজের মতো চিকন বর্ডার */
+            margin-bottom: 0; /* গ্যাপ রিমুভ */
+            display: flex; flex-direction: column; gap: 10px; 
+        }
+        
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
         .post-pfp img { width: 100%; height: 100%; object-fit: cover; }
@@ -118,6 +124,16 @@
         .footer-left { display: flex; align-items: center; gap: 6px; }
         .footer-right { display: flex; align-items: center; gap: 20px; }
         
+        /* রিলেটেড পোস্ট লাইক বাটন ফিক্স */
+        .love-btn-rel { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; user-select: none; }
+        .love-btn-rel:hover { color: #e0245e; background-color: rgba(224, 36, 94, 0.1); padding: 4px 8px; border-radius: 15px; margin: -4px -8px; }
+        .love-btn-rel.liked { color: #e0245e !important; } /* লাল কালার */
+        .love-btn-rel.liked i { font-weight: 900; }
+
+        .count-text { font-weight: bold; }
+        .label-text { font-weight: normal; font-size: 15px; }
+        .post-date-display { font-size: 14px; color: #65676b; }
+        
         .footer-share-btn { cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
         .footer-share-btn:hover { background-color: rgba(0,0,0,0.05); }
 
@@ -140,7 +156,7 @@
         </div>
     </header>
 
-    <!-- পোস্ট ডিটেইলস এরিয়া -->
+    <!-- মেইন পোস্ট এরিয়া -->
     <div id="post-details-container">
         <div style="padding:40px; text-align:center; color:#666;">
             <span class="spinner"></span> Loading post...
@@ -170,7 +186,6 @@
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
     function formatCount(n) { if(!n) return 0; return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n; }
     
-    // রিয়েল টাইম ক্যালকুলেশন
     function timeAgo(d) {
         const s = Math.floor((new Date() - new Date(d)) / 1000);
         let i = s / 31536000; if (i > 1) return Math.floor(i) + "y ago";
@@ -180,10 +195,8 @@
     }
     
     function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
-    
     function showNotification(msg) { const n=document.getElementById('notification'); n.innerText=msg; n.classList.add('show'); setTimeout(()=>n.classList.remove('show'),3000); }
 
-    // URL থেকে আইডি নেওয়া
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
 
@@ -192,8 +205,6 @@
             const res = await fetch('posts.json');
             if(!res.ok) throw new Error("Failed to load data");
             const posts = await res.json();
-            
-            // বর্তমান পোস্ট খুঁজে বের করা (না পেলে প্রথমটা)
             const post = posts.find(p => p.id === postId) || posts[0];
 
             // ১. মেইন পোস্ট রেন্ডার
@@ -201,7 +212,6 @@
             
             post.paragraphs.forEach((p, i) => {
                 content += `<p class="article-para">${p}</p>`;
-                // বাটন বসানো (মাঝখানে)
                 if (i === 0) content += `<a href="${post.downloadLink}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
                 if (post.paragraphs.length > 2 && i === post.paragraphs.length - 2) content += `<a href="${post.downloadLink}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
             });
@@ -222,17 +232,13 @@
                 <div class="content-body">
                     ${content}
                     
-                    <!-- স্ট্যাটস ও শেয়ার বার -->
                     <div class="stats-bar">
-                        <!-- বামে ভিউ -->
-                        <div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span></div>
+                        <div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div>
                         
-                        <!-- মাঝখানে লাইক -->
                         <div class="like-stat">
                             <div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div>
                         </div>
                         
-                        <!-- ডানে শেয়ার -->
                         <div class="share-icons">
                             <div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div>
                             <div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div>
@@ -243,10 +249,7 @@
                     </div>
                 </div>`;
 
-            // ফায়ারবেস (Main Post)
             setupFirebaseForMainPost(post.id);
-
-            // ২. রিলেটেড পোস্ট (হোম পেজের মতো হুবহু কার্ড ডিজাইন)
             renderRelatedPosts(posts, post.id);
 
         } catch (e) {
@@ -255,11 +258,9 @@
     }
 
     function setupFirebaseForMainPost(id) {
-        // ভিউ +1 এবং লিসেনার
         setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
         onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
         
-        // লাইক লিসেনার ও বাটন
         const lRef = doc(db, "loves", id);
         const uRef = doc(db, `loves/${id}/users`, deviceId);
         const lBtn = document.querySelector('.love-btn');
@@ -281,8 +282,6 @@
     function renderRelatedPosts(posts, currentId) {
         const relContainer = document.getElementById('related-posts-container');
         relContainer.innerHTML = '';
-        
-        // বর্তমানটি বাদে র‍্যান্ডম ৬টি পোস্ট
         const randomPosts = posts.filter(p => p.id !== currentId).sort(() => 0.5 - Math.random()).slice(0, 6);
         
         randomPosts.forEach(post => {
@@ -331,8 +330,6 @@
                 </div>`;
             relContainer.insertAdjacentHTML('beforeend', html);
         });
-
-        // রিলেটেড পোস্টের জন্য ফায়ারবেস লিসেনার
         setupFirebaseForRelated();
     }
 
@@ -344,7 +341,6 @@
             const lBtn = card.querySelector('.love-btn-rel');
 
             onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
-            
             const lRef = doc(db, "loves", id);
             const uRef = doc(db, `loves/${id}/users`, deviceId);
             
@@ -365,7 +361,6 @@
 
     window.openPost = (id) => window.location.href = `post.html?id=${id}`;
     
-    // সোশ্যাল শেয়ার ফাংশন (Direct App Link)
     window.sharePost = (id, title) => {
         const url = window.location.origin + `/post.html?id=${id}`;
         if (navigator.share) {
@@ -380,13 +375,11 @@
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent(title);
         let link = '';
-
         if(platform === 'fb') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-        else if(platform === 'msg') link = `fb-messenger://share/?link=${url}`; // মোবাইলের জন্য
+        else if(platform === 'msg') link = `fb-messenger://share/?link=${url}`;
         else if(platform === 'wa') link = `https://wa.me/?text=${text}%20${url}`;
         else if(platform === 'tw') link = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
         else if(platform === 'tg') link = `https://t.me/share/url?url=${url}&text=${text}`;
-
         window.open(link, '_blank');
     }
 
