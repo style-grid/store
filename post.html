@@ -19,7 +19,7 @@
         .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
 
         /* পোস্ট অথর সেকশন */
-        .post-author-area { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f0f0f0; }
+        .post-author-area { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8ed; }
         .author-info { display: flex; align-items: center; gap: 10px; }
         .pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
         .pfp img { width: 100%; height: 100%; object-fit: cover; }
@@ -30,7 +30,7 @@
         /* ভিডিও প্লেয়ার লুক */
         .video-container { 
             width: 100%; aspect-ratio: 16/9; background: #000; position: relative; 
-            display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px;
+            display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 0;
         }
         .video-container img { width: 100%; height: 100%; object-fit: contain; }
         .play-btn-center {
@@ -47,7 +47,7 @@
         }
 
         /* আর্টিকেলের বডি */
-        .content-body { padding: 15px; }
+        .content-body { padding: 15px 15px 0 15px; } /* Bottom padding removed for border fix */
         .article-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #0f1419; line-height: 1.3; }
         .article-para { font-size: 16px; line-height: 1.6; color: #0f1419; margin-bottom: 15px; text-align: justify; }
 
@@ -60,42 +60,63 @@
         }
         .download-btn:active { transform: scale(0.98); }
 
-        /* ফুটার স্ট্যাটস বার (বড় সাইজ) */
-        .stats-bar { 
-            display: flex; align-items: center; justify-content: space-between; 
-            margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; 
-            color: #536471; font-size: 16px; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+        /* --- স্ট্যাটস বার (বর্ডার ও লেআউট ফিক্স) --- */
+        .stats-section {
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-top: 1px solid #e1e8ed;    /* উপরে হালকা কালো দাগ */
+            border-bottom: 1px solid #e1e8ed; /* নিচে হালকা কালো দাগ */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
         }
-        
-        .view-stat { display: flex; align-items: center; gap: 6px; font-weight: bold; }
-        .view-stat i { font-size: 18px; } /* আইকন বড় */
 
-        .like-stat { 
-            display: flex; align-items: center; gap: 6px; font-weight: bold; 
-            justify-content: center; flex-grow: 1; cursor: pointer; 
+        /* বাম পাশের কন্টেইনার (ভিউ এবং লাইক) - ফ্লেক্সিবল স্পেস */
+        .stats-left {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* ভিউ এবং লাইকের মধ্যে গ্যাপ */
+            flex-grow: 1; /* জায়গা দখল করবে */
+            overflow: hidden; /* ওভারফ্লো প্রিভেনশন */
         }
-        .love-btn { transition: 0.2s; display: flex; align-items: center; gap: 6px; }
-        .love-btn i { font-size: 18px; } /* আইকন বড় */
+
+        .view-stat { 
+            display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; white-space: nowrap; 
+        }
+        .view-stat i { font-size: 16px; }
+
+        /* লাইক বাটন - শুধু কন্টেইনারে ক্লিক কাজ করবে */
+        .love-btn { 
+            display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; 
+            cursor: pointer; padding: 5px; border-radius: 5px; transition: 0.2s; white-space: nowrap; user-select: none;
+        }
+        .love-btn:hover { background-color: rgba(224, 36, 94, 0.1); color: #e0245e; }
         .love-btn.liked { color: #e0245e; } 
         .love-btn.liked i { font-weight: 900; }
+        .love-btn i { font-size: 16px; }
 
-        .share-icons { display: flex; gap: 10px; justify-content: flex-end; }
-        .share-icon { 
-            width: 32px; height: 32px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; 
-            color: white; cursor: pointer; font-size: 15px; transition: 0.2s; 
+        /* ডান পাশের শেয়ার আইকন (ছোট সাইজ) */
+        .share-icons { 
+            display: flex; gap: 6px; /* আইকনগুলোর মাঝে সামান্য গ্যাপ */
+            flex-shrink: 0; /* জায়গা সংকুচিত হবে না */
         }
-        .share-icon:hover { opacity: 0.8; }
+        .share-icon { 
+            width: 26px; height: 26px; /* আরো ছোট সাইজ */
+            border-radius: 50%; /* পুরোপুরি গোল */
+            display: flex; align-items: center; justify-content: center; 
+            color: white; cursor: pointer; font-size: 12px; transition: 0.2s; 
+        }
+        .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
 
-        /* রিলেটেড পোস্ট সেকশন (হুবহু হোম পেজের মতো) */
-        .related-section { background: #fff; border-top: 8px solid #f0f2f5; } /* সেকশন ডিভাইডার */
-        .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; }
+        /* রিলেটেড পোস্ট সেকশন (গ্যাপ রিমুভ) */
+        .related-section { background: #fff; margin-top: 0; /* কোনো গ্যাপ নেই */ }
+        .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
-        /* রিলেটেড কার্ড ডিজাইন (বর্ডার ফিক্স) */
+        /* রিলেটেড কার্ড (হোম পেজের মতো) */
         .post-card { 
             background: white; padding: 15px; 
-            border-bottom: 1px solid #e1e8ed; /* হোম পেজের মতো চিকন বর্ডার */
-            margin-bottom: 0; /* গ্যাপ রিমুভ */
+            border-bottom: 1px solid #e1e8ed; /* সেকশন সেপারেটর */
             display: flex; flex-direction: column; gap: 10px; 
         }
         
@@ -124,10 +145,9 @@
         .footer-left { display: flex; align-items: center; gap: 6px; }
         .footer-right { display: flex; align-items: center; gap: 20px; }
         
-        /* রিলেটেড পোস্ট লাইক বাটন ফিক্স */
         .love-btn-rel { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; user-select: none; }
         .love-btn-rel:hover { color: #e0245e; background-color: rgba(224, 36, 94, 0.1); padding: 4px 8px; border-radius: 15px; margin: -4px -8px; }
-        .love-btn-rel.liked { color: #e0245e !important; } /* লাল কালার */
+        .love-btn-rel.liked { color: #e0245e !important; }
         .love-btn-rel.liked i { font-weight: 900; }
 
         .count-text { font-weight: bold; }
@@ -207,9 +227,7 @@
             const posts = await res.json();
             const post = posts.find(p => p.id === postId) || posts[0];
 
-            // ১. মেইন পোস্ট রেন্ডার
             let content = `<h1 class="article-title">${post.title}</h1>`;
-            
             post.paragraphs.forEach((p, i) => {
                 content += `<p class="article-para">${p}</p>`;
                 if (i === 0) content += `<a href="${post.downloadLink}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
@@ -222,7 +240,8 @@
                         <div class="pfp"><img src="${post.profileImage}"></div>
                         <div class="author-text"><h3>Secret Binodon</h3><span>@SecretBinodon</span></div>
                     </div>
-                    <div class="post-time">${formatDate(post.uploadTime)} • ${timeAgo(post.uploadTime)}</div>
+                    <!-- শুধু Time Ago থাকবে (Date বাদ) -->
+                    <div class="post-time">${timeAgo(post.uploadTime)}</div>
                 </div>
                 <div class="video-container">
                     <img src="${post.mediaImage}">
@@ -231,21 +250,21 @@
                 </div>
                 <div class="content-body">
                     ${content}
-                    
-                    <div class="stats-bar">
+                </div>
+                
+                <!-- স্ট্যাটস বার (বর্ডার ও নতুন লেআউট) -->
+                <div class="stats-section">
+                    <div class="stats-left">
                         <div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div>
-                        
-                        <div class="like-stat">
-                            <div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div>
-                        </div>
-                        
-                        <div class="share-icons">
-                            <div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div>
-                            <div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div>
-                            <div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div>
-                            <div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div>
-                            <div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div>
-                        </div>
+                        <div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div>
+                    </div>
+                    
+                    <div class="share-icons">
+                        <div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div>
+                        <div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div>
+                        <div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div>
+                        <div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div>
                     </div>
                 </div>`;
 
