@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Binodon - Home</title>
+    <!-- FontAwesome Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -59,8 +60,7 @@
 
         /* --- পোস্ট কার্ড ডিজাইন --- */
         #feed-container { min-height: 200px; }
-        #loading-msg { text-align: center; padding: 20px; color: #666; font-weight: bold; }
-
+        
         .post-card { 
             padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; gap: 10px; 
@@ -157,11 +157,7 @@
         .login-submit-btn { width: 100%; padding: 12px; background-color: #000; color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .success-msg { color: green; font-weight: bold; margin-top: 15px; display: none; }
 
-        .spinner {
-            width: 14px; height: 14px; border: 2px solid #ccc;
-            border-top: 2px solid #000; border-radius: 50%;
-            animation: spin 1s linear infinite; display: inline-block;
-        }
+        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .notification {
@@ -177,6 +173,7 @@
 <body>
 
     <div class="main-container">
+        <!-- প্রোফাইল সেকশন -->
         <div class="cover-photo">
             <img src="https://images.unsplash.com/photo-1531256379416-9f000e705ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Cover">
         </div>
@@ -187,6 +184,7 @@
                     <img src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Logo">
                 </div>
             </div>
+            <!-- Action Buttons (Updated with onclick) -->
             <div class="action-buttons">
                 <button class="btn btn-email" onclick="sendEmail()">
                     <i class="fa-solid fa-envelope"></i> Send Email
@@ -216,18 +214,22 @@
             </p>
         </div>
 
+        <!-- নেভিগেশন -->
         <div class="nav-bar">
             <div class="nav-btn active" id="nav-home" onclick="showFeed()"><i class="fa-solid fa-house"></i> Home</div>
             <div class="nav-btn inactive" id="nav-signup" onclick="goToSignUp()"><i class="fa-solid fa-user-plus"></i> Sign Up</div>
             <div class="nav-btn inactive" id="nav-login" onclick="showLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</div>
         </div>
 
+        <!-- ফিড এরিয়া -->
         <div id="feed-container">
             <div id="loading-msg">Loading latest posts...</div>
         </div>
         
+        <!-- Infinite Scroll Sentinel -->
         <div id="sentinel"><div class="load-more-spinner"></div></div>
 
+        <!-- ফুটার সেকশন -->
         <footer class="site-footer" id="main-footer" style="display:none;">
             <div class="footer-links">
                 <a href="#" id="link-about">About</a>
@@ -240,6 +242,7 @@
             </div>
         </footer>
 
+        <!-- লগইন -->
         <div id="login-view">
             <div class="login-box">
                 <img src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Logo" class="login-logo">
@@ -266,15 +269,17 @@
         const deviceId = localStorage.getItem('deviceId') || 'device-' + Date.now();
         localStorage.setItem('deviceId', deviceId);
 
-        // CONFIGURATION
+        // ============================================
+        //  CONFIGURATION & EMAIL SETTINGS
+        // ============================================
         const CONFIG = {
             INITIAL_LOAD: 20,
             BATCH_SIZE: 20,
-            CONTACT_EMAIL: "contact@secretbinodon.com", 
+            CONTACT_EMAIL: "contact@secretbinodon.com", // আপনার ইমেইল দিন
             footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
         };
 
-        // Footer Links
+        // Footer Links Setup
         document.getElementById('link-about').href = CONFIG.footer.about;
         document.getElementById('link-contact').href = CONFIG.footer.contact;
         document.getElementById('link-privacy').href = CONFIG.footer.privacy;
@@ -296,21 +301,34 @@
         function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
         function showNotification(msg) { const n = document.getElementById('notification'); n.textContent = msg; n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 3000); }
 
-        window.sendEmail = function() { window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`; }
-        window.shareProfile = function() {
-            const url = window.location.href.split('?')[0]; const text = "Secret Binodon - The #1 Platform for Viral Videos! 🎥 Visit now!";
-            if (navigator.share) { navigator.share({ title: "Secret Binodon", text: text, url: url }).catch((error) => console.log('Share failed', error)); } 
-            else { navigator.clipboard.writeText(`${text} ${url}`); showNotification("Website link copied! 📋"); }
+        // --- EMAIL & PROFILE SHARE FUNCTIONS ---
+        
+        // ১. ইমেইল পাঠানো
+        window.sendEmail = function() {
+            window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`;
         }
 
-        // 🚩 পরিবর্তন: পোস্টের আইডি-এর বদলে এখন স্লাগ ব্যবহার করে লিংক তৈরি হবে
-        window.openPost = (id, slug) => {
-            window.location.href = `post.html?title=${slug}-viral-video`;
-        };
-        
-        // 🚩 পরিবর্তন: শেয়ার করার লিংকে স্লাগ ব্যবহার করা হচ্ছে
-        window.sharePost = (id, slug, title) => {
-            const url = window.location.origin + `/post.html?title=${slug}-viral-video`;
+        // ২. প্রোফাইল শেয়ার (ওয়েবসাইটের হোমপেজ লিংক)
+        window.shareProfile = function() {
+            const url = window.location.href.split('?')[0]; // শুধু হোম লিংক
+            const title = "Secret Binodon";
+            const text = "Secret Binodon - The #1 Platform for Viral Videos! 🎥 Watch the latest trending videos all in one place. Visit now!";
+
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url
+                }).catch((error) => console.log('Share failed', error));
+            } else {
+                navigator.clipboard.writeText(`${text} ${url}`);
+                showNotification("Website link copied! 📋");
+            }
+        }
+
+        // --- POST SHARE FUNCTION (CARD) ---
+        window.sharePost = function(id, title) {
+            const url = window.location.origin + `/post.html?id=${id}`;
             if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); }
             else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
         }
@@ -352,8 +370,7 @@
             batch.forEach(post => {
                 let excerpt = post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 200) + "..." : "No description available.";
                 const safeTitle = post.title.replace(/'/g, "\\'");
-                
-                // 🚩 পরিবর্তন: openPost এবং sharePost ফাংশনে post.slug পাস করা হচ্ছে
+
                 const cardWrapper = document.createElement('div');
                 cardWrapper.innerHTML = `
                     <div class="post-card" data-id="${post.id}">
@@ -363,12 +380,12 @@
                                 <div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div>
                             </div>
                         </div>
-                        <div class="clickable-area" onclick="openPost('${post.id}', '${post.slug}')">
+                        <div class="clickable-area" onclick="openPost('${post.id}')">
                             <div class="post-title">${post.title}</div>
                             <div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div>
                         </div>
                         <div class="hashtags">${post.hashtags}</div>
-                        <div class="clickable-area" onclick="openPost('${post.id}', '${post.slug}')">
+                        <div class="clickable-area" onclick="openPost('${post.id}')">
                             <div class="media-container">
                                 <img src="${post.mediaImage}" loading="lazy">
                                 <div class="play-icon"></div>
@@ -380,7 +397,7 @@
                             <div class="footer-right">
                                 <div class="love-btn"><i class="fa-regular fa-heart"></i> <span class="count-text like-count"><span class="spinner"></span></span> <span class="label-text">Likes</span></div>
                                 <div class="post-date-display">${formatDate(post.uploadTime)}</div>
-                                <div class="footer-share-btn" onclick="sharePost('${post.id}', '${post.slug}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
+                                <div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
                             </div>
                         </div>
                     </div>`;
@@ -436,7 +453,8 @@
             document.getElementById('total-views-count').innerText = formatCount(total);
         }
 
-        // Navigation & Login Logic
+        window.openPost = (id) => window.location.href = `post.html?id=${id}`;
+        
         window.showFeed = () => {
             document.getElementById('feed-container').style.display='block';
             document.getElementById('sentinel').style.display='flex';
