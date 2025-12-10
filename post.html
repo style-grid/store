@@ -9,7 +9,7 @@
     
     <style>
         /* --- বেসিক রিসেট --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; text-decoration: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
         .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 0; }
 
@@ -52,41 +52,81 @@
             display: flex; justify-content: space-between; font-size: 12px; z-index: 5;
         }
 
-        /* আর্টিকেলের বডি */
+        /* --- আর্টিকেল ফরম্যাটিং (FIXED COMPACT STYLE) --- */
         .content-body { padding: 15px 15px 0 15px; }
-        .article-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #0f1419; line-height: 1.3; }
-        .article-para { font-size: 16px; line-height: 1.6; color: #0f1419; margin-bottom: 15px; text-align: justify; }
+        .article-title { 
+            font-size: 19px; font-weight: 700; margin-bottom: 10px; 
+            color: #0f1419; line-height: 1.3; 
+        }
+        .article-para { 
+            font-size: 15px; /* ছোট ফন্ট */
+            line-height: 1.4; /* কম গ্যাপ */
+            color: #1c1e21; 
+            margin-bottom: 12px; 
+            text-align: left; /* বাম থেকে শুরু */
+            letter-spacing: -0.3px; /* অক্ষর চাপানো */
+        }
 
         /* ডাউনলোড বাটন */
         .download-btn {
-            display: block; width: fit-content; margin: 20px auto;
+            display: block; width: fit-content; margin: 15px auto;
             padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px;
             text-align: center; color: white; cursor: pointer; text-transform: uppercase;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
         }
         .download-btn:active { transform: scale(0.98); }
 
-        /* স্ট্যাটস বার */
+        /* --- স্ট্যাটস বার (FIXED ALIGNMENT) --- */
         .stats-section {
-            padding: 10px 15px; margin-top: 15px;
-            border-top: 1px solid #e1e8ed; border-bottom: 1px solid #e1e8ed;
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff;
+            padding: 12px 0; /* সাইড প্যাডিং ০, যাতে একদম প্রান্তে থাকে */
+            margin-top: 15px;
+            border-top: 1px solid #e1e8ed;
+            border-bottom: 1px solid #e1e8ed;
+            display: flex;
+            align-items: center;
+            /* Flexbox Magic for Alignment */
         }
-        .stats-left { display: flex; align-items: center; gap: 20px; flex-grow: 1; overflow: hidden; }
-        .view-stat { display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; white-space: nowrap; }
+
+        /* বামে ভিউ */
+        .view-stat { 
+            flex: 0 0 auto; /* সাইজ ফিক্সড */
+            display: flex; align-items: center; gap: 5px; 
+            font-weight: bold; font-size: 15px; color: #536471; 
+        }
         .view-stat i { font-size: 16px; }
-        .love-btn { display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; cursor: pointer; padding: 5px; border-radius: 5px; transition: 0.2s; white-space: nowrap; user-select: none; }
-        .love-btn:hover { background-color: rgba(224, 36, 94, 0.1); color: #e0245e; }
-        .love-btn.liked { color: #e0245e; } .love-btn.liked i { font-weight: 900; }
-        .share-icons { display: flex; gap: 6px; flex-shrink: 0; }
-        .share-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 12px; transition: 0.2s; }
-        .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
+
+        /* মাঝখানে লাইক (Centering Logic) */
+        .like-stat-container {
+            flex: 1 1 auto; /* বাকি পুরো জায়গা নিবে */
+            display: flex; 
+            justify-content: center; /* কন্টেন্ট মাঝখানে */
+        }
+        .love-btn { 
+            display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; 
+            cursor: pointer; padding: 5px 10px; border-radius: 20px; transition: 0.2s; user-select: none;
+        }
+        .love-btn:active { background-color: rgba(224, 36, 94, 0.1); transform: scale(0.95); }
+        .love-btn.liked { color: #e0245e; } 
+        .love-btn.liked i { font-weight: 900; }
+        .love-btn i { font-size: 18px; }
+
+        /* ডানে শেয়ার */
+        .share-icons { 
+            flex: 0 0 auto; /* সাইজ ফিক্সড */
+            display: flex; gap: 8px; 
+        }
+        .share-icon { 
+            width: 28px; height: 28px; /* ছোট সাইজ */
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            color: white; cursor: pointer; font-size: 13px; transition: 0.2s; 
+        }
+        .share-icon:hover { opacity: 0.8; }
 
         /* রিলেটেড পোস্ট সেকশন */
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
+        /* রিলেটেড কার্ড */
         .post-card { background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; display: flex; flex-direction: column; gap: 10px; }
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -173,10 +213,10 @@
     <!-- ফুটার -->
     <footer class="site-footer">
         <div class="footer-links">
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <a href="#" id="link-about">About</a>
+            <a href="#" id="link-contact">Contact</a>
+            <a href="#" id="link-privacy">Privacy Policy</a>
+            <a href="#" id="link-terms">Terms of Service</a>
         </div>
         <div class="footer-copyright">
             Copyright © 2025 <a href="index.html">SecretBinodon.com</a>. All rights reserved.
@@ -195,7 +235,23 @@
     const db = getFirestore(app);
     const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now();
 
+    // GLOBAL VIDEO LINK
     const GLOBAL_VIDEO_LINK = "https://www.google.com"; 
+    
+    // FOOTER LINKS CONFIG
+    const SITE_CONFIG = {
+        footer: {
+            about: "https://example.com/about",
+            contact: "https://example.com/contact",
+            privacy: "https://example.com/privacy",
+            terms: "https://example.com/terms"
+        }
+    };
+
+    document.getElementById('link-about').href = SITE_CONFIG.footer.about;
+    document.getElementById('link-contact').href = SITE_CONFIG.footer.contact;
+    document.getElementById('link-privacy').href = SITE_CONFIG.footer.privacy;
+    document.getElementById('link-terms').href = SITE_CONFIG.footer.terms;
 
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
     function formatCount(n) { if(!n) return 0; return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n; }
@@ -250,11 +306,14 @@
                 </div>
                 <div class="content-body">
                     ${content}
+                    
                     <div class="stats-section">
-                        <div class="stats-left">
-                            <div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div>
+                        <div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div>
+                        
+                        <div class="like-stat-container">
                             <div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div>
                         </div>
+                        
                         <div class="share-icons">
                             <div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div>
                             <div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div>
@@ -291,11 +350,14 @@
     function setupFirebaseForMainPost(id) {
         setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
         onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
+        
         const lRef = doc(db, "loves", id);
         const uRef = doc(db, `loves/${id}/users`, deviceId);
         const lBtn = document.querySelector('.love-btn');
+        
         onSnapshot(lRef, s => document.getElementById('like-cnt').innerText = formatCount(s.data()?.count || 0));
         getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
+        
         lBtn.addEventListener('click', async () => {
             if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️");
             else {
@@ -376,20 +438,27 @@
         else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
     }
 
-    // মেসেঞ্জার ফিক্স সহ শেয়ার ফাংশন
+    // মেসেঞ্জার ফিক্সড ভার্সন (Robust)
     window.share = (platform, title) => {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent(title);
         
-        let link = '';
-        if (platform === 'msg') link = `fb-messenger://share/?link=${url}&app_id=123456789`;
-        else if(platform === 'fb') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-        else if(platform === 'wa') link = `https://wa.me/?text=${text}%20${url}`;
-        else if(platform === 'tw') link = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
-        else if(platform === 'tg') link = `https://t.me/share/url?url=${url}&text=${text}`;
-        
-        if (platform === 'msg') window.location.href = link;
-        else window.open(link, '_blank');
+        if (platform === 'msg') {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                window.location.href = `fb-messenger://share/?link=${url}`;
+            } else {
+                // পিসির জন্য ফেসবুক ডায়ালগ ফলব্যাক
+                window.open(`https://www.facebook.com/dialog/send?link=${url}&app_id=123456789&redirect_uri=${url}`, '_blank');
+            }
+        } else {
+            let link = '';
+            if(platform === 'fb') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            else if(platform === 'wa') link = `https://wa.me/?text=${text}%20${url}`;
+            else if(platform === 'tw') link = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+            else if(platform === 'tg') link = `https://t.me/share/url?url=${url}&text=${text}`;
+            window.open(link, '_blank');
+        }
     }
 
     init();
