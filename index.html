@@ -62,7 +62,9 @@
         
         .post-card { 
             padding: 15px; border-bottom: 1px solid #e1e8ed; 
-            display: flex; flex-direction: column; gap: 10px; 
+            display: flex; flex-direction: column; 
+            /* *** পরিবর্তন ১: পোস্ট হেডার ও টাইটেলের মধ্যে গ্যাপ হ্রাস *** */
+            gap: 6px; 
             background: white; opacity: 0; animation: fadeIn 0.5s forwards;
         }
         @keyframes fadeIn { to { opacity: 1; } }
@@ -74,10 +76,10 @@
         .post-meta-text { display: flex; flex-direction: column; justify-content: center; }
         .name-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
         
-        /* ৪. ওয়েবসাইটের নাম ফন্ট সাইজ বৃদ্ধি */
+        /* ৪. ওয়েবসাইটের নাম ফন্ট সাইজ বৃদ্ধি (পূর্বের অনুরোধ থেকে) */
         .name-row h3 { font-size: 17px; font-weight: 800; color: #0f1419; margin: 0; }
         
-        /* ৫. ইউজারনেম ফন্ট সাইজ হ্রাস */
+        /* ৫. ইউজারনেম ফন্ট সাইজ হ্রাস (পূর্বের অনুরোধ থেকে) */
         .post-username { font-size: 14px; color: #536471; }
         
         .time-ago { font-size: 15px; color: #536471; }
@@ -85,13 +87,13 @@
 
         .clickable-area { cursor: pointer; }
         
-        /* ১. পোস্ট টাইটেল ফন্ট সাইজ বৃদ্ধি, ২. নিচের গ্যাপ বৃদ্ধি, ৩. উপরের গ্যাপ হ্রাস */
+        /* ২, ৩. পোস্ট টাইটেল ফন্ট সাইজ, নিচের গ্যাপ বৃদ্ধি, উপরের গ্যাপ হ্রাস (নেগেটিভ মার্জিন) */
         .post-title { 
             font-size: 18px; /* ফন্ট সাইজ বৃদ্ধি */
             font-weight: 700; 
             color: #0f1419; 
             margin-bottom: 8px; /* নিচের গ্যাপ বৃদ্ধি */
-            margin-top: 2px; /* উপরের গ্যাপ কম রাখা */
+            margin-top: -3px; /* গ্যাপ কমাতে নেগেটিভ মার্জিন */
             line-height: 1.3; 
         }
         
