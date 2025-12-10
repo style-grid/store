@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Binodon - Post</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         /* --- বেসিক রিসেট --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
@@ -17,7 +16,7 @@
         .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; }
         .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
 
-        /* পোস্ট অথর সেকশন */
+        /* পোস্ট অথর */
         .post-author-area { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8ed; }
         .author-info { display: flex; align-items: center; gap: 10px; }
         .pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -26,52 +25,23 @@
         .author-text span { font-size: 14px; color: #536471; }
         .post-time { font-size: 13px; color: #536471; font-weight: bold; }
 
-        /* ভিডিও প্লেয়ার লুক */
-        .video-container { 
-            width: 100%; aspect-ratio: 16/9; background: #000; position: relative; 
-            display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; cursor: pointer;
-        }
+        /* ভিডিও প্লেয়ার */
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; cursor: pointer; }
         .video-container img { width: 100%; height: 100%; object-fit: contain; }
-        .play-btn-center {
-            position: absolute; width: 60px; height: 60px; background: rgba(0,0,0,0.6); 
-            border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center;
-            z-index: 5; pointer-events: none;
-        }
+        .play-btn-center { position: absolute; width: 60px; height: 60px; background: rgba(0,0,0,0.6); border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
         .play-btn-center::after { content: ''; border-left: 20px solid white; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 5px; }
-        
-        .main-video-spinner {
-            display: none; position: absolute; width: 50px; height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid #fff;
-            border-radius: 50%; animation: spin 1s linear infinite; z-index: 6;
-        }
+        .main-video-spinner { display: none; position: absolute; width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid #fff; border-radius: 50%; animation: spin 1s linear infinite; z-index: 6; }
+        .video-controls { position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; display: flex; justify-content: space-between; font-size: 12px; z-index: 5; }
 
-        .video-controls {
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white;
-            display: flex; justify-content: space-between; font-size: 12px; z-index: 5;
-        }
-
-        /* আর্টিকেলের বডি */
+        /* কন্টেন্ট */
         .content-body { padding: 15px 15px 0 15px; }
         .article-title { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: #0f1419; line-height: 1.3; }
         .article-para { font-size: 15px; line-height: 1.4; color: #1c1e21; margin-bottom: 12px; text-align: left; letter-spacing: -0.3px; }
-
-        /* ডাউনলোড বাটন */
-        .download-btn {
-            display: block; width: fit-content; margin: 15px auto;
-            padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px;
-            text-align: center; color: white; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
-        }
+        .download-btn { display: block; width: fit-content; margin: 15px auto; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px; text-align: center; color: white; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .download-btn:active { transform: scale(0.98); }
 
         /* স্ট্যাটস বার */
-        .stats-section {
-            padding: 12px 0; margin-top: 15px;
-            border-top: 1px solid #e1e8ed; border-bottom: 1px solid #e1e8ed;
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff;
-        }
+        .stats-section { padding: 12px 0; margin-top: 15px; border-top: 1px solid #e1e8ed; border-bottom: 1px solid #e1e8ed; display: flex; align-items: center; background: #fff; }
         .view-stat { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; }
         .view-stat i { font-size: 16px; }
         .like-stat-container { flex: 1 1 auto; display: flex; justify-content: center; }
@@ -82,7 +52,7 @@
         .share-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
         .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
 
-        /* রিলেটেড পোস্ট সেকশন */
+        /* রিলেটেড পোস্ট */
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
@@ -107,31 +77,18 @@
         .media-container img { width: 100%; height: auto; display: block; object-fit: contain; margin: 0 auto; max-height: 720px; }
         .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background-color: rgba(0, 0, 0, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center; pointer-events: none; border: 2px solid rgba(255,255,255,0.8); }
         .play-icon::after { content: ''; display: block; width: 0; height: 0; border-left: 18px solid white; border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
-
         .duration-badge { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; pointer-events: none; z-index: 5; }
 
         .post-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #536471; font-size: 16px; font-weight: 500; }
         .footer-left { display: flex; align-items: center; gap: 6px; }
         .footer-right { display: flex; align-items: center; gap: 20px; }
-        
         .love-btn-rel { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; user-select: none; }
         .love-btn-rel:hover { color: #e0245e; background-color: rgba(224, 36, 94, 0.1); padding: 4px 8px; border-radius: 15px; margin: -4px -8px; }
         .love-btn-rel.liked { color: #e0245e !important; } .love-btn-rel.liked i { font-weight: 900; }
         .footer-share-btn { cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
         .footer-share-btn:hover { background-color: rgba(0,0,0,0.05); }
 
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
-        .notification.show { opacity: 1; }
-
-        /* Infinite Scroll Sentinel */
-        #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
-        .load-more-spinner { width: 30px; height: 30px; border: 3px solid #ccc; border-top: 3px solid #1da1f2; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
-        #sentinel.loading .load-more-spinner { display: block; }
-
-        /* ফুটার সেকশন */
+        /* ফুটার */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
@@ -139,6 +96,13 @@
         .footer-copyright { color: #536471; font-size: 13px; }
         .footer-copyright a { color: #1da1f2; font-weight: bold; }
 
+        .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .notification.show { opacity: 1; }
+        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .load-more-spinner { width: 30px; height: 30px; border: 3px solid #ccc; border-top: 3px solid #1da1f2; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        #sentinel.loading .load-more-spinner { display: block; }
     </style>
 </head>
 <body>
@@ -160,7 +124,7 @@
 
     <div class="related-section">
         <div class="related-header">RELATED POSTS</div>
-        <div id="related-posts-container"></div> <!-- Loading text removed from here -->
+        <div id="related-posts-container"></div>
         <div id="sentinel"><div class="load-more-spinner"></div></div>
     </div>
 
@@ -188,20 +152,22 @@
     const db = getFirestore(app);
     const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now();
 
-    const GLOBAL_VIDEO_LINK = "https://www.google.com"; 
-    const SITE_CONFIG = {
+    // ============================================
+    //  FIX: CONFIG Object Added Here
+    // ============================================
+    const CONFIG = {
+        GLOBAL_VIDEO_LINK: "https://www.google.com",
+        BATCH_SIZE: 10,
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
     };
 
-    document.getElementById('link-about').href = SITE_CONFIG.footer.about;
-    document.getElementById('link-contact').href = SITE_CONFIG.footer.contact;
-    document.getElementById('link-privacy').href = SITE_CONFIG.footer.privacy;
-    document.getElementById('link-terms').href = SITE_CONFIG.footer.terms;
+    document.getElementById('link-about').href = CONFIG.footer.about;
+    document.getElementById('link-contact').href = CONFIG.footer.contact;
+    document.getElementById('link-privacy').href = CONFIG.footer.privacy;
+    document.getElementById('link-terms').href = CONFIG.footer.terms;
 
-    // Infinite Scroll Variables
     let allRelatedPosts = [];
     let currentIndex = 0;
-    const BATCH_SIZE = 10;
     let observer;
 
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
@@ -216,31 +182,20 @@
     async function init() {
         try {
             const res = await fetch('posts.json');
-            if(!res.ok) throw new Error("Failed to load data");
+            if(!res.ok) throw new Error("Failed");
             const posts = await res.json();
             
-            // ID Extraction Logic
             const postIdFromSlug = postSlugParam ? postSlugParam.replace(/-viral-video$/, '') : null;
             const post = posts.find(p => p.id === postIdFromSlug) || posts[0];
 
             renderMainPost(post);
             setupFirebaseForMainPost(post.id);
 
-            // Related Posts Preparation
             allRelatedPosts = posts.filter(p => p.id !== post.id).sort(() => 0.5 - Math.random());
-            
-            // FIX: Clear container before loading batch
-            document.getElementById('related-posts-container').innerHTML = '';
-            
-            // Initial Batch
             loadNextBatch();
-            
-            // Observer Setup
             setupObserver();
 
-        } catch (e) {
-            document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`;
-        }
+        } catch (e) { document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error: ${e.message}</div>`; }
     }
 
     function renderMainPost(post) {
@@ -306,11 +261,10 @@
         observer.observe(sentinel);
     }
 
-    // --- FIREBASE & OTHER LOGIC ---
     window.handleVideoClick = function() {
         const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
         if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
-        setTimeout(() => { window.location.href = GLOBAL_VIDEO_LINK; }, 100); 
+        setTimeout(() => { window.location.href = CONFIG.GLOBAL_VIDEO_LINK; }, 100); 
     }
     window.addEventListener('pageshow', () => {
         const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
