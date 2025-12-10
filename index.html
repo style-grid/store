@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Binodon - Home</title>
-    <!-- FontAwesome Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -178,7 +177,6 @@
 <body>
 
     <div class="main-container">
-        <!-- প্রোফাইল সেকশন -->
         <div class="cover-photo">
             <img src="https://images.unsplash.com/photo-1531256379416-9f000e705ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Cover">
         </div>
@@ -218,22 +216,18 @@
             </p>
         </div>
 
-        <!-- নেভিগেশন -->
         <div class="nav-bar">
             <div class="nav-btn active" id="nav-home" onclick="showFeed()"><i class="fa-solid fa-house"></i> Home</div>
             <div class="nav-btn inactive" id="nav-signup" onclick="goToSignUp()"><i class="fa-solid fa-user-plus"></i> Sign Up</div>
             <div class="nav-btn inactive" id="nav-login" onclick="showLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</div>
         </div>
 
-        <!-- ফিড এরিয়া -->
         <div id="feed-container">
             <div id="loading-msg">Loading latest posts...</div>
         </div>
         
-        <!-- Infinite Scroll Sentinel -->
         <div id="sentinel"><div class="load-more-spinner"></div></div>
 
-        <!-- ফুটার সেকশন -->
         <footer class="site-footer" id="main-footer" style="display:none;">
             <div class="footer-links">
                 <a href="#" id="link-about">About</a>
@@ -246,7 +240,6 @@
             </div>
         </footer>
 
-        <!-- লগইন -->
         <div id="login-view">
             <div class="login-box">
                 <img src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Logo" class="login-logo">
@@ -310,13 +303,14 @@
             else { navigator.clipboard.writeText(`${text} ${url}`); showNotification("Website link copied! 📋"); }
         }
 
-        // Slug দিয়ে লিংক ওপেন করা
-        window.openPost = (id) => {
-            window.location.href = `post.html?title=${id}-viral-video`;
+        // 🚩 পরিবর্তন: পোস্টের আইডি-এর বদলে এখন স্লাগ ব্যবহার করে লিংক তৈরি হবে
+        window.openPost = (id, slug) => {
+            window.location.href = `post.html?title=${slug}-viral-video`;
         };
         
-        window.sharePost = (id, title) => {
-            const url = window.location.origin + `/post.html?title=${id}-viral-video`;
+        // 🚩 পরিবর্তন: শেয়ার করার লিংকে স্লাগ ব্যবহার করা হচ্ছে
+        window.sharePost = (id, slug, title) => {
+            const url = window.location.origin + `/post.html?title=${slug}-viral-video`;
             if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); }
             else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
         }
@@ -358,7 +352,8 @@
             batch.forEach(post => {
                 let excerpt = post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 200) + "..." : "No description available.";
                 const safeTitle = post.title.replace(/'/g, "\\'");
-
+                
+                // 🚩 পরিবর্তন: openPost এবং sharePost ফাংশনে post.slug পাস করা হচ্ছে
                 const cardWrapper = document.createElement('div');
                 cardWrapper.innerHTML = `
                     <div class="post-card" data-id="${post.id}">
@@ -368,12 +363,12 @@
                                 <div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div>
                             </div>
                         </div>
-                        <div class="clickable-area" onclick="openPost('${post.id}')">
+                        <div class="clickable-area" onclick="openPost('${post.id}', '${post.slug}')">
                             <div class="post-title">${post.title}</div>
                             <div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div>
                         </div>
                         <div class="hashtags">${post.hashtags}</div>
-                        <div class="clickable-area" onclick="openPost('${post.id}')">
+                        <div class="clickable-area" onclick="openPost('${post.id}', '${post.slug}')">
                             <div class="media-container">
                                 <img src="${post.mediaImage}" loading="lazy">
                                 <div class="play-icon"></div>
@@ -385,7 +380,7 @@
                             <div class="footer-right">
                                 <div class="love-btn"><i class="fa-regular fa-heart"></i> <span class="count-text like-count"><span class="spinner"></span></span> <span class="label-text">Likes</span></div>
                                 <div class="post-date-display">${formatDate(post.uploadTime)}</div>
-                                <div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
+                                <div class="footer-share-btn" onclick="sharePost('${post.id}', '${post.slug}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
                             </div>
                         </div>
                     </div>`;
