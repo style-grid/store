@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Smart Post Generator</title>
+    <title>Admin - Post Generator (Updated)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #e9ecef; padding: 20px; }
@@ -13,16 +13,10 @@
         label { display: block; margin-bottom: 6px; font-weight: 600; color: #34495e; font-size: 14px; }
         input, textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; transition: 0.3s; box-sizing: border-box; }
         input:focus, textarea:focus { border-color: #1da1f2; outline: none; box-shadow: 0 0 5px rgba(29, 161, 242, 0.3); }
-        textarea { height: 100px; resize: vertical; }
+        textarea { height: 150px; resize: vertical; }
         
-        /* আইডি ফিল্ডের স্পেশাল স্টাইল */
-        #generatedId { 
-            background-color: #f1f8ff; 
-            border-color: #1da1f2; 
-            color: #0c5460; 
-            font-weight: bold; 
-            font-family: monospace;
-        }
+        /* HIDDEN FIELDS - শুধুমাত্র লজিকের জন্য ব্যবহার হবে */
+        .hidden-field { display: none; }
         
         .row { display: flex; gap: 15px; }
         .col { flex: 1; }
@@ -38,141 +32,130 @@
         pre { background: #282c34; color: #61dafb; padding: 20px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 13px; }
         .copy-btn { position: absolute; top: 10px; right: 10px; background: #fff; color: #333; padding: 6px 12px; font-size: 12px; border: none; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .copy-btn:hover { background: #f0f0f0; }
+
+        .info-note { background: #f0f8ff; color: #1e88e5; padding: 10px; border-left: 4px solid #1da1f2; margin-bottom: 20px; font-size: 14px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Post Generator</h2>
+    <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Secret Binodon Post Generator</h2>
     
-    <div class="form-group">
-        <label>Post Title (Bangla/English)</label>
-        <input type="text" id="title" placeholder="Ex: তানিয়া ভাবীর ভাইরাল ভিডিও..." oninput="generateSmartSlug()">
+    <div class="info-note">
+        <i class="fa-solid fa-circle-info"></i> **স্বয়ংক্রিয় ফাংশন:** পোস্ট আইডি, আপলোড টাইম, প্রোফাইল ইমেজ এবং হ্যাশট্যাগ অটোমেটিকভাবে যুক্ত হবে।
     </div>
 
     <div class="form-group">
-        <label>Link ID (Auto Generated & Editable)</label>
-        <!-- এটি এডিটেবল, যদি অটোমেটিকটা পছন্দ না হয় নিজেই ঠিক করতে পারবেন -->
-        <input type="text" id="generatedId" placeholder="tania-bhabir-viral-video">
-        <small style="color: #666; font-size: 12px;">This will be the URL link. You can edit it manually.</small>
+        <label>Post Title</label>
+        <input type="text" id="title" placeholder="Ex: তানিয়া ভাবীর ভাইরাল ভিডিও..." required>
     </div>
 
     <div class="row">
         <div class="col form-group">
-            <label>Upload Date</label>
-            <input type="datetime-local" id="uploadTime">
+            <label>Thumbnail URL (Image Link)</label>
+            <input type="text" id="media" value="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" required>
         </div>
         <div class="col form-group">
-            <label>Video Duration</label>
-            <input type="text" id="duration" placeholder="00:10:00" value="00:05:00">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col form-group">
-            <label>Profile Image URL</label>
-            <input type="text" id="pfp" value="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80">
-        </div>
-        <div class="col form-group">
-            <label>Thumbnail URL</label>
-            <input type="text" id="media" value="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80">
+            <label>Video Duration (HH:MM:SS)</label>
+            <input type="text" id="duration" placeholder="00:10:00" value="00:05:00" required>
         </div>
     </div>
 
     <div class="form-group">
-        <label>Paragraphs (Enter gives new para)</label>
-        <textarea id="paragraphs" placeholder="First paragraph...&#10;Second paragraph..."></textarea>
+        <label>Article Paragraphs (এন্টার চাপলে নতুন প্যারাগ্রাফ হিসেবে গণ্য হবে)</label>
+        <textarea id="paragraphs" placeholder="প্রথম প্যারাগ্রাফ। এইখানে এন্টার দিলে সেটা দ্বিতীয় প্যারাগ্রাফ হবে। উদাহরণস্বরূপ:&#10;&#10;এইটা ১ নাম্বার প্যারাগ্রাফ।&#10;এইটা ২ নাম্বার প্যারাগ্রাফ।&#10;এইটা ৩ নাম্বার প্যারাগ্রাফ।" required></textarea>
     </div>
 
     <div class="row">
         <div class="col form-group">
-            <label>Download Link 1</label>
-            <input type="text" id="link1" placeholder="Link for button 1">
+            <label>Download Link 1 (Primary)</label>
+            <input type="url" id="link1" placeholder="https://example.com/download-link-1" required>
         </div>
         <div class="col form-group">
-            <label>Download Link 2</label>
-            <input type="text" id="link2" placeholder="Link for button 2 (optional)">
+            <label>Download Link 2 (Optional)</label>
+            <input type="url" id="link2" placeholder="https://example.com/download-link-2 (ঐচ্ছিক)">
         </div>
     </div>
+    
+    <input type="hidden" id="generatedId" class="hidden-field"> 
+    <input type="hidden" id="pfp" value="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="hidden-field">
+    <input type="hidden" id="hashtags" value="#viralvideo #trending #secretbinodon #video_viral_2025" class="hidden-field">
 
-    <div class="form-group">
-        <label>Hashtags</label>
-        <input type="text" id="hashtags" value="#viral #trending #video_2025">
-    </div>
 
-    <button onclick="generateJSON()">Generate Code</button>
+    <button onclick="generateJSON()">Generate Code for posts.json</button>
 
     <div class="output-area" id="output-box">
-        <button class="copy-btn" onclick="copyCode()">Copy</button>
+        <button class="copy-btn" onclick="copyCode()"><i class="fa-solid fa-copy"></i> Copy Code</button>
         <pre id="json-output"></pre>
     </div>
 </div>
 
 <script>
-    // ১. বাংলা টু ইংলিশ কনভার্টার
-    const banglaToEnglishMap = {
-        'অ': 'o', 'আ': 'a', 'ই': 'i', 'ঈ': 'ee', 'উ': 'u', 'ঊ': 'u', 'ঋ': 'ri', 'এ': 'e', 'ঐ': 'oi', 'ও': 'o', 'ঔ': 'ou',
-        'ক': 'k', 'খ': 'kh', 'গ': 'g', 'ঘ': 'gh', 'ঙ': 'ng', 'চ': 'ch', 'ছ': 'chh', 'জ': 'j', 'ঝ': 'jh', 'ঞ': 'n',
-        'ট': 't', 'ঠ': 'th', 'ড': 'd', 'ঢ': 'dh', 'ণ': 'n', 'ত': 't', 'থ': 'th', 'দ': 'd', 'ধ': 'dh', 'ন': 'n',
-        'প': 'p', 'ফ': 'f', 'ব': 'b', 'ভ': 'v', 'ম': 'm', 'য': 'y', 'র': 'r', 'ল': 'l', 'শ': 'sh', 'ষ': 'sh', 'স': 's', 'হ': 'h',
-        'ড়': 'r', 'ঢ়': 'rh', 'য়': 'y', 'ৎ': 't', 'ং': 'ng', 'ঃ': 'h', 'ঁ': 'n', 'া': 'a', 'ি': 'i', 'ী': 'ee', 'ু': 'u', 'ূ': 'u', 'ৃ': 'ri', 'ে': 'e', 'ৈ': 'oi', 'ো': 'o', 'ৌ': 'ou', '্': '', 'ৗ': 'ou'
-    };
+    // একটি সেট যেখানে পূর্বে জেনারেট হওয়া আইডিগুলো স্টোর থাকবে
+    // এটি সেশন-ভিত্তিক কাজ করবে, পেজ রিফ্রেশ করলে রিসেট হবে। পার্মানেন্ট স্টোরেজ (Firebase/Local Storage) প্রয়োজন হবে না।
+    const usedIds = new Set();
+    const ID_LENGTH = 6;
+    const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    function transliterate(text) {
-        return text.split('').map(char => banglaToEnglishMap[char] || char).join('');
+    /**
+     * ৬-অঙ্কের ইউনিক র্যান্ডম আইডি জেনারেট করে।
+     * @returns {string} ৬-অঙ্কের ইউনিক আইডি।
+     */
+    function generateUniqueId() {
+        let id;
+        do {
+            id = '';
+            for (let i = 0; i < ID_LENGTH; i++) {
+                id += CHARACTERS.charAt(Math.floor(Math.random() * CHARACTERS.length));
+            }
+        } while (usedIds.has(id)); // যদি আইডিটি ইতিমধ্যেই ব্যবহৃত হয়ে থাকে তবে পুনরায় জেনারেট করবে
+        
+        usedIds.add(id); // নতুন আইডিটিকে ব্যবহৃত সেট-এ যোগ করা হলো
+        return id;
     }
 
-    // ২. স্মার্ট লিংক জেনারেটর লজিক
-    function generateSmartSlug() {
-        let title = document.getElementById('title').value;
-        
-        // বাংলা থেকে ইংলিশ
-        let englishTitle = transliterate(title);
-        
-        // ক্লিন করা এবং অ্যারে বানানো
-        let words = englishTitle.toLowerCase()
-            .replace(/[^a-z0-9\s]/g, '') // স্পেশাল ক্যারেক্টার রিমুভ (হাইফেন বাদে)
-            .split(/\s+/)
-            .filter(w => w.length > 0); // খালি স্পেস বাদ
-
-        // প্রথম ৩টি শব্দ নেওয়া
-        let selectedWords = words.slice(0, 3);
-
-        // ডুপ্লিকেট শব্দ বাদ দেওয়া (viral, video, link যদি টাইটেলে থাকে তবে বাদ)
-        // কারণ আমরা শেষে অটোমেটিক -viral-video যোগ করব
-        let filteredWords = selectedWords.filter(w => w !== 'viral' && w !== 'video' && w !== 'link' && w !== 'bhairal');
-
-        // যদি সব শব্দই বাদ পড়ে যায় (যেমন টাইটেল শুধু "Viral Video"), তবে অন্তত একটি শব্দ রাখা
-        if (filteredWords.length === 0 && selectedWords.length > 0) {
-            filteredWords = [selectedWords[0]];
-        }
-
-        // জোড়া লাগানো
-        let slug = filteredWords.join('-');
-
-        // শেষে সাফিক্স যোগ করা
-        if(slug) {
-            slug += "-viral-video";
-        }
-
-        // ইনপুট বক্সে দেখানো
-        document.getElementById('generatedId').value = slug;
+    /**
+     * রিয়েল-টাইম ISO ফরমেটে ডেট/টাইম রিটার্ন করে।
+     * @returns {string} 'YYYY-MM-DDTHH:MM:SS' ফরমেটে বর্তমান সময়।
+     */
+    function getCurrentISOString() {
+        const date = new Date();
+        // এটিই post.json এ ব্যবহৃত সঠিক ফরম্যাট
+        return date.toISOString().slice(0, 19); 
     }
 
+    // পেজ লোড হওয়ার সাথে সাথে প্রথম আইডি জেনারেট করে লুকানো ফিল্ডে রাখা
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generatedId').value = generateUniqueId();
+    });
+    
+    /**
+     * ফর্মের ডেটা নিয়ে JSON কোড জেনারেট করে।
+     */
     function generateJSON() {
-        // আইডি আমরা ইনপুট বক্স থেকে নিব (কারণ ইউজার এডিট করতে পারে)
+        // ফর্ম ডেটা সংগ্রহ
         const id = document.getElementById('generatedId').value;
         const title = document.getElementById('title').value;
-        const uploadTime = document.getElementById('uploadTime').value || new Date().toISOString().slice(0, 19);
         const duration = document.getElementById('duration').value;
-        const pfp = document.getElementById('pfp').value;
         const media = document.getElementById('media').value;
         const paraText = document.getElementById('paragraphs').value;
-        const paragraphs = paraText.split('\n').filter(p => p.trim() !== "");
         const link1 = document.getElementById('link1').value;
         const link2 = document.getElementById('link2').value;
+        
+        // অটোমেটিক ও লুকানো ডেটা সংগ্রহ
+        const uploadTime = getCurrentISOString();
+        const pfp = document.getElementById('pfp').value;
         const hashtags = document.getElementById('hashtags').value;
 
+        // প্যারাগ্রাফ লজিক: এন্টার (নতুন লাইন) দিয়ে ভাগ করা এবং খালি লাইন বাদ দেওয়া
+        const paragraphs = paraText.split('\n').map(p => p.trim()).filter(p => p.length > 0);
+
+        if (!title || !media || !duration || !paraText || !link1) {
+             alert("অনুগ্রহ করে টাইটেল, থাম্বনেইল, ভিডিও ডিউরেশন, প্যারাগ্রাফ এবং ডাউনলোড লিংক ১ পূরণ করুন।");
+             return;
+        }
+
+        // চূড়ান্ত JSON অবজেক্ট তৈরি
         const postObj = {
             id: id,
             uploadTime: uploadTime,
@@ -187,15 +170,25 @@
 
         if (link2) postObj.downloadLink2 = link2;
 
+        // JSON ফরম্যাট করা (সুন্দরভাবে ইন্ডেন্টেশন সহ)
         const jsonString = JSON.stringify(postObj, null, 2);
+        
+        // আউটপুট ডিসপ্লে এবং পরবর্তী পোস্টের জন্য নতুন আইডি জেনারেট
         document.getElementById('json-output').innerText = ",\n" + jsonString;
         document.getElementById('output-box').style.display = 'block';
+        
+        // কোড জেনারেট হওয়ার পর নতুন আইডি তৈরি করা এবং লুকানো ফিল্ডে রাখা 
+        // এটি নিশ্চিত করে যে পরের বারে Generate-এ ক্লিক করলে ভিন্ন আইডি ব্যবহার হবে
+        document.getElementById('generatedId').value = generateUniqueId(); 
     }
 
+    /**
+     * আউটপুট কোড কপি করে।
+     */
     function copyCode() {
         const code = document.getElementById('json-output').innerText;
         navigator.clipboard.writeText(code);
-        alert("Code Copied!");
+        alert("JSON কোড কপি করা হয়েছে! 📋");
     }
 </script>
 
