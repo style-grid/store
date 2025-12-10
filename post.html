@@ -11,7 +11,8 @@
         /* --- বেসিক রিসেট --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
-        .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 20px; }
+        /* মেইন র‍্যাপারের উপরে কোনো বর্ডার নেই */
+        .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 0; }
 
         /* হেডার */
         header { background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -27,30 +28,23 @@
         .author-text span { font-size: 14px; color: #536471; }
         .post-time { font-size: 13px; color: #536471; font-weight: bold; }
 
-        /* মেইন ভিডিও প্লেয়ার কন্টেইনার */
+        /* ভিডিও প্লেয়ার লুক */
         .video-container { 
             width: 100%; aspect-ratio: 16/9; background: #000; position: relative; 
             display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; cursor: pointer;
         }
         .video-container img { width: 100%; height: 100%; object-fit: contain; }
-        
-        /* প্লে বাটন */
         .play-btn-center {
             position: absolute; width: 60px; height: 60px; background: rgba(0,0,0,0.6); 
             border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center;
-            z-index: 5; pointer-events: none; /* JS দিয়ে হাইড হবে */
+            z-index: 5; pointer-events: none;
         }
         .play-btn-center::after { content: ''; border-left: 20px solid white; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 5px; }
         
-        /* লোডিং স্পিনার (মেইন ভিডিওর জন্য) */
         .main-video-spinner {
-            display: none; /* ডিফল্ট হাইড */
-            position: absolute; width: 50px; height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid #fff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 6;
+            display: none; position: absolute; width: 50px; height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid #fff;
+            border-radius: 50%; animation: spin 1s linear infinite; z-index: 6;
         }
 
         .video-controls {
@@ -90,10 +84,9 @@
         .share-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 12px; transition: 0.2s; }
         .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
 
-        /* রিলেটেড পোস্ট সেকশন (বর্ডার ফিক্স) */
+        /* রিলেটেড পোস্ট সেকশন */
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
-        /* এখানে border-top বাদ দেওয়া হয়েছে যাতে ডবল বর্ডার না হয় */
         
         .post-card { background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; display: flex; flex-direction: column; gap: 10px; }
         .post-header { display: flex; gap: 10px; align-items: center; }
@@ -117,12 +110,7 @@
         .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background-color: rgba(0, 0, 0, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center; pointer-events: none; border: 2px solid rgba(255,255,255,0.8); }
         .play-icon::after { content: ''; display: block; width: 0; height: 0; border-left: 18px solid white; border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
 
-        .duration-badge {
-            position: absolute; bottom: 8px; right: 8px;
-            background-color: rgba(0, 0, 0, 0.8); color: white;
-            padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold;
-            pointer-events: none; z-index: 5;
-        }
+        .duration-badge { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; pointer-events: none; z-index: 5; }
 
         .post-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #536471; font-size: 16px; font-weight: 500; }
         .footer-left { display: flex; align-items: center; gap: 6px; }
@@ -146,8 +134,15 @@
         .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
         .notification.show { opacity: 1; }
 
-        /* --- ফুটার সেকশন --- */
-        .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: 1px solid #e1e8ed; margin-top: 20px; }
+        /* --- ফুটার সেকশন (বর্ডার ফিক্স) --- */
+        .site-footer {
+            background-color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+            /* border-top removed */
+            border-top: none; 
+            margin-top: 0;
+        }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
         .footer-links a:hover { color: #1da1f2; text-decoration: underline; }
@@ -208,10 +203,7 @@
     const db = getFirestore(app);
     const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now();
 
-    // ============================================
-    //  GLOBAL VIDEO LINK (Hardcoded)
-    //  এখানে আপনার কাঙ্ক্ষিত লিংকটি বসান
-    // ============================================
+    // GLOBAL VIDEO LINK
     const GLOBAL_VIDEO_LINK = "https://www.google.com"; 
 
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
@@ -240,15 +232,19 @@
 
             let content = `<h1 class="article-title">${post.title}</h1>`;
             
+            // --- বাটন লজিক ---
+            const totalPara = post.paragraphs.length;
+
             post.paragraphs.forEach((p, i) => {
                 content += `<p class="article-para">${p}</p>`;
                 
-                // বাটন লজিক: প্রথম প্যারাগ্রাফের পর
+                // বাটন ১: সব সময় ১ম প্যারাগ্রাফের নিচে
                 if (i === 0 && post.downloadLink1) {
                     content += `<a href="${post.downloadLink1}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
                 }
-                // বাটন লজিক: শেষ প্যারাগ্রাফের আগে (যদি একের অধিক প্যারাগ্রাফ থাকে)
-                if (post.paragraphs.length > 1 && i === post.paragraphs.length - 2 && post.downloadLink2) {
+
+                // বাটন ২: শুধুমাত্র যদি প্যারাগ্রাফ ৩ বা তার বেশি হয় এবং এটি লাস্ট প্যারাগ্রাফের আগের প্যারাগ্রাফ হয়
+                if (totalPara >= 3 && i === totalPara - 2 && post.downloadLink2) {
                     content += `<a href="${post.downloadLink2}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
                 }
             });
@@ -262,14 +258,10 @@
                     <div class="post-time">${timeAgo(post.uploadTime)}</div>
                 </div>
                 
-                <!-- ভিডিও কন্টেইনার (Clickable) -->
                 <div class="video-container" onclick="handleVideoClick()">
                     <img src="${post.mediaImage}">
-                    <!-- প্লে আইকন (ডিফল্ট) -->
                     <div class="play-btn-center" id="main-play-btn"></div>
-                    <!-- লোডিং স্পিনার (ক্লিক করলে দেখাবে) -->
                     <div class="main-video-spinner" id="main-spinner"></div>
-                    
                     <div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div>
                 </div>
 
@@ -300,22 +292,14 @@
         }
     }
 
-    // --- মেইন ভিডিও ক্লিক হ্যান্ডলার ---
     window.handleVideoClick = function() {
         const playBtn = document.getElementById('main-play-btn');
         const spinner = document.getElementById('main-spinner');
-
-        // লোডিং শুরু
         if(playBtn) playBtn.style.display = 'none';
         if(spinner) spinner.style.display = 'block';
-
-        // লিংক ওপেন (একই সাথে)
-        setTimeout(() => {
-            window.location.href = GLOBAL_VIDEO_LINK;
-        }, 100); 
+        setTimeout(() => { window.location.href = GLOBAL_VIDEO_LINK; }, 100); 
     }
 
-    // ব্যাক করে আসলে স্টেট রিসেট (Loading বন্ধ, Play Icon ফেরত)
     window.addEventListener('pageshow', (event) => {
         const playBtn = document.getElementById('main-play-btn');
         const spinner = document.getElementById('main-spinner');
