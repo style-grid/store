@@ -378,3 +378,97 @@
                 loveBtn.addEventListener('click', async () => {
                     const s = await getDoc(userRef);
                     if(s.exists()) {
+                        showNotification("Already liked! ❤️");
+                    } else {
+                        loveBtn.classList.add('liked');
+                        loveBtn.querySelector('i').classList.replace('fa-regular', 'fa-solid');
+                        await setDoc(loveRef, { count: increment(1) }, { merge: true });
+                        await setDoc(userRef, { time: new Date() });
+                        showNotification("Liked! ❤️");
+                    }
+                });
+            });
+        }
+
+        // টোটাল ভিউ ক্যালকুলেশন (পুরো ওয়েবসাইটের)
+        async function calculateTotalViews() {
+            const querySnapshot = await getDocs(collection(db, "views"));
+            let total = 0;
+            querySnapshot.forEach((doc) => {
+                total += doc.data().count || 0;
+            });
+            document.getElementById('total-views-count').innerText = formatCount(total);
+        }
+
+        // গ্লোবাল ফাংশন
+        window.openPost = function(id) {
+            window.location.href = `post.html?id=${id}`;
+        }
+
+        // শেয়ার ফাংশন (নেটিভ শেয়ার)
+        window.sharePost = function(id, title) {
+            const url = window.location.origin + `/post.html?id=${id}`;
+            
+            // মোবাইল বা সাপোর্টেড ব্রাউজারে শেয়ার শিট ওপেন হবে
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: title,
+                    url: url
+                }).catch((error) => console.log('Error sharing', error));
+            } else {
+                // পিসিতে বা সাপোর্ট না করলে কপি হবে
+                navigator.clipboard.writeText(url);
+                showNotification("Link copied! 📋");
+            }
+        }
+
+        // নেভিগেশন লজিক (বাটন কালার ফিক্স)
+        function updateNav(activeId, showViewId) {
+            // সব বাটন ইনঅ্যাক্টিভ করা
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+            });
+            // ক্লিক করা বাটন অ্যাক্টিভ করা
+            const activeBtn = document.getElementById(activeId);
+            activeBtn.classList.remove('inactive');
+            activeBtn.classList.add('active');
+
+            // ভিউ চেঞ্জ করা
+            document.getElementById('feed-container').style.display = 'none';
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById(showViewId).style.display = 'block';
+        }
+
+        window.showFeed = function() {
+            updateNav('nav-home', 'feed-container');
+        }
+
+        window.goToSignUp = function() {
+            window.location.href = "https://www.example.com/signup";
+        }
+
+        window.showLogin = function() {
+            updateNav('nav-login', 'login-view');
+        }
+
+        // রান
+        loadFeed();
+
+        // লগইন ফর্ম হ্যান্ডলার
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const msg = document.getElementById('successMsg');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Logging in...';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.style.display = 'none';
+                msg.style.display = 'block';
+            }, 2000);
+        });
+
+    </script>
+</body>
+</html>
