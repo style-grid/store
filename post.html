@@ -4,21 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Binodon - Post</title>
-    <!-- FontAwesome Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* --- বেসিক রিসেট --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
         .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 0; }
 
-        /* হেডার */
         header { background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; }
         .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
 
-        /* পোস্ট অথর সেকশন */
         .post-author-area { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8ed; }
         .author-info { display: flex; align-items: center; gap: 10px; }
         .pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -27,106 +22,34 @@
         .author-text span { font-size: 14px; color: #536471; }
         .post-time { font-size: 13px; color: #536471; font-weight: bold; }
 
-        /* ভিডিও প্লেয়ার লুক */
-        .video-container { 
-            width: 100%; aspect-ratio: 16/9; background: #000; position: relative; 
-            display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; cursor: pointer;
-        }
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; cursor: pointer; }
         .video-container img { width: 100%; height: 100%; object-fit: contain; }
-        .play-btn-center {
-            position: absolute; width: 60px; height: 60px; background: rgba(0,0,0,0.6); 
-            border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center;
-            z-index: 5; pointer-events: none;
-        }
+        .play-btn-center { position: absolute; width: 60px; height: 60px; background: rgba(0,0,0,0.6); border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
         .play-btn-center::after { content: ''; border-left: 20px solid white; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 5px; }
-        
-        .main-video-spinner {
-            display: none; position: absolute; width: 50px; height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid #fff;
-            border-radius: 50%; animation: spin 1s linear infinite; z-index: 6;
-        }
+        .main-video-spinner { display: none; position: absolute; width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid #fff; border-radius: 50%; animation: spin 1s linear infinite; z-index: 6; }
+        .video-controls { position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; display: flex; justify-content: space-between; font-size: 12px; z-index: 5; }
 
-        .video-controls {
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white;
-            display: flex; justify-content: space-between; font-size: 12px; z-index: 5;
-        }
-
-        /* --- আর্টিকেল ফরম্যাটিং (FIXED COMPACT STYLE) --- */
         .content-body { padding: 15px 15px 0 15px; }
-        .article-title { 
-            font-size: 19px; font-weight: 700; margin-bottom: 10px; 
-            color: #0f1419; line-height: 1.3; 
-        }
-        .article-para { 
-            font-size: 15px; /* ছোট ফন্ট */
-            line-height: 1.4; /* কম গ্যাপ */
-            color: #1c1e21; 
-            margin-bottom: 12px; 
-            text-align: left; /* বাম থেকে শুরু */
-            letter-spacing: -0.3px; /* অক্ষর চাপানো */
-        }
+        .article-title { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: #0f1419; line-height: 1.3; }
+        .article-para { font-size: 15px; line-height: 1.4; color: #1c1e21; margin-bottom: 12px; text-align: left; letter-spacing: -0.3px; }
 
-        /* ডাউনলোড বাটন */
-        .download-btn {
-            display: block; width: fit-content; margin: 15px auto;
-            padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px;
-            text-align: center; color: white; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
-        }
+        .download-btn { display: block; width: fit-content; margin: 15px auto; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px; text-align: center; color: white; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .download-btn:active { transform: scale(0.98); }
 
-        /* --- স্ট্যাটস বার (FIXED ALIGNMENT) --- */
-        .stats-section {
-            padding: 12px 0; /* সাইড প্যাডিং ০, যাতে একদম প্রান্তে থাকে */
-            margin-top: 15px;
-            border-top: 1px solid #e1e8ed;
-            border-bottom: 1px solid #e1e8ed;
-            display: flex;
-            align-items: center;
-            /* Flexbox Magic for Alignment */
-        }
-
-        /* বামে ভিউ */
-        .view-stat { 
-            flex: 0 0 auto; /* সাইজ ফিক্সড */
-            display: flex; align-items: center; gap: 5px; 
-            font-weight: bold; font-size: 15px; color: #536471; 
-        }
+        .stats-section { padding: 12px 0; margin-top: 15px; border-top: 1px solid #e1e8ed; border-bottom: 1px solid #e1e8ed; display: flex; align-items: center; background: #fff; }
+        .view-stat { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; }
         .view-stat i { font-size: 16px; }
-
-        /* মাঝখানে লাইক (Centering Logic) */
-        .like-stat-container {
-            flex: 1 1 auto; /* বাকি পুরো জায়গা নিবে */
-            display: flex; 
-            justify-content: center; /* কন্টেন্ট মাঝখানে */
-        }
-        .love-btn { 
-            display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; 
-            cursor: pointer; padding: 5px 10px; border-radius: 20px; transition: 0.2s; user-select: none;
-        }
+        .like-stat-container { flex: 1 1 auto; display: flex; justify-content: center; }
+        .love-btn { display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; cursor: pointer; padding: 5px 10px; border-radius: 20px; transition: 0.2s; user-select: none; }
         .love-btn:active { background-color: rgba(224, 36, 94, 0.1); transform: scale(0.95); }
-        .love-btn.liked { color: #e0245e; } 
-        .love-btn.liked i { font-weight: 900; }
-        .love-btn i { font-size: 18px; }
+        .love-btn.liked { color: #e0245e; } .love-btn.liked i { font-weight: 900; } .love-btn i { font-size: 18px; }
+        .share-icons { flex: 0 0 auto; display: flex; gap: 8px; }
+        .share-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
 
-        /* ডানে শেয়ার */
-        .share-icons { 
-            flex: 0 0 auto; /* সাইজ ফিক্সড */
-            display: flex; gap: 8px; 
-        }
-        .share-icon { 
-            width: 28px; height: 28px; /* ছোট সাইজ */
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            color: white; cursor: pointer; font-size: 13px; transition: 0.2s; 
-        }
-        .share-icon:hover { opacity: 0.8; }
-
-        /* রিলেটেড পোস্ট সেকশন */
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
-        /* রিলেটেড কার্ড */
         .post-card { background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; display: flex; flex-direction: column; gap: 10px; }
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -140,7 +63,8 @@
 
         .clickable-area { cursor: pointer; }
         .post-title { font-size: 17px; font-weight: 700; color: #0f1419; margin-bottom: 5px; line-height: 1.3; }
-        .post-excerpt { font-size: 15px; color: #0f1419; line-height: 1.4; margin-bottom: 8px; }
+        /* আপডেট: ৩.৫ লাইন দেখানোর জন্য line-clamp 4 এবং excerpt লেন্থ বাড়ানো হয়েছে */
+        .post-excerpt { font-size: 15px; color: #0f1419; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
         .read-more-text { color: #1da1f2; font-weight: 600; font-size: 14px; }
         .hashtags { color: #1d9bf0; font-size: 15px; margin-bottom: 10px; cursor: default; }
 
@@ -148,7 +72,6 @@
         .media-container img { width: 100%; height: auto; display: block; object-fit: contain; margin: 0 auto; max-height: 720px; }
         .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background-color: rgba(0, 0, 0, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center; pointer-events: none; border: 2px solid rgba(255,255,255,0.8); }
         .play-icon::after { content: ''; display: block; width: 0; height: 0; border-left: 18px solid white; border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
-
         .duration-badge { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; pointer-events: none; z-index: 5; }
 
         .post-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #536471; font-size: 16px; font-weight: 500; }
@@ -157,36 +80,26 @@
         
         .love-btn-rel { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; user-select: none; }
         .love-btn-rel:hover { color: #e0245e; background-color: rgba(224, 36, 94, 0.1); padding: 4px 8px; border-radius: 15px; margin: -4px -8px; }
-        .love-btn-rel.liked { color: #e0245e !important; }
-        .love-btn-rel.liked i { font-weight: 900; }
-
-        .count-text { font-weight: bold; }
-        .label-text { font-weight: normal; font-size: 15px; }
-        .post-date-display { font-size: 14px; color: #65676b; }
-        
+        .love-btn-rel.liked { color: #e0245e !important; } .love-btn-rel.liked i { font-weight: 900; }
         .footer-share-btn { cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
         .footer-share-btn:hover { background-color: rgba(0,0,0,0.05); }
 
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
-        .notification.show { opacity: 1; }
-
-        /* --- ফুটার সেকশন --- */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
         .footer-links a:hover { color: #1da1f2; text-decoration: underline; }
         .footer-copyright { color: #536471; font-size: 13px; }
         .footer-copyright a { color: #1da1f2; font-weight: bold; }
-
+        
+        .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .notification.show { opacity: 1; }
+        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
 <div class="main-wrapper">
-    <!-- হেডার -->
     <header>
         <div class="logo-area">SECRET BINODON</div>
         <div>
@@ -195,14 +108,12 @@
         </div>
     </header>
 
-    <!-- মেইন পোস্ট এরিয়া -->
     <div id="post-details-container">
         <div style="padding:40px; text-align:center; color:#666;">
             <span class="spinner"></span> Loading post...
         </div>
     </div>
 
-    <!-- রিলেটেড পোস্ট এরিয়া -->
     <div class="related-section">
         <div class="related-header">RELATED POSTS</div>
         <div id="related-posts-container">
@@ -210,7 +121,6 @@
         </div>
     </div>
 
-    <!-- ফুটার -->
     <footer class="site-footer">
         <div class="footer-links">
             <a href="#" id="link-about">About</a>
@@ -222,7 +132,6 @@
             Copyright © 2025 <a href="index.html">SecretBinodon.com</a>. All rights reserved.
         </div>
     </footer>
-    
     <div id="notification" class="notification"></div>
 </div>
 
@@ -235,17 +144,9 @@
     const db = getFirestore(app);
     const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now();
 
-    // GLOBAL VIDEO LINK
     const GLOBAL_VIDEO_LINK = "https://www.google.com"; 
-    
-    // FOOTER LINKS CONFIG
     const SITE_CONFIG = {
-        footer: {
-            about: "https://example.com/about",
-            contact: "https://example.com/contact",
-            privacy: "https://example.com/privacy",
-            terms: "https://example.com/terms"
-        }
+        footer: { about: "https://example.com/about", contact: "https://example.com/contact", privacy: "https://example.com/privacy", terms: "https://example.com/terms" }
     };
 
     document.getElementById('link-about').href = SITE_CONFIG.footer.about;
@@ -255,15 +156,7 @@
 
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
     function formatCount(n) { if(!n) return 0; return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n; }
-    
-    function timeAgo(d) {
-        const s = Math.floor((new Date() - new Date(d)) / 1000);
-        let i = s / 31536000; if (i > 1) return Math.floor(i) + "y ago";
-        i = s / 86400; if (i > 1) return Math.floor(i) + "d ago";
-        i = s / 3600; if (i > 1) return Math.floor(i) + "h ago";
-        return "Just now";
-    }
-    
+    function timeAgo(d) { const s=Math.floor((new Date()-new Date(d))/1000); let i=s/31536000; if(i>1)return Math.floor(i)+"y ago"; i=s/86400; if(i>1)return Math.floor(i)+"d ago"; i=s/3600; if(i>1)return Math.floor(i)+"h ago"; return "Just now"; }
     function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
     function showNotification(msg) { const n=document.getElementById('notification'); n.innerText=msg; n.classList.add('show'); setTimeout(()=>n.classList.remove('show'),3000); }
 
@@ -273,7 +166,7 @@
     async function init() {
         try {
             const res = await fetch('posts.json');
-            if(!res.ok) throw new Error("Failed to load data");
+            if(!res.ok) throw new Error("Failed");
             const posts = await res.json();
             const post = posts.find(p => p.id === postId) || posts[0];
 
@@ -291,82 +184,32 @@
             });
 
             document.getElementById('post-details-container').innerHTML = `
-                <div class="post-author-area">
-                    <div class="author-info">
-                        <div class="pfp"><img src="${post.profileImage}"></div>
-                        <div class="author-text"><h3>Secret Binodon</h3><span>@SecretBinodon</span></div>
-                    </div>
-                    <div class="post-time">${timeAgo(post.uploadTime)}</div>
-                </div>
-                <div class="video-container" onclick="handleVideoClick()">
-                    <img src="${post.mediaImage}">
-                    <div class="play-btn-center" id="main-play-btn"></div>
-                    <div class="main-video-spinner" id="main-spinner"></div>
-                    <div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div>
-                </div>
-                <div class="content-body">
-                    ${content}
-                    
-                    <div class="stats-section">
-                        <div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div>
-                        
-                        <div class="like-stat-container">
-                            <div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div>
-                        </div>
-                        
-                        <div class="share-icons">
-                            <div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div>
-                            <div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div>
-                            <div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div>
-                            <div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div>
-                            <div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div>
-                        </div>
-                    </div>
-                </div>`;
+                <div class="post-author-area"><div class="author-info"><div class="pfp"><img src="${post.profileImage}"></div><div class="author-text"><h3>Secret Binodon</h3><span>@SecretBinodon</span></div></div><div class="post-time">${timeAgo(post.uploadTime)}</div></div>
+                <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
+                <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
 
             setupFirebaseForMainPost(post.id);
             renderRelatedPosts(posts, post.id);
-
-        } catch (e) {
-            document.getElementById('post-details-container').innerHTML = `<div style="padding:20px; text-align:center; color:red;">Error loading post: ${e.message}</div>`;
-        }
+        } catch (e) { document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post.</div>`; }
     }
 
     window.handleVideoClick = function() {
-        const playBtn = document.getElementById('main-play-btn');
-        const spinner = document.getElementById('main-spinner');
-        if(playBtn) playBtn.style.display = 'none';
-        if(spinner) spinner.style.display = 'block';
+        const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
+        if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
         setTimeout(() => { window.location.href = GLOBAL_VIDEO_LINK; }, 100); 
     }
-
-    window.addEventListener('pageshow', (event) => {
-        const playBtn = document.getElementById('main-play-btn');
-        const spinner = document.getElementById('main-spinner');
-        if(playBtn) playBtn.style.display = 'flex';
-        if(spinner) spinner.style.display = 'none';
+    window.addEventListener('pageshow', () => {
+        const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
+        if(p) p.style.display = 'flex'; if(s) s.style.display = 'none';
     });
 
     function setupFirebaseForMainPost(id) {
         setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
         onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
-        
-        const lRef = doc(db, "loves", id);
-        const uRef = doc(db, `loves/${id}/users`, deviceId);
-        const lBtn = document.querySelector('.love-btn');
-        
+        const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId), lBtn = document.querySelector('.love-btn');
         onSnapshot(lRef, s => document.getElementById('like-cnt').innerText = formatCount(s.data()?.count || 0));
         getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
-        
-        lBtn.addEventListener('click', async () => {
-            if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️");
-            else {
-                lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid');
-                await setDoc(lRef, { count: increment(1) }, { merge: true });
-                await setDoc(uRef, { t: new Date() });
-                showNotification("Liked! ❤️");
-            }
-        });
+        lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
     }
 
     function renderRelatedPosts(posts, currentId) {
@@ -374,34 +217,16 @@
         relContainer.innerHTML = '';
         const randomPosts = posts.filter(p => p.id !== currentId).sort(() => 0.5 - Math.random()).slice(0, 6);
         randomPosts.forEach(post => {
-            let excerpt = post.paragraphs[0].substring(0, 100) + "...";
+            // আপডেট: ক্যারেক্টার লিমিট বাড়িয়ে ২০০ করা হয়েছে যাতে ৩-৩.৫ লাইন দেখায়
+            let excerpt = post.paragraphs[0].substring(0, 200) + "...";
             const safeTitle = post.title.replace(/'/g, "\\'");
             const html = `
                 <div class="post-card" data-id="${post.id}">
-                    <div class="post-header">
-                        <div class="post-pfp"><img src="${post.profileImage}"></div>
-                        <div class="post-meta-text">
-                            <div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div>
-                        </div>
-                    </div>
-                    <div class="clickable-area" onclick="openPost('${post.id}')">
-                        <div class="post-title">${post.title}</div>
-                        <div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div>
-                    </div>
+                    <div class="post-header"><div class="post-pfp"><img src="${post.profileImage}"></div><div class="post-meta-text"><div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div></div></div>
+                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="post-title">${post.title}</div><div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div></div>
                     <div class="hashtags">${post.hashtags}</div>
-                    <div class="clickable-area" onclick="openPost('${post.id}')">
-                        <div class="media-container">
-                            <img src="${post.mediaImage}"><div class="play-icon"></div><div class="duration-badge">${post.videoDuration}</div>
-                        </div>
-                    </div>
-                    <div class="post-footer">
-                        <div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">...</span> <span class="label-text">Views</span></div>
-                        <div class="footer-right">
-                            <div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">...</span> <span class="label-text">Likes</span></div>
-                            <div class="post-date-display">${formatDate(post.uploadTime)}</div>
-                            <div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
-                        </div>
-                    </div>
+                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="media-container"><img src="${post.mediaImage}"><div class="play-icon"></div><div class="duration-badge">${post.videoDuration}</div></div></div>
+                    <div class="post-footer"><div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">...</span> <span class="label-text">Views</span></div><div class="footer-right"><div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">...</span> <span class="label-text">Likes</span></div><div class="post-date-display">${formatDate(post.uploadTime)}</div><div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div></div></div>
                 </div>`;
             relContainer.insertAdjacentHTML('beforeend', html);
         });
@@ -410,49 +235,27 @@
 
     function setupFirebaseForRelated() {
         document.querySelectorAll('.post-card').forEach(card => {
-            const id = card.getAttribute('data-id');
-            const vEl = card.querySelector('.view-count-rel');
-            const lEl = card.querySelector('.like-count-rel');
-            const lBtn = card.querySelector('.love-btn-rel');
+            const id = card.getAttribute('data-id'), vEl = card.querySelector('.view-count-rel'), lEl = card.querySelector('.like-count-rel'), lBtn = card.querySelector('.love-btn-rel');
             onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
-            const lRef = doc(db, "loves", id);
-            const uRef = doc(db, `loves/${id}/users`, deviceId);
+            const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId);
             onSnapshot(lRef, s => lEl.innerText = formatCount(s.data()?.count || 0));
             getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
-            lBtn.addEventListener('click', async () => {
-                if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️");
-                else {
-                    lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid');
-                    await setDoc(lRef, { count: increment(1) }, { merge: true });
-                    await setDoc(uRef, { t: new Date() });
-                    showNotification("Liked! ❤️");
-                }
-            });
+            lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
         });
     }
 
     window.openPost = (id) => window.location.href = `post.html?id=${id}`;
-    window.sharePost = (id, title) => {
-        const url = window.location.origin + `/post.html?id=${id}`;
-        if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); }
-        else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
-    }
+    window.sharePost = (id, title) => { const url = window.location.origin + `/post.html?id=${id}`; if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } }
 
-    // মেসেঞ্জার ফিক্সড ভার্সন (Robust)
     window.share = (platform, title) => {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent(title);
-        
+        let link = '';
         if (platform === 'msg') {
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                window.location.href = `fb-messenger://share/?link=${url}`;
-            } else {
-                // পিসির জন্য ফেসবুক ডায়ালগ ফলব্যাক
-                window.open(`https://www.facebook.com/dialog/send?link=${url}&app_id=123456789&redirect_uri=${url}`, '_blank');
-            }
+            if (isMobile) window.location.href = `fb-messenger://share/?link=${url}`;
+            else window.open(`https://www.facebook.com/dialog/send?link=${url}&app_id=123456789&redirect_uri=${url}`, '_blank');
         } else {
-            let link = '';
             if(platform === 'fb') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
             else if(platform === 'wa') link = `https://wa.me/?text=${text}%20${url}`;
             else if(platform === 'tw') link = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
