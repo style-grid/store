@@ -405,4 +405,49 @@
             const lBtn = card.querySelector('.love-btn-rel');
 
             onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
-            const lRef = doc(db, "loves",
+            const lRef = doc(db, "loves", id);
+            const uRef = doc(db, `loves/${id}/users`, deviceId);
+            
+            onSnapshot(lRef, s => lEl.innerText = formatCount(s.data()?.count || 0));
+            getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
+
+            lBtn.addEventListener('click', async () => {
+                if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️");
+                else {
+                    lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid');
+                    await setDoc(lRef, { count: increment(1) }, { merge: true });
+                    await setDoc(uRef, { t: new Date() });
+                    showNotification("Liked! ❤️");
+                }
+            });
+        });
+    }
+
+    window.openPost = (id) => window.location.href = `post.html?id=${id}`;
+    
+    window.sharePost = (id, title) => {
+        const url = window.location.origin + `/post.html?id=${id}`;
+        if (navigator.share) {
+            navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e));
+        } else {
+            navigator.clipboard.writeText(url);
+            showNotification("Link copied! 📋");
+        }
+    }
+
+    window.share = (platform, title) => {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(title);
+        let link = '';
+        if(platform === 'fb') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        else if(platform === 'msg') link = `fb-messenger://share/?link=${url}`;
+        else if(platform === 'wa') link = `https://wa.me/?text=${text}%20${url}`;
+        else if(platform === 'tw') link = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+        else if(platform === 'tg') link = `https://t.me/share/url?url=${url}&text=${text}`;
+        window.open(link, '_blank');
+    }
+
+    init();
+</script>
+</body>
+</html>
