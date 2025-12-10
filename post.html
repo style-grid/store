@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Binodon - Post</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         /* --- বেসিক রিসেট --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
@@ -16,7 +17,7 @@
         .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; }
         .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
 
-        /* পোস্ট অথর */
+        /* পোস্ট ডিটেইলস এরিয়া */
         .post-author-area { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8ed; }
         .author-info { display: flex; align-items: center; gap: 10px; }
         .pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -25,7 +26,6 @@
         .author-text span { font-size: 14px; color: #536471; }
         .post-time { font-size: 13px; color: #536471; font-weight: bold; }
 
-        /* ভিডিও প্লেয়ার */
         .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; cursor: pointer; }
         .video-container img { width: 100%; height: 100%; object-fit: contain; }
         .play-btn-center { position: absolute; width: 60px; height: 60px; background: rgba(0,0,0,0.6); border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
@@ -33,15 +33,16 @@
         .main-video-spinner { display: none; position: absolute; width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid #fff; border-radius: 50%; animation: spin 1s linear infinite; z-index: 6; }
         .video-controls { position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; display: flex; justify-content: space-between; font-size: 12px; z-index: 5; }
 
-        /* কন্টেন্ট */
         .content-body { padding: 15px 15px 0 15px; }
-        .article-title { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: #0f1419; line-height: 1.3; }
+        .article-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #0f1419; line-height: 1.3; }
         .article-para { font-size: 15px; line-height: 1.4; color: #1c1e21; margin-bottom: 12px; text-align: left; letter-spacing: -0.3px; }
-        .download-btn { display: block; width: fit-content; margin: 15px auto; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px; text-align: center; color: white; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+
+        .download-btn { display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px; text-align: center; color: white; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .download-btn:active { transform: scale(0.98); }
 
         /* স্ট্যাটস বার */
         .stats-section { padding: 12px 0; margin-top: 15px; border-top: 1px solid #e1e8ed; border-bottom: 1px solid #e1e8ed; display: flex; align-items: center; background: #fff; }
+        .stats-left { display: flex; align-items: center; gap: 20px; flex-grow: 1; overflow: hidden; }
         .view-stat { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; }
         .view-stat i { font-size: 16px; }
         .like-stat-container { flex: 1 1 auto; display: flex; justify-content: center; }
@@ -52,11 +53,13 @@
         .share-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
         .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
 
-        /* রিলেটেড পোস্ট */
+        /* রিলেটেড পোস্ট (কার্ড) */
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
-        .post-card { background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; display: flex; flex-direction: column; gap: 10px; }
+        .post-card { background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; display: flex; flex-direction: column; gap: 10px; opacity: 0; animation: fadeIn 0.5s forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
         .post-pfp img { width: 100%; height: 100%; object-fit: cover; }
@@ -82,26 +85,29 @@
         .post-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #536471; font-size: 16px; font-weight: 500; }
         .footer-left { display: flex; align-items: center; gap: 6px; }
         .footer-right { display: flex; align-items: center; gap: 20px; }
+        
         .love-btn-rel { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; user-select: none; }
         .love-btn-rel:hover { color: #e0245e; background-color: rgba(224, 36, 94, 0.1); padding: 4px 8px; border-radius: 15px; margin: -4px -8px; }
         .love-btn-rel.liked { color: #e0245e !important; } .love-btn-rel.liked i { font-weight: 900; }
         .footer-share-btn { cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
         .footer-share-btn:hover { background-color: rgba(0,0,0,0.05); }
 
-        /* ফুটার */
+        /* ফুটার এবং লোডার */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
         .footer-links a:hover { color: #1da1f2; text-decoration: underline; }
         .footer-copyright { color: #536471; font-size: 13px; }
         .footer-copyright a { color: #1da1f2; font-weight: bold; }
-
-        .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
-        .notification.show { opacity: 1; }
+        
         .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .notification.show { opacity: 1; }
+
+        /* Infinite Scroll Sentinel */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
-        .load-more-spinner { width: 30px; height: 30px; border: 3px solid #ccc; border-top: 3px solid #1da1f2; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        .load-more-spinner { width: 24px; height: 24px; border: 3px solid #ccc; border-top: 3px solid #1da1f2; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
         #sentinel.loading .load-more-spinner { display: block; }
     </style>
 </head>
@@ -125,6 +131,7 @@
     <div class="related-section">
         <div class="related-header">RELATED POSTS</div>
         <div id="related-posts-container"></div>
+        <!-- Infinite Scroll Sentinel -->
         <div id="sentinel"><div class="load-more-spinner"></div></div>
     </div>
 
@@ -139,7 +146,6 @@
             Copyright © 2025 <a href="index.html">SecretBinodon.com</a>. All rights reserved.
         </div>
     </footer>
-    
     <div id="notification" class="notification"></div>
 </div>
 
@@ -153,11 +159,12 @@
     const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now();
 
     // ============================================
-    //  FIX: CONFIG Object Added Here
+    //  CONFIGURATION
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        BATCH_SIZE: 10,
+        INITIAL_LOAD: 10,  // শুরুতে ১০টি পোস্ট লোড হবে
+        BATCH_SIZE: 10,    // স্ক্রল করলে ১০টি করে লোড হবে
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
     };
 
@@ -177,36 +184,25 @@
     function showNotification(msg) { const n=document.getElementById('notification'); n.innerText=msg; n.classList.add('show'); setTimeout(()=>n.classList.remove('show'),3000); }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const postSlugParam = urlParams.get('title'); // এটি এখন স্লাগ বহন করে (যেমন: instagram-viral-video-19-minutes-viral-video)
+    const postId = urlParams.get('id');
 
-    // 🚩 নতুন ফাংশন: স্লাগ ব্যবহার করে পোস্ট খুঁজে বের করা
-    function getPostFromSlug(posts, postSlugParam) {
-        if (!postSlugParam) return posts[0];
-        
-        // URL থেকে "-viral-video" অংশটি সরিয়ে আসল স্লাগটি বের করা
-        const extractedSlug = postSlugParam.replace(/-viral-video$/, '');
-
-        // পোস্ট অ্যারেতে 'slug' ফিল্ডটি খুঁজে বের করা
-        const post = posts.find(p => p.slug === extractedSlug);
-        
-        return post || posts[0]; // না পেলে প্রথম পোস্টটি দেখাও
-    }
-    
     async function init() {
         try {
             const res = await fetch('posts.json');
-            if(!res.ok) throw new Error("Failed");
+            if(!res.ok) throw new Error("Failed to load");
             const posts = await res.json();
-            
-            // 🚩 পরিবর্তন: এখন আইডি-এর বদলে স্লাগ ব্যবহার করে পোস্ট লোড হবে
-            const post = getPostFromSlug(posts, postSlugParam);
+            const post = posts.find(p => p.id === postId) || posts[0];
 
             renderMainPost(post);
-            setupFirebaseForMainPost(post.id); // Firebase এখনও ID ব্যবহার করবে
+            setupFirebaseForMainPost(post.id);
 
-            // বর্তমান পোস্টটিকে বাদ দিয়ে সম্পর্কিত পোস্টগুলি ফিল্টার করা
+            // Related Posts Preparation (Filter & Randomize)
             allRelatedPosts = posts.filter(p => p.id !== post.id).sort(() => 0.5 - Math.random());
+            
+            // Initial Batch Load
             loadNextBatch();
+
+            // Setup Infinite Scroll Observer
             setupObserver();
 
         } catch (e) { document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error: ${e.message}</div>`; }
@@ -215,8 +211,6 @@
     function renderMainPost(post) {
         let content = `<h1 class="article-title">${post.title}</h1>`;
         const totalPara = post.paragraphs.length;
-        const postSlug = post.slug; // শেয়ারিং এর জন্য স্লাগ নেওয়া
-
         post.paragraphs.forEach((p, i) => {
             content += `<p class="article-para">${p}</p>`;
             if (totalPara <= 2) {
@@ -230,53 +224,84 @@
         document.getElementById('post-details-container').innerHTML = `
             <div class="post-author-area"><div class="author-info"><div class="pfp"><img src="${post.profileImage}"></div><div class="author-text"><h3>Secret Binodon</h3><span>@SecretBinodon</span></div></div><div class="post-time">${timeAgo(post.uploadTime)}</div></div>
             <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
-            <div class="content-body">${content}<div class="stats-section"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}', '${postSlug}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}', '${postSlug}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}', '${postSlug}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}', '${postSlug}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}', '${postSlug}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
+            <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
     }
 
+    // --- INFINITE SCROLL LOGIC ---
     function loadNextBatch() {
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
+        // সব লোড হয়ে গেলে সেন্ডিনেল হাইড
         if (currentIndex >= allRelatedPosts.length) {
             sentinel.style.display = 'none';
             return;
         }
-        sentinel.classList.add('loading');
 
+        sentinel.classList.add('loading'); // স্পিনার অন
+
+        // ব্যাচ সাইজ অনুযায়ী ডাটা নেওয়া
         const batch = allRelatedPosts.slice(currentIndex, currentIndex + CONFIG.BATCH_SIZE);
         
+        // DOM তৈরি ও অ্যাপেন্ড করা
         batch.forEach(post => {
             let excerpt = post.paragraphs[0].substring(0, 200) + "...";
             const safeTitle = post.title.replace(/'/g, "\\'");
             
+            // একটি ডিভ বানিয়ে তাতে HTML ইনজেক্ট করা
             const cardWrapper = document.createElement('div');
-            // 🚩 পরিবর্তন: openPost এবং sharePost ফাংশনে post.slug পাস করা হচ্ছে
             cardWrapper.innerHTML = `
                 <div class="post-card" data-id="${post.id}">
                     <div class="post-header"><div class="post-pfp"><img src="${post.profileImage}" loading="lazy"></div><div class="post-meta-text"><div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div></div></div>
-                    <div class="clickable-area" onclick="openPost('${post.id}', '${post.slug}')"><div class="post-title">${post.title}</div><div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div></div>
+                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="post-title">${post.title}</div><div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div></div>
                     <div class="hashtags">${post.hashtags}</div>
-                    <div class="clickable-area" onclick="openPost('${post.id}', '${post.slug}')"><div class="media-container"><img src="${post.mediaImage}" loading="lazy"><div class="play-icon"></div><div class="duration-badge">${post.videoDuration}</div></div></div>
-                    <div class="post-footer"><div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">...</span> <span class="label-text">Views</span></div><div class="footer-right"><div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">...</span> <span class="label-text">Likes</span></div><div class="post-date-display">${formatDate(post.uploadTime)}</div><div class="footer-share-btn" onclick="sharePost('${post.id}', '${post.slug}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div></div></div>
+                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="media-container"><img src="${post.mediaImage}" loading="lazy"><div class="play-icon"></div><div class="duration-badge">${post.videoDuration}</div></div></div>
+                    <div class="post-footer"><div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">...</span> <span class="label-text">Views</span></div><div class="footer-right"><div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">...</span> <span class="label-text">Likes</span></div><div class="post-date-display">${formatDate(post.uploadTime)}</div><div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div></div></div>
                 </div>`;
             
             const newCard = cardWrapper.firstElementChild;
             container.appendChild(newCard);
+            
+            // শুধুমাত্র নতুন কার্ডের জন্য ফায়ারবেস লিসেনার
             setupFirebaseForSingleCard(newCard, post.id);
         });
 
         currentIndex += CONFIG.BATCH_SIZE;
-        sentinel.classList.remove('loading');
+        sentinel.classList.remove('loading'); // স্পিনার অফ
     }
 
     function setupObserver() {
         const sentinel = document.getElementById('sentinel');
         observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) setTimeout(() => loadNextBatch(), 500);
-        }, { rootMargin: '200px' });
+            if (entries[0].isIntersecting) {
+                // একটু ডিলে দিয়ে লোড যাতে লোডিং ইফেক্ট বোঝা যায়
+                setTimeout(() => loadNextBatch(), 500); 
+            }
+        }, { rootMargin: '100px' }); // ১০০px আগেই লোড শুরু করবে
         observer.observe(sentinel);
     }
 
+    // --- FIREBASE LOGIC (OPTIMIZED) ---
+    function setupFirebaseForMainPost(id) {
+        setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
+        onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
+        const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId), lBtn = document.querySelector('.love-btn');
+        onSnapshot(lRef, s => document.getElementById('like-cnt').innerText = formatCount(s.data()?.count || 0));
+        getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
+        lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
+    }
+
+    // নতুন কার্ডের জন্য আলাদা ফাংশন (লুপের ভেতর থেকে কল হবে)
+    function setupFirebaseForSingleCard(card, id) {
+        const vEl = card.querySelector('.view-count-rel'), lEl = card.querySelector('.like-count-rel'), lBtn = card.querySelector('.love-btn-rel');
+        onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
+        const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId);
+        onSnapshot(lRef, s => lEl.innerText = formatCount(s.data()?.count || 0));
+        getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
+        lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
+    }
+
+    // --- GLOBAL FUNCTIONS ---
     window.handleVideoClick = function() {
         const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
         if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
@@ -287,39 +312,12 @@
         if(p) p.style.display = 'flex'; if(s) s.style.display = 'none';
     });
 
-    function setupFirebaseForMainPost(id) {
-        setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
-        onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
-        const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId), lBtn = document.querySelector('.love-btn');
-        onSnapshot(lRef, s => document.getElementById('like-cnt').innerText = formatCount(s.data()?.count || 0));
-        getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
-        lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
-    }
+    window.openPost = (id) => window.location.href = `post.html?id=${id}`;
+    window.sharePost = (id, title) => { const url = window.location.origin + `/post.html?id=${id}`; if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } }
 
-    function setupFirebaseForSingleCard(card, id) {
-        const vEl = card.querySelector('.view-count-rel'), lEl = card.querySelector('.like-count-rel'), lBtn = card.querySelector('.love-btn-rel');
-        onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
-        const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId);
-        onSnapshot(lRef, s => lEl.innerText = formatCount(s.data()?.count || 0));
-        getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
-        lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
-    }
-
-    // 🚩 পরিবর্তন: openPost ফাংশন এখন স্লাগ ব্যবহার করবে
-    window.openPost = (id, slug) => window.location.href = `post.html?title=${slug}-viral-video`;
-    
-    // 🚩 পরিবর্তন: sharePost ফাংশন এখন স্লাগ ব্যবহার করবে
-    window.sharePost = (id, slug, title) => { 
-        const url = window.location.origin + `/post.html?title=${slug}-viral-video`; 
-        if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } 
-        else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } 
-    }
-
-    // 🚩 পরিবর্তন: share ফাংশন এখন স্লাগ ব্যবহার করবে
-    window.share = (platform, title, slug) => {
-        const url = encodeURIComponent(window.location.origin + `/post.html?title=${slug}-viral-video`); 
+    window.share = (platform, title) => {
+        const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent(title);
-        
         if (platform === 'msg') {
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) window.location.href = `fb-messenger://share/?link=${url}`;
