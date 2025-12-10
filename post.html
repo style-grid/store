@@ -9,9 +9,8 @@
     
     <style>
         /* --- বেসিক রিসেট --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; text-decoration: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
-        /* মেইন র‍্যাপারের উপরে কোনো বর্ডার নেই */
         .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 0; }
 
         /* হেডার */
@@ -53,14 +52,29 @@
             display: flex; justify-content: space-between; font-size: 12px; z-index: 5;
         }
 
-        /* আর্টিকেলের বডি */
+        /* --- আর্টিকেল স্টাইল (UPDATED) --- */
         .content-body { padding: 15px 15px 0 15px; }
-        .article-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #0f1419; line-height: 1.3; }
-        .article-para { font-size: 16px; line-height: 1.6; color: #0f1419; margin-bottom: 15px; text-align: justify; }
+        
+        .article-title { 
+            font-size: 19px; /* সাইজ এডজাস্টেড */
+            font-weight: 700; 
+            margin-bottom: 10px; 
+            color: #0f1419; 
+            line-height: 1.3; 
+        }
+        
+        .article-para { 
+            font-size: 15px; /* 16px থেকে কমিয়ে 15px */
+            line-height: 1.4; /* লাইন হাইট কমিয়ে চাপানো হয়েছে */
+            color: #1c1e21; 
+            margin-bottom: 12px; 
+            text-align: left; /* Justify বাদ দিয়ে Left */
+            letter-spacing: -0.3px; /* অক্ষরগুলো একটু কাছাকাছি আনা হয়েছে */
+        }
 
         /* ডাউনলোড বাটন */
         .download-btn {
-            display: block; width: fit-content; margin: 20px auto;
+            display: block; width: fit-content; margin: 15px auto;
             padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px;
             text-align: center; color: white; cursor: pointer; text-transform: uppercase;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
@@ -134,15 +148,8 @@
         .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
         .notification.show { opacity: 1; }
 
-        /* --- ফুটার সেকশন (বর্ডার ফিক্স) --- */
-        .site-footer {
-            background-color: #fff;
-            padding: 30px 20px;
-            text-align: center;
-            /* border-top removed */
-            border-top: none; 
-            margin-top: 0;
-        }
+        /* --- ফুটার সেকশন --- */
+        .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
         .footer-links a:hover { color: #1da1f2; text-decoration: underline; }
@@ -232,20 +239,26 @@
 
             let content = `<h1 class="article-title">${post.title}</h1>`;
             
-            // --- বাটন লজিক ---
+            // --- বাটন লজিক (আপডেটেড) ---
             const totalPara = post.paragraphs.length;
 
             post.paragraphs.forEach((p, i) => {
                 content += `<p class="article-para">${p}</p>`;
                 
-                // বাটন ১: সব সময় ১ম প্যারাগ্রাফের নিচে
-                if (i === 0 && post.downloadLink1) {
-                    content += `<a href="${post.downloadLink1}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
+                // ১. যদি প্যারাগ্রাফ ১ বা ২ হয়: শুধুমাত্র ১ম প্যারাগ্রাফের নিচে বাটন দেখাবে
+                if (totalPara <= 2) {
+                    if (i === 0 && post.downloadLink1) {
+                        content += `<a href="${post.downloadLink1}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
+                    }
                 }
-
-                // বাটন ২: শুধুমাত্র যদি প্যারাগ্রাফ ৩ বা তার বেশি হয় এবং এটি লাস্ট প্যারাগ্রাফের আগের প্যারাগ্রাফ হয়
-                if (totalPara >= 3 && i === totalPara - 2 && post.downloadLink2) {
-                    content += `<a href="${post.downloadLink2}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
+                // ২. যদি প্যারাগ্রাফ ৩ বা তার বেশি হয়: ১ম প্যারাগ্রাফের নিচে এবং শেষ প্যারাগ্রাফের আগে বাটন দেখাবে
+                else {
+                    if (i === 0 && post.downloadLink1) {
+                        content += `<a href="${post.downloadLink1}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
+                    }
+                    if (i === totalPara - 2 && post.downloadLink2) {
+                        content += `<a href="${post.downloadLink2}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
+                    }
                 }
             });
 
@@ -392,49 +405,4 @@
             const lBtn = card.querySelector('.love-btn-rel');
 
             onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
-            const lRef = doc(db, "loves", id);
-            const uRef = doc(db, `loves/${id}/users`, deviceId);
-            
-            onSnapshot(lRef, s => lEl.innerText = formatCount(s.data()?.count || 0));
-            getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
-
-            lBtn.addEventListener('click', async () => {
-                if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️");
-                else {
-                    lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid');
-                    await setDoc(lRef, { count: increment(1) }, { merge: true });
-                    await setDoc(uRef, { t: new Date() });
-                    showNotification("Liked! ❤️");
-                }
-            });
-        });
-    }
-
-    window.openPost = (id) => window.location.href = `post.html?id=${id}`;
-    
-    window.sharePost = (id, title) => {
-        const url = window.location.origin + `/post.html?id=${id}`;
-        if (navigator.share) {
-            navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e));
-        } else {
-            navigator.clipboard.writeText(url);
-            showNotification("Link copied! 📋");
-        }
-    }
-
-    window.share = (platform, title) => {
-        const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent(title);
-        let link = '';
-        if(platform === 'fb') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-        else if(platform === 'msg') link = `fb-messenger://share/?link=${url}`;
-        else if(platform === 'wa') link = `https://wa.me/?text=${text}%20${url}`;
-        else if(platform === 'tw') link = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
-        else if(platform === 'tg') link = `https://t.me/share/url?url=${url}&text=${text}`;
-        window.open(link, '_blank');
-    }
-
-    init();
-</script>
-</body>
-</html>
+            const lRef = doc(db, "loves",
