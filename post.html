@@ -57,7 +57,13 @@
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
-        .post-card { background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; display: flex; flex-direction: column; gap: 10px; opacity: 0; animation: fadeIn 0.5s forwards; }
+        .post-card { 
+            background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; 
+            display: flex; flex-direction: column; 
+            /* পরিবর্তন ১: গ্যাপ সামঞ্জস্য */
+            gap: 6px; 
+            opacity: 0; animation: fadeIn 0.5s forwards; 
+        }
         @keyframes fadeIn { to { opacity: 1; } }
 
         .post-header { display: flex; gap: 10px; align-items: center; }
@@ -65,13 +71,28 @@
         .post-pfp img { width: 100%; height: 100%; object-fit: cover; }
         .post-meta-text { display: flex; flex-direction: column; justify-content: center; }
         .name-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-        .name-row h3 { font-size: 16px; font-weight: 800; color: #0f1419; margin: 0; }
-        .post-username { font-size: 15px; color: #536471; }
+        
+        /* পরিবর্তন ২: ওয়েবসাইটের নাম ফন্ট সাইজ (18px) */
+        .name-row h3 { font-size: 18px; font-weight: 800; color: #0f1419; margin: 0; }
+        
+        /* পরিবর্তন ৩: ইউজারনেম ফন্ট সাইজ (14px) */
+        .post-username { font-size: 14px; color: #536471; }
+        
         .time-ago { font-size: 15px; color: #536471; }
         .dot-separator { font-size: 15px; color: #536471; margin: 0 2px; }
 
         .clickable-area { cursor: pointer; }
-        .post-title { font-size: 17px; font-weight: 700; color: #0f1419; margin-bottom: 5px; line-height: 1.3; }
+        
+        /* পরিবর্তন ৪: টাইটেল ফন্ট সাইজ (18px) এবং গ্যাপ সামঞ্জস্য */
+        .post-title { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #0f1419; 
+            margin-bottom: 8px; /* নিচের গ্যাপ */
+            margin-top: -3px; /* উপরের গ্যাপ কমানো */
+            line-height: 1.3; 
+        }
+        
         .post-excerpt { font-size: 15px; color: #0f1419; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
         .read-more-text { color: #1da1f2; font-weight: 600; font-size: 14px; }
         .hashtags { color: #1d9bf0; font-size: 15px; margin-bottom: 10px; cursor: default; }
