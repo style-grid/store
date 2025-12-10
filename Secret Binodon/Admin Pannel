@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Binodon | 3-Step Link Generator Panel 👑</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 🔥🔥 লাক্সারি ডিজাইন স্টাইল (অপরিবর্তিত) 🔥🔥 */
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-light: #FFD700; 
+            --gold-dark: #AA8C2C;
+            --bg-deep: #050505;
+            --text-silver: #c0c0c0;
+            --primary-btn-color: #7900b2; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            color: var(--text-silver);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid var(--gold-primary);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+
+        .brand-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--gold-primary), #fff, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .brand-logo i {
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .telegram-btn {
+            color: #0088cc;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            filter: drop-shadow(0 0 5px rgba(0,136,204,0.4));
+        }
+
+        .admin-panel {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+            padding-bottom: 10px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        /* 💡 অপ্রয়োজনীয় ইনপুট গ্রুপ হাইড করার জন্য নতুন CSS */
+        .hidden-input-group {
+            display: none !important; 
+        }
+
+        label {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            color: var(--text-silver);
+            font-size: 1rem;
+            margin-left: 5px;
+        }
+
+        input[type="url"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        input[type="url"]:focus, input[type="text"]:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+        }
+        
+        #generate-btn {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: linear-gradient(45deg, var(--gold-primary), #FFD700);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5);
+            margin-top: 10px;
+        }
+
+        #generate-btn:hover {
+            transform: scale(1.01);
+            background: linear-gradient(45deg, #FFD700, var(--gold-primary));
+        }
+
+        #output-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #0d0d0d;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 5px;
+            display: none;
+        }
+        
+        #output-link {
+            word-wrap: break-word;
+            padding: 10px;
+            background-color: #000;
+            border: 1px dashed #444;
+            color: var(--gold-light);
+            font-family: monospace;
+            font-size: 0.9rem;
+            cursor: copy;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .copy-btn {
+            padding: 8px 15px;
+            background-color: var(--primary-btn-color);
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            float: right;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #111;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://secretbinodon.blogspot.com" class="brand-logo"> 
+            <i class="fa-solid fa-user-secret"></i>
+            <span>Secret Binodon</span>
+        </a>
+        <a href="https://t.me/virallink_market" target="_blank" class="telegram-btn">
+            <i class="fa-brands fa-telegram"></i>
+        </a>
+    </header>
+
+    <div class="admin-panel">
+        <h1>👑 3-Step Link Generator Panel</h1>
+        
+        <p style="text-align: center; margin-bottom: 25px; color: #ff3333; display: none;">**গুরুত্বপূর্ণ:** স্টেপ ১, ২ ও ৩-এর ডোমেইন URL শেষে অবশ্যই **?s=[step_number]&target=[encoded_link]** যোগ করে কোড আপলোড করতে হবে।</p>
+        
+        <div class="input-group hidden-input-group">
+            <label for="step1-domain"><i class="fa-solid fa-globe"></i> Step 1 Domain (Secret Binodon)</label>
+            <input type="url" id="step1-domain" value="https://secretbinodon.blogspot.com" placeholder="Enter Step 1 Base Domain URL" required>
+            <small style="color: #aaa; margin-left: 5px;">*Example Step 1 Full Link: https://secretbinodon.blogspot.com**?s=1&target=...**</small>
+        </div>
+        
+        <div class="input-group hidden-input-group">
+            <label for="step2-domain"><i class="fa-solid fa-link"></i> Step 2 Domain</label>
+            <input type="url" id="step2-domain" value="https://secretbinodon2.blogspot.com" placeholder="Enter Step 2 Base Domain URL" required>
+            <small style="color: #aaa; margin-left: 5px;">*Example Step 2 Full Link: https://secretbinodon2.blogspot.com**?s=2&target=...**</small>
+        </div>
+        
+        <div class="input-group hidden-input-group">
+            <label for="step3-domain"><i class="fa-solid fa-lock"></i> Step 3 Domain (Final Step)</label>
+            <input type="url" id="step3-domain" value="https://secretbinodon3.blogspot.com" placeholder="Enter Step 3 Base Domain URL" required>
+            <small style="color: #aaa; margin-left: 5px;">*Example Step 3 Full Link: https://secretbinodon3.blogspot.com**?s=3&target=...**</small>
+        </div>
+        
+        <div class="input-group">
+            <label for="original-link"><i class="fa-solid fa-video"></i> Original Video Link (Final Destination)</label>
+            <input type="url" id="original-link" placeholder="Paste Your Final Video/Content URL Here" required>
+        </div>
+
+        <button id="generate-btn">
+            <i class="fa-solid fa-magic"></i> Generate Shareable Step Link
+        </button>
+
+        <div id="output-section">
+            <label>🔗 Generated Shareable Link (Starts at Step 1)</label>
+            <button class="copy-btn" onclick="copyLink()">Copy Link</button>
+            <span id="output-link"></span>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Secret Binodon Luxury. Link Panel.
+    </footer>
+
+    <script>
+        // --- BASE64 ENCODING/DECODING UTILS ---
+        function encodeUrl(url) {
+            // Base64 এনকোডিং + URL-safe ফরম্যাট
+            return btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ''); 
+        }
+
+        // --- MAIN LINK GENERATION LOGIC (চেইন এনকোডিং) ---
+        document.getElementById('generate-btn').addEventListener('click', function() {
+            const originalLink = document.getElementById('original-link').value.trim();
+            
+            if (!originalLink || !originalLink.startsWith('http')) {
+                // নোটিফিকেশন বন্ধের নির্দেশ অনুযায়ী, শুধুমাত্র বৈধতা চেক করা হবে
+                // alert('অনুগ্রহ করে একটি বৈধ Original Video Link প্রদান করুন (http বা https দিয়ে শুরু করুন)।');
+                return; // ভুল লিংক হলে শুধু ফাংশন বন্ধ হবে
+            }
+
+            // 1. ডোমেনগুলি সংগ্রহ করা (এগুলি hidden হলেও কাজ করবে)
+            const step1Domain = document.getElementById('step1-domain').value.trim().replace(/\/$/, ''); // স্লাশ মুছে ফেলা
+            const step2Domain = document.getElementById('step2-domain').value.trim().replace(/\/$/, '');
+            const step3Domain = document.getElementById('step3-domain').value.trim().replace(/\/$/, '');
+            
+            // 2. এনক্রিপশন (সর্বশেষ লিংক থেকে শুরু)
+            
+            // A. Final Link (Original Link) কে এনকোড করা
+            const encodedFinalLink = encodeUrl(originalLink);
+            
+            // B. Step 3 লিংকের জন্য URL তৈরি করা: Step3?s=3&target=[Encoded Original Link]
+            const linkForStep3 = `${step3Domain}?s=3&target=${encodedFinalLink}`;
+            const encodedLinkForStep3 = encodeUrl(linkForStep3);
+            
+            // C. Step 2 লিংকের জন্য URL তৈরি করা: Step2?s=2&target=[Encoded Link For Step 3]
+            const linkForStep2 = `${step2Domain}?s=2&target=${encodedLinkForStep3}`;
+            const encodedLinkForStep2 = encodeUrl(linkForStep2);
+            
+            // D. Step 1 (Final Shareable Link) এর জন্য URL তৈরি করা: Step1?s=1&target=[Encoded Link For Step 2]
+            const finalShareableLink = `${step1Domain}?s=1&target=${encodedLinkForStep2}`;
+
+            // 3. আউটপুট প্রদর্শন করা
+            document.getElementById('output-link').textContent = finalShareableLink;
+            document.getElementById('output-section').style.display = 'block';
+            
+            // 🔥 নোটিফিকেশন বন্ধ করা হয়েছে 🔥
+            // alert('সফলভাবে শেয়ারযোগ্য লিংক জেনারেট করা হয়েছে! এখন লিংকটি কপি করুন।');
+        });
+
+        // --- COPY LOGIC ---
+        function copyLink() {
+            const linkElement = document.getElementById('output-link');
+            const linkText = linkElement.textContent;
+            
+            const tempInput = document.createElement('textarea');
+            tempInput.value = linkText;
+            document.body.appendChild(tempInput);
+            
+            tempInput.select();
+            document.execCommand('copy');
+            
+            document.body.removeChild(tempInput);
+            
+            // 🔥 নোটিফিকেশন বন্ধ করা হয়েছে 🔥
+            // alert('জেনারেট করা লিংক কপি করা হয়েছে!');
+        }
+    </script>
+</body>
+</html>
