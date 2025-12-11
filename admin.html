@@ -3,37 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Post Generator (Updated)</title>
+    <title>Admin - Post Generator (Final Update)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #e9ecef; padding: 20px; }
-        .container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; color: #34495e; font-size: 14px; }
-        input, textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; transition: 0.3s; box-sizing: border-box; }
-        input:focus, textarea:focus { border-color: #1da1f2; outline: none; box-shadow: 0 0 5px rgba(29, 161, 242, 0.3); }
-        textarea { height: 150px; resize: vertical; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #e9ecef; 
+            padding: 20px; 
+            color: #34495e;
+        }
+        /* মূল কন্টেইনারের সাইজ বাড়ানো হয়েছে */
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto 20px; /* নিচে মার্জিন দেওয়া হয়েছে যাতে আউটপুট সেকশন আলাদা হয় */
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        }
+        h2 { 
+            text-align: center; 
+            color: #2c3e50; 
+            margin-bottom: 25px; 
+        }
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 6px; 
+            font-weight: 600; 
+            font-size: 14px; 
+        }
+        input, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ced4da; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            transition: 0.3s; 
+            box-sizing: border-box; 
+        }
+        input:focus, textarea:focus { 
+            border-color: #1da1f2; 
+            outline: none; 
+            box-shadow: 0 0 5px rgba(29, 161, 242, 0.3); 
+        }
+        textarea { 
+            height: 150px; 
+            resize: vertical; 
+        }
         
-        /* HIDDEN FIELDS - শুধুমাত্র লজিকের জন্য ব্যবহার হবে */
-        .hidden-field { display: none; }
+        /* HIDDEN FIELDS */
+        .hidden-field { 
+            display: none; 
+        }
         
-        .row { display: flex; gap: 15px; }
-        .col { flex: 1; }
+        .row { 
+            display: flex; 
+            gap: 15px; 
+        }
+        .col { 
+            flex: 1; 
+        }
         
         button {
-            width: 100%; padding: 14px; background: #1da1f2; color: white; border: none; 
-            border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px;
-            transition: background 0.3s;
+            width: 100%; 
+            padding: 14px; 
+            background: #1da1f2; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px;
+            transition: background 0.3s, transform 0.1s;
         }
-        button:hover { background: #0d8bd9; }
+        button:hover { 
+            background: #0d8bd9; 
+        }
+        button:active {
+            transform: scale(0.99);
+        }
 
-        .output-area { margin-top: 30px; position: relative; display: none; }
-        pre { background: #282c34; color: #61dafb; padding: 20px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 13px; }
-        .copy-btn { position: absolute; top: 10px; right: 10px; background: #fff; color: #333; padding: 6px 12px; font-size: 12px; border: none; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        .copy-btn:hover { background: #f0f0f0; }
-
-        .info-note { background: #f0f8ff; color: #1e88e5; padding: 10px; border-left: 4px solid #1da1f2; margin-bottom: 20px; font-size: 14px; }
+        /* নতুন আউটপুট সেকশন - ফর্ম কার্ডের বাইরে থাকবে */
+        .output-area { 
+            max-width: 900px; /* ফর্ম কার্ডের মতোই চওড়া */
+            margin: 20px auto; 
+            position: relative; 
+            display: none; 
+            background: #282c34; /* প্রি কোডের ব্যাকগ্রাউন্ড */
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        pre { 
+            background: transparent; 
+            color: #61dafb; 
+            padding: 20px; 
+            padding-top: 50px; /* কপি বাটন এর জন্য স্পেস */
+            border-radius: 8px; 
+            overflow-x: auto; 
+            white-space: pre-wrap; 
+            font-family: 'Courier New', monospace; 
+            font-size: 13px;
+            max-height: 400px; /* স্ক্রল করার জন্য হাইট */
+            overflow-y: auto;
+        }
+        
+        .copy-btn { 
+            position: absolute; 
+            top: 10px; 
+            right: 10px; 
+            width: auto; /* বাটন ছোট করা হয়েছে */
+            padding: 6px 12px; 
+            font-size: 12px; 
+            border: 1px solid #444;
+            background: #3c4046; 
+            color: #fff; 
+            font-weight: normal;
+            transition: background 0.3s;
+            margin: 0;
+        }
+        .copy-btn:hover { 
+            background: #50555c; 
+        }
+        /* কপি করার পর ফিডব্যাক স্টাইল */
+        .copy-btn.copied {
+            background: #28a745;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -41,10 +141,6 @@
 <div class="container">
     <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Secret Binodon Post Generator</h2>
     
-    <div class="info-note">
-        <i class="fa-solid fa-circle-info"></i> **স্বয়ংক্রিয় ফাংশন:** পোস্ট আইডি, বর্তমান সঠিক সময় এবং হ্যাশট্যাগ অটোমেটিকভাবে যুক্ত হবে।
-    </div>
-
     <div class="form-group">
         <label>Post Title</label>
         <input type="text" id="title" placeholder="Ex: তানিয়া ভাবীর ভাইরাল ভিডিও..." required>
@@ -82,11 +178,11 @@
 
 
     <button onclick="generateJSON()">Generate Code for posts.json</button>
+</div>
 
-    <div class="output-area" id="output-box">
-        <button class="copy-btn" onclick="copyCode()"><i class="fa-solid fa-copy"></i> Copy Code</button>
-        <pre id="json-output"></pre>
-    </div>
+<div class="output-area" id="output-box">
+    <button class="copy-btn" id="copyBtn" onclick="copyCode()"><i class="fa-solid fa-copy"></i> Copy Code</button>
+    <pre id="json-output"></pre>
 </div>
 
 <script>
@@ -94,10 +190,6 @@
     const ID_LENGTH = 6;
     const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    /**
-     * ৬-অঙ্কের ইউনিক র্যান্ডম আইডি জেনারেট করে।
-     * @returns {string} ৬-অঙ্কের ইউনিক আইডি।
-     */
     function generateUniqueId() {
         let id;
         do {
@@ -113,29 +205,27 @@
 
     /**
      * রিয়েল-টাইম বাংলাদেশ সময় (GMT+6) অনুসারে ISO ফরমেটে ডেট/টাইম রিটার্ন করে।
-     * @returns {string} 'YYYY-MM-DDTHH:MM:SS' ফরমেটে বর্তমান সময়।
      */
     function getCurrentISOString() {
-        // নতুন Date অবজেক্ট তৈরি
         const date = new Date();
+        const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+        const bdtOffset = 6 * 60 * 60000; 
+        const bdtDate = new Date(utc + bdtOffset);
         
-        // GMT+6 (বাংলাদেশ সময়) অফসেট হিসাব করা
-        // UTC টাইম থেকে বর্তমান অফসেট মাইনাস করে এবং 6 ঘন্টা যোগ করে GMT+6 এ আনা
-        const offsetMinutes = date.getTimezoneOffset();
-        date.setMinutes(date.getMinutes() + offsetMinutes + (6 * 60)); 
+        const Y = bdtDate.getFullYear();
+        const M = String(bdtDate.getMonth() + 1).padStart(2, '0');
+        const D = String(bdtDate.getDate()).padStart(2, '0');
+        const h = String(bdtDate.getHours()).padStart(2, '0');
+        const m = String(bdtDate.getMinutes()).padStart(2, '0');
+        const s = String(bdtDate.getSeconds()).padStart(2, '0');
 
-        // YYYY-MM-DDTHH:MM:SS ফরম্যাটে রূপান্তর
-        // এই ফাংশনটি এখন বাংলাদেশ সময় অনুসারে সঠিক সময় দেবে।
-        return date.toISOString().slice(0, 19); 
+        return `${Y}-${M}-${D}T${h}:${m}:${s}`;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('generatedId').value = generateUniqueId();
     });
     
-    /**
-     * ফর্মের ডেটা নিয়ে JSON কোড জেনারেট করে।
-     */
     function generateJSON() {
         // ফর্ম ডেটা সংগ্রহ
         const id = document.getElementById('generatedId').value;
@@ -147,10 +237,9 @@
         const link2 = document.getElementById('link2').value;
         
         // অটোমেটিক ও লুকানো ডেটা সংগ্রহ
-        const uploadTime = getCurrentISOString(); // এখন রিয়েল বাংলাদেশ টাইম
+        const uploadTime = getCurrentISOString(); 
         const hashtags = document.getElementById('hashtags').value;
 
-        // প্যারাগ্রাফ লজিক: এন্টার (নতুন লাইন) দিয়ে ভাগ করা এবং খালি লাইন বাদ দেওয়া
         const paragraphs = paraText.split('\n').map(p => p.trim()).filter(p => p.length > 0);
 
         if (!title || !media || !duration || !paraText || !link1) {
@@ -158,7 +247,6 @@
              return;
         }
 
-        // চূড়ান্ত JSON অবজেক্ট তৈরি
         const postObj = {
             id: id,
             uploadTime: uploadTime,
@@ -172,26 +260,41 @@
 
         if (link2) postObj.downloadLink2 = link2;
 
-        // JSON ফরম্যাট করা (সুন্দরভাবে ইন্ডেন্টেশন সহ)
         const jsonString = JSON.stringify(postObj, null, 2);
         
-        // JSON আউটপুট: নতুন কার্ড উপরে পেস্ট করার সুবিধার্থে কমা এখন শেষে যোগ করা হবে
+        // JSON আউটপুট: কমা এখন শেষে যোগ করা হবে
         document.getElementById('json-output').innerText = jsonString + "\n,";
         document.getElementById('output-box').style.display = 'block';
         
-        // কোড জেনারেট হওয়ার পর নতুন আইডি তৈরি করা এবং লুকানো ফিল্ডে রাখা 
+        // নতুন আইডি জেনারেট
         document.getElementById('generatedId').value = generateUniqueId(); 
     }
 
     /**
-     * আউটপুট কোড কপি করে।
+     * আউটপুট কোড কপি করে এবং ভিজ্যুয়াল ফিডব্যাক দেয়।
      */
     function copyCode() {
         const code = document.getElementById('json-output').innerText;
-        // আউটপুট থেকে শেষে থাকা কমা ও নতুন লাইন বাদ দিয়ে শুধু কোডটি কপি করা হবে
+        const copyBtn = document.getElementById('copyBtn');
+        
+        // কপি করার জন্য কমা বাদ দেওয়া
         const codeToCopy = code.endsWith("\n,") ? code.slice(0, -2) : code;
-        navigator.clipboard.writeText(codeToCopy);
-        alert("JSON কোড কপি করা হয়েছে! 📋 (কপি করার সময় কমা স্বয়ংক্রিয়ভাবে বাদ দেওয়া হয়েছে)");
+        
+        navigator.clipboard.writeText(codeToCopy).then(() => {
+            // ভিজ্যুয়াল ফিডব্যাক: বাটন টেক্সট ও স্টাইল পরিবর্তন
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            copyBtn.classList.add('copied');
+            
+            // ৩ সেকেন্ড পর আসল অবস্থায় ফিরিয়ে আনা
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.classList.remove('copied');
+            }, 3000);
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+            alert("কপি করা সম্ভব হয়নি।"); // যদি কোনো কারণে কপি ফেইল করে
+        });
     }
 </script>
 
