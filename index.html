@@ -133,29 +133,7 @@
         .footer-share-btn:hover { background-color: rgba(0,0,0,0.05); }
 
 
-        /* --- উন্নত প্রাথমিক লোডার স্টাইল --- */
-        #initial-loader {
-            position: absolute;
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: white; 
-            z-index: 99; 
-            transition: opacity 0.5s;
-        }
-        .loading-text {
-            margin-top: 15px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #536471;
-        }
-        
-        /* --- নতুন ইউনিক ইনফিনিটি স্ক্রল লোডার (Wave Loader) --- */
+        /* --- শুধুমাত্র ইনফিনিটি স্ক্রল লোডার (Wave Loader) --- */
         .wave-loader {
             display: flex;
             justify-content: center;
@@ -194,7 +172,8 @@
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
         .load-more-spinner { display: none; } 
         /* রিয়েলটাইম লোডিং এর সময়ই শুধুমাত্র লোডার দেখাবে */
-        #sentinel.loading .wave-loader { display: flex; } 
+        #sentinel .wave-loader { display: none; } /* শুরুতে হাইড থাকবে */
+        #sentinel.loading .wave-loader { display: flex; } /* লোড শুরু হলে দেখাবে */
 
         /* [বাকি CSS অপরিবর্তিত] */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
@@ -265,15 +244,6 @@
             <div class="nav-btn inactive" id="nav-login" onclick="showLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</div>
         </div>
         
-        <div id="initial-loader" style="min-height: 400px;">
-            <div class="wave-loader" style="gap: 8px;">
-                <div style="width: 15px; height: 15px;"></div>
-                <div style="width: 15px; height: 15px;"></div>
-                <div style="width: 15px; height: 15px;"></div>
-            </div>
-            <div class="loading-text">Fetching latest viral updates...</div>
-        </div>
-
         <div id="feed-container">
             </div>
         
@@ -359,7 +329,7 @@
         function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
         function showNotification(msg) { const n = document.getElementById('notification'); n.textContent = msg; n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 3000); }
 
-        // --- ইমেইল ও শেয়ার ফাংশন ---
+        // --- ইমেইল ও শেয়ার ফাংশন (অপরিবর্তিত) ---
         window.sendEmail = function() { window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`; }
         window.shareProfile = function() {
             const url = window.location.href.split('?')[0]; 
@@ -369,26 +339,30 @@
             else { navigator.clipboard.writeText(`${text} ${url}`); showNotification("Website link copied! 📋"); }
         }
 
-        // --- পোস্ট শেয়ার ফাংশন (কার্ড) ---
+        // --- পোস্ট শেয়ার ফাংশন (অপরিবর্তিত) ---
         window.sharePost = function(id, title) {
             const url = window.location.origin + `/post.html?id=${id}`;
             if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); }
             else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
         }
 
-        // --- ইনফিনিটি স্ক্রল লজিক ---
+        // --- ইনফিনিটি স্ক্রল লজিক (রিয়েলটাইম লোডিং সহ) ---
         
-        function loadNextBatch() {
+        async function loadNextBatch() {
             const container = document.getElementById('feed-container');
             const sentinel = document.getElementById('sentinel');
 
             if (currentIndex >= allPosts.length) {
+                // সমস্ত পোস্ট লোড হয়ে গেলে সেন্টিনেল হাইড করো
                 sentinel.style.display = 'none';
                 return;
             }
 
+            // লোডিং শুরু হলে wave-loader দেখাও
             sentinel.classList.add('loading');
-
+            
+            // রিয়েলটাইম লোডিং ডিলে এখানে তৈরি হবে (যেমন fetch বা ফায়ারবেস কল থেকে)
+            
             const batch = allPosts.slice(currentIndex, currentIndex + CONFIG.BATCH_SIZE);
             
             // পোস্ট রেন্ডারিং
@@ -443,7 +417,7 @@
             const sentinel = document.getElementById('sentinel');
             observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
-                    // কোনো setTimeout নেই, রিয়েলটাইম লোড ট্রিগার হবে
+                    // রিয়েলটাইম লোড ট্রিগার
                     loadNextBatch();
                 }
             }, { rootMargin: '200px' });
@@ -505,7 +479,7 @@
             document.getElementById('nav-login').classList.remove('inactive');
         };
         
-        // --- ইনিশিয়ালাইজেশন (পরিবর্তিত) ---
+        // --- ইনিশিয়ালাইজেশন (সংশোধিত) ---
         async function loadFeed() {
             try {
                 const res = await fetch('posts.json');
@@ -516,22 +490,16 @@
                 document.getElementById('total-videos-count').innerText = formatCount(allPosts.length);
                 calculateTotalViews();
 
-                // প্রাথমিক লোড শুরু
+                // প্রাথমিক লোড শুরু (কোনো কৃত্রিম লোডার নেই, ব্রাউজার লোডিং দেখাবে)
                 loadNextBatch(); 
                 setupObserver();
                 document.getElementById('main-footer').style.display = 'block';
 
             } catch (error) {
                 console.error(error);
-                document.getElementById('initial-loader').innerHTML = `<div style="color:red; font-size:16px;">Error loading feed: ${error.message}</div>`;
+                // যদি লোড ফেইল হয়, তবে feed-container এর উপরে একটি এরর মেসেজ দেখাবে
+                document.getElementById('feed-container').innerHTML = `<div style="text-align:center; color:red; padding:20px; font-size:16px;">Error loading feed: ${error.message}. Please check 'posts.json'.</div>`;
             }
-            
-            // ডেটা লোড এবং রেন্ডারিং শেষ হলে প্রাথমিক লোডার অদৃশ্য করা হবে
-            document.getElementById('initial-loader').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('initial-loader').style.display = 'none';
-                document.getElementById('feed-container').style.opacity = '1';
-            }, 500);
         }
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
