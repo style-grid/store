@@ -164,18 +164,16 @@
             40% { transform: scale(1.0); } 
         }
 
-        /* --- ছোট স্পিনার (পোস্টের মধ্যে ব্যবহার হবে) --- */
+        /* --- ছোট স্পিনার --- */
         .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Infinite Scroll Loader (Sentinel) */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
-        .load-more-spinner { display: none; } 
-        /* রিয়েলটাইম লোডিং এর সময়ই শুধুমাত্র লোডার দেখাবে */
-        #sentinel .wave-loader { display: none; } /* শুরুতে হাইড থাকবে */
-        #sentinel.loading .wave-loader { display: flex; } /* লোড শুরু হলে দেখাবে */
+        #sentinel .wave-loader { display: none; } 
+        #sentinel.loading .wave-loader { display: flex; } 
 
-        /* [বাকি CSS অপরিবর্তিত] */
+        /* --- ফুটার এবং লগইন ভিউ (অপরিবর্তিত) --- */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
@@ -329,7 +327,7 @@
         function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
         function showNotification(msg) { const n = document.getElementById('notification'); n.textContent = msg; n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 3000); }
 
-        // --- ইমেইল ও শেয়ার ফাংশন (অপরিবর্তিত) ---
+        // --- ইমেইল, শেয়ার ফাংশন ---
         window.sendEmail = function() { window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`; }
         window.shareProfile = function() {
             const url = window.location.href.split('?')[0]; 
@@ -338,32 +336,29 @@
             if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch((error) => console.log('Share failed', error)); } 
             else { navigator.clipboard.writeText(`${text} ${url}`); showNotification("Website link copied! 📋"); }
         }
-
-        // --- পোস্ট শেয়ার ফাংশন (অপরিবর্তিত) ---
         window.sharePost = function(id, title) {
             const url = window.location.origin + `/post.html?id=${id}`;
             if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); }
             else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
         }
 
-        // --- ইনফিনিটি স্ক্রল লজিক (রিয়েলটাইম লোডিং সহ) ---
+        // --- ইনফিনিটি স্ক্রল লজিক ---
         
-        async function loadNextBatch() {
+        async function loadNextBatch(size = CONFIG.BATCH_SIZE) {
             const container = document.getElementById('feed-container');
             const sentinel = document.getElementById('sentinel');
 
             if (currentIndex >= allPosts.length) {
-                // সমস্ত পোস্ট লোড হয়ে গেলে সেন্টিনেল হাইড করো
                 sentinel.style.display = 'none';
                 return;
             }
 
-            // লোডিং শুরু হলে wave-loader দেখাও
-            sentinel.classList.add('loading');
-            
-            // রিয়েলটাইম লোডিং ডিলে এখানে তৈরি হবে (যেমন fetch বা ফায়ারবেস কল থেকে)
-            
-            const batch = allPosts.slice(currentIndex, currentIndex + CONFIG.BATCH_SIZE);
+            // শুধুমাত্র ইনফিনিটি স্ক্রলিং এর জন্য লোডার দেখাও
+            if (size === CONFIG.BATCH_SIZE) {
+                 sentinel.classList.add('loading');
+            }
+
+            const batch = allPosts.slice(currentIndex, currentIndex + size);
             
             // পোস্ট রেন্ডারিং
             batch.forEach(post => {
@@ -406,10 +401,12 @@
                 initializeFirebaseForCard(newCard, post.id);
             });
 
-            currentIndex += CONFIG.BATCH_SIZE;
+            currentIndex += size;
             
-            // লোডিং শেষ হলে লোডার সরিয়ে ফেলা হবে।
-            sentinel.classList.remove('loading');
+            // লোডিং শেষ হলে লোডার সরিয়ে ফেলা
+            if (size === CONFIG.BATCH_SIZE) {
+                sentinel.classList.remove('loading');
+            }
         }
 
         // শক্তিশালী স্ক্রলিং সিস্টেম: Intersection Observer
@@ -418,7 +415,7 @@
             observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
                     // রিয়েলটাইম লোড ট্রিগার
-                    loadNextBatch();
+                    loadNextBatch(CONFIG.BATCH_SIZE);
                 }
             }, { rootMargin: '200px' });
             observer.observe(sentinel);
@@ -456,8 +453,13 @@
             snap.forEach((doc) => { total += doc.data().count || 0; });
             document.getElementById('total-views-count').innerText = formatCount(total);
         }
-        // --- পেজ নেভিগেশন (অপরিবর্তিত) ---
-        window.openPost = (id) => window.location.href = `post.html?id=${id}`;
+        
+        // --- পেজ নেভিগেশন (সংশোধিত: স্ক্রল পজিশন সংরক্ষণ) ---
+        window.openPost = (id) => {
+            // ১. পেজ ত্যাগ করার আগে বর্তমান স্ক্রল অবস্থান সংরক্ষণ করা
+            sessionStorage.setItem('scrollPos', window.scrollY);
+            window.location.href = `post.html?id=${id}`;
+        };
         
         window.showFeed = () => {
             document.getElementById('feed-container').style.display='block';
@@ -479,7 +481,7 @@
             document.getElementById('nav-login').classList.remove('inactive');
         };
         
-        // --- ইনিশিয়ালাইজেশন (সংশোধিত) ---
+        // --- ইনিশিয়ালাইজেশন (সংশোধিত: স্ক্রল পজিশন পুনরুদ্ধার) ---
         async function loadFeed() {
             try {
                 const res = await fetch('posts.json');
@@ -490,14 +492,31 @@
                 document.getElementById('total-videos-count').innerText = formatCount(allPosts.length);
                 calculateTotalViews();
 
-                // প্রাথমিক লোড শুরু (কোনো কৃত্রিম লোডার নেই, ব্রাউজার লোডিং দেখাবে)
-                loadNextBatch(); 
+                const savedScrollPos = sessionStorage.getItem('scrollPos');
+                let batchSize = CONFIG.INITIAL_LOAD;
+
+                if (savedScrollPos) {
+                    // প্রয়োজনীয় কার্ডের সংখ্যা নির্ণয় 
+                    const estimatedCardHeight = 400; 
+                    const requiredCards = Math.ceil(parseInt(savedScrollPos) / estimatedCardHeight);
+                    
+                    // পর্যাপ্ত সংখ্যক কার্ড লোড করার জন্য ব্যাচ সাইজ সেট করা
+                    batchSize = Math.max(CONFIG.INITIAL_LOAD, requiredCards + CONFIG.BATCH_SIZE);
+                }
+                
+                // প্রাথমিক লোড (বা ব্যাক রিকভারি লোড) সম্পন্ন করা 
+                loadNextBatch(batchSize); 
                 setupObserver();
                 document.getElementById('main-footer').style.display = 'block';
 
+                // ২. সংরক্ষিত অবস্থানে স্ক্রল করা
+                if (savedScrollPos) {
+                    window.scrollTo(0, parseInt(savedScrollPos));
+                    sessionStorage.removeItem('scrollPos'); // একবার ব্যবহারের পর পজিশন মুছে ফেলা
+                }
+
             } catch (error) {
                 console.error(error);
-                // যদি লোড ফেইল হয়, তবে feed-container এর উপরে একটি এরর মেসেজ দেখাবে
                 document.getElementById('feed-container').innerHTML = `<div style="text-align:center; color:red; padding:20px; font-size:16px;">Error loading feed: ${error.message}. Please check 'posts.json'.</div>`;
             }
         }
