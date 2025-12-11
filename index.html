@@ -285,8 +285,25 @@
         import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
         // ============================================
-        //  ১. স্থায়ী প্রোফাইল ইমেজ URL 
+        //  ১. ব্রাউজারের ডিফল্ট স্ক্রল পুনরুদ্ধার বন্ধ করা (রিফ্রেশের জন্য)
         // ============================================
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        
+        // ============================================
+        //  ২. স্ক্রলিং করার সময় পজিশন সংরক্ষণ (রিফ্রেশ এবং ব্যাক উভয়ের জন্য)
+        // ============================================
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                sessionStorage.setItem('scrollPos', window.scrollY);
+            }, 100); // 100ms স্ক্রলিং বন্ধের পর সেভ করবে
+        });
+
+
+        // ... [বাকি সব কনফিগারেশন, Firebase, Utility Functions অপরিবর্তিত] ...
         const PERMANENT_PROFILE_IMAGE_URL = "https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251211_024630.jpg";
 
         const firebaseConfig = { apiKey: "AIzaSyCAsD8wucLsudzY5oNbiixLGyjN2apdV0Q", authDomain: "my-ad-analytics-4560a.firebaseapp.com", databaseURL: "https://my-ad-analytics-4560a-default-rtdb.firebaseio.com", projectId: "my-ad-analytics-4560a", storageBucket: "my-ad-analytics-4560a.firebasestorage.app", messagingSenderId: "104213283950", appId: "1:104213283950:web:b5a25ecd54df809625127f", measurementId: "G-WS7QSQ9H0Y" };
@@ -295,9 +312,6 @@
         const deviceId = localStorage.getItem('deviceId') || 'device-' + Date.now();
         localStorage.setItem('deviceId', deviceId);
 
-        // ============================================
-        //  CONFIGURATION 
-        // ============================================
         const CONFIG = {
             INITIAL_LOAD: 5,   
             BATCH_SIZE: 5,     
@@ -305,7 +319,6 @@
             footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
         };
 
-        // Footer Links Setup
         document.getElementById('link-about').href = CONFIG.footer.about;
         document.getElementById('link-contact').href = CONFIG.footer.contact;
         document.getElementById('link-privacy').href = CONFIG.footer.privacy;
@@ -315,7 +328,6 @@
         let currentIndex = 0;
         let observer;
 
-        // --- ইউটিলিটি ফাংশনস ---
         function formatCount(num) { if (!num) return 0; return num >= 1000000 ? (num/1000000).toFixed(1)+'M' : num >= 1000 ? (num/1000).toFixed(1)+'K' : num; }
         function timeAgo(dateString) {
             const s = Math.floor((new Date() - new Date(dateString)) / 1000);
@@ -326,8 +338,6 @@
         }
         function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
         function showNotification(msg) { const n = document.getElementById('notification'); n.textContent = msg; n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 3000); }
-
-        // --- ইমেইল, শেয়ার ফাংশন ---
         window.sendEmail = function() { window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`; }
         window.shareProfile = function() {
             const url = window.location.href.split('?')[0]; 
@@ -343,7 +353,6 @@
         }
 
         // --- ইনফিনিটি স্ক্রল লজিক ---
-        
         async function loadNextBatch(size = CONFIG.BATCH_SIZE) {
             const container = document.getElementById('feed-container');
             const sentinel = document.getElementById('sentinel');
@@ -353,7 +362,6 @@
                 return;
             }
 
-            // শুধুমাত্র ইনফিনিটি স্ক্রলিং এর জন্য লোডার দেখাও
             if (size === CONFIG.BATCH_SIZE) {
                  sentinel.classList.add('loading');
             }
@@ -403,7 +411,6 @@
 
             currentIndex += size;
             
-            // লোডিং শেষ হলে লোডার সরিয়ে ফেলা
             if (size === CONFIG.BATCH_SIZE) {
                 sentinel.classList.remove('loading');
             }
@@ -414,7 +421,6 @@
             const sentinel = document.getElementById('sentinel');
             observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
-                    // রিয়েলটাইম লোড ট্রিগার
                     loadNextBatch(CONFIG.BATCH_SIZE);
                 }
             }, { rootMargin: '200px' });
@@ -454,10 +460,11 @@
             document.getElementById('total-views-count').innerText = formatCount(total);
         }
         
-        // --- পেজ নেভিগেশন (সংশোধিত: স্ক্রল পজিশন সংরক্ষণ) ---
+        // --- পেজ নেভিগেশন (সংশোধিত: শুধুমাত্র নেভিগেশনের জন্য সেভ) ---
         window.openPost = (id) => {
-            // ১. পেজ ত্যাগ করার আগে বর্তমান স্ক্রল অবস্থান সংরক্ষণ করা
-            sessionStorage.setItem('scrollPos', window.scrollY);
+            // শুধুমাত্র যখন নেভিগেট করা হচ্ছে তখন পজিশন সেভ করা
+            // যদিও window.addEventListener('scroll') ইতোমধ্যে তা করছে, এটি নিশ্চিত করতে রাখা হলো
+            sessionStorage.setItem('scrollPos', window.scrollY); 
             window.location.href = `post.html?id=${id}`;
         };
         
@@ -496,23 +503,23 @@
                 let batchSize = CONFIG.INITIAL_LOAD;
 
                 if (savedScrollPos) {
-                    // প্রয়োজনীয় কার্ডের সংখ্যা নির্ণয় 
+                    // প্রয়োজনীয় কার্ডের সংখ্যা নির্ণয় (এগিয়ে থাকার জন্য একটু বেশি লোড করা হবে)
                     const estimatedCardHeight = 400; 
                     const requiredCards = Math.ceil(parseInt(savedScrollPos) / estimatedCardHeight);
                     
-                    // পর্যাপ্ত সংখ্যক কার্ড লোড করার জন্য ব্যাচ সাইজ সেট করা
                     batchSize = Math.max(CONFIG.INITIAL_LOAD, requiredCards + CONFIG.BATCH_SIZE);
                 }
                 
-                // প্রাথমিক লোড (বা ব্যাক রিকভারি লোড) সম্পন্ন করা 
-                loadNextBatch(batchSize); 
+                // প্রাথমিক লোড (বা রিফ্রেশ/ব্যাক রিকভারি লোড) সম্পন্ন করা 
+                await loadNextBatch(batchSize); // লোড শেষ হওয়া নিশ্চিত করতে await ব্যবহার 
                 setupObserver();
                 document.getElementById('main-footer').style.display = 'block';
 
                 // ২. সংরক্ষিত অবস্থানে স্ক্রল করা
                 if (savedScrollPos) {
                     window.scrollTo(0, parseInt(savedScrollPos));
-                    sessionStorage.removeItem('scrollPos'); // একবার ব্যবহারের পর পজিশন মুছে ফেলা
+                    // রিফ্রেশ বা ব্যাকের পর একবার সফলভাবে স্ক্রল হওয়ার পর সেভ না করাই ভালো, 
+                    // যাতে ইউজার নিজে স্ক্রল করলে সেই নতুন পজিশন সেভ হয়।
                 }
 
             } catch (error) {
