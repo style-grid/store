@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,16 +57,26 @@
         .nav-btn.inactive { background-color: #f0f2f5; color: #000; }
         .nav-btn:hover { background-color: #e4e6eb; }
 
-        /* --- পোস্ট কার্ড ডিজাইন --- */
+        /* --- পোস্ট কার্ড ডিজাইন (পরিবর্তিত) --- */
         #feed-container { min-height: 200px; }
         
         .post-card { 
             padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; 
             gap: 6px; 
-            background: white; opacity: 0; animation: fadeIn 0.5s forwards;
+            background: white; 
+            opacity: 0; /* শুরুতে লুকানো থাকবে */
+            transform: translateY(20px); /* শুরুতে হালকা নিচে থাকবে */
+            animation: slideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* নতুন অ্যানিমেশন */
         }
-        @keyframes fadeIn { to { opacity: 1; } }
+        /* fadeIn অ্যানিমেশনটি মুছে ফেলা হয়েছে */
+
+        @keyframes slideIn { 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+        }
 
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background-color: #ddd; }
@@ -164,10 +173,6 @@
             0%, 80%, 100% { transform: scale(0); } 
             40% { transform: scale(1.0); } 
         }
-
-        /* --- ছোট স্পিনার (কমেন্ট করা হলো - আর ব্যবহার হবে না) --- */
-        /*.spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }*/
 
         /* Infinite Scroll Loader (Sentinel) */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
@@ -370,7 +375,7 @@
             const batch = allPosts.slice(currentIndex, currentIndex + size);
             
             // পোস্ট রেন্ডারিং
-            batch.forEach(post => {
+            batch.forEach((post, index) => { // index প্যারামিটার যোগ করা হয়েছে
                 let excerpt = post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 200) + "..." : "No description available.";
                 const safeTitle = post.title.replace(/'/g, "\\'");
 
@@ -406,6 +411,13 @@
                     </div>`;
                 
                 const newCard = cardWrapper.firstElementChild;
+                
+                // --- স্লাইড-আপ ডিলে যুক্ত করা ---
+                const initialDelay = 0.05; // 50ms per card
+                const delay = (currentIndex + index) * initialDelay;
+                newCard.style.animationDelay = `${delay}s`;
+                // ---------------------------------
+                
                 container.appendChild(newCard);
                 initializeFirebaseForCard(newCard, post.id);
             });
