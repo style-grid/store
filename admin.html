@@ -12,10 +12,10 @@
             padding: 20px; 
             color: #34495e;
         }
-        /* মূল কন্টেইনারের সাইজ বাড়ানো হয়েছে */
+        /* মূল ফর্ম কন্টেইনার */
         .container { 
             max-width: 900px; 
-            margin: 0 auto 20px; /* নিচে মার্জিন দেওয়া হয়েছে যাতে আউটপুট সেকশন আলাদা হয় */
+            margin: 0 auto 20px;
             background: white; 
             padding: 30px; 
             border-radius: 12px; 
@@ -87,28 +87,29 @@
             transform: scale(0.99);
         }
 
-        /* নতুন আউটপুট সেকশন - ফর্ম কার্ডের বাইরে থাকবে */
+        /* আউটপুট সেকশন: ফুল-বডি */
         .output-area { 
             max-width: 900px; /* ফর্ম কার্ডের মতোই চওড়া */
             margin: 20px auto; 
             position: relative; 
             display: none; 
-            background: #282c34; /* প্রি কোডের ব্যাকগ্রাউন্ড */
+            background: #282c34; 
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            /* আউটপুট নিজেই এখন কার্ড */
         }
         
         pre { 
             background: transparent; 
             color: #61dafb; 
             padding: 20px; 
-            padding-top: 50px; /* কপি বাটন এর জন্য স্পেস */
+            padding-top: 50px; 
             border-radius: 8px; 
             overflow-x: auto; 
             white-space: pre-wrap; 
             font-family: 'Courier New', monospace; 
             font-size: 13px;
-            max-height: 400px; /* স্ক্রল করার জন্য হাইট */
+            max-height: 400px; 
             overflow-y: auto;
         }
         
@@ -116,7 +117,7 @@
             position: absolute; 
             top: 10px; 
             right: 10px; 
-            width: auto; /* বাটন ছোট করা হয়েছে */
+            width: auto; 
             padding: 6px 12px; 
             font-size: 12px; 
             border: 1px solid #444;
@@ -129,7 +130,6 @@
         .copy-btn:hover { 
             background: #50555c; 
         }
-        /* কপি করার পর ফিডব্যাক স্টাইল */
         .copy-btn.copied {
             background: #28a745;
             color: white;
@@ -203,9 +203,6 @@
         return id;
     }
 
-    /**
-     * রিয়েল-টাইম বাংলাদেশ সময় (GMT+6) অনুসারে ISO ফরমেটে ডেট/টাইম রিটার্ন করে।
-     */
     function getCurrentISOString() {
         const date = new Date();
         const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
@@ -262,8 +259,10 @@
 
         const jsonString = JSON.stringify(postObj, null, 2);
         
-        // JSON আউটপুট: কমা এখন শেষে যোগ করা হবে
-        document.getElementById('json-output').innerText = jsonString + "\n,";
+        // **সংশোধন:** JSON আউটপুট: কমা এখন } ব্র‍্যাকেটের সঙ্গেই যুক্ত করা হয়েছে
+        const finalJsonOutput = jsonString.slice(0, -1) + "},";
+
+        document.getElementById('json-output').innerText = finalJsonOutput;
         document.getElementById('output-box').style.display = 'block';
         
         // নতুন আইডি জেনারেট
@@ -277,8 +276,8 @@
         const code = document.getElementById('json-output').innerText;
         const copyBtn = document.getElementById('copyBtn');
         
-        // কপি করার জন্য কমা বাদ দেওয়া
-        const codeToCopy = code.endsWith("\n,") ? code.slice(0, -2) : code;
+        // **সংশোধন:** কপি করার জন্য শেষে থাকা কমা বাদ দেওয়া (যদি } দিয়ে শেষ হয়)
+        const codeToCopy = code.endsWith("},") ? code.slice(0, -1) : code;
         
         navigator.clipboard.writeText(codeToCopy).then(() => {
             // ভিজ্যুয়াল ফিডব্যাক: বাটন টেক্সট ও স্টাইল পরিবর্তন
@@ -293,7 +292,7 @@
             }, 3000);
         }).catch(err => {
             console.error('Could not copy text: ', err);
-            alert("কপি করা সম্ভব হয়নি।"); // যদি কোনো কারণে কপি ফেইল করে
+            // এখানে আর alert() ব্যবহার করা হয়নি
         });
     }
 </script>
