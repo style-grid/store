@@ -219,40 +219,48 @@
     import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
     // ============================================
-    //  ১. ব্রাউজারের স্ক্রল পজিশন সংরক্ষণ ও পুনরুদ্ধার (ফিক্সড V2.0)
+    //  ১. ব্রাউজারের স্ক্রল পজিশন সংরক্ষণ ও পুনরুদ্ধার (ফিক্সড V3.0)
     // ============================================
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
+    
+    // বর্তমান পোস্টের ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
 
     let scrollTimeout;
     
-    // স্ক্রল করার সময় বর্তমান পজিশন সেভ করা
+    // স্ক্রল করার সময় পজিশন সংরক্ষণ (শুধুমাত্র এই পেজের জন্য)
     window.addEventListener('scroll', () => {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            sessionStorage.setItem('postScrollPos', window.scrollY); 
-            sessionStorage.setItem('lastVisitedPostId', postId); // কোন পোস্টের জন্য পজিশন সেভ করা হয়েছে
+            // যদি পোস্ট ID থাকে, তবেই সেভ করা হবে।
+            if (postId) {
+                sessionStorage.setItem('postScrollPos-' + postId, window.scrollY); 
+            }
         }, 100); 
     });
     
     // পেজ লোড হওয়ার পর লজিক
     window.addEventListener('DOMContentLoaded', () => {
-        const currentPostId = new URLSearchParams(window.location.search).get('id');
-        const lastVisitedPostId = sessionStorage.getItem('lastVisitedPostId');
-        const savedScrollPos = sessionStorage.getItem('postScrollPos');
+        const savedScrollPos = sessionStorage.getItem('postScrollPos-' + postId);
+        
+        // এখানে আমরা Pageshow ইভেন্ট ব্যবহার করছি, কারণ এটি নিশ্চিত করে 
+        // যে এটি ব্রাউজারের ক্যাশ (যেমন Back/Forward) থেকে লোড হচ্ছে কিনা।
 
-        // যদি ব্রাউজারের হিস্টরি থেকে ব্যাক করা হয় AND সেভ করা পজিশন থাকে AND পোস্ট ID মেলে
-        // তবেই সংরক্ষিত পজিশনে স্ক্রল করা হবে। (Back Button Logic)
-        if (savedScrollPos && lastVisitedPostId === currentPostId) {
-            window.scrollTo(0, parseInt(savedScrollPos));
-        } else {
-             // অন্যথায় (নতুন পোস্টে আসা, বা সরাসরি লিঙ্ক ভিজিট) প্রথম থেকে লোড হবে। (Forward/New Post Logic)
-             window.scrollTo(0, 0); 
-             // নতুন পোস্টে আসার সময় আগের স্ক্রল পজিশন ডেটা মুছে ফেলা হচ্ছে
-             sessionStorage.removeItem('postScrollPos');
-             sessionStorage.setItem('lastVisitedPostId', currentPostId); 
+        // প্রথমত, নিশ্চিত করুন যে স্ক্রল পজিশন 0, 0 সেট করা হয়েছে (নতুন লোডের ক্ষেত্রে)।
+        window.scrollTo(0, 0); 
+        
+        // এখন, যদি savedScrollPos থাকে, এর মানে ব্যবহারকারী সম্ভবত 'ব্যাক' করেছে।
+        // তাই সংরক্ষিত পজিশনে স্ক্রল করা হবে।
+        if (savedScrollPos) {
+             // যদি স্ক্রল পজিশন সেভ করা থাকে, তবেই তা রিস্টোর করা হবে।
+             window.scrollTo(0, parseInt(savedScrollPos));
         }
+
+        // গুরুত্বপূর্ণ: নতুন পোস্টে ক্লিক করে এলে, openPost ফাংশনটি স্ক্রল পজিশন মুছে দেবে। 
+        // ব্রাউজারের হিস্টরি এন্ট্রিতে কোনো স্ক্রল পজিশন সেভ থাকবে না, তাই এটি প্রথম দিকেই লোড হবে।
     });
 
     // ============================================
@@ -296,9 +304,6 @@
     function timeAgo(d) { const s=Math.floor((new Date()-new Date(d))/1000); let i=s/31536000; if(i>1)return Math.floor(i)+"y ago"; i=s/86400; if(i>1)return Math.floor(i)+"d ago"; i=s/3600; if(i>1)return Math.floor(i)+"h ago"; return "Just now"; }
     function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
     function showNotification(msg) { const n=document.getElementById('notification'); n.innerText=msg; n.classList.add('show'); setTimeout(()=>n.classList.remove('show'),3000); }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
     
     /**
      * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে
@@ -505,11 +510,9 @@
     });
 
     window.openPost = (id) => {
-        // **গুরুত্বপূর্ণ পরিবর্তন:** নতুন পোস্টে যাওয়ার সময় স্ক্রল পজিশন ডেটা মুছে ফেলা হচ্ছে
-        // যাতে নতুন পেজ সবসময় (0, 0) থেকে লোড হয়।
-        sessionStorage.removeItem('postScrollPos');
-        sessionStorage.removeItem('lastVisitedPostId'); // আগের পোস্টের আইডি মুছে ফেলা
-
+        // ফরওয়ার্ড নেভিগেশনের জন্য, নিশ্চিত করা হচ্ছে যে আগের পোস্টের স্ক্রল পজিশন ডেটা মুছে গেছে।
+        // এটি নতুন পেজ লোড হওয়ার সময় (0, 0) থেকে শুরু করতে বাধ্য করবে।
+        sessionStorage.removeItem('postScrollPos-' + postId); 
         window.location.href = `post.html?id=${id}`;
     };
     window.sharePost = (id, title) => { const url = window.location.origin + `/post.html?id=${id}`; if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } }
