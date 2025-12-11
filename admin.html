@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Post Generator (Final Update)</title>
+    <title>Admin - Post Generator (Finalized)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { 
@@ -12,7 +12,6 @@
             padding: 20px; 
             color: #34495e;
         }
-        /* মূল ফর্ম কন্টেইনার */
         .container { 
             max-width: 900px; 
             margin: 0 auto 20px;
@@ -26,15 +25,8 @@
             color: #2c3e50; 
             margin-bottom: 25px; 
         }
-        .form-group { 
-            margin-bottom: 15px; 
-        }
-        label { 
-            display: block; 
-            margin-bottom: 6px; 
-            font-weight: 600; 
-            font-size: 14px; 
-        }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
         input, textarea { 
             width: 100%; 
             padding: 12px; 
@@ -44,61 +36,29 @@
             transition: 0.3s; 
             box-sizing: border-box; 
         }
-        input:focus, textarea:focus { 
-            border-color: #1da1f2; 
-            outline: none; 
-            box-shadow: 0 0 5px rgba(29, 161, 242, 0.3); 
-        }
-        textarea { 
-            height: 150px; 
-            resize: vertical; 
-        }
-        
-        /* HIDDEN FIELDS */
-        .hidden-field { 
-            display: none; 
-        }
-        
-        .row { 
-            display: flex; 
-            gap: 15px; 
-        }
-        .col { 
-            flex: 1; 
-        }
+        input:focus, textarea:focus { border-color: #1da1f2; outline: none; box-shadow: 0 0 5px rgba(29, 161, 242, 0.3); }
+        textarea { height: 150px; resize: vertical; }
+        .hidden-field { display: none; }
+        .row { display: flex; gap: 15px; }
+        .col { flex: 1; }
         
         button {
-            width: 100%; 
-            padding: 14px; 
-            background: #1da1f2; 
-            color: white; 
-            border: none; 
-            border-radius: 6px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            margin-top: 15px;
+            width: 100%; padding: 14px; background: #1da1f2; color: white; border: none; 
+            border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px;
             transition: background 0.3s, transform 0.1s;
         }
-        button:hover { 
-            background: #0d8bd9; 
-        }
-        button:active {
-            transform: scale(0.99);
-        }
+        button:hover { background: #0d8bd9; }
+        button:active { transform: scale(0.99); }
 
-        /* আউটপুট সেকশন: ফুল-বডি */
         .output-area { 
-            max-width: 900px; /* ফর্ম কার্ডের মতোই চওড়া */
+            max-width: 900px; 
             margin: 20px auto; 
             position: relative; 
             display: none; 
             background: #282c34; 
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            /* আউটপুট নিজেই এখন কার্ড */
         }
-        
         pre { 
             background: transparent; 
             color: #61dafb; 
@@ -112,28 +72,14 @@
             max-height: 400px; 
             overflow-y: auto;
         }
-        
         .copy-btn { 
-            position: absolute; 
-            top: 10px; 
-            right: 10px; 
-            width: auto; 
-            padding: 6px 12px; 
-            font-size: 12px; 
-            border: 1px solid #444;
-            background: #3c4046; 
-            color: #fff; 
-            font-weight: normal;
-            transition: background 0.3s;
-            margin: 0;
+            position: absolute; top: 10px; right: 10px; width: auto; 
+            padding: 6px 12px; font-size: 12px; border: 1px solid #444;
+            background: #3c4046; color: #fff; font-weight: normal;
+            transition: background 0.3s; margin: 0;
         }
-        .copy-btn:hover { 
-            background: #50555c; 
-        }
-        .copy-btn.copied {
-            background: #28a745;
-            color: white;
-        }
+        .copy-btn:hover { background: #50555c; }
+        .copy-btn.copied { background: #28a745; color: white; }
     </style>
 </head>
 <body>
@@ -176,7 +122,6 @@
     <input type="hidden" id="generatedId" class="hidden-field"> 
     <input type="hidden" id="hashtags" value="#SecretBinodon #viralvideo #trending #virallink #viral_video_2026" class="hidden-field">
 
-
     <button onclick="generateJSON()">Generate Code for posts.json</button>
 </div>
 
@@ -198,7 +143,6 @@
                 id += CHARACTERS.charAt(Math.floor(Math.random() * CHARACTERS.length));
             }
         } while (usedIds.has(id)); 
-        
         usedIds.add(id); 
         return id;
     }
@@ -224,7 +168,6 @@
     });
     
     function generateJSON() {
-        // ফর্ম ডেটা সংগ্রহ
         const id = document.getElementById('generatedId').value;
         const title = document.getElementById('title').value;
         const duration = document.getElementById('duration').value;
@@ -232,8 +175,6 @@
         const paraText = document.getElementById('paragraphs').value;
         const link1 = document.getElementById('link1').value;
         const link2 = document.getElementById('link2').value;
-        
-        // অটোমেটিক ও লুকানো ডেটা সংগ্রহ
         const uploadTime = getCurrentISOString(); 
         const hashtags = document.getElementById('hashtags').value;
 
@@ -259,40 +200,33 @@
 
         const jsonString = JSON.stringify(postObj, null, 2);
         
-        // **সংশোধন:** JSON আউটপুট: কমা এখন } ব্র‍্যাকেটের সঙ্গেই যুক্ত করা হয়েছে
+        // JSON আউটপুট: কমা } ব্র‍্যাকেটের সঙ্গেই যুক্ত করা হয়েছে
         const finalJsonOutput = jsonString.slice(0, -1) + "},";
 
         document.getElementById('json-output').innerText = finalJsonOutput;
         document.getElementById('output-box').style.display = 'block';
         
-        // নতুন আইডি জেনারেট
         document.getElementById('generatedId').value = generateUniqueId(); 
     }
 
-    /**
-     * আউটপুট কোড কপি করে এবং ভিজ্যুয়াল ফিডব্যাক দেয়।
-     */
     function copyCode() {
         const code = document.getElementById('json-output').innerText;
         const copyBtn = document.getElementById('copyBtn');
         
-        // **সংশোধন:** কপি করার জন্য শেষে থাকা কমা বাদ দেওয়া (যদি } দিয়ে শেষ হয়)
-        const codeToCopy = code.endsWith("},") ? code.slice(0, -1) : code;
+        // ***সংশোধন***: এখন সম্পূর্ণ কোড (কমা সহ) কপি হবে
+        const codeToCopy = code; 
         
         navigator.clipboard.writeText(codeToCopy).then(() => {
-            // ভিজ্যুয়াল ফিডব্যাক: বাটন টেক্সট ও স্টাইল পরিবর্তন
             const originalText = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
             copyBtn.classList.add('copied');
             
-            // ৩ সেকেন্ড পর আসল অবস্থায় ফিরিয়ে আনা
             setTimeout(() => {
                 copyBtn.innerHTML = originalText;
                 copyBtn.classList.remove('copied');
             }, 3000);
         }).catch(err => {
             console.error('Could not copy text: ', err);
-            // এখানে আর alert() ব্যবহার করা হয়নি
         });
     }
 </script>
