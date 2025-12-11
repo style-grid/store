@@ -164,9 +164,9 @@
             40% { transform: scale(1.0); } 
         }
 
-        /* --- ছোট স্পিনার --- */
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* --- ছোট স্পিনার (কমেন্ট করা হলো - আর ব্যবহার হবে না) --- */
+        /*.spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }*/
 
         /* Infinite Scroll Loader (Sentinel) */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
@@ -222,8 +222,8 @@
             <p class="username">@SecretBinodon</p>
 
             <div class="stats">
-                <span>Total Videos <b id="total-videos-count"><span class="spinner"></span></b></span> • 
-                <span>Total Views <b id="total-views-count"><span class="spinner"></span></b></span>
+                <span>Total Videos <b id="total-videos-count">0</b></span> • 
+                <span>Total Views <b id="total-views-count">0</b></span>
             </div>
 
             <div class="meta-info">
@@ -285,21 +285,21 @@
         import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
         // ============================================
-        //  ১. ব্রাউজারের ডিফল্ট স্ক্রল পুনরুদ্ধার বন্ধ করা (রিফ্রেশের জন্য)
+        //  ১. ব্রাউজারের ডিফল্ট স্ক্রল পুনরুদ্ধার বন্ধ করা
         // ============================================
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
         
         // ============================================
-        //  ২. স্ক্রলিং করার সময় পজিশন সংরক্ষণ (রিফ্রেশ এবং ব্যাক উভয়ের জন্য)
+        //  ২. স্ক্রলিং করার সময় পজিশন সংরক্ষণ 
         // ============================================
         let scrollTimeout;
         window.addEventListener('scroll', () => {
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 sessionStorage.setItem('scrollPos', window.scrollY);
-            }, 100); // 100ms স্ক্রলিং বন্ধের পর সেভ করবে
+            }, 100); 
         });
 
 
@@ -395,9 +395,9 @@
                             </div>
                         </div>
                         <div class="post-footer">
-                            <div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count"><span class="spinner"></span></span> <span class="label-text">Views</span></div>
+                            <div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count">0</span> <span class="label-text">Views</span></div>
                             <div class="footer-right">
-                                <div class="love-btn"><i class="fa-regular fa-heart"></i> <span class="count-text like-count"><span class="spinner"></span></span> <span class="label-text">Likes</span></div>
+                                <div class="love-btn"><i class="fa-regular fa-heart"></i> <span class="count-text like-count">0</span> <span class="label-text">Likes</span></div>
                                 <div class="post-date-display">${formatDate(post.uploadTime)}</div>
                                 <div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
                             </div>
@@ -427,12 +427,13 @@
             observer.observe(sentinel);
         }
         
-        // --- ফায়ারবেস লজিক (অপরিবর্তিত) ---
+        // --- ফায়ারবেস লজিক (সংশোধিত: স্পিনার লজিক বাতিল) ---
         function initializeFirebaseForCard(card, id) {
             const viewEl = card.querySelector('.view-count');
             const likeEl = card.querySelector('.like-count');
             const loveBtn = card.querySelector('.love-btn');
 
+            // Firebase থেকে ডেটা লোড হওয়ার সাথে সাথে সরাসরি '0' কে সংখ্যা দ্বারা প্রতিস্থাপন করবে
             onSnapshot(doc(db, "views", id), (s) => viewEl.innerText = formatCount(s.data()?.count || 0));
 
             const loveRef = doc(db, "loves", id);
@@ -454,16 +455,18 @@
         }
 
         async function calculateTotalViews() {
+            const totalViewsEl = document.getElementById('total-views-count');
+            // মোট ভিউয়ের প্রাথমিক লোড 
+            totalViewsEl.innerText = '0'; 
+
             const snap = await getDocs(collection(db, "views"));
             let total = 0;
             snap.forEach((doc) => { total += doc.data().count || 0; });
-            document.getElementById('total-views-count').innerText = formatCount(total);
+            totalViewsEl.innerText = formatCount(total);
         }
         
-        // --- পেজ নেভিগেশন (সংশোধিত: শুধুমাত্র নেভিগেশনের জন্য সেভ) ---
+        // --- পেজ নেভিগেশন (অপরিবর্তিত) ---
         window.openPost = (id) => {
-            // শুধুমাত্র যখন নেভিগেট করা হচ্ছে তখন পজিশন সেভ করা
-            // যদিও window.addEventListener('scroll') ইতোমধ্যে তা করছে, এটি নিশ্চিত করতে রাখা হলো
             sessionStorage.setItem('scrollPos', window.scrollY); 
             window.location.href = `post.html?id=${id}`;
         };
@@ -488,7 +491,7 @@
             document.getElementById('nav-login').classList.remove('inactive');
         };
         
-        // --- ইনিশিয়ালাইজেশন (সংশোধিত: স্ক্রল পজিশন পুনরুদ্ধার) ---
+        // --- ইনিশিয়ালাইজেশন (অপরিবর্তিত) ---
         async function loadFeed() {
             try {
                 const res = await fetch('posts.json');
@@ -497,29 +500,24 @@
                 allPosts = posts.sort((a, b) => new Date(b.uploadTime).getTime() - new Date(a.uploadTime).getTime());
                 
                 document.getElementById('total-videos-count').innerText = formatCount(allPosts.length);
-                calculateTotalViews();
+                calculateTotalViews(); // এখানেও স্পিনার সরানো হয়েছে
 
                 const savedScrollPos = sessionStorage.getItem('scrollPos');
                 let batchSize = CONFIG.INITIAL_LOAD;
 
                 if (savedScrollPos) {
-                    // প্রয়োজনীয় কার্ডের সংখ্যা নির্ণয় (এগিয়ে থাকার জন্য একটু বেশি লোড করা হবে)
                     const estimatedCardHeight = 400; 
                     const requiredCards = Math.ceil(parseInt(savedScrollPos) / estimatedCardHeight);
                     
                     batchSize = Math.max(CONFIG.INITIAL_LOAD, requiredCards + CONFIG.BATCH_SIZE);
                 }
                 
-                // প্রাথমিক লোড (বা রিফ্রেশ/ব্যাক রিকভারি লোড) সম্পন্ন করা 
-                await loadNextBatch(batchSize); // লোড শেষ হওয়া নিশ্চিত করতে await ব্যবহার 
+                await loadNextBatch(batchSize); 
                 setupObserver();
                 document.getElementById('main-footer').style.display = 'block';
 
-                // ২. সংরক্ষিত অবস্থানে স্ক্রল করা
                 if (savedScrollPos) {
                     window.scrollTo(0, parseInt(savedScrollPos));
-                    // রিফ্রেশ বা ব্যাকের পর একবার সফলভাবে স্ক্রল হওয়ার পর সেভ না করাই ভালো, 
-                    // যাতে ইউজার নিজে স্ক্রল করলে সেই নতুন পজিশন সেভ হয়।
                 }
 
             } catch (error) {
