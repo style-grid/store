@@ -67,7 +67,7 @@
             background: white; opacity: 0; animation: fadeIn 0.5s forwards;
         }
         @keyframes fadeIn { to { opacity: 1; } }
-        /* [বাকি পোস্ট কার্ড স্টাইল অপরিবর্তিত] */
+
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background-color: #ddd; }
         .post-pfp img { width: 100%; height: 100%; object-fit: cover; }
@@ -136,9 +136,9 @@
         /* --- উন্নত প্রাথমিক লোডার স্টাইল --- */
         #initial-loader {
             position: absolute;
-            top: 50%; /* উল্লম্ব কেন্দ্র */
-            left: 50%; /* আনুভূমিক কেন্দ্র */
-            transform: translate(-50%, -50%); /* ঠিক মাঝখানে আনতে */
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -161,17 +161,16 @@
             justify-content: center;
             align-items: center;
             height: 100%;
-            gap: 5px; /* বলগুলির মধ্যে দূরত্ব */
+            gap: 5px; 
         }
         .wave-loader div {
             width: 10px;
             height: 10px;
-            background-color: #1da1f2; /* টুইটার ব্লু */
+            background-color: #1da1f2; 
             border-radius: 50%;
             animation: bounce 1.2s infinite ease-in-out both;
             transform: scale(0);
         }
-        /* ঢেউ ইফেক্টের জন্য প্রতিটি বলের ডিলে সেট করা */
         .wave-loader div:nth-child(1) {
             animation-delay: -0.32s;
         }
@@ -183,18 +182,19 @@
         }
         
         @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); } /* ছোট অবস্থা */
-            40% { transform: scale(1.0); } /* বড় অবস্থা */
+            0%, 80%, 100% { transform: scale(0); } 
+            40% { transform: scale(1.0); } 
         }
 
-        /* --- স্পিনার ওভাররাইড (যদি প্রয়োজন হয়) --- */
+        /* --- ছোট স্পিনার (পোস্টের মধ্যে ব্যবহার হবে) --- */
         .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Infinite Scroll Loader (Sentinel) */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
-        .load-more-spinner { display: none; } /* ডিফল্ট স্পিনার হাইড করে নতুন ওয়েভ লোডার ব্যবহার করব */
-        #sentinel.loading .wave-loader { display: flex; }
+        .load-more-spinner { display: none; } 
+        /* রিয়েলটাইম লোডিং এর সময়ই শুধুমাত্র লোডার দেখাবে */
+        #sentinel.loading .wave-loader { display: flex; } 
 
         /* [বাকি CSS অপরিবর্তিত] */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
@@ -328,11 +328,11 @@
         localStorage.setItem('deviceId', deviceId);
 
         // ============================================
-        //  CONFIGURATION (ইনফিনিটি স্ক্রল কন্ট্রোল)
+        //  CONFIGURATION 
         // ============================================
         const CONFIG = {
-            INITIAL_LOAD: 5,   // শুরুতে ৫টি পোস্ট লোড হবে
-            BATCH_SIZE: 5,     // স্ক্রল করলে ৫টি করে লোড হবে
+            INITIAL_LOAD: 5,   
+            BATCH_SIZE: 5,     
             CONTACT_EMAIL: "contact@secretbinodon.com", 
             footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
         };
@@ -391,6 +391,7 @@
 
             const batch = allPosts.slice(currentIndex, currentIndex + CONFIG.BATCH_SIZE);
             
+            // পোস্ট রেন্ডারিং
             batch.forEach(post => {
                 let excerpt = post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 200) + "..." : "No description available.";
                 const safeTitle = post.title.replace(/'/g, "\\'");
@@ -432,6 +433,8 @@
             });
 
             currentIndex += CONFIG.BATCH_SIZE;
+            
+            // লোডিং শেষ হলে লোডার সরিয়ে ফেলা হবে।
             sentinel.classList.remove('loading');
         }
 
@@ -440,13 +443,14 @@
             const sentinel = document.getElementById('sentinel');
             observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
-                    setTimeout(() => loadNextBatch(), 500);
+                    // কোনো setTimeout নেই, রিয়েলটাইম লোড ট্রিগার হবে
+                    loadNextBatch();
                 }
             }, { rootMargin: '200px' });
             observer.observe(sentinel);
         }
         
-        // --- ফায়ারবেস লজিক ---
+        // --- ফায়ারবেস লজিক (অপরিবর্তিত) ---
         function initializeFirebaseForCard(card, id) {
             const viewEl = card.querySelector('.view-count');
             const likeEl = card.querySelector('.like-count');
@@ -478,7 +482,7 @@
             snap.forEach((doc) => { total += doc.data().count || 0; });
             document.getElementById('total-views-count').innerText = formatCount(total);
         }
-        // --- পেজ নেভিগেশন ---
+        // --- পেজ নেভিগেশন (অপরিবর্তিত) ---
         window.openPost = (id) => window.location.href = `post.html?id=${id}`;
         
         window.showFeed = () => {
@@ -501,7 +505,7 @@
             document.getElementById('nav-login').classList.remove('inactive');
         };
         
-        // --- ইনিশিয়ালাইজেশন ---
+        // --- ইনিশিয়ালাইজেশন (পরিবর্তিত) ---
         async function loadFeed() {
             try {
                 const res = await fetch('posts.json');
@@ -512,13 +516,7 @@
                 document.getElementById('total-videos-count').innerText = formatCount(allPosts.length);
                 calculateTotalViews();
 
-                // প্রাথমিক লোডার অদৃশ্য করা
-                document.getElementById('initial-loader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('initial-loader').style.display = 'none';
-                    document.getElementById('feed-container').style.opacity = '1';
-                }, 500);
-
+                // প্রাথমিক লোড শুরু
                 loadNextBatch(); 
                 setupObserver();
                 document.getElementById('main-footer').style.display = 'block';
@@ -527,6 +525,13 @@
                 console.error(error);
                 document.getElementById('initial-loader').innerHTML = `<div style="color:red; font-size:16px;">Error loading feed: ${error.message}</div>`;
             }
+            
+            // ডেটা লোড এবং রেন্ডারিং শেষ হলে প্রাথমিক লোডার অদৃশ্য করা হবে
+            document.getElementById('initial-loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('initial-loader').style.display = 'none';
+                document.getElementById('feed-container').style.opacity = '1';
+            }, 500);
         }
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
