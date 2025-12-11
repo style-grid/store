@@ -61,9 +61,8 @@
             background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; 
             gap: 6px; 
-            /* পূর্বে opacity: 0 এবং animation: fadeIn ছিল, যা এখন বাদ দেওয়া হয়েছে */
+            /* Related Post Card-এর লোডিং ইফেক্ট নেই */
         }
-        /* @keyframes fadeIn ব্লকটি সম্পূর্ণরূপে বাদ দেওয়া হয়েছে */
 
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -140,10 +139,7 @@
     </header>
 
     <div id="post-details-container">
-        <div style="padding:40px; text-align:center; color:#666;">
-            <span class="spinner" style="width:24px; height:24px;"></span> Loading post...
         </div>
-    </div>
 
     <div class="related-section">
         <div class="related-header">RELATED POSTS</div>
@@ -237,6 +233,9 @@
      * পোস্ট ডেটা লোড করে এবং সময় অনুযায়ী গোছায়
      */
     async function init() {
+        // লোডিং শুরু হলে একটি অস্থায়ী স্পিনার দেখানো হচ্ছে (যদি HTML-এ না থাকে)
+        document.getElementById('post-details-container').innerHTML = `<div style="padding:40px; text-align:center; color:#666;"><span class="spinner" style="width:24px; height:24px;"></span> Loading post...</div>`;
+        
         try {
             const res = await fetch('posts.json');
             if(!res.ok) throw new Error("Failed to load posts data.");
@@ -245,7 +244,7 @@
             const mainPost = posts.find(p => p.id === postId) || posts[0];
             if (!mainPost) throw new Error("Post not found.");
 
-            renderMainPost(mainPost);
+            renderMainPost(mainPost); // সফল লোড হলে রেন্ডার করা হবে, ফলে লোডার প্রতিস্থাপিত হবে
             setupFirebaseForMainPost(mainPost.id);
             
             // রিকমেন্ডেশনের জন্য প্রস্তুতি:
@@ -284,6 +283,7 @@
             setupObserver();
 
         } catch (e) { 
+            // যদি ত্রুটি হয়, তবে লোডারটি ত্রুটি বার্তা দ্বারা প্রতিস্থাপিত হবে
             document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
         }
     }
@@ -444,9 +444,9 @@
             window.open(link, '_blank');
         }
     }
-
+    
+    // লোডিং স্পিনার অপসারণ নিশ্চিত করতে, init() এ লোডার দেখিয়ে সফল হলে রেন্ডার করা হয়েছে
     init();
 </script>
 </body>
 </html>
-
