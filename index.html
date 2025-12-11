@@ -67,23 +67,17 @@
             background: white; opacity: 0; animation: fadeIn 0.5s forwards;
         }
         @keyframes fadeIn { to { opacity: 1; } }
-
+        /* [বাকি পোস্ট কার্ড স্টাইল অপরিবর্তিত] */
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background-color: #ddd; }
         .post-pfp img { width: 100%; height: 100%; object-fit: cover; }
-        
         .post-meta-text { display: flex; flex-direction: column; justify-content: center; }
         .name-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-        
         .name-row h3 { font-size: 18px; font-weight: 800; color: #0f1419; margin: 0; }
-        
         .post-username { font-size: 14px; color: #536471; }
-        
         .time-ago { font-size: 15px; color: #536471; }
         .dot-separator { font-size: 15px; color: #536471; margin: 0 2px; }
-
         .clickable-area { cursor: pointer; }
-        
         .post-title { 
             font-size: 18px; 
             font-weight: 700; 
@@ -92,20 +86,17 @@
             margin-top: -3px; 
             line-height: 1.3; 
         }
-        
         .post-excerpt { 
             font-size: 15px; color: #0f1419; line-height: 1.4; margin-bottom: 8px;
             display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
         }
         .read-more-text { color: #1da1f2; font-weight: 600; font-size: 14px; }
         .hashtags { color: #1d9bf0; font-size: 15px; margin-bottom: 10px; cursor: default; }
-
         .media-container {
             position: relative; width: 100%; border-radius: 12px; overflow: hidden;
             margin-top: 5px; display: block; max-height: 720px; cursor: pointer; background: #000;
         }
         .media-container img { width: 100%; height: auto; display: block; object-fit: contain; margin: 0 auto; max-height: 720px; }
-        
         .play-icon {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 60px; height: 60px; background-color: rgba(0, 0, 0, 0.6);
@@ -117,65 +108,106 @@
             border-left: 18px solid white; border-top: 11px solid transparent;
             border-bottom: 11px solid transparent; margin-left: 4px;
         }
-
         .duration-badge {
             position: absolute; bottom: 8px; right: 8px;
             background-color: rgba(0, 0, 0, 0.8); color: white;
             padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold;
             pointer-events: none; z-index: 5;
         }
-
         .post-footer {
             display: flex; justify-content: space-between; align-items: center;
             margin-top: 12px; color: #536471; font-size: 16px; font-weight: 500;
         }
         .footer-left { display: flex; align-items: center; gap: 6px; }
         .footer-right { display: flex; align-items: center; gap: 20px; }
-
         .love-btn { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; user-select: none; }
         .love-btn:hover { color: #e0245e; background-color: rgba(224, 36, 94, 0.1); padding: 4px 8px; border-radius: 15px; margin: -4px -8px; }
         .love-btn.liked { color: #e0245e; } .love-btn.liked i { font-weight: 900; }
-        
         .count-text { font-weight: bold; }
         .label-text { font-weight: normal; font-size: 15px; }
         .post-date-display { font-size: 14px; color: #65676b; }
-
         .footer-share-btn {
             cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s ease;
             display: flex; align-items: center; justify-content: center;
         }
         .footer-share-btn:hover { background-color: rgba(0,0,0,0.05); }
 
+
+        /* --- উন্নত প্রাথমিক লোডার স্টাইল --- */
+        #initial-loader {
+            position: absolute;
+            top: 50%; /* উল্লম্ব কেন্দ্র */
+            left: 50%; /* আনুভূমিক কেন্দ্র */
+            transform: translate(-50%, -50%); /* ঠিক মাঝখানে আনতে */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white; 
+            z-index: 99; 
+            transition: opacity 0.5s;
+        }
+        .loading-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #536471;
+        }
+        
+        /* --- নতুন ইউনিক ইনফিনিটি স্ক্রল লোডার (Wave Loader) --- */
+        .wave-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            gap: 5px; /* বলগুলির মধ্যে দূরত্ব */
+        }
+        .wave-loader div {
+            width: 10px;
+            height: 10px;
+            background-color: #1da1f2; /* টুইটার ব্লু */
+            border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out both;
+            transform: scale(0);
+        }
+        /* ঢেউ ইফেক্টের জন্য প্রতিটি বলের ডিলে সেট করা */
+        .wave-loader div:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        .wave-loader div:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        .wave-loader div:nth-child(3) {
+            animation-delay: 0s;
+        }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); } /* ছোট অবস্থা */
+            40% { transform: scale(1.0); } /* বড় অবস্থা */
+        }
+
+        /* --- স্পিনার ওভাররাইড (যদি প্রয়োজন হয়) --- */
+        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         /* Infinite Scroll Loader (Sentinel) */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
-        .load-more-spinner {
-            width: 30px; height: 30px; border: 3px solid #ccc; border-top: 3px solid #1da1f2;
-            border-radius: 50%; animation: spin 1s linear infinite; display: none;
-        }
-        #sentinel.loading .load-more-spinner { display: block; }
+        .load-more-spinner { display: none; } /* ডিফল্ট স্পিনার হাইড করে নতুন ওয়েভ লোডার ব্যবহার করব */
+        #sentinel.loading .wave-loader { display: flex; }
 
-        /* ফুটার সেকশন */
+        /* [বাকি CSS অপরিবর্তিত] */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
         .footer-links a:hover { color: #1da1f2; text-decoration: underline; }
         .footer-copyright { color: #536471; font-size: 13px; }
         .footer-copyright a { color: #1da1f2; font-weight: bold; }
-
-        /* লগইন পেজ */
         #login-view { display: none; padding: 40px 20px; text-align: center; }
         .login-box { background: white; padding: 30px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 400px; margin: 0 auto; }
-        
-        .login-title { 
-            margin-bottom: 20px; 
-        }
-        
+        .login-title { margin-bottom: 20px; }
         .login-submit-btn { width: 100%; padding: 12px; background-color: #000; color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .success-msg { color: green; font-weight: bold; margin-top: 15px; display: none; }
-
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
         .notification {
             position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
             background-color: rgba(0, 0, 0, 0.85); color: white; padding: 10px 20px;
@@ -183,7 +215,6 @@
             font-size: 14px; pointer-events: none;
         }
         .notification.show { opacity: 1; }
-
     </style>
 </head>
 <body>
@@ -233,12 +264,26 @@
             <div class="nav-btn inactive" id="nav-signup" onclick="goToSignUp()"><i class="fa-solid fa-user-plus"></i> Sign Up</div>
             <div class="nav-btn inactive" id="nav-login" onclick="showLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</div>
         </div>
+        
+        <div id="initial-loader" style="min-height: 400px;">
+            <div class="wave-loader" style="gap: 8px;">
+                <div style="width: 15px; height: 15px;"></div>
+                <div style="width: 15px; height: 15px;"></div>
+                <div style="width: 15px; height: 15px;"></div>
+            </div>
+            <div class="loading-text">Fetching latest viral updates...</div>
+        </div>
 
         <div id="feed-container">
-            <div id="loading-msg">Loading latest posts...</div>
-        </div>
+            </div>
         
-        <div id="sentinel"><div class="load-more-spinner"></div></div>
+        <div id="sentinel">
+            <div class="wave-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
 
         <footer class="site-footer" id="main-footer" style="display:none;">
             <div class="footer-links">
@@ -286,7 +331,6 @@
         //  CONFIGURATION (ইনফিনিটি স্ক্রল কন্ট্রোল)
         // ============================================
         const CONFIG = {
-            // এই মানগুলি পরিবর্তন করে আপনি লোড সংখ্যা নিয়ন্ত্রণ করতে পারবেন
             INITIAL_LOAD: 5,   // শুরুতে ৫টি পোস্ট লোড হবে
             BATCH_SIZE: 5,     // স্ক্রল করলে ৫টি করে লোড হবে
             CONTACT_EMAIL: "contact@secretbinodon.com", 
@@ -345,7 +389,6 @@
 
             sentinel.classList.add('loading');
 
-            // লোড করার জন্য পোস্টের অংশ নেওয়া
             const batch = allPosts.slice(currentIndex, currentIndex + CONFIG.BATCH_SIZE);
             
             batch.forEach(post => {
@@ -399,7 +442,7 @@
                 if (entries[0].isIntersecting) {
                     setTimeout(() => loadNextBatch(), 500);
                 }
-            }, { rootMargin: '200px' }); // ইউজার ২০০px আগে লোড শুরু হবে
+            }, { rootMargin: '200px' });
             observer.observe(sentinel);
         }
         
@@ -464,21 +507,25 @@
                 const res = await fetch('posts.json');
                 const posts = await res.json();
                 
-                // পোস্টগুলিকে আপলোড টাইম অনুসারে নতুন থেকে পুরানো ক্রমে সর্ট করা
                 allPosts = posts.sort((a, b) => new Date(b.uploadTime).getTime() - new Date(a.uploadTime).getTime());
                 
                 document.getElementById('total-videos-count').innerText = formatCount(allPosts.length);
                 calculateTotalViews();
 
-                document.getElementById('loading-msg').style.display = 'none';
-                
-                loadNextBatch(); // প্রথম ৫টি লোড হবে
+                // প্রাথমিক লোডার অদৃশ্য করা
+                document.getElementById('initial-loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('initial-loader').style.display = 'none';
+                    document.getElementById('feed-container').style.opacity = '1';
+                }, 500);
+
+                loadNextBatch(); 
                 setupObserver();
                 document.getElementById('main-footer').style.display = 'block';
 
             } catch (error) {
                 console.error(error);
-                document.getElementById('loading-msg').innerText = "Failed to load posts.";
+                document.getElementById('initial-loader').innerHTML = `<div style="color:red; font-size:16px;">Error loading feed: ${error.message}</div>`;
             }
         }
         document.getElementById('loginForm').addEventListener('submit', (e) => {
