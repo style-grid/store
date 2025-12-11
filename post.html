@@ -10,7 +10,21 @@
         /* --- বেসিক রিসেট --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
-        .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 0; }
+        
+        /* সম্পূর্ণ কন্টেন্টকে মসৃণভাবে দৃশ্যমান করার জন্য wrapper এ opacity: 0 সেট করা হয়েছে */
+        .main-wrapper { 
+            width: 100%; max-width: 600px; min-height: 100vh; 
+            background: #fff; position: relative; border-left: 1px solid #eee; 
+            border-right: 1px solid #eee; padding-bottom: 0;
+            opacity: 0; /* মসৃণ লোডিং এর জন্য নতুন যোগ */
+            animation: initialFadeIn 0.4s 0.2s forwards; /* মসৃণ লোডিং এর জন্য নতুন যোগ */
+        }
+        
+        /* সম্পূর্ণ পেজ লোড হওয়ার পর মসৃণভাবে দৃশ্যমান হওয়ার অ্যানিমেশন */
+        @keyframes initialFadeIn { 
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* হেডার */
         header { background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -57,13 +71,15 @@
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
+        /* রিলেটেড পোস্ট কার্ডের অ্যানিমেশন যোগ করা হলো */
         .post-card { 
             background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; 
             gap: 6px; 
-            opacity: 0; animation: fadeIn 0.5s forwards; 
+            opacity: 0; animation: cardFadeIn 0.3s forwards; 
         }
-        @keyframes fadeIn { to { opacity: 1; } }
+        /* কার্ড লোড হওয়ার জন্য অ্যানিমেশন */
+        @keyframes cardFadeIn { to { opacity: 1; } }
 
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -117,15 +133,38 @@
         .footer-copyright { color: #536471; font-size: 13px; }
         .footer-copyright a { color: #1da1f2; font-weight: bold; }
         
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
+        /* স্পিনার লজিক সরানো হয়েছে, শুধুমাত্র লোডিং মেসেজ বাকি */
+        .initial-loader-message { 
+            padding:40px; text-align:center; color:#666; font-weight: bold; 
+            /* প্রাথমিক লোডিং মেসেজকে লুকানো হয়েছে, কারণ আমরা main-wrapper এ অ্যানিমেশন যুক্ত করেছি */
+            display: none;
+        }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .notification { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1002; opacity: 0; transition: 0.3s; pointer-events: none; }
         .notification.show { opacity: 1; }
 
         /* Infinite Scroll Sentinel */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
-        .load-more-spinner { width: 24px; height: 24px; border: 3px solid #ccc; border-top: 3px solid #1da1f2; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
-        #sentinel.loading .load-more-spinner { display: block; }
+        /* ইনফিনিটি স্ক্রলিং এর জন্য Wave Loader ব্যবহার করা হলো (index.html এর মতো) */
+        .wave-loader {
+            display: flex; justify-content: center; align-items: center; height: 100%; gap: 5px; 
+            display: none; /* ডিফল্টভাবে লুকানো */
+        }
+        .wave-loader div {
+            width: 10px; height: 10px; background-color: #1da1f2; border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out both; transform: scale(0);
+        }
+        .wave-loader div:nth-child(1) { animation-delay: -0.32s; }
+        .wave-loader div:nth-child(2) { animation-delay: -0.16s; }
+        .wave-loader div:nth-child(3) { animation-delay: 0s; }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); } 
+            40% { transform: scale(1.0); } 
+        }
+        
+        #sentinel.loading .wave-loader { display: flex; } /* লোড হওয়ার সময় দৃশ্যমান */
     </style>
 </head>
 <body>
@@ -140,15 +179,21 @@
     </header>
 
     <div id="post-details-container">
-        <div style="padding:40px; text-align:center; color:#666;">
+        <div class="initial-loader-message">
             <span class="spinner" style="width:24px; height:24px;"></span> Loading post...
         </div>
-    </div>
+        </div>
 
     <div class="related-section">
         <div class="related-header">RELATED POSTS</div>
         <div id="related-posts-container"></div>
-        <div id="sentinel"><div class="load-more-spinner"></div></div>
+        <div id="sentinel">
+            <div class="wave-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
     </div>
 
     <footer class="site-footer">
@@ -170,7 +215,29 @@
     import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
     // ============================================
-    //  ১. স্থায়ী প্রোফাইল ইমেজ URL
+    //  ১. ব্রাউজারের স্ক্রল পজিশন সংরক্ষণ ও পুনরুদ্ধার
+    // ============================================
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            sessionStorage.setItem('postScrollPos', window.scrollY); // এই পেজের জন্য আলাদা কী
+        }, 100); 
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedScrollPos = sessionStorage.getItem('postScrollPos');
+        if (savedScrollPos) {
+            window.scrollTo(0, parseInt(savedScrollPos));
+        }
+    });
+
+    // ============================================
+    //  ২. স্থায়ী প্রোফাইল ইমেজ URL
     // ============================================
     const PERMANENT_PROFILE_IMAGE_URL = "https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251211_024630.jpg";
 
@@ -184,7 +251,6 @@
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        // আপনি চাইলে এই দুটি মান পরিবর্তন করে লোড সংখ্যা নিয়ন্ত্রণ করতে পারেন:
         INITIAL_LOAD: 10,
         BATCH_SIZE: 10,    
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
@@ -196,13 +262,13 @@
     document.getElementById('link-terms').href = CONFIG.footer.terms;
 
     // টাইম-বেসড লোডিং এর জন্য প্রয়োজনীয় গ্লোবাল ভ্যারিয়েবল
-    let allRelatedPosts = []; // মোট পোস্ট
-    let currentIndex = 0; // বর্তমানে কতদূর লোড হয়েছে
-    let postsByTimeChunk = {}; // সময় অনুযায়ী পোস্টের কাঠামো
-    let currentChunkIndex = 0; // বর্তমানে কোন সময়খণ্ডের পোস্ট লোড হচ্ছে (যেমন: 1 hour, 2 hours, Day 1)
-    let remainingInChunk = []; // আগের ব্যাচ থেকে অবশিষ্ট পোস্ট
+    let allRelatedPosts = []; 
+    let currentIndex = 0; 
+    let postsByTimeChunk = {}; 
+    let currentChunkIndex = 0; 
+    let remainingInChunk = []; 
 
-    let anchorPostTime; // যে পোস্টটি দেখা হচ্ছে তার আপলোড টাইম
+    let anchorPostTime; 
     let observer;
     
     // --- ইউটিলিটি ফাংশনস ---
@@ -278,7 +344,7 @@
             allRelatedPosts = sortedKeys; // এখন এটি Time Chunk-এর Key এর অ্যারে
             
             // Initial Batch Load
-            loadNextBatch();
+            loadNextBatch(CONFIG.INITIAL_LOAD);
 
             // Setup Infinite Scroll Observer
             setupObserver();
@@ -302,7 +368,8 @@
                 if (i === totalPara - 2 && post.downloadLink2) content += `<a href="${post.downloadLink2}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
             }
         });
-
+        
+        // মূল পোস্টের ডাটা রেন্ডার হওয়ার সময় লাইক/ভিউ কাউন্টের জন্য প্রাথমিক '0' সেট করা হলো
         document.getElementById('post-details-container').innerHTML = `
             <div class="post-author-area">
                 <div class="author-info">
@@ -312,15 +379,14 @@
                 <div class="post-time">${timeAgo(post.uploadTime)}</div>
             </div>
             <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
-            <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
+            <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">0</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">0</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
     }
 
     // --- নতুন টাইম-বেসড ইনফিনিট স্ক্রল লজিক ---
-    function loadNextBatch() {
+    function loadNextBatch(size = CONFIG.BATCH_SIZE) {
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
-        // যখন সমস্ত টাইম চ্যাঙ্ক (h-1, h-2, d-1...) লোড করা শেষ হবে
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
             sentinel.style.display = 'none';
             return;
@@ -328,7 +394,7 @@
 
         sentinel.classList.add('loading');
         let postsToLoad = [];
-        let neededCount = CONFIG.BATCH_SIZE;
+        let neededCount = size; // এখানে size প্যারামিটার ব্যবহার করা হয়েছে
 
         // ধাপ ১: অবশিষ্ট পোস্ট লোড করা
         if (remainingInChunk.length > 0) {
@@ -346,11 +412,9 @@
             postsToLoad.push(...currentChunkPosts.splice(0, takeFromChunk));
             neededCount -= takeFromChunk;
 
-            // যদি এই চ্যাঙ্কের সমস্ত পোস্ট শেষ হয়ে যায়, তাহলে পরের চ্যাঙ্কে যাও
             if (currentChunkPosts.length === 0) {
                 currentChunkIndex++;
             } else if (neededCount === 0) {
-                // যদি ব্যাচ পূর্ণ হয়ে যায় কিন্তু এই চ্যাঙ্কে অবশিষ্ট থাকে, তবে তা বাকি পোস্টে সেভ করা
                 remainingInChunk = currentChunkPosts;
             }
         }
@@ -361,6 +425,7 @@
             const safeTitle = post.title.replace(/'/g, "\\'");
             
             const cardWrapper = document.createElement('div');
+            // 'post-card' এর ডাটা লোড হলে এটি cardFadeIn অ্যানিমেশনের মাধ্যমে দৃশ্যমান হবে
             cardWrapper.innerHTML = `
                 <div class="post-card" data-id="${post.id}">
                     <div class="post-header">
@@ -370,16 +435,16 @@
                     <div class="clickable-area" onclick="openPost('${post.id}')"><div class="post-title">${post.title}</div><div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div></div>
                     <div class="hashtags">${post.hashtags}</div>
                     <div class="clickable-area" onclick="openPost('${post.id}')"><div class="media-container"><img src="${post.mediaImage}" loading="lazy"><div class="play-icon"></div><div class="duration-badge">${post.videoDuration}</div></div></div>
-                    <div class="post-footer"><div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">...</span> <span class="label-text">Views</span></div><div class="footer-right"><div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">...</span> <span class="label-text">Likes</span></div><div class="post-date-display">${formatDate(post.uploadTime)}</div><div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div></div></div>
+                    <div class="post-footer"><div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">0</span> <span class="label-text">Views</span></div><div class="footer-right"><div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">0</span> <span class="label-text">Likes</span></div><div class="post-date-display">${formatDate(post.uploadTime)}</div><div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div></div></div>
                 </div>`;
             
             const newCard = cardWrapper.firstElementChild;
             container.appendChild(newCard);
+            // কার্ডের জন্য Firebase লজিক সেটআপ করা হচ্ছে
             setupFirebaseForSingleCard(newCard, post.id);
         });
 
         sentinel.classList.remove('loading');
-        // লোডিং শেষ হলে আবার চেক করা যাতে শেষ হলে স্পিনার চলে যায়
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
             sentinel.style.display = 'none';
         }
@@ -389,27 +454,34 @@
         const sentinel = document.getElementById('sentinel');
         observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
+                // স্মুথ ইউজার এক্সপেরিয়েন্সের জন্য একটি ছোট ডিলে যোগ করা হলো
                 setTimeout(() => loadNextBatch(), 500); 
             }
         }, { rootMargin: '100px' });
         observer.observe(sentinel);
     }
 
-    // --- FIREBASE LOGIC (OPTIMIZED) ---
+    // --- FIREBASE LOGIC (OPTIMIZED - স্পিনার সরানো হয়েছে, প্রাথমিক মান '0') ---
     function setupFirebaseForMainPost(id) {
         setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
+        // প্রাথমিক মান HTML রেন্ডারে সেট করা হয়েছে, এখানে শুধু onSnapshot যুক্ত হচ্ছে
         onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
+        
         const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId), lBtn = document.querySelector('.love-btn');
         onSnapshot(lRef, s => document.getElementById('like-cnt').innerText = formatCount(s.data()?.count || 0));
+        
         getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
         lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
     }
 
     function setupFirebaseForSingleCard(card, id) {
         const vEl = card.querySelector('.view-count-rel'), lEl = card.querySelector('.like-count-rel'), lBtn = card.querySelector('.love-btn-rel');
+        // প্রাথমিক মান HTML রেন্ডারে সেট করা হয়েছে, এখানে শুধু onSnapshot যুক্ত হচ্ছে
         onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
+        
         const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId);
         onSnapshot(lRef, s => lEl.innerText = formatCount(s.data()?.count || 0));
+        
         getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
         lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
     }
@@ -425,7 +497,10 @@
         if(p) p.style.display = 'flex'; if(s) s.style.display = 'none';
     });
 
-    window.openPost = (id) => window.location.href = `post.html?id=${id}`;
+    window.openPost = (id) => {
+        sessionStorage.setItem('postScrollPos', window.scrollY); // স্ক্রল পজিশন সেভ করা
+        window.location.href = `post.html?id=${id}`;
+    };
     window.sharePost = (id, title) => { const url = window.location.origin + `/post.html?id=${id}`; if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } }
 
     window.share = (platform, title) => {
