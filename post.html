@@ -11,15 +11,20 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
         
-        /* সম্পূর্ণ কন্টেন্টকে মসৃণভাবে দৃশ্যমান করার জন্য wrapper এ opacity: 0 সেট করা হয়েছে */
+        /* main-wrapper থেকে অ্যানিমেশন সরিয়ে দেওয়া হয়েছে */
         .main-wrapper { 
             width: 100%; max-width: 600px; min-height: 100vh; 
             background: #fff; position: relative; border-left: 1px solid #eee; 
             border-right: 1px solid #eee; padding-bottom: 0;
-            opacity: 0; /* মসৃণ লোডিং এর জন্য নতুন যোগ */
-            animation: initialFadeIn 0.4s 0.2s forwards; /* মসৃণ লোডিং এর জন্য নতুন যোগ */
         }
-        
+
+        /* --- কন্টেন্ট এর জন্য নতুন অ্যানিমেশন Wrapper --- */
+        /* হেডার বাদে নিচের সমস্ত কন্টেন্ট এই Wrappper এর মধ্যে থাকবে */
+        .content-area-wrapper {
+            opacity: 0; 
+            animation: initialFadeIn 0.4s 0.2s forwards; 
+        }
+
         /* সম্পূর্ণ পেজ লোড হওয়ার পর মসৃণভাবে দৃশ্যমান হওয়ার অ্যানিমেশন */
         @keyframes initialFadeIn { 
             from { opacity: 0; transform: translateY(10px); }
@@ -133,10 +138,8 @@
         .footer-copyright { color: #536471; font-size: 13px; }
         .footer-copyright a { color: #1da1f2; font-weight: bold; }
         
-        /* স্পিনার লজিক সরানো হয়েছে, শুধুমাত্র লোডিং মেসেজ বাকি */
         .initial-loader-message { 
             padding:40px; text-align:center; color:#666; font-weight: bold; 
-            /* প্রাথমিক লোডিং মেসেজকে লুকানো হয়েছে, কারণ আমরা main-wrapper এ অ্যানিমেশন যুক্ত করেছি */
             display: none;
         }
 
@@ -146,10 +149,10 @@
 
         /* Infinite Scroll Sentinel */
         #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
-        /* ইনফিনিটি স্ক্রলিং এর জন্য Wave Loader ব্যবহার করা হলো (index.html এর মতো) */
+        /* ইনফিনিটি স্ক্রলিং এর জন্য Wave Loader */
         .wave-loader {
             display: flex; justify-content: center; align-items: center; height: 100%; gap: 5px; 
-            display: none; /* ডিফল্টভাবে লুকানো */
+            display: none; 
         }
         .wave-loader div {
             width: 10px; height: 10px; background-color: #1da1f2; border-radius: 50%;
@@ -164,7 +167,7 @@
             40% { transform: scale(1.0); } 
         }
         
-        #sentinel.loading .wave-loader { display: flex; } /* লোড হওয়ার সময় দৃশ্যমান */
+        #sentinel.loading .wave-loader { display: flex; } 
     </style>
 </head>
 <body>
@@ -178,35 +181,35 @@
         </div>
     </header>
 
-    <div id="post-details-container">
-        <div class="initial-loader-message">
-            <span class="spinner" style="width:24px; height:24px;"></span> Loading post...
-        </div>
-        </div>
+    <div class="content-area-wrapper">
+        <div id="post-details-container">
+            </div>
 
-    <div class="related-section">
-        <div class="related-header">RELATED POSTS</div>
-        <div id="related-posts-container"></div>
-        <div id="sentinel">
-            <div class="wave-loader">
-                <div></div>
-                <div></div>
-                <div></div>
+        <div class="related-section">
+            <div class="related-header">RELATED POSTS</div>
+            <div id="related-posts-container"></div>
+            <div id="sentinel">
+                <div class="wave-loader">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <footer class="site-footer">
-        <div class="footer-links">
-            <a href="#" id="link-about">About</a>
-            <a href="#" id="link-contact">Contact</a>
-            <a href="#" id="link-privacy">Privacy Policy</a>
-            <a href="#" id="link-terms">Terms of Service</a>
-        </div>
-        <div class="footer-copyright">
-            Copyright © 2025 <a href="index.html">SecretBinodon.com</a>. All rights reserved.
-        </div>
-    </footer>
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="#" id="link-about">About</a>
+                <a href="#" id="link-contact">Contact</a>
+                <a href="#" id="link-privacy">Privacy Policy</a>
+                <a href="#" id="link-terms">Terms of Service</a>
+            </div>
+            <div class="footer-copyright">
+                Copyright © 2025 <a href="index.html">SecretBinodon.com</a>. All rights reserved.
+            </div>
+        </footer>
+    </div>
+    
     <div id="notification" class="notification"></div>
 </div>
 
@@ -215,7 +218,7 @@
     import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
     // ============================================
-    //  ১. ব্রাউজারের স্ক্রল পজিশন সংরক্ষণ ও পুনরুদ্ধার
+    //  ১. ব্রাউজারের স্ক্রল পজিশন সংরক্ষণ ও পুনরুদ্ধার (ফিক্সড)
     // ============================================
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -225,14 +228,19 @@
     window.addEventListener('scroll', () => {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            sessionStorage.setItem('postScrollPos', window.scrollY); // এই পেজের জন্য আলাদা কী
+            sessionStorage.setItem('postScrollPos', window.scrollY); 
         }, 100); 
     });
-
+    
+    // পেজ লোড হওয়ার পর স্ক্রল পজিশন রিস্টোর করা অথবা একদম উপরে নিয়ে যাওয়া
     window.addEventListener('DOMContentLoaded', () => {
         const savedScrollPos = sessionStorage.getItem('postScrollPos');
         if (savedScrollPos) {
+            // যদি স্ক্রল পজিশন সেভ করা থাকে (অর্থাৎ রিফ্রেশ বা ব্যাক করা হয়েছে)
             window.scrollTo(0, parseInt(savedScrollPos));
+        } else {
+             // যদি প্রথমবার পেজে আসা হয় বা সরাসরি নতুন পোস্টে যাওয়া হয়
+             window.scrollTo(0, 0); 
         }
     });
 
@@ -282,7 +290,7 @@
     const postId = urlParams.get('id');
     
     /**
-     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে (যেমন: 'h-1', 'h-2', 'd-1', 'd-2')
+     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে
      */
     function getTimeChunkKey(postTime, anchorTime) {
         const diffInSeconds = Math.floor((anchorTime - postTime) / 1000);
@@ -291,10 +299,10 @@
 
         if (diffInHours < 24) {
             const hoursAgo = Math.floor(diffInHours);
-            return `h-${hoursAgo + 1}`; // ১ ঘণ্টা, ২ ঘণ্টা... ২৪ ঘণ্টা
+            return `h-${hoursAgo + 1}`; 
         } else {
             const daysAgo = Math.floor(diffInDays);
-            return `d-${daysAgo}`; // ১ দিন, ২ দিন...
+            return `d-${daysAgo}`; 
         }
     }
 
@@ -317,12 +325,10 @@
             // রিকমেন্ডেশনের জন্য প্রস্তুতি:
             anchorPostTime = new Date(mainPost.uploadTime).getTime();
             
-            // ১. বর্তমান পোস্ট বাদে পুরোনো পোস্টগুলি সর্ট করা
             const historicalPosts = posts
                 .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
-                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime()); // পুরানো থেকে নতুন
+                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime());
 
-            // ২. সময় অনুযায়ী পোস্টগুলোকে গ্রুপ করা
             postsByTimeChunk = historicalPosts.reduce((acc, post) => {
                 const postTime = new Date(post.uploadTime).getTime();
                 const key = getTimeChunkKey(postTime, anchorPostTime);
@@ -331,7 +337,6 @@
                 return acc;
             }, {});
 
-            // ৩. সময়খণ্ডের Key গুলোকে সর্ট করা (h-1, h-2, ... d-1, d-2...)
             const sortedKeys = Object.keys(postsByTimeChunk).sort((a, b) => {
                 const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
                 const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
@@ -341,7 +346,7 @@
                 return aNum - bNum;
             });
 
-            allRelatedPosts = sortedKeys; // এখন এটি Time Chunk-এর Key এর অ্যারে
+            allRelatedPosts = sortedKeys; 
             
             // Initial Batch Load
             loadNextBatch(CONFIG.INITIAL_LOAD);
@@ -358,7 +363,6 @@
         let content = `<h1 class="article-title">${post.title}</h1>`;
         const totalPara = post.paragraphs.length;
         
-        // ডাউনলোড বাটন যুক্ত করার লজিক অক্ষত
         post.paragraphs.forEach((p, i) => {
             content += `<p class="article-para">${p}</p>`;
             if (totalPara <= 2) {
@@ -369,7 +373,6 @@
             }
         });
         
-        // মূল পোস্টের ডাটা রেন্ডার হওয়ার সময় লাইক/ভিউ কাউন্টের জন্য প্রাথমিক '0' সেট করা হলো
         document.getElementById('post-details-container').innerHTML = `
             <div class="post-author-area">
                 <div class="author-info">
@@ -394,16 +397,14 @@
 
         sentinel.classList.add('loading');
         let postsToLoad = [];
-        let neededCount = size; // এখানে size প্যারামিটার ব্যবহার করা হয়েছে
+        let neededCount = size; 
 
-        // ধাপ ১: অবশিষ্ট পোস্ট লোড করা
         if (remainingInChunk.length > 0) {
             const takeFromRemaining = Math.min(neededCount, remainingInChunk.length);
             postsToLoad.push(...remainingInChunk.splice(0, takeFromRemaining));
             neededCount -= takeFromRemaining;
         }
 
-        // ধাপ ২: নতুন টাইম চ্যাঙ্ক থেকে লোড করা (যদি প্রয়োজন হয়)
         while (neededCount > 0 && currentChunkIndex < allRelatedPosts.length) {
             const chunkKey = allRelatedPosts[currentChunkIndex];
             const currentChunkPosts = postsByTimeChunk[chunkKey];
@@ -425,7 +426,6 @@
             const safeTitle = post.title.replace(/'/g, "\\'");
             
             const cardWrapper = document.createElement('div');
-            // 'post-card' এর ডাটা লোড হলে এটি cardFadeIn অ্যানিমেশনের মাধ্যমে দৃশ্যমান হবে
             cardWrapper.innerHTML = `
                 <div class="post-card" data-id="${post.id}">
                     <div class="post-header">
@@ -440,7 +440,6 @@
             
             const newCard = cardWrapper.firstElementChild;
             container.appendChild(newCard);
-            // কার্ডের জন্য Firebase লজিক সেটআপ করা হচ্ছে
             setupFirebaseForSingleCard(newCard, post.id);
         });
 
@@ -454,17 +453,15 @@
         const sentinel = document.getElementById('sentinel');
         observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
-                // স্মুথ ইউজার এক্সপেরিয়েন্সের জন্য একটি ছোট ডিলে যোগ করা হলো
                 setTimeout(() => loadNextBatch(), 500); 
             }
         }, { rootMargin: '100px' });
         observer.observe(sentinel);
     }
 
-    // --- FIREBASE LOGIC (OPTIMIZED - স্পিনার সরানো হয়েছে, প্রাথমিক মান '0') ---
+    // --- FIREBASE LOGIC (OPTIMIZED) ---
     function setupFirebaseForMainPost(id) {
         setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
-        // প্রাথমিক মান HTML রেন্ডারে সেট করা হয়েছে, এখানে শুধু onSnapshot যুক্ত হচ্ছে
         onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
         
         const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId), lBtn = document.querySelector('.love-btn');
@@ -476,7 +473,6 @@
 
     function setupFirebaseForSingleCard(card, id) {
         const vEl = card.querySelector('.view-count-rel'), lEl = card.querySelector('.like-count-rel'), lBtn = card.querySelector('.love-btn-rel');
-        // প্রাথমিক মান HTML রেন্ডারে সেট করা হয়েছে, এখানে শুধু onSnapshot যুক্ত হচ্ছে
         onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
         
         const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId);
