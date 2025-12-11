@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- বেসিক রিসেট ও স্টাইলস (আগের মতোই) --- */
+        /* --- বেসিক রিসেট ও স্টাইলস --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
         .main-wrapper { 
@@ -16,12 +16,18 @@
             padding-bottom: 0; 
         }
 
-        /* হেডার */
+        /* হেডার (স্থির) */
         header { background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; }
         .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
 
-        /* পোস্ট ডিটেইলস এরিয়া */
+        /* পোস্ট ডিটেইলস এরিয়া - স্মুথ ট্রানজিশনের জন্য */
+        #post-details-container {
+            opacity: 0; /* ডিফল্টভাবে অদৃশ্য */
+            transition: opacity 0.3s ease-in-out; /* স্মুথ ফেড-ইন ট্রানজিশন */
+            min-height: 200px; /* লোডিংয়ের সময় স্পেস ধরে রাখার জন্য */
+        }
+
         .post-author-area { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8ed; }
         .author-info { display: flex; align-items: center; gap: 10px; }
         .pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -129,11 +135,6 @@
         .load-more-spinner { width: 24px; height: 24px; border: 3px solid #ccc; border-top: 3px solid #1da1f2; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
         #sentinel.loading .load-more-spinner { display: block; }
         
-        /* প্রাথমিক লোডিংয়ের সমস্যা এড়াতে একটি মিনিমাল প্লেসহোল্ডার */
-        .initial-placeholder {
-            min-height: 500px;
-            visibility: hidden; /* এটি অদৃশ্য থাকবে কিন্তু জায়গা নেবে */
-        }
     </style>
 </head>
 <body>
@@ -148,8 +149,7 @@
     </header>
 
     <div id="post-details-container">
-        <div class="initial-placeholder"></div>
-    </div>
+        </div>
 
     <div class="related-section">
         <div class="related-header">RELATED POSTS</div>
@@ -213,7 +213,7 @@
     // --- ইউটিলিটি ফাংশনস ---
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
     function formatCount(n) { if(!n) return 0; return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n; }
-    function timeAgo(d) { const s=Math.floor((new Date()-new Date(d))/1000); let i=s/31536000; if(i>1)return Math.floor(i)+"y ago"; i=s/86400; if(i>1)return Math.floor(i)+"d ago"; i=s/3600; if(i>1)return Math.floor(i)+"h ago"; return "Just now"; }
+    function timeAgo(d) { const s=Math.floor((new Date()-new Date(d)/1000)); let i=s/31536000; if(i>1)return Math.floor(i)+"y ago"; i=s/86400; if(i>1)return Math.floor(i)+"d ago"; i=s/3600; if(i>1)return Math.floor(i)+"h ago"; return "Just now"; }
     function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
     function showNotification(msg) { const n=document.getElementById('notification'); n.innerText=msg; n.classList.add('show'); setTimeout(()=>n.classList.remove('show'),3000); }
 
@@ -239,6 +239,10 @@
      * পোস্ট ডেটা লোড করে এবং রেন্ডার করে (প্রথমে লোকাল স্টোরেজ চেক করা হবে)
      */
     async function init() {
+        // নতুন পোস্টে গেলে, আগের পোস্টের স্মুথ ট্রানজিশনের জন্য অপাসিটি আবার 0 সেট করা
+        const postContainer = document.getElementById('post-details-container');
+        postContainer.style.opacity = 0; 
+        
         const preloadedPostData = localStorage.getItem('preloadedPostData');
         const preloadedPostId = localStorage.getItem('preloadedPostId');
         
@@ -246,8 +250,6 @@
         let allPostsData = null;
         let preloadedUsed = false;
         
-        // ** কোনো লোডিং স্পিনার বা টেক্সট দেখানো হবে না। **
-
         // 1. লোকাল স্টোরেজ প্রি-লোড ডেটা রেন্ডারিং (তাৎক্ষণিক রেন্ডারের জন্য)
         if (preloadedPostData && preloadedPostId === postId) {
             try {
@@ -257,7 +259,7 @@
                 localStorage.removeItem('preloadedPostData');
                 localStorage.removeItem('preloadedPostId');
                 
-                // মূল পোস্ট তাৎক্ষণিকভাবে রেন্ডার করা
+                // মূল পোস্ট তাৎক্ষণিকভাবে রেন্ডার করা এবং স্মুথলি দৃশ্যমান করা
                 renderMainPost(mainPost); 
                 setupFirebaseForMainPost(mainPost.id);
                 preloadedUsed = true;
@@ -270,7 +272,7 @@
         // 2. ডেটা লোড করার প্রক্রিয়া শুরু
         try {
             
-            // সমস্ত পোস্টের ডেটা লোড করা (যদি আগে রিকমেন্ডেশনের জন্য লোড না হয়ে থাকে)
+            // সমস্ত পোস্টের ডেটা লোড করা (যদি রিকমেন্ডেশনের জন্য প্রয়োজন হয়)
             const res = await fetch('posts.json', { cache: 'force-cache' });
             if(!res.ok) throw new Error("Failed to load posts data.");
             allPostsData = await res.json();
@@ -280,6 +282,7 @@
                 mainPost = allPostsData.find(p => p.id === postId) || allPostsData[0];
                 if (!mainPost) throw new Error("Post not found.");
                 
+                // মূল পোস্ট ডেটা লোড হওয়ার পর রেন্ডার করা এবং স্মুথলি দৃশ্যমান করা
                 renderMainPost(mainPost);
                 setupFirebaseForMainPost(mainPost.id);
             }
@@ -288,8 +291,9 @@
             return await continuePostInitialization(mainPost, allPostsData);
 
         } catch (e) { 
-            // যদি লোডিং ব্যর্থ হয়, তবে এরর মেসেজ দেখানো (কোনো স্পিনার নয়)
-            document.getElementById('post-details-container').innerHTML = `<div style="padding:40px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
+            // যদি লোডিং ব্যর্থ হয়, তবে এরর মেসেজ দেখানো
+            postContainer.innerHTML = `<div style="padding:40px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
+            postContainer.style.opacity = 1; // এরর মেসেজ দৃশ্যমান করা
         }
     }
 
@@ -350,11 +354,13 @@
             </div>
             <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
             <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
+        
+        // ** স্মুথ ফেড-ইন ট্রানজিশন এখানে ট্রিগার করা হবে **
+        document.getElementById('post-details-container').style.opacity = 1; 
     }
 
     // --- (বাকি ফাংশনগুলি অক্ষত) ---
     function loadNextBatch() {
-        // ... (loadNextBatch কোড অক্ষত)
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
@@ -455,8 +461,14 @@
     });
 
     window.openPost = (id) => {
-        window.location.href = `post.html?id=${id}`;
+        // নতুন পোস্টে যাওয়ার আগে কন্টেন্টটিকে আবার অদৃশ্য করা (দ্রুত ট্রানজিশন)
+        document.getElementById('post-details-container').style.opacity = 0;
+        // সামান্য ডিলে দিয়ে রিডাইরেক্ট করা যাতে ট্রানজিশন শুরু হতে পারে
+        setTimeout(() => {
+            window.location.href = `post.html?id=${id}`;
+        }, 50); 
     }
+    
     window.sharePost = (id, title) => { const url = window.location.origin + `/post.html?id=${id}`; if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } }
 
     window.share = (platform, title) => {
