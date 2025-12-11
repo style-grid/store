@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,7 +184,6 @@
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        // আপনি চাইলে এই দুটি মান পরিবর্তন করে লোড সংখ্যা নিয়ন্ত্রণ করতে পারেন:
         INITIAL_LOAD: 10,
         BATCH_SIZE: 10,    
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
@@ -200,15 +195,31 @@
     document.getElementById('link-terms').href = CONFIG.footer.terms;
 
     // টাইম-বেসড লোডিং এর জন্য প্রয়োজনীয় গ্লোবাল ভ্যারিয়েবল
-    let allRelatedPosts = []; // মোট পোস্ট
-    let currentIndex = 0; // বর্তমানে কতদূর লোড হয়েছে
-    let postsByTimeChunk = {}; // সময় অনুযায়ী পোস্টের কাঠামো
-    let currentChunkIndex = 0; // বর্তমানে কোন সময়খণ্ডের পোস্ট লোড হচ্ছে (যেমন: 1 hour, 2 hours, Day 1)
-    let remainingInChunk = []; // আগের ব্যাচ থেকে অবশিষ্ট পোস্ট
+    let allRelatedPosts = []; 
+    let currentIndex = 0; 
+    let postsByTimeChunk = {}; 
+    let currentChunkIndex = 0; 
+    let remainingInChunk = []; 
 
-    let anchorPostTime; // যে পোস্টটি দেখা হচ্ছে তার আপলোড টাইম
+    let anchorPostTime; 
     let observer;
     
+    // --- স্ক্রল পজিশন পুনরুদ্ধার লজিক (আপগ্রেড) ---
+
+    // ১. ব্রাউজারের ডিফল্ট স্ক্রল পুনরুদ্ধার বন্ধ করা
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    // ২. স্ক্রলিং করার সময় পজিশন সংরক্ষণ (ঘন ঘন সেভ এড়ানো)
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            sessionStorage.setItem('postPageScrollPos', window.scrollY);
+        }, 100); 
+    });
+
     // --- ইউটিলিটি ফাংশনস ---
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
     function formatCount(n) { if(!n) return 0; return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n; }
@@ -219,9 +230,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
     
-    /**
-     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে (যেমন: 'h-1', 'h-2', 'd-1', 'd-2')
-     */
     function getTimeChunkKey(postTime, anchorTime) {
         const diffInSeconds = Math.floor((anchorTime - postTime) / 1000);
         const diffInHours = diffInSeconds / 3600;
@@ -229,17 +237,14 @@
 
         if (diffInHours < 24) {
             const hoursAgo = Math.floor(diffInHours);
-            return `h-${hoursAgo + 1}`; // ১ ঘণ্টা, ২ ঘণ্টা... ২৪ ঘণ্টা
+            return `h-${hoursAgo + 1}`; 
         } else {
             const daysAgo = Math.floor(diffInDays);
-            return `d-${daysAgo}`; // ১ দিন, ২ দিন...
+            return `d-${daysAgo}`; 
         }
     }
 
 
-    /**
-     * পোস্ট ডেটা লোড করে এবং সময় অনুযায়ী গোছায়
-     */
     async function init() {
         try {
             const res = await fetch('posts.json');
@@ -252,15 +257,12 @@
             renderMainPost(mainPost);
             setupFirebaseForMainPost(mainPost.id);
             
-            // রিকমেন্ডেশনের জন্য প্রস্তুতি:
             anchorPostTime = new Date(mainPost.uploadTime).getTime();
             
-            // ১. বর্তমান পোস্ট বাদে পুরোনো পোস্টগুলি সর্ট করা
             const historicalPosts = posts
                 .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
-                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime()); // পুরানো থেকে নতুন
+                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime());
 
-            // ২. সময় অনুযায়ী পোস্টগুলোকে গ্রুপ করা
             postsByTimeChunk = historicalPosts.reduce((acc, post) => {
                 const postTime = new Date(post.uploadTime).getTime();
                 const key = getTimeChunkKey(postTime, anchorPostTime);
@@ -269,7 +271,6 @@
                 return acc;
             }, {});
 
-            // ৩. সময়খণ্ডের Key গুলোকে সর্ট করা (h-1, h-2, ... d-1, d-2...)
             const sortedKeys = Object.keys(postsByTimeChunk).sort((a, b) => {
                 const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
                 const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
@@ -279,24 +280,34 @@
                 return aNum - bNum;
             });
 
-            allRelatedPosts = sortedKeys; // এখন এটি Time Chunk-এর Key এর অ্যারে
+            allRelatedPosts = sortedKeys;
             
-            // Initial Batch Load
-            loadNextBatch();
+            // --- ৩. সংরক্ষিত স্ক্রল পজিশন পুনরুদ্ধার ---
+            const savedScrollPos = sessionStorage.getItem('postPageScrollPos');
+            let initialBatchSize = CONFIG.INITIAL_LOAD;
 
-            // Setup Infinite Scroll Observer
+            if (savedScrollPos) {
+                const estimatedCardHeight = 350; 
+                const requiredCards = Math.ceil(parseInt(savedScrollPos) / estimatedCardHeight);
+                initialBatchSize = Math.max(CONFIG.INITIAL_LOAD, requiredCards + CONFIG.BATCH_SIZE);
+            }
+            
+            loadNextBatch(initialBatchSize); 
             setupObserver();
+
+            if (savedScrollPos) {
+                window.scrollTo(0, parseInt(savedScrollPos));
+            }
 
         } catch (e) { 
             document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
         }
     }
-
+    
     function renderMainPost(post) {
         let content = `<h1 class="article-title">${post.title}</h1>`;
         const totalPara = post.paragraphs.length;
         
-        // ডাউনলোড বাটন যুক্ত করার লজিক অক্ষত
         post.paragraphs.forEach((p, i) => {
             content += `<p class="article-para">${p}</p>`;
             if (totalPara <= 2) {
@@ -319,12 +330,10 @@
             <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
     }
 
-    // --- নতুন টাইম-বেসড ইনফিনিট স্ক্রল লজিক ---
-    function loadNextBatch() {
+    function loadNextBatch(size = CONFIG.BATCH_SIZE) {
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
-        // যখন সমস্ত টাইম চ্যাঙ্ক (h-1, h-2, d-1...) লোড করা শেষ হবে
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
             sentinel.style.display = 'none';
             return;
@@ -332,16 +341,14 @@
 
         sentinel.classList.add('loading');
         let postsToLoad = [];
-        let neededCount = CONFIG.BATCH_SIZE;
+        let neededCount = size;
 
-        // ধাপ ১: অবশিষ্ট পোস্ট লোড করা
         if (remainingInChunk.length > 0) {
             const takeFromRemaining = Math.min(neededCount, remainingInChunk.length);
             postsToLoad.push(...remainingInChunk.splice(0, takeFromRemaining));
             neededCount -= takeFromRemaining;
         }
 
-        // ধাপ ২: নতুন টাইম চ্যাঙ্ক থেকে লোড করা (যদি প্রয়োজন হয়)
         while (neededCount > 0 && currentChunkIndex < allRelatedPosts.length) {
             const chunkKey = allRelatedPosts[currentChunkIndex];
             const currentChunkPosts = postsByTimeChunk[chunkKey];
@@ -350,16 +357,13 @@
             postsToLoad.push(...currentChunkPosts.splice(0, takeFromChunk));
             neededCount -= takeFromChunk;
 
-            // যদি এই চ্যাঙ্কের সমস্ত পোস্ট শেষ হয়ে যায়, তাহলে পরের চ্যাঙ্কে যাও
             if (currentChunkPosts.length === 0) {
                 currentChunkIndex++;
             } else if (neededCount === 0) {
-                // যদি ব্যাচ পূর্ণ হয়ে যায় কিন্তু এই চ্যাঙ্কে অবশিষ্ট থাকে, তবে তা বাকি পোস্টে সেভ করা
                 remainingInChunk = currentChunkPosts;
             }
         }
         
-        // DOM তৈরি ও অ্যাপেন্ড করা
         postsToLoad.forEach(post => {
             let excerpt = post.paragraphs[0].substring(0, 200) + "...";
             const safeTitle = post.title.replace(/'/g, "\\'");
@@ -383,7 +387,6 @@
         });
 
         sentinel.classList.remove('loading');
-        // লোডিং শেষ হলে আবার চেক করা যাতে শেষ হলে স্পিনার চলে যায়
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
             sentinel.style.display = 'none';
         }
@@ -393,7 +396,7 @@
         const sentinel = document.getElementById('sentinel');
         observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
-                setTimeout(() => loadNextBatch(), 500); 
+                setTimeout(() => loadNextBatch(CONFIG.BATCH_SIZE), 500);
             }
         }, { rootMargin: '100px' });
         observer.observe(sentinel);
@@ -418,10 +421,12 @@
         lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
     }
 
-    // --- GLOBAL FUNCTIONS ---
+    // --- GLOBAL FUNCTIONS (আপগ্রেড) ---
     window.handleVideoClick = function() {
         const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
         if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
+        // নতুন পোস্ট পেজে যাওয়ার আগে পজিশন সংরক্ষণ
+        sessionStorage.setItem('postPageScrollPos', window.scrollY); 
         setTimeout(() => { window.location.href = CONFIG.GLOBAL_VIDEO_LINK; }, 100); 
     }
     window.addEventListener('pageshow', () => {
@@ -429,7 +434,12 @@
         if(p) p.style.display = 'flex'; if(s) s.style.display = 'none';
     });
 
-    window.openPost = (id) => window.location.href = `post.html?id=${id}`;
+    window.openPost = (id) => {
+        // নতুন পোস্ট পেজে যাওয়ার আগে পজিশন সংরক্ষণ
+        sessionStorage.setItem('postPageScrollPos', window.scrollY); 
+        window.location.href = `post.html?id=${id}`;
+    }
+    
     window.sharePost = (id, title) => { const url = window.location.origin + `/post.html?id=${id}`; if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } }
 
     window.share = (platform, title) => {
