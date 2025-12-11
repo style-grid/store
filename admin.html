@@ -89,17 +89,17 @@
     
     <div class="form-group">
         <label>Post Title</label>
-        <input type="text" id="title" placeholder="Ex: আপনার টাইটেল এখানে দিন..." required>
+        <input type="text" id="title" placeholder="আপনার টাইটেল এখানে দিন" required>
     </div>
 
     <div class="row">
         <div class="col form-group">
             <label>Thumbnail URL (Image Link)</label>
-            <input type="text" id="media" value="" placeholder="এখানে পোস্টের ইমেজ লিংক দিন" required>
+            <input type="text" id="media" value="" placeholder="এখানে থাম্বনেইল বা পোস্টের ইমেজ লিংক দিন" required>
         </div>
         <div class="col form-group">
             <label>Video Duration (HH:MM:SS)</label>
-            <input type="text" id="duration" placeholder="00:10:00" value="00:05:00" required>
+            <input type="text" id="duration" placeholder="00:10:00" value="" required>
         </div>
     </div>
 
@@ -147,6 +147,21 @@
         return id;
     }
 
+    // নতুন লজিক: 1 মিনিট থেকে 10 মিনিটের মধ্যে র্যান্ডম ডিউরেশন তৈরি করা 
+    function generateRandomDuration() {
+        // মিনিট: 1 (ইনক্লুসিভ) থেকে 9 (ইনক্লুসিভ)
+        const randomMinutes = Math.floor(Math.random() * 9) + 1; // 1 to 9
+        
+        // সেকেন্ড: 0 থেকে 59 (র্যান্ডম)
+        const randomSeconds = Math.floor(Math.random() * 60);
+
+        // মিনিট এবং সেকেন্ডকে HH:MM:SS ফরম্যাটে প্যাড করা
+        const mm = String(randomMinutes).padStart(2, '0');
+        const ss = String(randomSeconds).padStart(2, '0');
+
+        return `00:${mm}:${ss}`; // 00:01:00 থেকে 00:09:59 পর্যন্ত দেবে
+    }
+
     function getCurrentISOString() {
         const date = new Date();
         const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
@@ -164,13 +179,17 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        // পেজ লোডে র্যান্ডম ডিউরেশন সেট করা
+        document.getElementById('duration').value = generateRandomDuration();
+
+        // প্রথম আইডি জেনারেট করা
         document.getElementById('generatedId').value = generateUniqueId();
     });
     
     function generateJSON() {
         const id = document.getElementById('generatedId').value;
         const title = document.getElementById('title').value;
-        const duration = document.getElementById('duration').value;
+        const duration = document.getElementById('duration').value; // ম্যানুয়াল ভ্যালু বা র্যান্ডম ভ্যালু নেবে
         const media = document.getElementById('media').value;
         const paraText = document.getElementById('paragraphs').value;
         const link1 = document.getElementById('link1').value;
@@ -206,14 +225,16 @@
         document.getElementById('json-output').innerText = finalJsonOutput;
         document.getElementById('output-box').style.display = 'block';
         
-        document.getElementById('generatedId').value = generateUniqueId(); 
+        // কোড জেনারেট হওয়ার পর, পরবর্তী পোস্টের জন্য নতুন আইডি এবং নতুন র্যান্ডম ডিউরেশন সেট করা
+        document.getElementById('generatedId').value = generateUniqueId();
+        document.getElementById('duration').value = generateRandomDuration(); 
     }
 
     function copyCode() {
         const code = document.getElementById('json-output').innerText;
         const copyBtn = document.getElementById('copyBtn');
         
-        // ***সংশোধন***: এখন সম্পূর্ণ কোড (কমা সহ) কপি হবে
+        // সম্পূর্ণ কোড (কমা সহ) কপি হবে
         const codeToCopy = code; 
         
         navigator.clipboard.writeText(codeToCopy).then(() => {
