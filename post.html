@@ -10,7 +10,12 @@
         /* --- বেসিক রিসেট --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
-        .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 0; }
+        /* opacity: 0 এবং .loaded ক্লাস সম্পূর্ণভাবে বাদ দেওয়া হলো */
+        .main-wrapper { 
+            width: 100%; max-width: 600px; min-height: 100vh; background: #fff; 
+            position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; 
+            padding-bottom: 0; 
+        }
 
         /* হেডার */
         header { background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -53,7 +58,7 @@
         .share-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
         .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
 
-        /* রিলেটেড পোস্ট (কার্ড) - লোডিং ইফেক্ট সরানো হলো */
+        /* রিলেটেড পোস্ট (কার্ড) */
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
@@ -61,7 +66,6 @@
             background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; 
             gap: 6px; 
-            /* Related Post Card-এর লোডিং ইফেক্ট নেই */
         }
 
         .post-header { display: flex; gap: 10px; align-items: center; }
@@ -129,7 +133,7 @@
 </head>
 <body>
 
-<div class="main-wrapper">
+<div class="main-wrapper" id="main-content-wrapper">
     <header>
         <div class="logo-area">SECRET BINODON</div>
         <div>
@@ -180,7 +184,6 @@
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        // আপনি চাইলে এই দুটি মান পরিবর্তন করে লোড সংখ্যা নিয়ন্ত্রণ করতে পারেন:
         INITIAL_LOAD: 10,
         BATCH_SIZE: 10,    
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
@@ -192,13 +195,13 @@
     document.getElementById('link-terms').href = CONFIG.footer.terms;
 
     // টাইম-বেসড লোডিং এর জন্য প্রয়োজনীয় গ্লোবাল ভ্যারিয়েবল
-    let allRelatedPosts = []; // মোট পোস্ট
-    let currentIndex = 0; // বর্তমানে কতদূর লোড হয়েছে
-    let postsByTimeChunk = {}; // সময় অনুযায়ী পোস্টের কাঠামো
-    let currentChunkIndex = 0; // বর্তমানে কোন সময়খণ্ডের পোস্ট লোড হচ্ছে (যেমন: 1 hour, 2 hours, Day 1)
-    let remainingInChunk = []; // আগের ব্যাচ থেকে অবশিষ্ট পোস্ট
+    let allRelatedPosts = []; 
+    let currentIndex = 0; 
+    let postsByTimeChunk = {}; 
+    let currentChunkIndex = 0; 
+    let remainingInChunk = []; 
 
-    let anchorPostTime; // যে পোস্টটি দেখা হচ্ছে তার আপলোড টাইম
+    let anchorPostTime; 
     let observer;
     
     // --- ইউটিলিটি ফাংশনস ---
@@ -211,9 +214,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
     
-    /**
-     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে (যেমন: 'h-1', 'h-2', 'd-1', 'd-2')
-     */
     function getTimeChunkKey(postTime, anchorTime) {
         const diffInSeconds = Math.floor((anchorTime - postTime) / 1000);
         const diffInHours = diffInSeconds / 3600;
@@ -221,78 +221,109 @@
 
         if (diffInHours < 24) {
             const hoursAgo = Math.floor(diffInHours);
-            return `h-${hoursAgo + 1}`; // ১ ঘণ্টা, ২ ঘণ্টা... ২৪ ঘণ্টা
+            return `h-${hoursAgo + 1}`; 
         } else {
             const daysAgo = Math.floor(diffInDays);
-            return `d-${daysAgo}`; // ১ দিন, ২ দিন...
+            return `d-${daysAgo}`; 
         }
     }
 
 
     /**
-     * পোস্ট ডেটা লোড করে এবং সময় অনুযায়ী গোছায়
+     * পোস্ট ডেটা লোড করে এবং রেন্ডার করে (প্রথমে লোকাল স্টোরেজ চেক করা হবে)
      */
     async function init() {
-        // লোডিং শুরু হলে একটি অস্থায়ী স্পিনার দেখানো হচ্ছে (যদি HTML-এ না থাকে)
-        document.getElementById('post-details-container').innerHTML = `<div style="padding:40px; text-align:center; color:#666;"><span class="spinner" style="width:24px; height:24px;"></span> Loading post...</div>`;
+        const preloadedPostData = localStorage.getItem('preloadedPostData');
+        const preloadedPostId = localStorage.getItem('preloadedPostId');
         
+        let mainPost = null;
+        let allPostsData = null;
+
+        // 1. লোকাল স্টোরেজ প্রি-লোড ডেটা রেন্ডারিং (তাৎক্ষণিক রেন্ডারের জন্য)
+        if (preloadedPostData && preloadedPostId === postId) {
+            try {
+                mainPost = JSON.parse(preloadedPostData);
+                
+                // লোকাল স্টোরেজ পরিষ্কার করা
+                localStorage.removeItem('preloadedPostData');
+                localStorage.removeItem('preloadedPostId');
+                
+                // মূল পোস্ট তাৎক্ষণিকভাবে রেন্ডার করা
+                renderMainPost(mainPost); 
+                setupFirebaseForMainPost(mainPost.id);
+                
+                // রিকমেন্ডেশনের জন্য সমস্ত পোস্টের ডেটা ব্যাকগ্রাউন্ডে লোড করা
+                const res = await fetch('posts.json', { cache: 'force-cache' });
+                if(!res.ok) throw new Error("Failed to load all posts data for recommendations.");
+                allPostsData = await res.json();
+                
+                return await continuePostInitialization(mainPost, allPostsData); 
+
+            } catch (e) {
+                console.warn("Preload failed, falling back to network fetch.", e);
+            }
+        }
+        
+        // 2. স্বাভাবিক নেটওয়ার্ক লোডিং (যদি প্রি-লোড কাজ না করে)
         try {
-            const res = await fetch('posts.json');
-            if(!res.ok) throw new Error("Failed to load posts data.");
-            const posts = await res.json();
+            // যদি লোকাল স্টোরেজ থেকে কাজ না করে, তবে দ্রুত নেটওয়ার্ক থেকে লোড করা হবে
+            document.getElementById('post-details-container').innerHTML = `<div style="padding:40px; text-align:center; color:#666;"><span class="spinner" style="width:24px; height:24px;"></span> Loading post...</div>`;
             
-            const mainPost = posts.find(p => p.id === postId) || posts[0];
+            const res = await fetch('posts.json', { cache: 'force-cache' });
+            if(!res.ok) throw new Error("Failed to load posts data.");
+            allPostsData = await res.json();
+            
+            mainPost = allPostsData.find(p => p.id === postId) || allPostsData[0];
             if (!mainPost) throw new Error("Post not found.");
 
-            renderMainPost(mainPost); // সফল লোড হলে রেন্ডার করা হবে, ফলে লোডার প্রতিস্থাপিত হবে
+            // লোডিং টেক্সট প্রতিস্থাপন করে মূল কন্টেন্ট রেন্ডার করা
+            renderMainPost(mainPost);
             setupFirebaseForMainPost(mainPost.id);
             
-            // রিকমেন্ডেশনের জন্য প্রস্তুতি:
-            anchorPostTime = new Date(mainPost.uploadTime).getTime();
-            
-            // ১. বর্তমান পোস্ট বাদে পুরোনো পোস্টগুলি সর্ট করা
-            const historicalPosts = posts
-                .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
-                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime()); // পুরানো থেকে নতুন
-
-            // ২. সময় অনুযায়ী পোস্টগুলোকে গ্রুপ করা
-            postsByTimeChunk = historicalPosts.reduce((acc, post) => {
-                const postTime = new Date(post.uploadTime).getTime();
-                const key = getTimeChunkKey(postTime, anchorPostTime);
-                if (!acc[key]) acc[key] = [];
-                acc[key].push(post);
-                return acc;
-            }, {});
-
-            // ৩. সময়খণ্ডের Key গুলোকে সর্ট করা (h-1, h-2, ... d-1, d-2...)
-            const sortedKeys = Object.keys(postsByTimeChunk).sort((a, b) => {
-                const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
-                const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
-                
-                if (aType === 'h' && bType === 'd') return -1;
-                if (aType === 'd' && bType === 'h') return 1;
-                return aNum - bNum;
-            });
-
-            allRelatedPosts = sortedKeys; // এখন এটি Time Chunk-এর Key এর অ্যারে
-            
-            // Initial Batch Load
-            loadNextBatch();
-
-            // Setup Infinite Scroll Observer
-            setupObserver();
+            return await continuePostInitialization(mainPost, allPostsData);
 
         } catch (e) { 
-            // যদি ত্রুটি হয়, তবে লোডারটি ত্রুটি বার্তা দ্বারা প্রতিস্থাপিত হবে
-            document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
+            document.getElementById('post-details-container').innerHTML = `<div style="padding:40px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
         }
     }
 
+    /**
+     * রিকমেন্ডেশন পোস্টের লোডিং ও ইনফিনিট স্ক্রল সেটআপ করার কাজ করবে
+     */
+    async function continuePostInitialization(mainPost, allPosts) {
+        anchorPostTime = new Date(mainPost.uploadTime).getTime();
+        
+        const historicalPosts = allPosts
+            .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
+            .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime());
+
+        postsByTimeChunk = historicalPosts.reduce((acc, post) => {
+            const postTime = new Date(post.uploadTime).getTime();
+            const key = getTimeChunkKey(postTime, anchorPostTime);
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(post);
+            return acc;
+        }, {});
+
+        const sortedKeys = Object.keys(postsByTimeChunk).sort((a, b) => {
+            const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
+            const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
+            
+            if (aType === 'h' && bType === 'd') return -1;
+            if (aType === 'd' && bType === 'h') return 1;
+            return aNum - bNum;
+        });
+
+        allRelatedPosts = sortedKeys;
+        
+        loadNextBatch();
+        setupObserver();
+    }
+    
     function renderMainPost(post) {
         let content = `<h1 class="article-title">${post.title}</h1>`;
         const totalPara = post.paragraphs.length;
         
-        // ডাউনলোড বাটন যুক্ত করার লজিক অক্ষত
         post.paragraphs.forEach((p, i) => {
             content += `<p class="article-para">${p}</p>`;
             if (totalPara <= 2) {
@@ -320,7 +351,6 @@
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
-        // যখন সমস্ত টাইম চ্যাঙ্ক (h-1, h-2, d-1...) লোড করা শেষ হবে
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
             sentinel.style.display = 'none';
             return;
@@ -330,14 +360,12 @@
         let postsToLoad = [];
         let neededCount = CONFIG.BATCH_SIZE;
 
-        // ধাপ ১: অবশিষ্ট পোস্ট লোড করা
         if (remainingInChunk.length > 0) {
             const takeFromRemaining = Math.min(neededCount, remainingInChunk.length);
             postsToLoad.push(...remainingInChunk.splice(0, takeFromRemaining));
             neededCount -= takeFromRemaining;
         }
 
-        // ধাপ ২: নতুন টাইম চ্যাঙ্ক থেকে লোড করা (যদি প্রয়োজন হয়)
         while (neededCount > 0 && currentChunkIndex < allRelatedPosts.length) {
             const chunkKey = allRelatedPosts[currentChunkIndex];
             const currentChunkPosts = postsByTimeChunk[chunkKey];
@@ -346,16 +374,13 @@
             postsToLoad.push(...currentChunkPosts.splice(0, takeFromChunk));
             neededCount -= takeFromChunk;
 
-            // যদি এই চ্যাঙ্কের সমস্ত পোস্ট শেষ হয়ে যায়, তাহলে পরের চ্যাঙ্কে যাও
             if (currentChunkPosts.length === 0) {
                 currentChunkIndex++;
             } else if (neededCount === 0) {
-                // যদি ব্যাচ পূর্ণ হয়ে যায় কিন্তু এই চ্যাঙ্কে অবশিষ্ট থাকে, তবে তা বাকি পোস্টে সেভ করা
                 remainingInChunk = currentChunkPosts;
             }
         }
         
-        // DOM তৈরি ও অ্যাপেন্ড করা
         postsToLoad.forEach(post => {
             let excerpt = post.paragraphs[0].substring(0, 200) + "...";
             const safeTitle = post.title.replace(/'/g, "\\'");
@@ -379,7 +404,6 @@
         });
 
         sentinel.classList.remove('loading');
-        // লোডিং শেষ হলে আবার চেক করা যাতে শেষ হলে স্পিনার চলে যায়
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
             sentinel.style.display = 'none';
         }
@@ -425,7 +449,10 @@
         if(p) p.style.display = 'flex'; if(s) s.style.display = 'none';
     });
 
-    window.openPost = (id) => window.location.href = `post.html?id=${id}`;
+    window.openPost = (id) => {
+        // index.html এ প্রি-লোডিং চালু থাকায় এখানে শুধুমাত্র রিডাইরেক্ট হবে
+        window.location.href = `post.html?id=${id}`;
+    }
     window.sharePost = (id, title) => { const url = window.location.origin + `/post.html?id=${id}`; if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); } else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); } }
 
     window.share = (platform, title) => {
@@ -444,8 +471,7 @@
             window.open(link, '_blank');
         }
     }
-    
-    // লোডিং স্পিনার অপসারণ নিশ্চিত করতে, init() এ লোডার দেখিয়ে সফল হলে রেন্ডার করা হয়েছে
+
     init();
 </script>
 </body>
