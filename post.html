@@ -60,7 +60,6 @@
         .post-card { 
             background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; 
-            /* পরিবর্তন ১: গ্যাপ সামঞ্জস্য */
             gap: 6px; 
             opacity: 0; animation: fadeIn 0.5s forwards; 
         }
@@ -72,10 +71,8 @@
         .post-meta-text { display: flex; flex-direction: column; justify-content: center; }
         .name-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
         
-        /* পরিবর্তন ২: ওয়েবসাইটের নাম ফন্ট সাইজ (18px) */
         .name-row h3 { font-size: 18px; font-weight: 800; color: #0f1419; margin: 0; }
         
-        /* পরিবর্তন ৩: ইউজারনেম ফন্ট সাইজ (14px) */
         .post-username { font-size: 14px; color: #536471; }
         
         .time-ago { font-size: 15px; color: #536471; }
@@ -83,13 +80,12 @@
 
         .clickable-area { cursor: pointer; }
         
-        /* পরিবর্তন ৪: টাইটেল ফন্ট সাইজ (18px) এবং গ্যাপ সামঞ্জস্য */
         .post-title { 
             font-size: 18px; 
             font-weight: 700; 
             color: #0f1419; 
-            margin-bottom: 8px; /* নিচের গ্যাপ */
-            margin-top: -3px; /* উপরের গ্যাপ কমানো */
+            margin-bottom: 8px; 
+            margin-top: -3px; 
             line-height: 1.3; 
         }
         
@@ -176,7 +172,6 @@
     // ============================================
     //  ১. স্থায়ী প্রোফাইল ইমেজ URL
     // ============================================
-    // এই একটি URL ই সমস্ত কার্ড এবং প্রধান পোস্টের প্রোফাইল ইমেজ হিসেবে কাজ করবে।
     const PERMANENT_PROFILE_IMAGE_URL = "https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251211_024630.jpg";
 
     const firebaseConfig = { apiKey: "AIzaSyCAsD8wucLsudzY5oNbiixLGyjN2apdV0Q", authDomain: "my-ad-analytics-4560a.firebaseapp.com", databaseURL: "https://my-ad-analytics-4560a-default-rtdb.firebaseio.com", projectId: "my-ad-analytics-4560a", storageBucket: "my-ad-analytics-4560a.firebasestorage.app", messagingSenderId: "104213283950", appId: "1:104213283950:web:b5a25ecd54df809625127f", measurementId: "G-WS7QSQ9H0Y" };
@@ -185,12 +180,13 @@
     const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now();
 
     // ============================================
-    //  CONFIGURATION
+    //  CONFIGURATION (রিলেটেড পোস্ট কন্ট্রোল)
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        INITIAL_LOAD: 10,  // শুরুতে ১০টি পোস্ট লোড হবে
-        BATCH_SIZE: 10,    // স্ক্রল করলে ১০টি করে লোড হবে
+        // আপনি চাইলে এই দুটি মান পরিবর্তন করে লোড সংখ্যা নিয়ন্ত্রণ করতে পারেন:
+        INITIAL_LOAD: 10,
+        BATCH_SIZE: 10,    
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
     };
 
@@ -199,10 +195,17 @@
     document.getElementById('link-privacy').href = CONFIG.footer.privacy;
     document.getElementById('link-terms').href = CONFIG.footer.terms;
 
-    let allRelatedPosts = [];
-    let currentIndex = 0;
-    let observer;
+    // টাইম-বেসড লোডিং এর জন্য প্রয়োজনীয় গ্লোবাল ভ্যারিয়েবল
+    let allRelatedPosts = []; // মোট পোস্ট
+    let currentIndex = 0; // বর্তমানে কতদূর লোড হয়েছে
+    let postsByTimeChunk = {}; // সময় অনুযায়ী পোস্টের কাঠামো
+    let currentChunkIndex = 0; // বর্তমানে কোন সময়খণ্ডের পোস্ট লোড হচ্ছে (যেমন: 1 hour, 2 hours, Day 1)
+    let remainingInChunk = []; // আগের ব্যাচ থেকে অবশিষ্ট পোস্ট
 
+    let anchorPostTime; // যে পোস্টটি দেখা হচ্ছে তার আপলোড টাইম
+    let observer;
+    
+    // --- ইউটিলিটি ফাংশনস ---
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
     function formatCount(n) { if(!n) return 0; return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n; }
     function timeAgo(d) { const s=Math.floor((new Date()-new Date(d))/1000); let i=s/31536000; if(i>1)return Math.floor(i)+"y ago"; i=s/86400; if(i>1)return Math.floor(i)+"d ago"; i=s/3600; if(i>1)return Math.floor(i)+"h ago"; return "Just now"; }
@@ -211,19 +214,68 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
+    
+    /**
+     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে (যেমন: 'h-1', 'h-2', 'd-1', 'd-2')
+     */
+    function getTimeChunkKey(postTime, anchorTime) {
+        const diffInSeconds = Math.floor((anchorTime - postTime) / 1000);
+        const diffInHours = diffInSeconds / 3600;
+        const diffInDays = diffInSeconds / 86400;
 
+        if (diffInHours < 24) {
+            const hoursAgo = Math.floor(diffInHours);
+            return `h-${hoursAgo + 1}`; // ১ ঘণ্টা, ২ ঘণ্টা... ২৪ ঘণ্টা
+        } else {
+            const daysAgo = Math.floor(diffInDays);
+            return `d-${daysAgo}`; // ১ দিন, ২ দিন...
+        }
+    }
+
+
+    /**
+     * পোস্ট ডেটা লোড করে এবং সময় অনুযায়ী গোছায়
+     */
     async function init() {
         try {
             const res = await fetch('posts.json');
-            if(!res.ok) throw new Error("Failed to load");
+            if(!res.ok) throw new Error("Failed to load posts data.");
             const posts = await res.json();
-            const post = posts.find(p => p.id === postId) || posts[0];
+            
+            const mainPost = posts.find(p => p.id === postId) || posts[0];
+            if (!mainPost) throw new Error("Post not found.");
 
-            renderMainPost(post);
-            setupFirebaseForMainPost(post.id);
+            renderMainPost(mainPost);
+            setupFirebaseForMainPost(mainPost.id);
+            
+            // রিকমেন্ডেশনের জন্য প্রস্তুতি:
+            anchorPostTime = new Date(mainPost.uploadTime).getTime();
+            
+            // ১. বর্তমান পোস্ট বাদে পুরোনো পোস্টগুলি সর্ট করা
+            const historicalPosts = posts
+                .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
+                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime()); // পুরানো থেকে নতুন
 
-            // Related Posts Preparation (Filter & Randomize)
-            allRelatedPosts = posts.filter(p => p.id !== post.id).sort(() => 0.5 - Math.random());
+            // ২. সময় অনুযায়ী পোস্টগুলোকে গ্রুপ করা
+            postsByTimeChunk = historicalPosts.reduce((acc, post) => {
+                const postTime = new Date(post.uploadTime).getTime();
+                const key = getTimeChunkKey(postTime, anchorPostTime);
+                if (!acc[key]) acc[key] = [];
+                acc[key].push(post);
+                return acc;
+            }, {});
+
+            // ৩. সময়খণ্ডের Key গুলোকে সর্ট করা (h-1, h-2, ... d-1, d-2...)
+            const sortedKeys = Object.keys(postsByTimeChunk).sort((a, b) => {
+                const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
+                const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
+                
+                if (aType === 'h' && bType === 'd') return -1;
+                if (aType === 'd' && bType === 'h') return 1;
+                return aNum - bNum;
+            });
+
+            allRelatedPosts = sortedKeys; // এখন এটি Time Chunk-এর Key এর অ্যারে
             
             // Initial Batch Load
             loadNextBatch();
@@ -231,12 +283,16 @@
             // Setup Infinite Scroll Observer
             setupObserver();
 
-        } catch (e) { document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error: ${e.message}</div>`; }
+        } catch (e) { 
+            document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
+        }
     }
 
     function renderMainPost(post) {
         let content = `<h1 class="article-title">${post.title}</h1>`;
         const totalPara = post.paragraphs.length;
+        
+        // ডাউনলোড বাটন যুক্ত করার লজিক অক্ষত
         post.paragraphs.forEach((p, i) => {
             content += `<p class="article-para">${p}</p>`;
             if (totalPara <= 2) {
@@ -259,28 +315,51 @@
             <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
     }
 
-    // --- INFINITE SCROLL LOGIC ---
+    // --- নতুন টাইম-বেসড ইনফিনিট স্ক্রল লজিক ---
     function loadNextBatch() {
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
-        // সব লোড হয়ে গেলে সেন্ডিনেল হাইড
-        if (currentIndex >= allRelatedPosts.length) {
+        // যখন সমস্ত টাইম চ্যাঙ্ক (h-1, h-2, d-1...) লোড করা শেষ হবে
+        if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
             sentinel.style.display = 'none';
             return;
         }
 
-        sentinel.classList.add('loading'); // স্পিনার অন
+        sentinel.classList.add('loading');
+        let postsToLoad = [];
+        let neededCount = CONFIG.BATCH_SIZE;
 
-        // ব্যাচ সাইজ অনুযায়ী ডাটা নেওয়া
-        const batch = allRelatedPosts.slice(currentIndex, currentIndex + CONFIG.BATCH_SIZE);
+        // ধাপ ১: অবশিষ্ট পোস্ট লোড করা
+        if (remainingInChunk.length > 0) {
+            const takeFromRemaining = Math.min(neededCount, remainingInChunk.length);
+            postsToLoad.push(...remainingInChunk.splice(0, takeFromRemaining));
+            neededCount -= takeFromRemaining;
+        }
+
+        // ধাপ ২: নতুন টাইম চ্যাঙ্ক থেকে লোড করা (যদি প্রয়োজন হয়)
+        while (neededCount > 0 && currentChunkIndex < allRelatedPosts.length) {
+            const chunkKey = allRelatedPosts[currentChunkIndex];
+            const currentChunkPosts = postsByTimeChunk[chunkKey];
+
+            const takeFromChunk = Math.min(neededCount, currentChunkPosts.length);
+            postsToLoad.push(...currentChunkPosts.splice(0, takeFromChunk));
+            neededCount -= takeFromChunk;
+
+            // যদি এই চ্যাঙ্কের সমস্ত পোস্ট শেষ হয়ে যায়, তাহলে পরের চ্যাঙ্কে যাও
+            if (currentChunkPosts.length === 0) {
+                currentChunkIndex++;
+            } else if (neededCount === 0) {
+                // যদি ব্যাচ পূর্ণ হয়ে যায় কিন্তু এই চ্যাঙ্কে অবশিষ্ট থাকে, তবে তা বাকি পোস্টে সেভ করা
+                remainingInChunk = currentChunkPosts;
+            }
+        }
         
         // DOM তৈরি ও অ্যাপেন্ড করা
-        batch.forEach(post => {
+        postsToLoad.forEach(post => {
             let excerpt = post.paragraphs[0].substring(0, 200) + "...";
             const safeTitle = post.title.replace(/'/g, "\\'");
             
-            // একটি ডিভ বানিয়ে তাতে HTML ইনজেক্ট করা
             const cardWrapper = document.createElement('div');
             cardWrapper.innerHTML = `
                 <div class="post-card" data-id="${post.id}">
@@ -296,23 +375,23 @@
             
             const newCard = cardWrapper.firstElementChild;
             container.appendChild(newCard);
-            
-            // শুধুমাত্র নতুন কার্ডের জন্য ফায়ারবেস লিসেনার
             setupFirebaseForSingleCard(newCard, post.id);
         });
 
-        currentIndex += CONFIG.BATCH_SIZE;
-        sentinel.classList.remove('loading'); // স্পিনার অফ
+        sentinel.classList.remove('loading');
+        // লোডিং শেষ হলে আবার চেক করা যাতে শেষ হলে স্পিনার চলে যায়
+        if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
+            sentinel.style.display = 'none';
+        }
     }
 
     function setupObserver() {
         const sentinel = document.getElementById('sentinel');
         observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
-                // একটু ডিলে দিয়ে লোড যাতে লোডিং ইফেক্ট বোঝা যায়
                 setTimeout(() => loadNextBatch(), 500); 
             }
-        }, { rootMargin: '100px' }); // ১০০px আগেই লোড শুরু করবে
+        }, { rootMargin: '100px' });
         observer.observe(sentinel);
     }
 
@@ -326,7 +405,6 @@
         lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
     }
 
-    // নতুন কার্ডের জন্য আলাদা ফাংশন (লুপের ভেতর থেকে কল হবে)
     function setupFirebaseForSingleCard(card, id) {
         const vEl = card.querySelector('.view-count-rel'), lEl = card.querySelector('.like-count-rel'), lBtn = card.querySelector('.love-btn-rel');
         onSnapshot(doc(db, "views", id), s => vEl.innerText = formatCount(s.data()?.count || 0));
