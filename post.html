@@ -53,7 +53,7 @@
         .share-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
         .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
 
-        /* রিলেটেড পোস্ট (কার্ড) */
+        /* রিলেটেড পোস্ট (কার্ড) - Fade-In লজিক অপসারণ করা হলো */
         .related-section { background: #fff; margin-top: 0; }
         .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
         
@@ -61,9 +61,9 @@
             background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; 
             gap: 6px; 
-            opacity: 0; animation: fadeIn 0.5s forwards; 
+            /* opacity ও animation অপসারণ করা হয়েছে */
         }
-        @keyframes fadeIn { to { opacity: 1; } }
+        /* @keyframes fadeIn অপসারণ করা হয়েছে */
 
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -140,10 +140,7 @@
     </header>
 
     <div id="post-details-container">
-        <div style="padding:40px; text-align:center; color:#666;">
-            <span class="spinner" style="width:24px; height:24px;"></span> Loading post...
         </div>
-    </div>
 
     <div class="related-section">
         <div class="related-header">RELATED POSTS</div>
@@ -245,6 +242,7 @@
             const mainPost = posts.find(p => p.id === postId) || posts[0];
             if (!mainPost) throw new Error("Post not found.");
 
+            // এখানে mainPost কন্টেন্ট রেন্ডার হচ্ছে, কোনো স্পিনার নেই।
             renderMainPost(mainPost);
             setupFirebaseForMainPost(mainPost.id);
             
@@ -284,6 +282,7 @@
             setupObserver();
 
         } catch (e) { 
+            // এরর হলে কাস্টম এরর মেসেজ দেখাচ্ছে
             document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
         }
     }
@@ -361,6 +360,7 @@
             const safeTitle = post.title.replace(/'/g, "\\'");
             
             const cardWrapper = document.createElement('div');
+            // post-card এ কোনো opacity বা animation যুক্ত করা হয়নি
             cardWrapper.innerHTML = `
                 <div class="post-card" data-id="${post.id}">
                     <div class="post-header">
