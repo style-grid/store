@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Binodon</title>
+    <title>Secret Binodon - Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -18,8 +19,7 @@
             position: relative; padding-bottom: 0;
         }
 
-        /* --- প্রোফাইল হেডার (হোমপেজ) --- */
-        .home-view-content { display: none; } /* হোম ভিউ এর কন্টেইনার */
+        /* --- প্রোফাইল হেডার --- */
         .cover-photo { width: 100%; height: 160px; background-color: #ddd; overflow: hidden; position: relative; }
         .cover-photo img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -43,7 +43,7 @@
         .meta-info i { margin-right: 4px; }
         .bio { font-size: 14px; color: #1c1e21; line-height: 1.4; text-align: justify; margin-bottom: 15px; }
 
-        /* --- নেভিগেশন বার (হোমপেজ) --- */
+        /* --- নেভিগেশন বার --- */
         .nav-bar {
             display: flex; gap: 10px; padding: 10px 15px;
             border-top: 1px solid #e1e8ed; border-bottom: 1px solid #e1e8ed;
@@ -58,7 +58,7 @@
         .nav-btn.inactive { background-color: #f0f2f5; color: #000; }
         .nav-btn:hover { background-color: #e4e6eb; }
 
-        /* --- পোস্ট কার্ড ডিজাইন (উভয় ভিউ এর জন্য) --- */
+        /* --- পোস্ট কার্ড ডিজাইন --- */
         #feed-container { min-height: 200px; }
         
         .post-card { 
@@ -79,7 +79,14 @@
         .time-ago { font-size: 15px; color: #536471; }
         .dot-separator { font-size: 15px; color: #536471; margin: 0 2px; }
         .clickable-area { cursor: pointer; }
-        .post-title { font-size: 18px; font-weight: 700; color: #0f1419; margin-bottom: 8px; margin-top: -3px; line-height: 1.3; }
+        .post-title { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #0f1419; 
+            margin-bottom: 8px; 
+            margin-top: -3px; 
+            line-height: 1.3; 
+        }
         .post-excerpt { 
             font-size: 15px; color: #0f1419; line-height: 1.4; margin-bottom: 8px;
             display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
@@ -126,67 +133,48 @@
         }
         .footer-share-btn:hover { background-color: rgba(0,0,0,0.05); }
 
-        /* --- ইনফিনিটি স্ক্রল লোডার (Wave Loader - হোমপেজ) --- */
+
+        /* --- শুধুমাত্র ইনফিনিটি স্ক্রল লোডার (Wave Loader) --- */
         .wave-loader {
-            display: flex; justify-content: center; align-items: center; height: 100%; gap: 5px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            gap: 5px; 
         }
         .wave-loader div {
-            width: 10px; height: 10px; background-color: #1da1f2; border-radius: 50%;
-            animation: bounce 1.2s infinite ease-in-out both; transform: scale(0);
+            width: 10px;
+            height: 10px;
+            background-color: #1da1f2; 
+            border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out both;
+            transform: scale(0);
         }
-        .wave-loader div:nth-child(1) { animation-delay: -0.32s; }
-        .wave-loader div:nth-child(2) { animation-delay: -0.16s; }
-        .wave-loader div:nth-child(3) { animation-delay: 0s; }
+        .wave-loader div:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        .wave-loader div:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        .wave-loader div:nth-child(3) {
+            animation-delay: 0s;
+        }
+        
         @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } 
+            0%, 80%, 100% { transform: scale(0); } 
+            40% { transform: scale(1.0); } 
         }
-        #sentinel-home .wave-loader { display: none; } 
-        #sentinel-home.loading .wave-loader { display: flex; } 
 
-        /* --- পোস্ট ভিউ স্পেসিফিক স্টাইলস (post.html) --- */
-        .post-view-content { display: none; } /* পোস্ট ভিউ এর কন্টেইনার */
-        header { background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; cursor: pointer; }
-        .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
-        .post-author-area { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8ed; }
-        .author-info { display: flex; align-items: center; gap: 10px; }
-        .pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
-        .pfp img { width: 100%; height: 100%; object-fit: cover; }
-        .author-text h3 { font-size: 16px; margin: 0; color: #0f1419; }
-        .author-text span { font-size: 14px; color: #536471; }
-        .post-time { font-size: 13px; color: #536471; font-weight: bold; }
-        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; cursor: pointer; }
-        .video-container img { width: 100%; height: 100%; object-fit: contain; }
-        .play-btn-center { position: absolute; width: 60px; height: 60px; background: rgba(0,0,0,0.6); border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
-        .play-btn-center::after { content: ''; border-left: 20px solid white; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 5px; }
-        .main-video-spinner { display: none; position: absolute; width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid #fff; border-radius: 50%; animation: spin 1s linear infinite; z-index: 6; }
-        .video-controls { position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; display: flex; justify-content: space-between; font-size: 12px; z-index: 5; }
-        .content-body { padding: 15px 15px 0 15px; }
-        .article-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #0f1419; line-height: 1.3; }
-        .article-para { font-size: 15px; line-height: 1.4; color: #1c1e21; margin-bottom: 12px; text-align: left; letter-spacing: -0.3px; }
-        .download-btn { display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px; text-align: center; color: white; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .download-btn:active { transform: scale(0.98); }
-        .stats-section { padding: 12px 0; margin-top: 15px; border-top: 1px solid #e1e8ed; border-bottom: 1px solid #e1e8ed; display: flex; align-items: center; background: #fff; }
-        .stats-left { display: flex; align-items: center; gap: 20px; flex-grow: 1; overflow: hidden; }
-        .view-stat { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; font-weight: bold; font-size: 15px; color: #536471; }
-        .view-stat i { font-size: 16px; }
-        .like-stat-container { flex: 1 1 auto; display: flex; justify-content: center; }
-        .share-icons { flex: 0 0 auto; display: flex; gap: 8px; }
-        .share-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
-        .share-icon:hover { opacity: 0.8; transform: scale(1.1); }
-        .related-section { background: #fff; margin-top: 0; }
-        .related-header { padding: 15px; font-weight: 800; color: #536471; border-bottom: 1px solid #e1e8ed; text-transform: uppercase; background: #fff; }
-        .love-btn-rel { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; user-select: none; }
-        .love-btn-rel:hover { color: #e0245e; background-color: rgba(224, 36, 94, 0.1); padding: 4px 8px; border-radius: 15px; margin: -4px -8px; }
-        .love-btn-rel.liked { color: #e0245e !important; } .love-btn-rel.liked i { font-weight: 900; }
-        
-        /* ছোট স্পিনার (পোস্ট লোডিং/রিলেটেড পোস্ট) */
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #sentinel-related .load-more-spinner { width: 24px; height: 24px; border: 3px solid #ccc; border-top: 3px solid #1da1f2; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
-        #sentinel-related.loading .load-more-spinner { display: block; }
-        
-        /* --- ফুটার, লগইন ভিউ ও নোটিফিকেশন --- */
+        /* --- ছোট স্পিনার (কমেন্ট করা হলো - আর ব্যবহার হবে না) --- */
+        /*.spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top: 2px solid #000; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }*/
+
+        /* Infinite Scroll Loader (Sentinel) */
+        #sentinel { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; }
+        #sentinel .wave-loader { display: none; } 
+        #sentinel.loading .wave-loader { display: flex; } 
+
+        /* --- ফুটার এবং লগইন ভিউ (অপরিবর্তিত) --- */
         .site-footer { background-color: #fff; padding: 30px 20px; text-align: center; border-top: none; margin-top: 0; }
         .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-links a { color: #536471; font-size: 14px; font-weight: 500; transition: color 0.2s; }
@@ -210,85 +198,73 @@
 <body>
 
     <div class="main-container">
+        <div class="cover-photo">
+            <img src="https://e0.pxfuel.com/wallpapers/114/575/desktop-wallpaper-stephanie-potrait-eyes-girls-eyes-eyes-gorgeous-eyes-arabic-eyes.jpg">
+        </div>
+
+        <div class="profile-header-area">
+            <div class="profile-pic-container">
+                <div class="profile-pic">
+                    <img src="https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251211_024630.jpg">
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-email" onclick="sendEmail()">
+                    <i class="fa-solid fa-envelope"></i> Send Email
+                </button>
+                <button class="btn btn-share" onclick="shareProfile()">
+                    <i class="fa-solid fa-share-nodes"></i> Share
+                </button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h1 class="website-name">SECRET BINODON</h1>
+            <p class="username">@SecretBinodon</p>
+
+            <div class="stats">
+                <span>Total Videos <b id="total-videos-count">0</b></span> • 
+                <span>Total Views <b id="total-views-count">0</b></span>
+            </div>
+
+            <div class="meta-info">
+                <span><i class="fa-solid fa-location-dot"></i>🇺🇲 United States</span>
+                <span><i class="fa-regular fa-calendar"></i>Joined 08/03/2023</span>
+            </div>
+
+            <p class="bio">
+                Secret Binodon this is one of the most popular and best websites for Secret Binodon Viral Video, YouTube Viral Video, Facebook Viral Video, Instagram Viral Video, TikTok Viral Video and much more. Which can be very helpful for your daily life.
+            </p>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-btn active" id="nav-home" onclick="showFeed()"><i class="fa-solid fa-house"></i> Home</div>
+            <div class="nav-btn inactive" id="nav-signup" onclick="goToSignUp()"><i class="fa-solid fa-user-plus"></i> Sign Up</div>
+            <div class="nav-btn inactive" id="nav-login" onclick="showLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</div>
+        </div>
         
-        <div id="post-view" class="post-view-content">
-            <header>
-                <div class="logo-area" onclick="showFeed()">SECRET BINODON</div>
-                <div>
-                    <span class="header-btn" onclick="goToSignUp()">Sign Up</span>
-                    <span class="header-btn" onclick="showFeed()">Home</span>
-                </div>
-            </header>
-
-            <div id="post-details-container">
-                <div style="padding:40px; text-align:center; color:#666;">
-                    <span class="spinner" style="width:24px; height:24px;"></span> Loading post...
-                </div>
+        <div id="feed-container">
             </div>
-
-            <div class="related-section">
-                <div class="related-header">RELATED POSTS</div>
-                <div id="related-posts-container"></div>
-                <div id="sentinel-related"><div class="load-more-spinner"></div></div>
+        
+        <div id="sentinel">
+            <div class="wave-loader">
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
         </div>
 
-        <div id="home-view" class="home-view-content">
-            <div class="cover-photo">
-                <img src="https://e0.pxfuel.com/wallpapers/114/575/desktop-wallpaper-stephanie-potrait-eyes-girls-eyes-eyes-gorgeous-eyes-arabic-eyes.jpg">
+        <footer class="site-footer" id="main-footer" style="display:none;">
+            <div class="footer-links">
+                <a href="#" id="link-about">About</a>
+                <a href="#" id="link-contact">Contact</a>
+                <a href="#" id="link-privacy">Privacy Policy</a>
+                <a href="#" id="link-terms">Terms of Service</a>
             </div>
-
-            <div class="profile-header-area">
-                <div class="profile-pic-container">
-                    <div class="profile-pic">
-                        <img src="https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251211_024630.jpg">
-                    </div>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn btn-email" onclick="sendEmail()">
-                        <i class="fa-solid fa-envelope"></i> Send Email
-                    </button>
-                    <button class="btn btn-share" onclick="shareProfile()">
-                        <i class="fa-solid fa-share-nodes"></i> Share
-                    </button>
-                </div>
+            <div class="footer-copyright">
+                Copyright © 2025 <a href="index.html">SecretBinodon.com</a>. All rights reserved.
             </div>
-
-            <div class="info-section">
-                <h1 class="website-name">SECRET BINODON</h1>
-                <p class="username">@SecretBinodon</p>
-
-                <div class="stats">
-                    <span>Total Videos <b id="total-videos-count">0</b></span> • 
-                    <span>Total Views <b id="total-views-count">0</b></span>
-                </div>
-
-                <div class="meta-info">
-                    <span><i class="fa-solid fa-location-dot"></i>🇺🇲 United States</span>
-                    <span><i class="fa-regular fa-calendar"></i>Joined 08/03/2023</span>
-                </div>
-
-                <p class="bio">
-                    Secret Binodon this is one of the most popular and best websites for Secret Binodon Viral Video, YouTube Viral Video, Facebook Viral Video, Instagram Viral Video, TikTok Viral Video and much more. Which can be very helpful for your daily life.
-                </p>
-            </div>
-
-            <div class="nav-bar">
-                <div class="nav-btn active" id="nav-home" onclick="showFeed()"><i class="fa-solid fa-house"></i> Home</div>
-                <div class="nav-btn inactive" id="nav-signup" onclick="goToSignUp()"><i class="fa-solid fa-user-plus"></i> Sign Up</div>
-                <div class="nav-btn inactive" id="nav-login" onclick="showLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</div>
-            </div>
-            
-            <div id="feed-container"></div>
-            
-            <div id="sentinel-home">
-                <div class="wave-loader">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
-        </div>
+        </footer>
 
         <div id="login-view">
             <div class="login-box">
@@ -301,18 +277,6 @@
                 </form>
             </div>
         </div>
-
-        <footer class="site-footer" id="main-footer" style="display:none;">
-            <div class="footer-links">
-                <a href="#" id="link-about">About</a>
-                <a href="#" id="link-contact">Contact</a>
-                <a href="#" id="link-privacy">Privacy Policy</a>
-                <a href="#" id="link-terms">Terms of Service</a>
-            </div>
-            <div class="footer-copyright">
-                Copyright © 2025 <a href="#" onclick="showFeed()">SecretBinodon.com</a>. All rights reserved.
-            </div>
-        </footer>
         
         <div id="notification" class="notification"></div>
     </div>
@@ -324,46 +288,47 @@
         // ============================================
         //  ১. ব্রাউজারের ডিফল্ট স্ক্রল পুনরুদ্ধার বন্ধ করা
         // ============================================
-        if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
         
         // ============================================
-        //  ২. কনফিগারেশন এবং ভ্যারিয়েবল
+        //  ২. স্ক্রলিং করার সময় পজিশন সংরক্ষণ 
         // ============================================
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                sessionStorage.setItem('scrollPos', window.scrollY);
+            }, 100); 
+        });
+
+
+        // ... [বাকি সব কনফিগারেশন, Firebase, Utility Functions অপরিবর্তিত] ...
         const PERMANENT_PROFILE_IMAGE_URL = "https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251211_024630.jpg";
+
         const firebaseConfig = { apiKey: "AIzaSyCAsD8wucLsudzY5oNbiixLGyjN2apdV0Q", authDomain: "my-ad-analytics-4560a.firebaseapp.com", databaseURL: "https://my-ad-analytics-4560a-default-rtdb.firebaseio.com", projectId: "my-ad-analytics-4560a", storageBucket: "my-ad-analytics-4560a.firebasestorage.app", messagingSenderId: "104213283950", appId: "1:104213283950:web:b5a25ecd54df809625127f", measurementId: "G-WS7QSQ9H0Y" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const deviceId = localStorage.getItem('deviceId') || 'device-' + Date.now();
         localStorage.setItem('deviceId', deviceId);
-        
-        const CONFIG = {
-            // কার্ড সংখ্যা নিয়ন্ত্রণের জন্য:
-            HOME_INITIAL_LOAD: 5,   // হোমপেজে প্রথম লোড সংখ্যা
-            HOME_BATCH_SIZE: 5,     // হোমপেজে ইনফিনিটি স্ক্রলে লোড সংখ্যা
-            RELATED_BATCH_SIZE: 10, // পোস্ট ভিউতে রিলেটেড পোস্ট লোড সংখ্যা
 
+        const CONFIG = {
+            INITIAL_LOAD: 5,   
+            BATCH_SIZE: 5,     
             CONTACT_EMAIL: "contact@secretbinodon.com", 
-            GLOBAL_VIDEO_LINK: "https://www.google.com",
             footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
         };
 
-        let allPosts = []; // সমস্ত পোস্ট ডেটা
-        let homeIndex = 0; // হোমপেজের বর্তমান স্ক্রল ইন্ডেক্স
-        let homeObserver;
-        
-        // পোস্ট ভিউ এর জন্য গ্লোবাল ভ্যারিয়েবল
-        let relatedIndex = 0;
-        let relatedObserver;
-        let allRelatedPostKeys = [];
-        let postsByTimeChunk = {};
-        let currentChunkIndex = 0;
-        let remainingInChunk = [];
-        let anchorPostTime;
+        document.getElementById('link-about').href = CONFIG.footer.about;
+        document.getElementById('link-contact').href = CONFIG.footer.contact;
+        document.getElementById('link-privacy').href = CONFIG.footer.privacy;
+        document.getElementById('link-terms').href = CONFIG.footer.terms;
 
-        // ============================================
-        //  ৩. ইউটিলিটি ফাংশনস
-        // ============================================
-        function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
+        let allPosts = [];
+        let currentIndex = 0;
+        let observer;
+
         function formatCount(num) { if (!num) return 0; return num >= 1000000 ? (num/1000000).toFixed(1)+'M' : num >= 1000 ? (num/1000).toFixed(1)+'K' : num; }
         function timeAgo(dateString) {
             const s = Math.floor((new Date() - new Date(dateString)) / 1000);
@@ -375,41 +340,101 @@
         function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
         function showNotification(msg) { const n = document.getElementById('notification'); n.textContent = msg; n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 3000); }
         window.sendEmail = function() { window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}`; }
-        
-        // শেয়ার ফাংশন (হোমপেজ প্রোফাইল)
         window.shareProfile = function() {
-            const url = window.location.origin + window.location.pathname.split('?')[0];
+            const url = window.location.href.split('?')[0]; 
             const title = "Secret Binodon";
             const text = "Secret Binodon - The #1 Platform for Viral Videos! 🎥 Watch the latest trending videos all in one place. Visit now!";
-            if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch(() => {}); } 
+            if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch((error) => console.log('Share failed', error)); } 
             else { navigator.clipboard.writeText(`${text} ${url}`); showNotification("Website link copied! 📋"); }
         }
-        
-        // পোস্ট শেয়ার ফাংশন (উভয় ভিউ এর জন্য)
         window.sharePost = function(id, title) {
-            const url = window.location.origin + `${window.location.pathname.split('?')[0]}?view=post&id=${id}`;
-            if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch(() => {}); }
+            const url = window.location.origin + `/post.html?id=${id}`;
+            if (navigator.share) { navigator.share({ title: title, text: title, url: url }).catch((e) => console.log('Share failed', e)); }
             else { navigator.clipboard.writeText(url); showNotification("Link copied! 📋"); }
         }
 
-        // --- স্ক্রল পজিশন সংরক্ষণ ---
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                const currentView = window.location.hash.includes('view=post') ? 'post' : 'home';
-                sessionStorage.setItem(`${currentView}ScrollPos`, window.scrollY);
-            }, 100); 
-        });
+        // --- ইনফিনিটি স্ক্রল লজিক ---
+        async function loadNextBatch(size = CONFIG.BATCH_SIZE) {
+            const container = document.getElementById('feed-container');
+            const sentinel = document.getElementById('sentinel');
 
-        // ============================================
-        //  ৪. ফায়ারবেস/ভিউ লজিক
-        // ============================================
-        function initializeFirebaseForCard(card, id, isRelated = false) {
-            const viewEl = isRelated ? card.querySelector('.view-count-rel') : card.querySelector('.view-count');
-            const likeEl = isRelated ? card.querySelector('.like-count-rel') : card.querySelector('.like-count');
-            const loveBtn = isRelated ? card.querySelector('.love-btn-rel') : card.querySelector('.love-btn');
+            if (currentIndex >= allPosts.length) {
+                sentinel.style.display = 'none';
+                return;
+            }
 
+            if (size === CONFIG.BATCH_SIZE) {
+                 sentinel.classList.add('loading');
+            }
+
+            const batch = allPosts.slice(currentIndex, currentIndex + size);
+            
+            // পোস্ট রেন্ডারিং
+            batch.forEach(post => {
+                let excerpt = post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 200) + "..." : "No description available.";
+                const safeTitle = post.title.replace(/'/g, "\\'");
+
+                const cardWrapper = document.createElement('div');
+                cardWrapper.innerHTML = `
+                    <div class="post-card" data-id="${post.id}">
+                        <div class="post-header">
+                            <div class="post-pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}" loading="lazy"></div>
+                            <div class="post-meta-text">
+                                <div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div>
+                            </div>
+                        </div>
+                        <div class="clickable-area" onclick="openPost('${post.id}')">
+                            <div class="post-title">${post.title}</div>
+                            <div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div>
+                        </div>
+                        <div class="hashtags">${post.hashtags}</div>
+                        <div class="clickable-area" onclick="openPost('${post.id}')">
+                            <div class="media-container">
+                                <img src="${post.mediaImage}" loading="lazy">
+                                <div class="play-icon"></div>
+                                <div class="duration-badge">${post.videoDuration}</div>
+                            </div>
+                        </div>
+                        <div class="post-footer">
+                            <div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count">0</span> <span class="label-text">Views</span></div>
+                            <div class="footer-right">
+                                <div class="love-btn"><i class="fa-regular fa-heart"></i> <span class="count-text like-count">0</span> <span class="label-text">Likes</span></div>
+                                <div class="post-date-display">${formatDate(post.uploadTime)}</div>
+                                <div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
+                            </div>
+                        </div>
+                    </div>`;
+                
+                const newCard = cardWrapper.firstElementChild;
+                container.appendChild(newCard);
+                initializeFirebaseForCard(newCard, post.id);
+            });
+
+            currentIndex += size;
+            
+            if (size === CONFIG.BATCH_SIZE) {
+                sentinel.classList.remove('loading');
+            }
+        }
+
+        // শক্তিশালী স্ক্রলিং সিস্টেম: Intersection Observer
+        function setupObserver() {
+            const sentinel = document.getElementById('sentinel');
+            observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadNextBatch(CONFIG.BATCH_SIZE);
+                }
+            }, { rootMargin: '200px' });
+            observer.observe(sentinel);
+        }
+        
+        // --- ফায়ারবেস লজিক (সংশোধিত: স্পিনার লজিক বাতিল) ---
+        function initializeFirebaseForCard(card, id) {
+            const viewEl = card.querySelector('.view-count');
+            const likeEl = card.querySelector('.like-count');
+            const loveBtn = card.querySelector('.love-btn');
+
+            // Firebase থেকে ডেটা লোড হওয়ার সাথে সাথে সরাসরি '0' কে সংখ্যা দ্বারা প্রতিস্থাপন করবে
             onSnapshot(doc(db, "views", id), (s) => viewEl.innerText = formatCount(s.data()?.count || 0));
 
             const loveRef = doc(db, "loves", id);
@@ -429,423 +454,85 @@
                 }
             });
         }
-        
-        // শুধুমাত্র মেইন পোস্টের জন্য লাইক/ভিউ লজিক
-        function setupFirebaseForMainPost(id) {
-            setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
-            onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
-            const lRef = doc(db, "loves", id), uRef = doc(db, `loves/${id}/users`, deviceId), lBtn = document.querySelector('.love-btn');
-            onSnapshot(lRef, s => document.getElementById('like-cnt').innerText = formatCount(s.data()?.count || 0));
-            getDoc(uRef).then(s => { if(s.exists()) { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); } });
-            lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
-        }
 
         async function calculateTotalViews() {
             const totalViewsEl = document.getElementById('total-views-count');
+            // মোট ভিউয়ের প্রাথমিক লোড 
             totalViewsEl.innerText = '0'; 
+
             const snap = await getDocs(collection(db, "views"));
             let total = 0;
             snap.forEach((doc) => { total += doc.data().count || 0; });
             totalViewsEl.innerText = formatCount(total);
         }
-
-        // ============================================
-        //  ৫. হোমপেজ লজিক (index.html)
-        // ============================================
-        function createPostCard(post, isRelated = false) {
-            let excerpt = post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 200) + "..." : "No description available.";
-            const safeTitle = post.title.replace(/'/g, "\\'");
-            const viewCountClass = isRelated ? 'view-count-rel' : 'view-count';
-            const likeBtnClass = isRelated ? 'love-btn-rel' : 'love-btn';
-            const likeCountClass = isRelated ? 'like-count-rel' : 'like-count';
-
-            const cardWrapper = document.createElement('div');
-            cardWrapper.innerHTML = `
-                <div class="post-card" data-id="${post.id}">
-                    <div class="post-header">
-                        <div class="post-pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}" loading="lazy"></div>
-                        <div class="post-meta-text">
-                            <div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div>
-                        </div>
-                    </div>
-                    <div class="clickable-area" onclick="navigateToPost('${post.id}')">
-                        <div class="post-title">${post.title}</div>
-                        <div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div>
-                    </div>
-                    <div class="hashtags">${post.hashtags}</div>
-                    <div class="clickable-area" onclick="navigateToPost('${post.id}')">
-                        <div class="media-container">
-                            <img src="${post.mediaImage}" loading="lazy">
-                            <div class="play-icon"></div>
-                            <div class="duration-badge">${post.videoDuration}</div>
-                        </div>
-                    </div>
-                    <div class="post-footer">
-                        <div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text ${viewCountClass}">0</span> <span class="label-text">Views</span></div>
-                        <div class="footer-right">
-                            <div class="${likeBtnClass}"><i class="fa-regular fa-heart"></i> <span class="count-text ${likeCountClass}">0</span> <span class="label-text">Likes</span></div>
-                            <div class="post-date-display">${formatDate(post.uploadTime)}</div>
-                            <div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div>
-                        </div>
-                    </div>
-                </div>`;
-            const newCard = cardWrapper.firstElementChild;
-            initializeFirebaseForCard(newCard, post.id, isRelated);
-            return newCard;
-        }
-
-        async function loadHomeBatch(size) {
-            const container = document.getElementById('feed-container');
-            const sentinel = document.getElementById('sentinel-home');
-
-            if (homeIndex >= allPosts.length) {
-                sentinel.style.display = 'none';
-                return;
-            }
-
-            if (size === CONFIG.HOME_BATCH_SIZE) { sentinel.classList.add('loading'); }
-
-            const batch = allPosts.slice(homeIndex, homeIndex + size);
-            batch.forEach(post => container.appendChild(createPostCard(post)));
-
-            homeIndex += size;
-            
-            if (size === CONFIG.HOME_BATCH_SIZE) { sentinel.classList.remove('loading'); }
-        }
-
-        function setupHomeObserver() {
-            if(homeObserver) homeObserver.disconnect();
-            const sentinel = document.getElementById('sentinel-home');
-            homeObserver = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) { loadHomeBatch(CONFIG.HOME_BATCH_SIZE); }
-            }, { rootMargin: '200px' });
-            homeObserver.observe(sentinel);
-        }
-
-        // ============================================
-        //  ৬. পোস্ট ভিউ লজিক (post.html)
-        // ============================================
-        function getTimeChunkKey(postTime, anchorTime) {
-            const diffInSeconds = Math.floor((anchorTime - postTime) / 1000);
-            const diffInHours = diffInSeconds / 3600;
-            const diffInDays = diffInSeconds / 86400;
-
-            if (diffInHours < 24) {
-                const hoursAgo = Math.floor(diffInHours);
-                return `h-${hoursAgo + 1}`;
-            } else {
-                const daysAgo = Math.floor(diffInDays);
-                return `d-${daysAgo}`;
-            }
-        }
         
-        function renderMainPost(post) {
-            let content = `<h1 class="article-title">${post.title}</h1>`;
-            const totalPara = post.paragraphs.length;
-            
-            post.paragraphs.forEach((p, i) => {
-                content += `<p class="article-para">${p}</p>`;
-                const shouldShowDownload = totalPara <= 2 ? (i === 0 && post.downloadLink1) : (i === 0 && post.downloadLink1) || (i === totalPara - 2 && post.downloadLink2);
-                if (shouldShowDownload) { content += `<a href="${post.downloadLink1 || post.downloadLink2}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`; }
-            });
-
-            document.getElementById('post-details-container').innerHTML = `
-                <div class="post-author-area">
-                    <div class="author-info">
-                        <div class="pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}"></div>
-                        <div class="author-text"><h3>Secret Binodon</h3><span>@SecretBinodon</span></div>
-                    </div>
-                    <div class="post-time">${timeAgo(post.uploadTime)}</div>
-                </div>
-                <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
-                <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
-            setupFirebaseForMainPost(post.id);
-        }
-
-        function setupRelatedObserver() {
-            if(relatedObserver) relatedObserver.disconnect();
-            const sentinel = document.getElementById('sentinel-related');
-            relatedObserver = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) { 
-                    setTimeout(() => loadRelatedBatch(), 500); 
-                }
-            }, { rootMargin: '100px' });
-            relatedObserver.observe(sentinel);
-        }
+        // --- পেজ নেভিগেশন (অপরিবর্তিত) ---
+        window.openPost = (id) => {
+            sessionStorage.setItem('scrollPos', window.scrollY); 
+            window.location.href = `post.html?id=${id}`;
+        };
         
-        function loadRelatedBatch() {
-            const container = document.getElementById('related-posts-container');
-            const sentinel = document.getElementById('sentinel-related');
-            
-            if (currentChunkIndex >= allRelatedPostKeys.length && remainingInChunk.length === 0) {
-                sentinel.style.display = 'none';
-                return;
-            }
-
-            sentinel.classList.add('loading');
-            let postsToLoad = [];
-            let neededCount = CONFIG.RELATED_BATCH_SIZE;
-
-            if (remainingInChunk.length > 0) {
-                const takeFromRemaining = Math.min(neededCount, remainingInChunk.length);
-                postsToLoad.push(...remainingInChunk.splice(0, takeFromRemaining));
-                neededCount -= takeFromRemaining;
-            }
-
-            while (neededCount > 0 && currentChunkIndex < allRelatedPostKeys.length) {
-                const chunkKey = allRelatedPostKeys[currentChunkIndex];
-                const currentChunkPosts = postsByTimeChunk[chunkKey];
-
-                const takeFromChunk = Math.min(neededCount, currentChunkPosts.length);
-                postsToLoad.push(...currentChunkPosts.splice(0, takeFromChunk));
-                neededCount -= takeFromChunk;
-
-                if (currentChunkPosts.length === 0) {
-                    currentChunkIndex++;
-                } else if (neededCount === 0) {
-                    remainingInChunk = currentChunkPosts;
-                }
-            }
-            
-            postsToLoad.forEach(post => container.appendChild(createPostCard(post, true)));
-
-            sentinel.classList.remove('loading');
-            if (currentChunkIndex >= allRelatedPostKeys.length && remainingInChunk.length === 0) {
-                sentinel.style.display = 'none';
-            }
-        }
-
-        async function initPostView(postId) {
-            // ১. ভিউ কন্টেইনার রিসেট
-            document.getElementById('post-details-container').innerHTML = `<div style="padding:40px; text-align:center; color:#666;"><span class="spinner" style="width:24px; height:24px;"></span> Loading post...</div>`;
-            document.getElementById('related-posts-container').innerHTML = '';
-
-            const mainPost = allPosts.find(p => p.id === postId);
-            if (!mainPost) { 
-                document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error: Post ID '${postId}' not found.</div>`; 
-                return;
-            }
-
-            renderMainPost(mainPost);
-
-            // ২. রিকমেন্ডেশনের জন্য প্রস্তুতি
-            anchorPostTime = new Date(mainPost.uploadTime).getTime();
-            
-            const historicalPosts = allPosts
-                .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
-                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime());
-
-            postsByTimeChunk = historicalPosts.reduce((acc, post) => {
-                const postTime = new Date(post.uploadTime).getTime();
-                const key = getTimeChunkKey(postTime, anchorPostTime);
-                if (!acc[key]) acc[key] = [];
-                acc[key].push(post);
-                return acc;
-            }, {});
-
-            const sortedKeys = Object.keys(postsByTimeChunk).sort((a, b) => {
-                const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
-                const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
-                if (aType === 'h' && bType === 'd') return -1;
-                if (aType === 'd' && bType === 'h') return 1;
-                return aNum - bNum;
-            });
-
-            allRelatedPostKeys = sortedKeys;
-            currentChunkIndex = 0;
-            remainingInChunk = [];
-
-            // ৩. রিলেটেড পোস্ট লোড
-            loadRelatedBatch();
-            setupRelatedObserver();
-            document.getElementById('sentinel-related').style.display = 'flex';
-        }
-
-        window.handleVideoClick = function() {
-            const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
-            if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
-            setTimeout(() => { window.location.href = CONFIG.GLOBAL_VIDEO_LINK; }, 100); 
-        }
-
-        window.share = (platform, title) => {
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(title);
-            if (platform === 'msg') {
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                if (isMobile) window.location.href = `fb-messenger://share/?link=${url}`;
-                else window.open(`https://www.facebook.com/dialog/send?link=${url}&app_id=123456789&redirect_uri=${url}`, '_blank');
-            } else {
-                let link = '';
-                if(platform === 'fb') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-                else if(platform === 'wa') link = `https://wa.me/?text=${text}%20${url}`;
-                else if(platform === 'tw') link = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
-                else if(platform === 'tg') link = `https://t.me/share/url?url=${url}&text=${text}`;
-                window.open(link, '_blank');
-            }
-        }
-
-
-        // ============================================
-        //  ৭. নেভিগেশন ও ইনিশিয়ালাইজেশন
-        // ============================================
-
-        // --- নেভিগেট টু হোমপেজ (Feed View) ---
         window.showFeed = () => {
-            if(homeObserver) homeObserver.unobserve(document.getElementById('sentinel-home'));
-            if(relatedObserver) relatedObserver.disconnect();
-
-            // ভিউ পরিবর্তন
-            document.getElementById('home-view').style.display='block';
-            document.getElementById('post-view').style.display='none';
+            document.getElementById('feed-container').style.display='block';
+            document.getElementById('sentinel').style.display='flex';
             document.getElementById('login-view').style.display='none';
             document.getElementById('main-footer').style.display='block';
-            
-            // ন্যাভ বার স্টাইল পরিবর্তন
             document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('active'); b.classList.add('inactive'); });
             document.getElementById('nav-home').classList.add('active');
             document.getElementById('nav-home').classList.remove('inactive');
-            
-            // স্ক্রল পজিশন পুনরুদ্ধার
-            const savedScrollPos = sessionStorage.getItem('homeScrollPos');
-            if (savedScrollPos) window.scrollTo(0, parseInt(savedScrollPos));
-            else window.scrollTo(0, 0);
-
-            // URL আপডেট (ঐচ্ছিক, কিন্তু SPA এর জন্য ভালো)
-            history.pushState(null, 'Home', window.location.pathname);
-
-            setupHomeObserver();
         };
-
-        // --- নেভিগেট টু লগইন ---
+        window.goToSignUp = () => window.location.href="https://www.example.com/signup";
         window.showLogin = () => {
-            if(homeObserver) homeObserver.unobserve(document.getElementById('sentinel-home'));
-            if(relatedObserver) relatedObserver.disconnect();
-
-            document.getElementById('home-view').style.display='none';
-            document.getElementById('post-view').style.display='none';
+            document.getElementById('feed-container').style.display='none';
+            document.getElementById('sentinel').style.display='none';
             document.getElementById('login-view').style.display='block';
             document.getElementById('main-footer').style.display='none';
-
             document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('active'); b.classList.add('inactive'); });
             document.getElementById('nav-login').classList.add('active');
             document.getElementById('nav-login').classList.remove('inactive');
-            
-            history.pushState(null, 'Login', '?view=login');
-            window.scrollTo(0, 0);
         };
         
-        // --- নেভিগেট টু সাইন আপ (আলাদা পেজ) ---
-        window.goToSignUp = () => window.location.href="https://www.example.com/signup";
-
-        // --- নেভিগেট টু পোস্ট ভিউ (Post View) ---
-        window.navigateToPost = (id) => {
-            // হোমপেজের স্ক্রল পজিশন সংরক্ষণ
-            sessionStorage.setItem('homeScrollPos', window.scrollY);
-            
-            // ভিউ পরিবর্তন
-            document.getElementById('home-view').style.display='none';
-            document.getElementById('login-view').style.display='none';
-            document.getElementById('post-view').style.display='block';
-            document.getElementById('main-footer').style.display='block';
-            
-            // মেইন পোস্ট লোড করা
-            initPostView(id);
-
-            // স্ক্রল পজিশন রিসেট
-            window.scrollTo(0, 0);
-
-            // URL আপডেট
-            history.pushState(null, 'Post', `?view=post&id=${id}`);
-        };
-
-        // --- মূল ইনিশিয়ালাইজেশন ফাংশন ---
-        async function loadFeedData() {
+        // --- ইনিশিয়ালাইজেশন (অপরিবর্তিত) ---
+        async function loadFeed() {
             try {
-                // ডেটা লোড
                 const res = await fetch('posts.json');
                 const posts = await res.json();
                 
-                // সমস্ত পোস্ট সর্ট করা
                 allPosts = posts.sort((a, b) => new Date(b.uploadTime).getTime() - new Date(a.uploadTime).getTime());
                 
-                // ডেটা-বেসড আপডেট
                 document.getElementById('total-videos-count').innerText = formatCount(allPosts.length);
-                calculateTotalViews();
+                calculateTotalViews(); // এখানেও স্পিনার সরানো হয়েছে
 
-                // ফুটার লিংক সেট করা
-                document.getElementById('link-about').href = CONFIG.footer.about;
-                document.getElementById('link-contact').href = CONFIG.footer.contact;
-                document.getElementById('link-privacy').href = CONFIG.footer.privacy;
-                document.getElementById('link-terms').href = CONFIG.footer.terms;
+                const savedScrollPos = sessionStorage.getItem('scrollPos');
+                let batchSize = CONFIG.INITIAL_LOAD;
 
-                // URL দেখে প্রাথমিক ভিউ লোড করা
-                const urlParams = new URLSearchParams(window.location.search);
-                const view = urlParams.get('view') || 'home';
-                const postId = urlParams.get('id');
-
-                if (view === 'post' && postId) {
-                    await initPostView(postId);
-                    document.getElementById('home-view').style.display='none';
-                    document.getElementById('post-view').style.display='block';
-                } else if (view === 'login') {
-                    showLogin();
-                } else {
-                    // হোমপেজ লোড লজিক
-                    const savedScrollPos = sessionStorage.getItem('homeScrollPos');
-                    let batchSize = CONFIG.HOME_INITIAL_LOAD;
+                if (savedScrollPos) {
+                    const estimatedCardHeight = 400; 
+                    const requiredCards = Math.ceil(parseInt(savedScrollPos) / estimatedCardHeight);
                     
-                    if (savedScrollPos) {
-                        const estimatedCardHeight = 400; 
-                        const requiredCards = Math.ceil(parseInt(savedScrollPos) / estimatedCardHeight);
-                        batchSize = Math.max(CONFIG.HOME_INITIAL_LOAD, requiredCards + CONFIG.HOME_BATCH_SIZE);
-                    }
-                    
-                    await loadHomeBatch(batchSize); 
-                    showFeed(); 
-
-                    if (savedScrollPos) { window.scrollTo(0, parseInt(savedScrollPos)); }
+                    batchSize = Math.max(CONFIG.INITIAL_LOAD, requiredCards + CONFIG.BATCH_SIZE);
                 }
-
+                
+                await loadNextBatch(batchSize); 
+                setupObserver();
                 document.getElementById('main-footer').style.display = 'block';
+
+                if (savedScrollPos) {
+                    window.scrollTo(0, parseInt(savedScrollPos));
+                }
 
             } catch (error) {
                 console.error(error);
                 document.getElementById('feed-container').innerHTML = `<div style="text-align:center; color:red; padding:20px; font-size:16px;">Error loading feed: ${error.message}. Please check 'posts.json'.</div>`;
             }
         }
-        
-        // --- লগইন ফর্ম সাবমিট লজিক ---
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             document.getElementById('loginBtn').innerText='Logging in...';
             setTimeout(() => { document.getElementById('loginBtn').style.display='none'; document.getElementById('successMsg').style.display='block'; }, 2000);
         });
 
-        // --- ব্যাক/ফরোয়ার্ড বাটন হ্যান্ডলিং (SPA এর জন্য অপরিহার্য) ---
-        window.onpopstate = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const view = urlParams.get('view') || 'home';
-            const postId = urlParams.get('id');
-
-            if (view === 'post' && postId) {
-                document.getElementById('home-view').style.display='none';
-                document.getElementById('post-view').style.display='block';
-                document.getElementById('login-view').style.display='none';
-                initPostView(postId);
-            } else if (view === 'login') {
-                showLogin();
-            } else {
-                showFeed();
-            }
-
-            // স্ক্রল পজিশন পুনরুদ্ধার (হোমপেজ/পোস্ট)
-            const currentView = view === 'post' ? 'post' : 'home';
-            const savedScrollPos = sessionStorage.getItem(`${currentView}ScrollPos`);
-            if (savedScrollPos) window.scrollTo(0, parseInt(savedScrollPos));
-            else window.scrollTo(0, 0);
-        };
-
-        loadFeedData();
+        loadFeed();
     </script>
 </body>
 </html>
