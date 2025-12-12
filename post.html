@@ -12,6 +12,15 @@
         body { background: #fff; display: flex; justify-content: center; }
         .main-wrapper { width: 100%; max-width: 600px; min-height: 100vh; background: #fff; position: relative; border-left: 1px solid #eee; border-right: 1px solid #eee; padding-bottom: 0; }
 
+        /* ✅ সংশোধিত CSS: প্রাথমিক অদৃশ্যতা যুক্ত করা */
+        #post-details-container {
+            opacity: 0;
+            transition: opacity 0.3s ease-in; 
+        }
+        #post-details-container.loaded {
+            opacity: 1; 
+        }
+
         /* হেডার */
         header { background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; }
@@ -61,9 +70,7 @@
             background: white; padding: 15px; border-bottom: 1px solid #e1e8ed; 
             display: flex; flex-direction: column; 
             gap: 6px; 
-            /* opacity ও animation অপসারণ করা হয়েছে */
         }
-        /* @keyframes fadeIn অপসারণ করা হয়েছে */
 
         .post-header { display: flex; gap: 10px; align-items: center; }
         .post-pfp { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; background: #ddd; }
@@ -234,6 +241,7 @@
      * পোস্ট ডেটা লোড করে এবং সময় অনুযায়ী গোছায়
      */
     async function init() {
+        const postContainer = document.getElementById('post-details-container');
         try {
             const res = await fetch('posts.json');
             if(!res.ok) throw new Error("Failed to load posts data.");
@@ -281,9 +289,14 @@
             // Setup Infinite Scroll Observer
             setupObserver();
 
+            // ✅ সংশোধিত কোড: ডেটা লোড হওয়ার সাথে সাথে কন্টেইনার দৃশ্যমান করা
+            postContainer.classList.add('loaded');
+
         } catch (e) { 
             // এরর হলে কাস্টম এরর মেসেজ দেখাচ্ছে
-            document.getElementById('post-details-container').innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
+            postContainer.innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
+            // এরর হলেও কন্টেইনারকে দৃশ্যমান করা
+            postContainer.classList.add('loaded');
         }
     }
 
@@ -360,7 +373,6 @@
             const safeTitle = post.title.replace(/'/g, "\\'");
             
             const cardWrapper = document.createElement('div');
-            // post-card এ কোনো opacity বা animation যুক্ত করা হয়নি
             cardWrapper.innerHTML = `
                 <div class="post-card" data-id="${post.id}">
                     <div class="post-header">
