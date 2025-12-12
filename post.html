@@ -202,7 +202,6 @@
     const firebaseConfig = { apiKey: "AIzaSyCAsD8wucLsudzY5oNbiixLGyjN2apdV0Q", authDomain: "my-ad-analytics-4560a.firebaseapp.com", databaseURL: "https://my-ad-analytics-4560a-default-rtdb.firebaseio.com", projectId: "my-ad-analytics-4560a", storageBucket: "my-ad-analytics-4560a.firebasestorage.app", messagingSenderId: "104213283950", appId: "1:104213283950:web:b5a25ecd54df809625127f", measurementId: "G-WS7QSQ9H0Y" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    // ডিভাইস আইডি লাইক ট্র্যাকিংয়ের জন্য অপরিহার্য
     const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now(); 
 
     // ============================================
@@ -210,7 +209,7 @@
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        BATCH_SIZE: 10, /* প্রতিবার লোডিংয়ে কার্ডের সংখ্যা (10টি বহাল রাখা হলো) */
+        BATCH_SIZE: 10, /* প্রতিবার লোডিংয়ে কার্ডের সংখ্যা */
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
     };
 
@@ -220,6 +219,7 @@
     document.getElementById('link-terms').href = CONFIG.footer.terms;
 
     // টাইম-বেসড লোডিং এর জন্য প্রয়োজনীয় গ্লোবাল ভ্যারিয়েবল
+    let postsByTimeChunk = {}; /* গ্লোবাল ভ্যারিয়েবল: টাইম চংকে বিভক্ত পোস্ট ডেটা ধরে রাখবে */
     let allRelatedPosts = []; 
     let currentChunkIndex = 0; 
     let remainingInChunk = []; 
@@ -277,9 +277,10 @@
             // ঐতিহাসিক পোস্ট ফিল্টার এবং সর্ট করা
             const historicalPosts = posts
                 .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
-                .sort((a, b) => new Date(b.uploadTime).getTime() - new Date(a.uploadTime).getTime()); // সবচেয়ে নতুন পোস্টগুলো আগে থাকবে
+                .sort((a, b) => new Date(b.uploadTime).getTime() - new Date(a.uploadTime).getTime());
 
-            const postsByTimeChunk = historicalPosts.reduce((acc, post) => {
+            // গ্লোবাল postsByTimeChunk ভ্যারিয়েবলে ডেটা লোড করা
+            postsByTimeChunk = historicalPosts.reduce((acc, post) => {
                 const postTime = new Date(post.uploadTime).getTime();
                 const key = getTimeChunkKey(postTime, anchorPostTime);
                 if (!acc[key]) acc[key] = [];
@@ -291,7 +292,6 @@
                 const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
                 const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
                 
-                // h-1, h-2, ... d-1, d-2, ... ক্রমে সাজানো
                 if (aType === 'h' && bType === 'd') return -1;
                 if (aType === 'd' && bType === 'h') return 1;
                 return aNum - bNum;
@@ -299,15 +299,13 @@
 
             allRelatedPosts = sortedKeys;
             
-            // ইনফিনিটি স্ক্রলিং শুরু করা
-            loadNextBatch(postsByTimeChunk);
+            loadNextBatch(); // লোডনেক্সট ব্যাচ কল, এখন আর্গুমেন্ট ছাড়া
             setupObserver();
 
             // কন্টেন্ট রেন্ডার শেষ: ইনস্ট্যান্ট দৃশ্যমান করা
             mainWrapper.classList.add('loaded'); 
 
         } catch (e) { 
-            // এরর হলেও কন্টেইনারকে দৃশ্যমান করা (এরর মেসেজ সহ)
             postContainer.innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
             mainWrapper.classList.add('loaded'); 
         }
@@ -319,7 +317,6 @@
         
         post.paragraphs.forEach((p, i) => {
             content += `<p class="article-para">${p}</p>`;
-            // ডাউনলোড বাটন লজিক
             if (totalPara <= 2) {
                 if (i === 0 && post.downloadLink1) content += `<a href="${post.downloadLink1}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
             } else {
@@ -341,12 +338,13 @@
     }
 
     // --- ইনফিনিটি স্ক্রল লজিক ---
-    function loadNextBatch(postsByTimeChunk) {
+    function loadNextBatch() { // ✅ আর্গুমেন্ট সরানো হলো
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
+        // 1. End condition check (before loading)
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
-            sentinel.style.display = 'none';
+            sentinel.style.display = 'none'; // ✅ স্পিনার কন্টেইনার সম্পূর্ণরূপে লুকানো
             return;
         }
 
@@ -362,7 +360,7 @@
 
         while (neededCount > 0 && currentChunkIndex < allRelatedPosts.length) {
             const chunkKey = allRelatedPosts[currentChunkIndex];
-            const currentChunkPosts = postsByTimeChunk[chunkKey];
+            const currentChunkPosts = postsByTimeChunk[chunkKey]; // গ্লোবাল ভ্যারিয়েবল ব্যবহার
 
             const takeFromChunk = Math.min(neededCount, currentChunkPosts.length);
             postsToLoad.push(...currentChunkPosts.splice(0, takeFromChunk));
@@ -398,17 +396,17 @@
         });
 
         sentinel.classList.remove('loading');
+        
+        // 2. Final check after loading
         if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
-            sentinel.style.display = 'none';
+            sentinel.style.display = 'none'; // ✅ নিশ্চিত করা হলো যে লোডিং শেষ হলে স্পিনার লুকানো হবে
         }
     }
 
     function setupObserver() {
         const sentinel = document.getElementById('sentinel');
-        // Intersection Observer API ব্যবহার করে অপটিমাইজড স্ক্রলিং
         observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !sentinel.classList.contains('loading')) {
-                // সামান্য বিলম্ব (500ms) যাতে দ্রুত স্ক্রল করার সময় অতিরিক্ত রিকোয়েস্ট না হয়
                 setTimeout(() => loadNextBatch(), 500); 
             }
         }, { rootMargin: '100px' });
@@ -440,7 +438,6 @@
         if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
         setTimeout(() => { window.location.href = CONFIG.GLOBAL_VIDEO_LINK; }, 100); 
     }
-    // পেজে ফিরে এলে প্লে বাটন রিস্টোর করা
     window.addEventListener('pageshow', () => {
         const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
         if(p) p.style.display = 'flex'; if(s) s.style.display = 'none';
@@ -452,7 +449,6 @@
     window.share = (platform, title) => {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent(title);
-        // Messenger এবং অন্যান্য শেয়ারিং লজিক
         if (platform === 'msg') {
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) window.location.href = `fb-messenger://share/?link=${url}`;
