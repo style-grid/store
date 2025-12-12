@@ -21,27 +21,17 @@
             border-left: 1px solid #eee; 
             border-right: 1px solid #eee; 
             padding-bottom: 0; 
-            opacity: 0; /* প্রথমে অদৃশ্য */
+            opacity: 0; 
         }
         
         /* ডেটা লোড হওয়ার পর তাৎক্ষণিক দৃশ্যমানতা */
-        .main-wrapper.loaded {
-            opacity: 1 !important; 
-        }
+        .main-wrapper.loaded { opacity: 1 !important; }
 
         /* হেডার */
         header { 
-            background: #1da1f2; 
-            padding: 12px 15px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            color: white; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            opacity: 1 !important; 
+            background: #1da1f2; padding: 12px 15px; display: flex; justify-content: space-between; 
+            align-items: center; color: white; position: sticky; top: 0; z-index: 100; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); opacity: 1 !important; 
         }
         .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; }
         .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
@@ -121,6 +111,7 @@
         .hashtags { color: #1d9bf0; font-size: 15px; margin-bottom: 10px; cursor: default; }
 
         .media-container { position: relative; width: 100%; border-radius: 12px; overflow: hidden; margin-top: 5px; display: block; max-height: 720px; cursor: pointer; background: #000; }
+        /* ✅ লেজি লোডিং: loading="lazy" ইমেজ ট্যাগে যুক্ত আছে */
         .media-container img { width: 100%; height: auto; display: block; object-fit: contain; margin: 0 auto; max-height: 720px; }
         .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background-color: rgba(0, 0, 0, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center; pointer-events: none; border: 2px solid rgba(255,255,255,0.8); }
         .play-icon::after { content: ''; display: block; width: 0; height: 0; border-left: 18px solid white; border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
@@ -169,7 +160,7 @@
     <div id="post-details-container">
         </div>
 
-    <div class="related-section">
+    <div class="related-section" id="related-section-id">
         <div class="related-header">RELATED POSTS</div>
         <div id="related-posts-container"></div>
         <div id="sentinel"><div class="load-more-spinner"></div></div>
@@ -209,7 +200,8 @@
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        BATCH_SIZE: 10, /* প্রতিবার লোডিংয়ে কার্ডের সংখ্যা */
+        TOTAL_RELATED_POSTS: 20, /* 🛑 মোট কতটি রিলেটেড পোস্ট দেখানো হবে (যেমন ২০, ৫০, ১০০) */
+        BATCH_SIZE_SCROLL: 5,  /* 🛑 প্রতিবার স্ক্রল করলে কতগুলো কার্ড লোড হবে (যেমন ৫, ২)। এতে লোডিং দ্রুত হবে। */
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
     };
 
@@ -218,13 +210,12 @@
     document.getElementById('link-privacy').href = CONFIG.footer.privacy;
     document.getElementById('link-terms').href = CONFIG.footer.terms;
 
-    // টাইম-বেসড লোডিং এর জন্য প্রয়োজনীয় গ্লোবাল ভ্যারিয়েবল
-    let postsByTimeChunk = {}; /* গ্লোবাল ভ্যারিয়েবল: টাইম চংকে বিভক্ত পোস্ট ডেটা ধরে রাখবে */
-    let allRelatedPosts = []; 
-    let currentChunkIndex = 0; 
-    let remainingInChunk = []; 
-    let anchorPostTime; 
-    let observer;
+    // গ্লোবাল ভ্যারিয়েবল
+    let availablePosts = []; // মোট লোড করার জন্য নির্বাচিত পোস্ট
+    let currentStartIndex = 0; // বর্তমানে কতগুলো পোস্ট রেন্ডার হয়েছে তার ইন্ডেক্স
+    let observer; // স্ক্রল অবজার্ভার
+    let sentinelObserver; // ইনফিনিটি স্ক্রল ডিটেক্টর
+
     
     // --- ইউটিলিটি ফাংশনস ---
     function getRandomColor() { const c=['#e0245e','#17bf63','#1da1f2','#ffad1f','#794bc4']; return c[Math.floor(Math.random()*c.length)]; }
@@ -236,27 +227,9 @@
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
     
-    /**
-     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে (টাইম-ভিত্তিক গুচ্ছ/ব্যাচিং)
-     */
-    function getTimeChunkKey(postTime, anchorTime) {
-        const diffInSeconds = Math.floor((anchorTime - postTime) / 1000);
-        const diffInHours = diffInSeconds / 3600;
-        const diffInDays = diffInSeconds / 86400;
-
-        if (diffInHours < 24) {
-            const hoursAgo = Math.floor(diffInHours);
-            return `h-${hoursAgo + 1}`; 
-        } else {
-            const daysAgo = Math.floor(diffInDays);
-            return `d-${daysAgo}`; 
-        }
-    }
-
-
-    /**
-     * প্রাথমিক লোড এবং ডেটা সেটআপ
-     */
+    // ==================================================
+    //  ✅ ইনিট এবং ডেটা প্রিপারেশন
+    // ==================================================
     async function init() {
         const postContainer = document.getElementById('post-details-container');
         const mainWrapper = document.querySelector('.main-wrapper'); 
@@ -269,46 +242,132 @@
             const mainPost = posts.find(p => p.id === postId) || posts[0];
             if (!mainPost) throw new Error("Post not found.");
 
+            // 1. মূল পোস্ট লোড করা (দ্রুত ওভারভিউ)
             renderMainPost(mainPost);
             setupFirebaseForMainPost(mainPost.id);
+            mainWrapper.classList.add('loaded'); // দ্রুত দৃশ্যমান করা
+
+            const anchorPostTime = new Date(mainPost.uploadTime).getTime();
             
-            anchorPostTime = new Date(mainPost.uploadTime).getTime();
-            
-            // ঐতিহাসিক পোস্ট ফিল্টার এবং সর্ট করা
+            // 2. মোট রিলেটেড পোস্টের ডেটা শুধুমাত্র প্রসেস করে রাখা
             const historicalPosts = posts
                 .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
                 .sort((a, b) => new Date(b.uploadTime).getTime() - new Date(a.uploadTime).getTime());
 
-            // গ্লোবাল postsByTimeChunk ভ্যারিয়েবলে ডেটা লোড করা
-            postsByTimeChunk = historicalPosts.reduce((acc, post) => {
-                const postTime = new Date(post.uploadTime).getTime();
-                const key = getTimeChunkKey(postTime, anchorPostTime);
-                if (!acc[key]) acc[key] = [];
-                acc[key].push(post);
-                return acc;
-            }, {});
+            // 3. 🛑 মোট দেখানোর সংখ্যা সেট করা
+            availablePosts = historicalPosts.slice(0, CONFIG.TOTAL_RELATED_POSTS);
 
-            const sortedKeys = Object.keys(postsByTimeChunk).sort((a, b) => {
-                const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
-                const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
-                
-                if (aType === 'h' && bType === 'd') return -1;
-                if (aType === 'd' && bType === 'h') return 1;
-                return aNum - bNum;
-            });
-
-            allRelatedPosts = sortedKeys;
-            
-            loadNextBatch(); // লোডনেক্সট ব্যাচ কল, এখন আর্গুমেন্ট ছাড়া
-            setupObserver();
-
-            // কন্টেন্ট রেন্ডার শেষ: ইনস্ট্যান্ট দৃশ্যমান করা
-            mainWrapper.classList.add('loaded'); 
+            // 4. রিলেটেড সেকশনটি লোড করার জন্য অবজারভার সেটআপ করা
+            setupRelatedSectionObserver(); 
 
         } catch (e) { 
             postContainer.innerHTML = `<div style="padding:20px;text-align:center;color:red;">Error loading post: ${e.message}</div>`; 
             mainWrapper.classList.add('loaded'); 
         }
+    }
+
+    /**
+     * যখন ব্যবহারকারী রিলেটেড সেকশনের কাছাকাছি আসবে, তখন এটি প্রথম ব্যাচ লোড করবে।
+     */
+    function setupRelatedSectionObserver() {
+        const relatedSection = document.getElementById('related-section-id');
+        observer = new IntersectionObserver((entries, obs) => {
+            if (entries[0].isIntersecting) {
+                obs.unobserve(relatedSection); // একবার লোড হলে আর মনিটর করবে না
+
+                // প্রথম ব্যাচ লোড করা (যা BATCH_SIZE_SCROLL দ্বারা নিয়ন্ত্রিত)
+                loadNextBatch();
+                
+                // প্রথম ব্যাচ লোড হওয়ার পরে ইনফিনিটি স্ক্রল সেনটিনেল সেটআপ করা
+                setupSentinelObserver();
+            }
+        }, { rootMargin: '100px 0px' });
+        
+        observer.observe(relatedSection);
+    }
+
+    /**
+     * ইনফিনিটি স্ক্রলিং ডিটেক্টর সেটআপ।
+     */
+    function setupSentinelObserver() {
+        const sentinel = document.getElementById('sentinel');
+        if (availablePosts.length > CONFIG.BATCH_SIZE_SCROLL) {
+            sentinelObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !sentinel.classList.contains('loading')) {
+                    // স্ক্রল করে সেনটিনেলের কাছাকাছি গেলে পরবর্তী ব্যাচ লোড হবে
+                    setTimeout(() => loadNextBatch(), 500); 
+                }
+            }, { rootMargin: '100px' });
+            sentinelObserver.observe(sentinel);
+        } else {
+             // যদি মোট কার্ডের সংখ্যা প্রথম ব্যাচের চেয়ে কম বা সমান হয়, তবে সেনটিনেল লুকানো হবে।
+            sentinel.style.display = 'none';
+        }
+    }
+    
+    // ==================================================
+    //  ✅ ইনফিনিটি স্ক্রলিং লজিক (TOTAL_RELATED_POSTS এর সীমার মধ্যে)
+    // ==================================================
+
+    function loadNextBatch() { 
+        const sentinel = document.getElementById('sentinel');
+        
+        // 1. শেষ হওয়ার শর্ত পরীক্ষা
+        if (currentStartIndex >= availablePosts.length) {
+            sentinel.style.display = 'none'; 
+            return;
+        }
+
+        sentinel.classList.add('loading');
+        
+        const batchSize = CONFIG.BATCH_SIZE_SCROLL; // 🛑 প্রতিবারের ব্যাচ সাইজ ব্যবহার
+        
+        // লোড করার জন্য পোস্টের ইন্ডেক্স এবং সংখ্যা নির্ধারণ
+        const endIndex = Math.min(currentStartIndex + batchSize, availablePosts.length);
+        const postsToLoad = availablePosts.slice(currentStartIndex, endIndex);
+
+        renderBatch(postsToLoad); 
+        
+        // ইন্ডেক্স আপডেট
+        currentStartIndex = endIndex;
+
+        sentinel.classList.remove('loading');
+        
+        // 2. লোড শেষে আবার শেষ হওয়ার শর্ত পরীক্ষা
+        if (currentStartIndex >= availablePosts.length) {
+            sentinel.style.display = 'none';
+            if(sentinelObserver) sentinelObserver.unobserve(sentinel);
+        }
+    }
+
+    // ==================================================
+    //  ✅ রেন্ডারিং ফাংশন এবং অন্যান্য
+    // ==================================================
+
+    function renderBatch(postsToLoad) {
+        const container = document.getElementById('related-posts-container');
+        
+        postsToLoad.forEach(post => {
+            let excerpt = post.paragraphs[0].substring(0, 200) + "...";
+            const safeTitle = post.title.replace(/'/g, "\\'");
+            
+            const cardWrapper = document.createElement('div');
+            cardWrapper.innerHTML = `
+                <div class="post-card" data-id="${post.id}">
+                    <div class="post-header">
+                        <div class="post-pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}" loading="lazy"></div>
+                        <div class="post-meta-text"><div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div></div>
+                    </div>
+                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="post-title">${post.title}</div><div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div></div>
+                    <div class="hashtags">${post.hashtags}</div>
+                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="media-container"><img src="${post.mediaImage}" loading="lazy"><div class="play-icon"></div><div class="duration-badge">${post.videoDuration}</div></div></div>
+                    <div class="post-footer"><div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">...</span> <span class="label-text">Views</span></div><div class="footer-right"><div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">...</span> <span class="label-text">Likes</span></div><div class="post-date-display">${formatDate(post.uploadTime)}</div><div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div></div></div>
+                </div>`;
+            
+            const newCard = cardWrapper.firstElementChild;
+            container.appendChild(newCard);
+            setupFirebaseForSingleCard(newCard, post.id);
+        });
     }
 
     function renderMainPost(post) {
@@ -336,84 +395,7 @@
             <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}" loading="lazy"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
             <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
     }
-
-    // --- ইনফিনিটি স্ক্রল লজিক ---
-    function loadNextBatch() { // ✅ আর্গুমেন্ট সরানো হলো
-        const container = document.getElementById('related-posts-container');
-        const sentinel = document.getElementById('sentinel');
-        
-        // 1. End condition check (before loading)
-        if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
-            sentinel.style.display = 'none'; // ✅ স্পিনার কন্টেইনার সম্পূর্ণরূপে লুকানো
-            return;
-        }
-
-        sentinel.classList.add('loading');
-        let postsToLoad = [];
-        let neededCount = CONFIG.BATCH_SIZE;
-
-        if (remainingInChunk.length > 0) {
-            const takeFromRemaining = Math.min(neededCount, remainingInChunk.length);
-            postsToLoad.push(...remainingInChunk.splice(0, takeFromRemaining));
-            neededCount -= takeFromRemaining;
-        }
-
-        while (neededCount > 0 && currentChunkIndex < allRelatedPosts.length) {
-            const chunkKey = allRelatedPosts[currentChunkIndex];
-            const currentChunkPosts = postsByTimeChunk[chunkKey]; // গ্লোবাল ভ্যারিয়েবল ব্যবহার
-
-            const takeFromChunk = Math.min(neededCount, currentChunkPosts.length);
-            postsToLoad.push(...currentChunkPosts.splice(0, takeFromChunk));
-            neededCount -= takeFromChunk;
-
-            if (currentChunkPosts.length === 0) {
-                currentChunkIndex++;
-            } else if (neededCount === 0) {
-                remainingInChunk = currentChunkPosts;
-            }
-        }
-        
-        postsToLoad.forEach(post => {
-            let excerpt = post.paragraphs[0].substring(0, 200) + "...";
-            const safeTitle = post.title.replace(/'/g, "\\'");
-            
-            const cardWrapper = document.createElement('div');
-            cardWrapper.innerHTML = `
-                <div class="post-card" data-id="${post.id}">
-                    <div class="post-header">
-                        <div class="post-pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}" loading="lazy"></div>
-                        <div class="post-meta-text"><div class="name-row"><h3>Secret Binodon</h3><span class="post-username">@SecretBinodon</span><span class="dot-separator">·</span><span class="time-ago">${timeAgo(post.uploadTime)}</span></div></div>
-                    </div>
-                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="post-title">${post.title}</div><div class="post-excerpt">${excerpt} <span class="read-more-text">See more</span></div></div>
-                    <div class="hashtags">${post.hashtags}</div>
-                    <div class="clickable-area" onclick="openPost('${post.id}')"><div class="media-container"><img src="${post.mediaImage}" loading="lazy"><div class="play-icon"></div><div class="duration-badge">${post.videoDuration}</div></div></div>
-                    <div class="post-footer"><div class="footer-left"><i class="fa-solid fa-chart-simple"></i> <span class="count-text view-count-rel">...</span> <span class="label-text">Views</span></div><div class="footer-right"><div class="love-btn-rel"><i class="fa-regular fa-heart"></i> <span class="count-text like-count-rel">...</span> <span class="label-text">Likes</span></div><div class="post-date-display">${formatDate(post.uploadTime)}</div><div class="footer-share-btn" onclick="sharePost('${post.id}', '${safeTitle}')"><i class="fa-solid fa-share-from-square"></i></div></div></div>
-                </div>`;
-            
-            const newCard = cardWrapper.firstElementChild;
-            container.appendChild(newCard);
-            setupFirebaseForSingleCard(newCard, post.id);
-        });
-
-        sentinel.classList.remove('loading');
-        
-        // 2. Final check after loading
-        if (currentChunkIndex >= allRelatedPosts.length && remainingInChunk.length === 0) {
-            sentinel.style.display = 'none'; // ✅ নিশ্চিত করা হলো যে লোডিং শেষ হলে স্পিনার লুকানো হবে
-        }
-    }
-
-    function setupObserver() {
-        const sentinel = document.getElementById('sentinel');
-        observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !sentinel.classList.contains('loading')) {
-                setTimeout(() => loadNextBatch(), 500); 
-            }
-        }, { rootMargin: '100px' });
-        observer.observe(sentinel);
-    }
-
-    // --- FIREBASE LOGIC (ভিউ এবং লাইক ট্র্যাকিং) ---
+    
     function setupFirebaseForMainPost(id) {
         setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
         onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
@@ -432,7 +414,6 @@
         lBtn.addEventListener('click', async () => { if((await getDoc(uRef)).exists()) showNotification("Already Liked! ❤️"); else { lBtn.classList.add('liked'); lBtn.querySelector('i').classList.replace('fa-regular','fa-solid'); await setDoc(lRef, { count: increment(1) }, { merge: true }); await setDoc(uRef, { t: new Date() }); showNotification("Liked! ❤️"); } });
     }
 
-    // --- GLOBAL FUNCTIONS ---
     window.handleVideoClick = function() {
         const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
         if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
