@@ -11,7 +11,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-decoration: none; }
         body { background: #fff; display: flex; justify-content: center; }
 
-        /* ✅ সংশোধিত CSS: সম্পূর্ণ কন্টেইনারকে অদৃশ্য করা এবং দ্রুত দৃশ্যমান করা */
+        /* ✅ মূল লেআউট নিয়ন্ত্রণ: ডেটা লোড না হওয়া পর্যন্ত সম্পূর্ণ অদৃশ্য */
         .main-wrapper { 
             width: 100%; 
             max-width: 600px; 
@@ -21,13 +21,10 @@
             border-left: 1px solid #eee; 
             border-right: 1px solid #eee; 
             padding-bottom: 0; 
-            
-            /* নতুন কোড: প্রথমে অদৃশ্য */
-            opacity: 0;
-            /* ট্রানজিশন অপসারণ করা হলো, যাতে কোনো ফেইড-ইন না হয় */
+            opacity: 0; /* প্রথমে অদৃশ্য */
         }
         
-        /* নতুন কোড: জাভাস্ক্রিপ্ট লোড হওয়ার পরে সাথে সাথে দৃশ্যমান */
+        /* ডেটা লোড হওয়ার পর তাৎক্ষণিক দৃশ্যমানতা */
         .main-wrapper.loaded {
             opacity: 1 !important; 
         }
@@ -44,7 +41,7 @@
             top: 0; 
             z-index: 100; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            opacity: 1 !important; /* হেডার সবসময় দৃশ্যমান থাকবে */
+            opacity: 1 !important; 
         }
         .logo-area { font-weight: 800; font-size: 20px; text-transform: uppercase; }
         .header-btn { background: white; color: #1da1f2; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-left: 10px; cursor: pointer; }
@@ -193,26 +190,27 @@
 </div>
 
 <script type="module">
+    // Firebase SDK Imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
     // ============================================
-    //  ১. স্থায়ী প্রোফাইল ইমেজ URL
+    //  ১. স্থায়ী প্রোফাইল ইমেজ URL এবং Firebase Configuration
     // ============================================
     const PERMANENT_PROFILE_IMAGE_URL = "https://raw.githubusercontent.com/style-grid/store/refs/heads/main/data/20251211_024630.jpg";
 
     const firebaseConfig = { apiKey: "AIzaSyCAsD8wucLsudzY5oNbiixLGyjN2apdV0Q", authDomain: "my-ad-analytics-4560a.firebaseapp.com", databaseURL: "https://my-ad-analytics-4560a-default-rtdb.firebaseio.com", projectId: "my-ad-analytics-4560a", storageBucket: "my-ad-analytics-4560a.firebasestorage.app", messagingSenderId: "104213283950", appId: "1:104213283950:web:b5a25ecd54df809625127f", measurementId: "G-WS7QSQ9H0Y" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now();
+    // ডিভাইস আইডি লাইক ট্র্যাকিংয়ের জন্য অপরিহার্য
+    const deviceId = localStorage.getItem('deviceId') || 'device-'+Date.now(); 
 
     // ============================================
-    //  CONFIGURATION (রিলেটেড পোস্ট কন্ট্রোল)
+    //  CONFIGURATION (রিলেটেড পোস্ট এবং লোডিং কন্ট্রোল)
     // ============================================
     const CONFIG = {
         GLOBAL_VIDEO_LINK: "https://www.google.com",
-        INITIAL_LOAD: 10,
-        BATCH_SIZE: 10,    
+        BATCH_SIZE: 10, /* প্রতিবার লোডিংয়ে কার্ডের সংখ্যা (10টি বহাল রাখা হলো) */
         footer: { about: "#", contact: "#", privacy: "#", terms: "#" }
     };
 
@@ -223,11 +221,8 @@
 
     // টাইম-বেসড লোডিং এর জন্য প্রয়োজনীয় গ্লোবাল ভ্যারিয়েবল
     let allRelatedPosts = []; 
-    let currentIndex = 0; 
-    let postsByTimeChunk = {}; 
     let currentChunkIndex = 0; 
     let remainingInChunk = []; 
-
     let anchorPostTime; 
     let observer;
     
@@ -242,7 +237,7 @@
     const postId = urlParams.get('id');
     
     /**
-     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে (যেমন: 'h-1', 'h-2', 'd-1', 'd-2')
+     * পোস্টের সময় অনুযায়ী একটি কী তৈরি করে (টাইম-ভিত্তিক গুচ্ছ/ব্যাচিং)
      */
     function getTimeChunkKey(postTime, anchorTime) {
         const diffInSeconds = Math.floor((anchorTime - postTime) / 1000);
@@ -260,11 +255,11 @@
 
 
     /**
-     * পোস্ট ডেটা লোড করে এবং সময় অনুযায়ী গোছায়
+     * প্রাথমিক লোড এবং ডেটা সেটআপ
      */
     async function init() {
         const postContainer = document.getElementById('post-details-container');
-        const mainWrapper = document.querySelector('.main-wrapper'); // 🚀 সম্পূর্ণ কন্টেইনার
+        const mainWrapper = document.querySelector('.main-wrapper'); 
         
         try {
             const res = await fetch('posts.json');
@@ -279,11 +274,12 @@
             
             anchorPostTime = new Date(mainPost.uploadTime).getTime();
             
+            // ঐতিহাসিক পোস্ট ফিল্টার এবং সর্ট করা
             const historicalPosts = posts
                 .filter(p => p.id !== mainPost.id && new Date(p.uploadTime).getTime() < anchorPostTime)
-                .sort((a, b) => new Date(a.uploadTime).getTime() - new Date(b.uploadTime).getTime());
+                .sort((a, b) => new Date(b.uploadTime).getTime() - new Date(a.uploadTime).getTime()); // সবচেয়ে নতুন পোস্টগুলো আগে থাকবে
 
-            postsByTimeChunk = historicalPosts.reduce((acc, post) => {
+            const postsByTimeChunk = historicalPosts.reduce((acc, post) => {
                 const postTime = new Date(post.uploadTime).getTime();
                 const key = getTimeChunkKey(postTime, anchorPostTime);
                 if (!acc[key]) acc[key] = [];
@@ -295,6 +291,7 @@
                 const aType = a.split('-')[0], aNum = parseInt(a.split('-')[1]);
                 const bType = b.split('-')[0], bNum = parseInt(b.split('-')[1]);
                 
+                // h-1, h-2, ... d-1, d-2, ... ক্রমে সাজানো
                 if (aType === 'h' && bType === 'd') return -1;
                 if (aType === 'd' && bType === 'h') return 1;
                 return aNum - bNum;
@@ -302,10 +299,11 @@
 
             allRelatedPosts = sortedKeys;
             
-            loadNextBatch();
+            // ইনফিনিটি স্ক্রলিং শুরু করা
+            loadNextBatch(postsByTimeChunk);
             setupObserver();
 
-            // ✅ চূড়ান্ত সমাধান: লোডিং শেষ হওয়ার সাথে সাথে কোনো ট্রানজিশন ছাড়াই কন্টেন্ট দৃশ্যমান করা
+            // কন্টেন্ট রেন্ডার শেষ: ইনস্ট্যান্ট দৃশ্যমান করা
             mainWrapper.classList.add('loaded'); 
 
         } catch (e) { 
@@ -321,6 +319,7 @@
         
         post.paragraphs.forEach((p, i) => {
             content += `<p class="article-para">${p}</p>`;
+            // ডাউনলোড বাটন লজিক
             if (totalPara <= 2) {
                 if (i === 0 && post.downloadLink1) content += `<a href="${post.downloadLink1}" class="download-btn" style="background:${getRandomColor()}">DOWNLOAD FULL VIDEO</a>`;
             } else {
@@ -332,17 +331,17 @@
         document.getElementById('post-details-container').innerHTML = `
             <div class="post-author-area">
                 <div class="author-info">
-                    <div class="pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}"></div>
+                    <div class="pfp"><img src="${PERMANENT_PROFILE_IMAGE_URL}" loading="lazy"></div>
                     <div class="author-text"><h3>Secret Binodon</h3><span>@SecretBinodon</span></div>
                 </div>
                 <div class="post-time">${timeAgo(post.uploadTime)}</div>
             </div>
-            <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
+            <div class="video-container" onclick="handleVideoClick()"><img src="${post.mediaImage}" loading="lazy"><div class="play-btn-center" id="main-play-btn"></div><div class="main-video-spinner" id="main-spinner"></div><div class="video-controls"><span>${post.videoDuration}</span><span><i class="fa-solid fa-volume-high"></i> HD</span></div></div>
             <div class="content-body">${content}<div class="stats-section"><div class="stats-left"><div class="view-stat"><i class="fa-solid fa-chart-simple"></i> <span id="view-cnt">...</span> Views</div><div class="like-stat-container"><div class="love-btn"><i class="fa-regular fa-heart"></i> <span id="like-cnt">...</span> Likes</div></div></div><div class="share-icons"><div class="share-icon" style="background:#1877f2" onclick="share('fb', '${post.title}')"><i class="fa-brands fa-facebook-f"></i></div><div class="share-icon" style="background:#0084ff" onclick="share('msg', '${post.title}')"><i class="fa-brands fa-facebook-messenger"></i></div><div class="share-icon" style="background:#25d366" onclick="share('wa', '${post.title}')"><i class="fa-brands fa-whatsapp"></i></div><div class="share-icon" style="background:#1da1f2" onclick="share('tw', '${post.title}')"><i class="fa-brands fa-twitter"></i></div><div class="share-icon" style="background:#0088cc" onclick="share('tg', '${post.title}')"><i class="fa-brands fa-telegram"></i></div></div></div></div>`;
     }
 
-    // --- নতুন টাইম-বেসড ইনফিনিট স্ক্রল লজিক ---
-    function loadNextBatch() {
+    // --- ইনফিনিটি স্ক্রল লজিক ---
+    function loadNextBatch(postsByTimeChunk) {
         const container = document.getElementById('related-posts-container');
         const sentinel = document.getElementById('sentinel');
         
@@ -406,15 +405,17 @@
 
     function setupObserver() {
         const sentinel = document.getElementById('sentinel');
+        // Intersection Observer API ব্যবহার করে অপটিমাইজড স্ক্রলিং
         observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !sentinel.classList.contains('loading')) {
+                // সামান্য বিলম্ব (500ms) যাতে দ্রুত স্ক্রল করার সময় অতিরিক্ত রিকোয়েস্ট না হয়
                 setTimeout(() => loadNextBatch(), 500); 
             }
         }, { rootMargin: '100px' });
         observer.observe(sentinel);
     }
 
-    // --- FIREBASE LOGIC (OPTIMIZED) ---
+    // --- FIREBASE LOGIC (ভিউ এবং লাইক ট্র্যাকিং) ---
     function setupFirebaseForMainPost(id) {
         setDoc(doc(db, "views", id), { count: increment(1) }, { merge: true });
         onSnapshot(doc(db, "views", id), s => document.getElementById('view-cnt').innerText = formatCount(s.data()?.count || 0));
@@ -439,6 +440,7 @@
         if(p) p.style.display = 'none'; if(s) s.style.display = 'block';
         setTimeout(() => { window.location.href = CONFIG.GLOBAL_VIDEO_LINK; }, 100); 
     }
+    // পেজে ফিরে এলে প্লে বাটন রিস্টোর করা
     window.addEventListener('pageshow', () => {
         const p = document.getElementById('main-play-btn'), s = document.getElementById('main-spinner');
         if(p) p.style.display = 'flex'; if(s) s.style.display = 'none';
@@ -450,6 +452,7 @@
     window.share = (platform, title) => {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent(title);
+        // Messenger এবং অন্যান্য শেয়ারিং লজিক
         if (platform === 'msg') {
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) window.location.href = `fb-messenger://share/?link=${url}`;
